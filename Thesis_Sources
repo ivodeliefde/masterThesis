@@ -1,0 +1,209 @@
+% This file was created with JabRef 2.10.
+% Encoding: Cp1252
+
+
+@InProceedings{IOT:Zarko,
+  Title                    = {Real Time Analysis of Sensor Data for the Internet of Things by means of Clustering and Event Processing},
+  Author                   = {{\v{Z}}arko, Ivana Podnar and Hromic, Hugo and Phuoc, Danh Le and Serrano, Martin and Antonic, Aleksandar and Hayes, Conor and Decker, Stefan},
+  Booktitle                = {Proc. of the IEEE International Conference of Communications (ICC2015)},
+  Year                     = {2015},
+  Organization             = {Hrvatska znanstvena bibliografija i MZOS-Svibor},
+
+  Abstract                 = {This article presents an event and clustering analytics server that acts as an interface for novel analytical IoT services. The approach presented in this paper also demonstrates how sensor data acquired from mobile devices can be integrated within IoT platforms to enable analytics on data streams. It is based on the OpenIoT platform. The use case for evaluating the proposed solution is a mobile crowd-sensing application for air quality monitoring in a smart city environment, where users provide data streams with wearable sensors. In the framework of the OpenIoT project, the Intelligent OpenIoT server is the gateway for the Extended Global Sensor Networks (X-GSN) middleware. Working on annotated RDF data, Linked Sensor Middleware (LSM-Light) provides even more sophisticated means to filter and aggregate data. The X-GSN middleware can either push data to LSM-light or LSM-ligth can periodically pull data. 
+
+Often individual sensor readings are not relevant but instead an aggregated value is required. The three levels (physical, virtual (X-GSN) and semantic (LSM) feature different aggregation capabilities.
+
+The data was split into 2 hours non-overlapping time windows. They used the coordinates to spatially group the data by means of the k-means clustering algorithm with predefined cluster centroids. 
+
+The analytics they perform as well as the middleware architecture might be relevant for my thesis. This article takes IoT sensors and maps them as RDF. Pretty much like my idea, but for openIoT instead of SWE (see figure 1) and not taking vector features into consideration.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Book{LD:Auer,
+  Title                    = {Linkedgeodata: Adding a spatial dimension to the web of data},
+  Author                   = {Auer, S{\"o}ren and Lehmann, Jens and Hellmann, Sebastian},
+  Publisher                = {Springer},
+  Year                     = {2009},
+
+  Abstract                 = {This article shows how the collaboratively collected OpenStreetMap data can be transformed and represented adhering to the RDF data model, how this data can be interlinked with other spatial data sets and how it can be made accessible for machines according to the linked data paradigm.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SSW:Bakillah,
+  Title                    = {A dynamic and context-aware semantic mediation service for discovering and fusion of heterogeneous sensor data},
+  Author                   = {Bakillah, Mohamed and Liang, Steve H.L. and Zipf, Alexander and Mostafavi, Mir Abolfazl},
+  Journal                  = {Journal of Spatial Information Science},
+  Year                     = {2013},
+  Pages                    = {155–185},
+  Volume                   = {6},
+
+  Abstract                 = {This paper presents a context-aware ontology-based semanticmediation service for heterogeneous sensor services. It addresses the issue of finding semantic mappings for sensor data. Uses OGC SWE standards, not the W3C SSN ontology.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@InProceedings{IOT:Calbimonte,
+  Title                    = {XGSN: An Open-source Semantic Sensing Middleware for the Web of Things},
+  Author                   = {Calbimonte, Jean-Paul and Sarni, Sofiane and Eberle, Julien and Aberer, Karl},
+  Booktitle                = {7th International Workshop on Semantic Sensor Networks},
+  Year                     = {2014},
+  Number                   = {EPFL-CONF-200926},
+
+  Abstract                 = {This article presents 'XGSN': an open-source system that relies on semantic representations of sensor metadata and observations, to guide the process of annotating and publishing sensor data on the Web.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SSW:SSN_incubatorGroup,
+  Title                    = {The SSN ontology of the W3C semantic sensor network incubator group},
+  Author                   = {Compton, Michael and Barnaghi, Payam and Bermudez, Luis and Garc{\'\i}A-Castro, Ra{\'u}L and Corcho, Oscar and Cox, Simon and Graybeal, John and Hauswirth, Manfred and Henson, Cory and Herzog, Arthur and others},
+  Journal                  = {Web Semantics: Science, Services and Agents on the World Wide Web},
+  Year                     = {2012},
+  Pages                    = {25–32},
+  Volume                   = {17},
+
+  Abstract                 = {The W3C Semantic Sensor Network Incubator group (the SSN-XG) produced an OWL 2 ontology to describe sensors and observations — the SSN ontology. This article describes the SSN ontology, a use case and the use of the ontology in recent research projects.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SSW:Corcho,
+  Title                    = {Five challenges for the Semantic Sensor Web},
+  Author                   = {Corcho, Oscar and García-Castro, Raúl},
+  Journal                  = {Semantic Web-Interoperability, Usability, Applicability},
+  Year                     = {2010},
+  Number                   = {2},
+  Pages                    = {121-125},
+  Volume                   = {1.1},
+
+  Abstract                 = {Shows a basic structure of a Semantic Sensor Network. Provides 5 areas for future research: abstraction level, quality (and quality of service), integration and fusion of data, identification and location of relevant sensor-based data sources, and rapid development of applications. The third and fourth research topic are what my thesis focusses on.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@InProceedings{SSW:deMel,
+  Title                    = {Semantically enriched data for effective sensor data fusion},
+  Author                   = {De Mel, Geeth and Pham, Tien and Damarla, Thyagaraju and Vasconcelos, Wamberto and Norman, Tim},
+  Booktitle                = {SPIE Defense, Security, and Sensing},
+  Year                     = {2011},
+  Organization             = {International Society for Optics and Photonics},
+  Pages                    = {80470L--80470L},
+
+  Abstract                 = {This article proposes an approach that enriches sensor data streams with semantic attributes so that these feeds have proper meaning. They are focused on semantics of detected event, event classification, relationships to other events, etc. Not so much focused on the locational semantics. It also presents 6 use cases. In the future they hope "to extend and bring the SSN-XG ontology work into [their] system".},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SSW:Llaves,
+  Title                    = {A RESTful Proxy and Data Model for Linked Sensor Data},
+  Author                   = {Janowicz, Krzysztof and Bröring, Arne and Stasch, Christoph and Schad, Sven and Everding, Thomas and Llaves, Alejandro},
+  Journal                  = {International Journal of Digital Earth},
+  Year                     = {2013},
+  Number                   = {3},
+  Pages                    = {233-254},
+  Volume                   = {6},
+
+  Abstract                 = {This article describes the process of linking sensor data to the semantic web. It introduced a Linked Data model to combine OGC’s Sensor Observation Service with the Linked Data cloud. This takes shape as a RESTful server. There are detailed decsriptions of how to create such a RESTful proxy.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SSW:Ji,
+  Title                    = {A Review for Semantic Sensor Web Research and Applications},
+  Author                   = {Ji, Chaoqun and Liu, Jin and Wang, Xiaofeng},
+  Journal                  = {Advanced Science and Technology Letters},
+  Year                     = {2014},
+  Pages                    = {31-36},
+  Volume                   = {48},
+
+  Abstract                 = {This paper present the core components of the Semantic Sensor Web: Semantic Web and SWE, Ontology and optionally Rule-Based Reasoning. It also presents a few use cases and topics for future research: Real-time Search in Semantic Sensor Web, Ontology Construction for Semantic Sensor Web, Data Fusion in Semantic Sensor Web, Semantic Annotations in semantic Sensor Web, and Application Developments methodology for Semantic Sensor Web.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@MastersThesis{LD:Missier,
+  Title                    = {Towards a Web application for viewing Spatial Linked Open Data of Rotterdam},
+  Author                   = {Godelief Abhilakh Missier},
+  School                   = {Delft University of Technology},
+  Year                     = {2015},
+
+  Abstract                 = {MSc. thesis by Godelief (2015) also supervised by Marian de Vries. 
+
+Explains how to publish data as RDF (see flowchart page 28). There are three steps: data preparation, modeling and conversion. 
+
+It looks at different spatial vocabularies for linking spatial data to the internet: the ISA Programme Location Core Vocabulary, NeoGeo Vocabulary, schema.org, the OGC standard GeoSPARQL, the W3C Geospatial Vocabulary and stRDF. stRDF is an extension to RDF wherein a triple is extended with a fourth element: time, which is not yet exploited.
+
+Also mentions how to create RDF mappings on the fly. However, it hasn't been used in this thesis since the software it used was not compatible with spatial features and software that was compatible (Oracle DB) was not available at the time.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SSW:Sheth,
+  Title                    = {Semantic Sensor Web},
+  Author                   = {Sheth, Amit and Henson, Cory and Sahoo, Satya S.},
+  Journal                  = {IEEE Internet Computing},
+  Year                     = {2008},
+  Number                   = {4},
+  Pages                    = {78-83},
+  Volume                   = {12},
+
+  Abstract                 = {Poses the idea of linking the OGC SW standards to the Semantic Web. Provides use cases and a prototype application to manage weather sensor observations.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SSW:Vera,
+  Title                    = {A Ubiquitous Sensor Network Platform for Integrating Smart Devices into the Semantic Sensor Web},
+  Author                   = {de Vera, David Díaz Pardo and Izquierdo, Álvaro Sigüenza and Vercher, Jesús Bernat and Gómez, Luis Alfonso Hernández},
+  Journal                  = {Sensors},
+  Year                     = {2014},
+  Number                   = {6},
+  Pages                    = {10725-10752},
+  Volume                   = {14},
+
+  Abstract                 = {The IoT is generating an increasing demand for homogeneous mechanisms to access, publish and share real-world information. This Article presents a pilot platform that uses several OGC SWE standards. Also, this platform is extended to explore a first approach to Semantic Sensor Web principles and technologies, so that smart devices can access Sensor Web data, allowing them also to share richer (semantically interpreted) information.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Misc{SSW:Perera,
+  Title                    = {City Data Fusion: Sensor Data Fusion in the Internet of Things},
+
+  Author                   = {Wang, Meisong and Perera, Charith and Jayaraman, Prem Prakash and Zhang, Miranda and Strazdins, Peter and Ranjan, Rajiv},
+  Year                     = {2015},
+
+  Abstract                 = {This article introduces the concept of IoT and presents in detail ten different parameters that govern their sensor data fusion evaluation framework. The main goal is to examine and survey different sensor data fusion research efforts based on our evaluation framework. The ten parameters are: Middleware Architecture Type, Context-awareness, Semantic Interaction, Dynamic Configuration, Fusion Complexity, Actuation Management, Type of Processing, Cross Domain Portability, Implementation and Performance Evaluation. It presents a number of 'state of the art' examples of Sensor Data Fusion. Table 1: Taxonomy of Sensor Data Fusion Research Efforts contains a taxonomy of a couple dozen researches.},
+  Journal                  = {arXiv preprint arXiv:1506.09118},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SSW:Wang,
+  Title                    = {A Review of Studies on Semantic Sensor Web},
+  Author                   = {Wang, Xiang and Zhang, Xiaoming and Li, Mei},
+  Journal                  = {Advanced Science and Technology Letters},
+  Year                     = {2015},
+  Pages                    = {94-97},
+  Volume                   = {83},
+
+  Abstract                 = {This article provides a very brief overview (2 pages) of 'the state of the art' in SSW ontologies and the mapping and query of SSW. It can be useful for discovering related work and putting these articles into context.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
+@Article{SW:Yoo,
+  Title                    = {Visualization and Level-of-detail of Metadata for Interactive Exploration of Sensor Web},
+  Author                   = {Byounghyun Yoo},
+  Journal                  = {International Journal of Digital Earth},
+  Year                     = {2014},
+  Number                   = {11},
+  Pages                    = {847-869},
+  Volume                   = {7},
+
+  Abstract                 = {Addresses issues with Web-based search interfaces on a Sensor Web data infrastructure. It focusses on a user interface to discover sensor metadata in a way that is also understandable for other people besides sensor web experts. This approach uses PostgreSQL, PostGIS, PHP and X3DEarth technologies to allow the Web3D standard and its geospatial component to be used for visual exploration and levelof- detail control of a dynamic scene.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.10}
+}
+
