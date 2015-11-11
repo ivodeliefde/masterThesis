@@ -1,1 +1,0 @@
-Master thesis by Ivo de Liefde (MSc. student Geomatics at Delft University of Technology)
