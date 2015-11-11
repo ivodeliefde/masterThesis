@@ -37,8 +37,6 @@
 *.alg
 *.loa
 
-# achemso
-acs-*.bib
 
 # amsthm
 *.thm
