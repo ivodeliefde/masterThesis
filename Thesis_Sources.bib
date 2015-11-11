@@ -44,6 +44,20 @@ The analytics they perform as well as the middleware architecture might be relev
   Timestamp                = {2015.11.10}
 }
 
+@Misc{SSW:calbimonte,
+  Title                    = {Semantic sensor data search in a large-scale federated sensor network},
+
+  Author                   = {Calbimonte, Jean-Paul and Jeung, Hoyoung and Corcho, Oscar and Aberer, Karl},
+  Year                     = {2011},
+
+  Abstract                 = {This article addresses the growing use of sensors which increases the difficulty for applications to manage and query sensor data. This difficulty becomes even more noticeable when applications need to search for a particular information set over federated and heterogeneous sensor networks, providing huge volumes of sensor data to large user communities. This paper proposes a framework that enables efficient ontology-based querying of sensor data in a federated sensor network using the W3 SSN ontology.
+
+The article describes how to link sensors to the semantic web using the SSN. It also addresses the spatial component where the location of a sensor can be used for querying the sensor data. This is done by using a WKT point filter in which the coordinates are entered in the query (page 17) or using a map interface (page 22).},
+  Owner                    = {Ivo},
+  Publisher                = {Informatica},
+  Timestamp                = {2015.11.11}
+}
+
 @InProceedings{IOT:Calbimonte,
   Title                    = {XGSN: An Open-source Semantic Sensing Middleware for the Web of Things},
   Author                   = {Calbimonte, Jean-Paul and Sarni, Sofiane and Eberle, Julien and Aberer, Karl},
@@ -94,6 +108,24 @@ The analytics they perform as well as the middleware architecture might be relev
   Abstract                 = {This article proposes an approach that enriches sensor data streams with semantic attributes so that these feeds have proper meaning. They are focused on semantics of detected event, event classification, relationships to other events, etc. Not so much focused on the locational semantics. It also presents 6 use cases. In the future they hope "to extend and bring the SSN-XG ontology work into [their] system".},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
+}
+
+@InProceedings{SSW:Huang,
+  Title                    = {Semantic sensor information description and processing},
+  Author                   = {Huang, Vincent and Javed, Muhammad Kashif},
+  Booktitle                = {Sensor Technologies and Applications, 2008. SENSORCOMM'08. Second International Conference on},
+  Year                     = {2008},
+  Organization             = {IEEE},
+  Pages                    = {456--461},
+
+  Abstract                 = {This article identifies that most sensor networks are application specific and are not made for sharing or reusing sensors for other applications. In this sense the article is very much in line with my thesis, although it focuses very much on small scale sensor networks (sensors inside one building) and it does not use the OGC SWE standards, but just the W3C SSN ontology. Nonetheless it is an import reference for my research since the idea of the "information oriented architecture" which allows the sensor data to be understood and
+processed in a meaningful way by a variety of applications with different purposes is similar to my idea of the SSW.
+
+Since the W3C SSN standard has only been created after the publication of this article it does not implement it yet.
+
+The proposed Semantic Web Architecture for Sensor Networks (SWANS) consists of 4 layers: Sensor Network Data Sources, Ontology Layer, Semantic Web Processing Layer and Application Layer (see figure 2, page 458). This architecture might be useful for my own proof of concept application.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.11}
 }
 
 @Article{SSW:Llaves,
@@ -176,7 +208,17 @@ Also mentions how to create RDF mappings on the fly. However, it hasn't been use
 
   Abstract                 = {This article introduces the concept of IoT and presents in detail ten different parameters that govern their sensor data fusion evaluation framework. The main goal is to examine and survey different sensor data fusion research efforts based on our evaluation framework. 
 
+The concept of Sensor Data Fusion is described as well its relevance in the IoT. It can be described as a data processing technique that associates, combines, aggregates, and integrates data fromdifferentsources. The article mentions three key operations of sensor data fusion: complementary (creating a large picture from small bits of information), redundant (integrate sensors for improved accuracy), and cooperative (combine sensors to produce new knowledge). The ultimate goal of sensor data fusion is to under- stand the environment and act accordingly. 
+
+My thesis will be focused on the complementary and redundant aspects of sensor data fusion with the future option of cooperative through links in the semantic web. 
+
+There is very little interest in the raw sensor data. The data that is of significant interest is information about interesting events that are happening in the specific area.
+
 The ten parameters are: Middleware Architecture Type, Context-awareness, Semantic Interaction, Dynamic Configuration, Fusion Complexity, Actuation Management, Type of Processing, Cross Domain Portability, Implementation and Performance Evaluation.
+
+Using middleware in semantic sensor network architectures is about creating an abstraction level, which results in a degraded performance over applications that directly consult the sensors. However, middleware systems can bundle important functionalities together to be reused in many applications. The article identifies developing middleware as the right way to address the needs of IoT applications.
+
+Connecting sensors to the semantic web (Semantic Sensor Web) is mentioned as an important step to increase the retrievability of sensor data.
 
 The article describes the potential of IoT and evaluates a number of 'state of the art' examples of Sensor Data Fusion. Table 1: Taxonomy of Sensor Data Fusion Research Efforts contains a taxonomy of a couple dozen researches.},
   Journal                  = {arXiv preprint arXiv:1506.09118},
