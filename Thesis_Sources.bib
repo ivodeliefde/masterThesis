@@ -93,7 +93,13 @@ It describes that the implementation in this article does not use the OGC SWE st
   Year                     = {2014},
   Number                   = {EPFL-CONF-200926},
 
-  Abstract                 = {This article presents 'XGSN': an open-source system that relies on semantic representations of sensor metadata and observations, to guide the process of annotating and publishing sensor data on the Web.},
+  Abstract                 = {This article presents 'XGSN': an open-source system that relies on semantic representations of sensor metadata and observations, to guide the process of annotating and publishing sensor data on the Web. It is based on the SSN ontology. It shows how this approach has been implemented in XGSN, and incorporated to the wider OpenIoT platform, providing a highly flexible and scalable system for managing the life-cycle of sensor data, from acquisition to publishing, in the context of the semantic Web of Things.
+
+The article describes XGSN, a middleware solution that handles the lifecycle of virtual sensors (devices, objects or people observing properties around them), providing semantic annotations for them and the observation data that they produce.
+
+Two main types of semantic annotations have been added in XGSN for virtual sensors. First of all, the metadata annotations related to sensors, sensing devices and their capabilities, eg the sensing device that produces the data in a particular virtual sensor, its location, the type of observation it produces, the responsible person or organization, the source type, etc. Second of all, metadata related to the observations or measurements produced continuously by the sensors. This includes the semantic information that describes the time and context when the observation happened, the observed property, unit, the values themselves, etc. XGSN considers the location of the virtual sensor, which is annotated with geo-location vocabularies.
+
+This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openiot/wiki}) which currently only runs on Linux systems. The architecture principles are very interesting. ALso, at the end of the article (paragraph 6) describes related work.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
@@ -136,6 +142,18 @@ It describes that the implementation in this article does not use the OGC SWE st
   Abstract                 = {This article proposes an approach that enriches sensor data streams with semantic attributes so that these feeds have proper meaning. They are focused on semantics of detected event, event classification, relationships to other events, etc. Not so much focused on the locational semantics. It also presents 6 use cases. In the future they hope "to extend and bring the SSN-XG ontology work into [their] system".},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
+}
+
+@InProceedings{SSW:Henson,
+  Title                    = {SemSOS: Semantic sensor observation service},
+  Author                   = {Henson, Cory and Pschorr, Josh K and Sheth, Amit P and Thirunarayan, Krishnaprasad and others},
+  Booktitle                = {Collaborative Technologies and Systems, 2009. CTS'09. International Symposium on},
+  Year                     = {2009},
+  Organization             = {IEEE},
+  Pages                    = {44--53},
+
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.12}
 }
 
 @InProceedings{SSW:Huang,
