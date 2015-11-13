@@ -9,15 +9,19 @@ overview of the methodology to be used;
 \ac{sos} and \ac{sensorml}, or Sensorthings \ac{api}? 
 
 \subsection{Semantic Web}
-\ac{rdf} (on-the-fly) \\
 
-SPARQL, geo-SPARQL or stSPARQL, etc. and which query engine?
+\begin{itemize}
+	\item Store \ac{osm} data: create \ac{rdf} on-the-fly to prevent double storage. 
+	\item Store sensor metadata: create \ac{rdf} from \ac{om} which is returned by \ac{sos} getCapabilities request
+	\item Use \ac{owl} as language for semantic \ac{rdf} triples
+\end{itemize}
 
+
+Query metadata: SPARQL, geo-SPARQL or stSPARQL, etc. and which query engine?
 
 \section{Ontologies}
-\ac{owl} \\
-\ac{ssn} ontology
-
+The \ac{om} ontology is retrieved from sensors\\
+Use \ac{ssn} ontology or \ac{om}-\ac{owl} ontology to store metadata from sensors.  
 
 \section{Middleware}
 Creating own middleware to link sensors semantically and retrieve aggregated data\\

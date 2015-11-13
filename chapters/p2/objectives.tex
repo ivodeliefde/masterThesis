@@ -3,15 +3,23 @@
 \chapter{Research Objectives}
 \label{chap:objectives}
 
-the research objectives and/or research questions are clearly defined, along with the scope (ie what you will not be doing);
+the research objectives and/or research questions are clearly defined, along with the scope (ie what you will not be doing);\\
+
 
 \section{Research Question} 
 How can the semantic sensor web improve the discovery, integration and aggregation of distributed sensor data?
 
 
-
 \section{Objective} 
-Develop a method to semantically link sensor metadata to real world objects for spatial, semantic and temporal data aggregation.
+Develop a method to semantically link sensor metadata to real world objects for spatial, semantic and temporal data aggregation.\\
+
+I would like to bridge the efforts by \cite{SSW:Henson}, \cite{SSW:Pschorr},  of adding semantics to \ac{sos}, and the efforts by \cite{LD:Auer} of adding semantics to \ac{osm} data using the \ac{ssn} ontology proposed by \cite{SSW:SSN_incubatorGroup} in order to improve the discovery, integration and aggregation of sensor data from different sources.
+
+The thesis research should result in a prototype implementation which consists of two parts: 
+\begin{enumerate}
+	\item Firstly, an application that takes locations (HTTP addresses) of SOS servers as input and automatically links them to the \ac{osm} data. It results in a(n extended) mapping of the sensor web that will be used by the aggregation queries in the second part of the implementation. However, these mappings between sensors and objects are also freely accessible on the (semantic) web which improves the discovery of sensors for other applications.
+	\item Secondly, an application that allows users to query aggregated sensor data from different sources. This takes an \ac{osm} feature and a time interval as input, optionally with other spatial/temporal parameters (like a value for a buffer operation or a time interval to aggregate on). It returns a set of aggregated sensor data. 
+\end{enumerate}
 
 
 \section{Scope} 

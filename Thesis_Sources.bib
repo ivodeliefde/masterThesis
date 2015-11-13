@@ -26,7 +26,17 @@ The analytics they perform as well as the middleware architecture might be relev
   Publisher                = {Springer},
   Year                     = {2009},
 
-  Abstract                 = {This article shows how the collaboratively collected OpenStreetMap data can be transformed and represented adhering to the RDF data model, how this data can be interlinked with other spatial data sets and how it can be made accessible for machines according to the linked data paradigm.},
+  Abstract                 = {This article shows how the collaboratively collected OpenStreetMap data can be transformed and represented adhering to the RDF data model, how this data can be interlinked with other spatial data sets and how it can be made accessible for machines according to the linked data paradigm.
+
+This is similar to my thesis research: using OSM data as RDF to interlink spatial datasets on the semantic web. However, I would like to extend this with sensor data: linking sensor data sets together based on OSM data as RDF.
+
+Mapping OSM into RDF resulted in 2 billion triples(!) that are difficult to handle by existing triple stores. For example, lat/long coordinates can be stored far more efficiently with by relational database indexing techniques. As a result of these considerations, the article proposes a mixed approach in which part of the data is stored in relations and another part is stored according to the RDF data model. They also identify a number of considerations which improved the performance. One of which was an optimized import script which imports the OSM XML 3-5 times faster thatn the Osmosis tool.
+
+Part of the ontology is deriveed from the relational representation (see figure 3 page 6). A major source of strucutre, however, are the OSM tags i.e. attribute-value annotations to nodes, ways and relations.
+
+The article mentions how LinkedGeoData has been matched to DBPedia (first restricted to objects with latitude, longitude properties, but furter research should extend this).
+
+Related work this article mentions: There is a large body of work dedicated to converting relational databases to RDF and OWL. The W3C RDB2RDF incubator group, which we are participating in, has the aim to classify and standardize such approaches.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
@@ -118,6 +128,18 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Timestamp                = {2015.11.10}
 }
 
+@InProceedings{SSW:Compton,
+  Title                    = {What Now and Where Next for the W3C Semantic Sensor Networks Incubator Group Sensor Ontology.},
+  Author                   = {Compton, Michael},
+  Booktitle                = {SSN},
+  Year                     = {2011},
+  Pages                    = {1--8},
+
+  Abstract                 = {Short paper by the editor of the SSN incubator group report (Compton et al., 2012) which reviews the initiation of the Semantic Sensor Networks Incubator Group and the ontology produced.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.13}
+}
+
 @Article{SSW:SSN_incubatorGroup,
   Title                    = {The SSN ontology of the W3C semantic sensor network incubator group},
   Author                   = {Compton, Michael and Barnaghi, Payam and Bermudez, Luis and Garc{\'\i}A-Castro, Ra{\'u}L and Corcho, Oscar and Cox, Simon and Graybeal, John and Hauswirth, Manfred and Henson, Cory and Herzog, Arthur and others},
@@ -165,7 +187,13 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Organization             = {IEEE},
   Pages                    = {44--53},
 
-  Abstract                 = {Many SWE applications are ill equipped at handling raw sensor data as provided by SOS and require actionable knowledge of the environment in order to be practically useful. There are two approaches to deal with this obstacle, make the applications smarter or make the data smarter. We propose the latter option and accomplish this by leveraging semantic technologies in order to provide and apply more meaningful representation of sensor data.},
+  Abstract                 = {Many SWE applications are ill equipped at handling raw sensor data as provided by SOS and require actionable knowledge of the environment in order to be practically useful. There are two approaches to deal with this obstacle, make the applications smarter or make the data smarter. We propose the latter option and accomplish this by leveraging semantic technologies in order to provide and apply more meaningful representation of sensor data.
+
+This paper presents an architecture in which semantics are added to the sensor data before it can be queried by SOS. The SOS request therefore creates a SPARQL query on the server side. This is useful for working with a single data source, but makes combining data sources more complicated (especially if other sources use 'normal' SOS instead of SemSOS). They have used the 52 North SOS architecture as a foundation for the SemSOS prototype.
+
+It also mentions that in order to encode relationships in XML, the OGC-SWE often make use of XLink, XML Linking Language, a markup language that 'allows elements to be inserted into XML documents in order to create and describe links between resources'. However, they argue that the triple-pattern approach of RDF provides a far more natural and useful approach to encoding relationships. Still, they use XLink to output semantic data in SOS via XML. 
+
+This article uses OWL to represent the O&M data which is normally in XML. They state: ' translation between O&M in OWL and O&M in XML is straightforward and thus allows SemSOS to remain SOS compliant'  (for the mapping: see figure 3 on page 4). For the time aspect they use the ontology 'OWL-Time' , which allows for temporal calculus, provides descriptions of temporal concepts such as owl-time:instant and owl-time:interval, which supports defining interval queries such as within, contains, and overlaps.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.12}
 }
@@ -276,6 +304,19 @@ Also mentions how to create RDF mappings on the fly. However, it hasn't been use
 draft will be an important standard for IoT. It uses a REST-like API and JSON encoding and it is is linked data ready (JSON-LD).},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.12}
+}
+
+@MastersThesis{SSW:Pschorr,
+  Title                    = {SemSOS: an Architecture for Query, Insertion, and Discovery for Semantic Sensor Networks},
+  Author                   = {Pschorr, Joshua Kenneth},
+  School                   = {Wright State University},
+  Year                     = {2013},
+
+  Abstract                 = {Contains a more detailed description on the functioning of the SemSOS architecture.
+
+As future work it is posed that the transition of SemSOS to the GeoSparql could be beneficial for modelling, querying and reasoning over the location and feature information it stores. Also, performance optimization could be researched in the future. Another topic is to employ SemSOS in the field of Internet of Things.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.13}
 }
 
 @Article{SSW:Sheth,
