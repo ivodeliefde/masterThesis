@@ -8,12 +8,13 @@ a related work section in which the relevant literature is presented and linked 
 \section{Sensor Web}
 Research related to making sensor data available via the internet. \\
 
+\ac{ogc} \ac{swe} standards such as \ac{sos} and \ac{sensorml} \citep{SW:OGC}, \citep{SW:Botts} \\
 
-\ac{ogc} \ac{swe} standards such as \ac{sos} and \ac{sensorml} \citep{SW:OGC}, \citep{SW:Botts}
+Different data formats: \ac{xml} (\ac{swe}), EXI (\ac{w3c}) and \ac{json} SensorThings \ac{api} \citep{IOT:Zanelli} \\
 
-Different data formats: \ac{xml} (\ac{swe}), EXI (\ac{w3c}) and \ac{json} SensorThings \ac{api} \citep{IOT:Zanelli}
+\ac{ogc} has been working on standards for geodata discovery that allow users to find datasets based on geographic and temporal properties \citep{SW:OGC2}. It is available as an extension for existing formats like RSS and Atom. However, it does not mention support for sensor data discovery. \\
 
-Sensor data discovery \citep{SW:OGC2} and visualisation \citep{SW:Yoo}
+Sensor metadata visualisation has been studied by \cite{SW:Yoo} in order to improve the discovery of sensor data. How to integrate or combine different datasets is not addressed in this approach. 
 
 
 \section{Linked Data}
@@ -21,7 +22,9 @@ Research related to creating machine understandable (semantic) knowledge on the 
 
 Linked Data \citep{LD:Berners-lee}
 
-OSM as Linked Data \citep{LD:Auer}
+Web of Data \cite{LD:Bizer} 
+
+Research by \cite{LD:Auer} under the name of 'linked geodata' shows how to convert \ac{osm} data into \ac{rdf} triplets and publish it in the semantic web. The linked \ac{osm} data used to be accessible online at \url{http://linkedgeodata.org/OnlineAccess}. However, this is no longer the case. They do offer a manual and open source software for publishing \ac{osm} data as linked data at \url{https://github.com/GeoKnow/LinkedGeoData}. Anyone interested in using linked \ac{osm} data can refer to this for their own implementation.     
 
 Publishing geodata as \ac{rdf} and mapping on-the-fly \citep{LD:Missier}
 
@@ -29,25 +32,24 @@ Publishing geodata as \ac{rdf} and mapping on-the-fly \citep{LD:Missier}
 \section{Semantic Sensor Web}
 Research related to adding semantic meaning to sensors data allowing more complex queries \\ 
 
-\ac{ssw} \citep{SSW:Sheth}, \citep{SSW:deMel}, \citep{SSW:Bakillah}
+\ac{ssw} \citep{SSW:Sheth}, \citep{SSW:deMel}, \citep{SSW:Bakillah} \\ 
 
-\ac{w3c} \ac{ssn} ontology \citep{SSW:SSN_incubatorGroup}
+\cite{SSW:Huang} add semantics to sensor data, but do not use the \ac{swe} standards by \ac{ogc}. \\ 
 
-Three layer model
- 
-\cite{SSW:Huang} add semantics to sensor data, but do not use the \ac{swe} standards by \ac{ogc}.
+Extending RDF with the ability to represent spatial and temporal data \citep{SSW:Koubarakis} \\ 
 
-\cite{SSW:Henson} and \cite{SSW:Pschorr} present the SemSOS architecture which adds semantics to sensor data and publishes the semantically enriched sensor data via \ac{sos} and the \ac{om} standard (which is also part of the \ac{ogc} \ac{swe} suite).
+\ac{w3c} \ac{ssn} ontology \citep{SSW:SSN_incubatorGroup} \\ 
 
-Extending RDF with the ability to represent spatial and temporal data \citep{SSW:Koubarakis}
+\cite{SSW:Henson} and \cite{SSW:Pschorr} present the SemSOS architecture which adds semantics to sensor data and publishes the semantically enriched sensor data via \ac{sos} and the \ac{om} standard (which is also part of the \ac{ogc} \ac{swe} suite). However, in SemSOS the semantics are not being used to integrate or combine data from different sources, but rather to enrich data from a single source. \\ 
 
 Research on connecting smart devices to \ac{ssw} \citep{SSW:Vera}  
 
+Three layer model: the sensor data source layer, the data integration layer and the application layer \cite{SSW:Wang}.
 
 \section{Internet of Things}
 Research related to connecting smart devices to the internet (which are often mobile devices with sensors) to allow devices to communicate with each other \\
 
-More and more devices connected to the internet. Also a growing amount of research on using sensors of smart devices. \citep{IOT:Waher}, \citep{SSW:Calbimonte}, \citep{IOT:Zarko}
+More and more devices connected to the internet. Also a growing amount of research on using sensors of smart devices. \citep{IOT:Waher}, \citep{IOT:Zarko}, \citep{SSW:Calbimonte} \\
 
 
 OpenIoT platform \citep{IOT:Calbimonte}
