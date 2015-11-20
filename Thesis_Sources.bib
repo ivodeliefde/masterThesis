@@ -20,6 +20,19 @@ The analytics they perform as well as the middleware architecture might be relev
   Timestamp                = {2015.11.10}
 }
 
+@InCollection{atkinson2015joining,
+  Title                    = {Joining the Dots: Using Linked Data to Navigate between Features and Observational Data},
+  Author                   = {Atkinson, Robert A and Taylor, Peter and Squire, Geoffrey and Car, Nicholas J and Smith, Darren and Menzel, Mark},
+  Booktitle                = {Environmental Software Systems. Infrastructures, Services and Applications},
+  Publisher                = {Springer},
+  Year                     = {2015},
+  Pages                    = {121--130},
+
+  Abstract                 = {Not yet in my possession},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.20}
+}
+
 @Book{LD:Auer,
   Title                    = {Linkedgeodata: Adding a spatial dimension to the web of data},
   Author                   = {Auer, S{\"o}ren and Lehmann, Jens and Hellmann, Sebastian},
@@ -66,6 +79,21 @@ Related work this article mentions: There is a large body of work dedicated to c
 The approach proposed in this article uses the OGC SWE standards and the W3C SSN ontology.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.16}
+}
+
+@Article{bernard2014scientific,
+  Title                    = {Scientific geodata infrastructures: challenges, approaches and directions},
+  Author                   = {Bernard, Lars and M{\"a}s, Stephan and M{\"u}ller, Matthias and Henzen, Christin and Brauner, Johannes},
+  Journal                  = {International Journal of Digital Earth},
+  Year                     = {2014},
+  Number                   = {7},
+  Pages                    = {613--633},
+  Volume                   = {7},
+
+  Abstract                 = {Not yet in my possession},
+  Owner                    = {Ivo},
+  Publisher                = {Taylor \& Francis},
+  Timestamp                = {2015.11.20}
 }
 
 @Article{LD:Berners-lee,
@@ -247,6 +275,20 @@ This article uses OWL to represent the O&M data which is normally in XML. They s
   Timestamp                = {2015.11.12}
 }
 
+@Article{SW:Hu,
+  Title                    = {An Observation Capability Metadata Model for EO Sensor Discovery in Sensor Web Enablement Environments},
+  Author                   = {Hu, Chuli and Guan, Qingfeng and Chen, Nengcheng and Li, Jia and Zhong, Xiang and Han, Yongfei},
+  Journal                  = {Remote Sensing},
+  Year                     = {2014},
+  Number                   = {11},
+  Pages                    = {10546--10570},
+  Volume                   = {6},
+
+  Owner                    = {Ivo},
+  Publisher                = {Multidisciplinary Digital Publishing Institute},
+  Timestamp                = {2015.11.20}
+}
+
 @InProceedings{SSW:Huang,
   Title                    = {Semantic sensor information description and processing},
   Author                   = {Huang, Vincent and Javed, Muhammad Kashif},
@@ -274,7 +316,18 @@ The proposed Semantic Web Architecture for Sensor Networks (SWANS) consists of 4
   Pages                    = {233-254},
   Volume                   = {6},
 
-  Abstract                 = {This article describes the process of linking sensor data to the semantic web. It introduced a Linked Data model to combine OGC’s Sensor Observation Service with the Linked Data cloud. This takes shape as a RESTful server. There are detailed decsriptions of how to create such a RESTful proxy.},
+  Abstract                 = {This article describes the process of linking sensor data to the semantic web. It introduced a Linked Data model to combine OGC’s Sensor Observation Service with the Linked Data cloud. This takes shape as a RESTful server. There are detailed decsriptions of how to create such a RESTful proxy.
+
+The implementation of this paper takes a SOS service and builts a semantic 'facade' in front of it. This is contrary to the thesis idea of creating a way of connecting SOS services to the semantic web via a third-party service that is seperate from the SOS services. "Based on the scheme introduced
+in section 3.2, the RESTful proxy extracts the user’s query from the URI, encodes it into valid SOS queries, fetches the results from the underlying SOS, and converts them (after according content negotiation) to an RDF representation aligned with the Linked Data model"
+
+While the OGC has standardized Web Services which follow a state-full request-response pattern and are designed based on the publish-find-bind paradigm of Service-Oriented Architectures (SOA) (Mazzetti et al., 2009), Linked Data explicitly aims at breaking up such data silos. Instead, it proposes a Resource-Oriented Architecture (ROA) which is focused on distributed capabilities and services.
+
+Both O&M and SSN are not sucient to address the needs of Linked Data. While O&M supports unique identifiers, it currently does neither prescribe the use of HTTP URI’s, the persistence of identifiers, nor clear and flexible linking strategies between resources.
+
+There is hardly any context-free sensor data. In most cases raw data will be of limited value. The selection, processing, and publication of data using URIs already involves making certain decisions, e.g., about the features of interest.
+
+So far, links expressed as RDF predicates do not support a temporal scoping.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
@@ -345,7 +398,9 @@ In this article 5 areas for future research are presented: Real-time Search in S
   Organization             = {International Society for Optics and Photonics},
   Pages                    = {80470L--80470L},
 
-  Abstract                 = {This article proposes an approach that enriches sensor data streams with semantic attributes so that these feeds have proper meaning. They are focused on semantics of detected event, event classification, relationships to other events, etc. Not so much focused on the locational semantics. It also presents 6 use cases. In the future they hope "to extend and bring the SSN-XG ontology work into [their] system".},
+  Abstract                 = {This article proposes an approach that enriches sensor data streams with semantic attributes so that these feeds have proper meaning. They are focused on semantics of detected event, event classification, relationships to other events, etc. Not so much focused on the locational semantics. It also presents 6 use cases. In the future they hope "to extend and bring the SSN-XG ontology work into [their] system".
+
+They do not make use of the SWE standards and also not yet of the W3C standards. It creates a new ontology for their sensor data and a completely new query tool.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
@@ -377,6 +432,21 @@ Also mentions how to create RDF mappings on the fly. However, it hasn't been use
   Owner                    = {Ivo},
   Publisher                = {Government Office for Science/Future Cities Catapult},
   Timestamp                = {2015.11.16}
+}
+
+@Article{mooney2014has,
+  Title                    = {Has OpenStreetMap a role in Digital Earth applications?},
+  Author                   = {Mooney, Peter and Corcoran, Padraig},
+  Journal                  = {International Journal of Digital Earth},
+  Year                     = {2014},
+  Number                   = {7},
+  Pages                    = {534--553},
+  Volume                   = {7},
+
+  Abstract                 = {Not yet in my posession},
+  Owner                    = {Ivo},
+  Publisher                = {Taylor \& Francis},
+  Timestamp                = {2015.11.20}
 }
 
 @Standard{SC:OGC,
@@ -528,6 +598,19 @@ The article sums up extensions of the SSN ontology. One of them is the SCO ontol
   Timestamp                = {2015.11.10}
 }
 
+@Article{wiemann2015spatial,
+  Title                    = {Spatial data fusion in Spatial Data Infrastructures using Linked Data},
+  Author                   = {Wiemann, Stefan and Bernard, Lars},
+  Journal                  = {International Journal of Geographical Information Science},
+  Year                     = {2015},
+  Pages                    = {1-24},
+
+  Abstract                 = {Not yet in my possession},
+  Owner                    = {Ivo},
+  Publisher                = {Taylor \& Francis},
+  Timestamp                = {2015.11.20}
+}
+
 @Article{SW:Yoo,
   Title                    = {Visualization and Level-of-detail of Metadata for Interactive Exploration of Sensor Web},
   Author                   = {Byounghyun Yoo},
@@ -540,6 +623,20 @@ The article sums up extensions of the SSN ontology. One of them is the SCO ontol
   Abstract                 = {Addresses issues with Web-based search interfaces on a Sensor Web data infrastructure. It focusses on a user interface to discover sensor metadata in a way that is also understandable for other people besides sensor web experts. This approach uses PostgreSQL, PostGIS, PHP and X3DEarth technologies to allow the Web3D standard and its geospatial component to be used for visual exploration and levelof- detail control of a dynamic scene.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
+}
+
+@Article{GIS:Yue,
+  Title                    = {Towards intelligent GIServices},
+  Author                   = {Yue, Peng and Baumann, Peter and Bugbee, Kaylin and Jiang, Liangcun},
+  Journal                  = {Earth Science Informatics},
+  Year                     = {2015},
+  Number                   = {3},
+  Pages                    = {463--481},
+  Volume                   = {8},
+
+  Owner                    = {Ivo},
+  Publisher                = {Springer},
+  Timestamp                = {2015.11.20}
 }
 
 @Article{IOT:Zanelli,
