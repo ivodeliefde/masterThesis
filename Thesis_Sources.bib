@@ -20,6 +20,23 @@ The analytics they perform as well as the middleware architecture might be relev
   Timestamp                = {2015.11.10}
 }
 
+@InProceedings{SDI:Adams,
+  Title                    = {Emerging data challenges for next-generation spatial data infrastructure},
+  Author                   = {Adams, B. and Gahegan, M.},
+  Booktitle                = {Proceedings of Research at Locate '14},
+  Year                     = {2014},
+
+  Address                  = {Canberra, Australia},
+  Editor                   = {Winter, S. and Rizos, C.},
+  Pages                    = {118-129},
+  Series                   = {CEUR Workshop Proceedings},
+  Volume                   = {1142},
+
+  Abstract                 = {The landscape of spatial data infrastructures (SDIs) is changing. In addition to traditional authoritative and reliably sourced geospatial data, SDIs increasingly need to incorporate data from non-traditional sources, such as local sensor networks and crowd-sourced message databases. These new data come with variable, loosely defined, and sometimes unknown provenance, semantics, and content. A core research challenge remains to recognise and resolve - to the degree possible - a comprehensive set of model dimensions that will enable us to characterise the many possible models by which geospatial data can be represented.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.23}
+}
+
 @InCollection{SSW:Atkinson,
   Title                    = {Joining the Dots: Using Linked Data to Navigate between Features and Observational Data},
   Author                   = {Atkinson, Robert A and Taylor, Peter and Squire, Geoffrey and Car, Nicholas J and Smith, Darren and Menzel, Mark},
@@ -28,6 +45,11 @@ The analytics they perform as well as the middleware architecture might be relev
   Year                     = {2015},
   Pages                    = {121--130},
 
+  Abstract                 = {This paper describes how we have used Linked Data to describe how alternate data product representations and observational data may be linked to specific features. We show further how domain models can be used to standardize and document links between different features. It focusses on the use of Linked Data for enabling hydrological and spatial data infrastructures.
+
+The prototype preseted in this paper shows how the linking of different data sets via the semantic web can be used to discover how other data sets measure the same feature. A monitoring point can be selected and then a request can be made to retrieve ‘alternates’ views of this feature. This is similar to my idea of linking sensor data sources, but leaves a certain amount of manual steps. When you retrieve the different data sources with their relations (contains, within, touching, etc. ) you still need to use that in new requests.
+
+The article describes the necessity of moving away from the 'dataset' centric approaches towards linking data from distributed heterogeneous data sources.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.20}
 }
@@ -335,7 +357,7 @@ in section 3.2, the RESTful proxy extracts the user’s query from the URI, encode
 
 While the OGC has standardized Web Services which follow a state-full request-response pattern and are designed based on the publish-find-bind paradigm of Service-Oriented Architectures (SOA) (Mazzetti et al., 2009), Linked Data explicitly aims at breaking up such data silos. Instead, it proposes a Resource-Oriented Architecture (ROA) which is focused on distributed capabilities and services.
 
-Both O&M and SSN are not sucient to address the needs of Linked Data. While O&M supports unique identifiers, it currently does neither prescribe the use of HTTP URI’s, the persistence of identifiers, nor clear and flexible linking strategies between resources.
+Both O&M and SSN are not sufficient to address the needs of Linked Data. While O&M supports unique identifiers, it currently does neither prescribe the use of HTTP URI’s, the persistence of identifiers, nor clear and flexible linking strategies between resources.
 
 There is hardly any context-free sensor data. In most cases raw data will be of limited value. The selection, processing, and publication of data using URIs already involves making certain decisions, e.g., about the features of interest.
 
@@ -389,6 +411,19 @@ In this article 5 areas for future research are presented: Real-time Search in S
   Timestamp                = {2015.11.16}
 }
 
+@Article{SW:kotsev,
+  Title                    = {Building bridges: experiences and lessons learned from the implementation of INSPIRE and e-reporting of air quality data in Europe},
+  Author                   = {Kotsev, Alexander and Peeters, Olav and Smits, Paul and Grothe, Michel},
+  Journal                  = {Earth Science Informatics},
+  Year                     = {2014},
+  Pages                    = {1-13},
+  Volume                   = {10},
+
+  Owner                    = {Ivo},
+  Publisher                = {Springer},
+  Timestamp                = {2015.11.23}
+}
+
 @InCollection{SSW:Koubarakis,
   Title                    = {Modeling and querying metadata in the semantic sensor web: The model stRDF and the query language stSPARQL},
   Author                   = {Koubarakis, Manolis and Kyzirakos, Kostis},
@@ -400,6 +435,19 @@ In this article 5 areas for future research are presented: Real-time Search in S
   Abstract                 = {RDF will often be the metadata model of choice in the Semantic Sensor Web. However, RDF can only represent thematic metadata and needs to be extended if we want to model spatial and temporal information. For this purpose, we develop the data model stRDF and the query language stSPARQL. stRDF is a constraint data model that extends RDF with the ability to represent spatial and temporal data.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.12}
+}
+
+@Misc{SW:Martinez,
+  Title                    = {Implementation and documentation of Sensor Web Enablement at KNMI},
+
+  Author                   = {Martínez, Álvaro Plata},
+  HowPublished             = {Royal Netherlands Meteorological Institute},
+  Note                     = {Internship report},
+  Year                     = {2011},
+
+  Abstract                 = {Intership report on how to implement sensor web enablement standards at the Royal Netherlands Meteorological Institute.},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.23}
 }
 
 @InProceedings{SSW:deMel,
@@ -561,6 +609,9 @@ If my prototype application would link to these datasets it enables to extend th
   Institution              = {TU Delft, Faculty of Architecture and the Built Environment},
   Year                     = {2015},
 
+  Abstract                 = {Sensing Hotterdam recorded the temperature in 1,000 Rotterdam homes and at 300 public spaces in the summer of 2014 in order to outline the links between the urban heat island, the built environment and public health in the city of Rotterdam. The measured outdoor temperature readings point to a clear heat island effect in Rotterdam. Temperatures in homes are generally higher than those in the surrounding area, and also show a large degree of variation. Indoor temperatures are less affected by local outdoor temperatures than we had expected.
+
+The sensor measurements used for this research were not streamed in real-time, but measured and then read when the sensors were collected from the households. It simply identifies which neighbourhoods suffer from the urban heat island effect.},
   Owner                    = {Ivo},
   Publisher                = {TU Delft, Faculty of Architecture and the Built Environment},
   Timestamp                = {2015.11.20}
