@@ -228,6 +228,16 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Timestamp                = {2015.11.10}
 }
 
+@InProceedings{SSW:compton2,
+  Title                    = {Sensor data provenance: SSNO and PROV-O together at last},
+  Author                   = {Compton, Michael and Corsar, David and Taylor, Kerry},
+  Booktitle                = {To appear 7th International Semantic Sensor Networks Workshop (October 2014)},
+  Year                     = {2014},
+
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.24}
+}
+
 @Article{SSW:Corcho,
   Title                    = {Five challenges for the Semantic Sensor Web},
   Author                   = {Corcho, Oscar and Garcia-Castro, Raúl},
@@ -240,6 +250,21 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Abstract                 = {Shows a basic structure of a Semantic Sensor Network. Provides 5 areas for future research: abstraction level, quality (and quality of service), integration and fusion of data, identification and location of relevant sensor-based data sources, and rapid development of applications. The third and fourth research topic are what my thesis focusses on.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
+}
+
+@Misc{SW:Cox,
+  Title                    = {Ontology for observations and sampling features, with alignments to existing models},
+
+  Author                   = {Cox, Simon J. D.},
+  Year                     = {2015},
+
+  Abstract                 = {This paper addresses the following issues of the W3C SSN ontology: SSN omits sampling features, it inherets conflicting classes from DOLCE and the UML-OWL conversion rule used for OMU triggers a web of dependencies on additional, sometimes highly detailed, ontologies derived from other ISO 19100-series UML models. Therefore, they introduce a new OWL implementation of O&M which aims to overcome these limitations with two new ontologies. 
+
+The new ontology for observations, known as “omlite” (namespace prefix “oml:”), covers the key classes from O&M. However, where the UML model imported classes from other ISO 19100-series UML models, in om-lite these are implemented as local stubs. The stub classes support the definition of classes which have constraints involving these types, but do not commit the user to any specific existing vocabulary for geometric or temporal objects. Six core properties characterize an observation: featureOfInterest, observedProperty, procedure, phenomenonTime (time range of how long measurement applies), resultTime (time stamp of when measured) and result.
+
+The ontology for sampling features, known as “sam-lite” (namespace prefix “samfl:”) includes all the classes from the O&M Sampling Features model. At least one samfl:sampledFeature property will be present, whose value indicates the intention of the sampling feature. samfl:GeometryObject and its specializations are stub classes. A user can select any suitable vocabulary that implements these classes, such as GeoSPARQL [43] or W3C Basic Geo [3].},
+  Owner                    = {Ivo},
+  Timestamp                = {2015.11.23}
 }
 
 @InProceedings{LD:Egenhofer,
