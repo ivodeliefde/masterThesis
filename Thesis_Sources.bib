@@ -176,6 +176,9 @@ The approach proposed in this article uses the OGC SWE standards and the W3C SSN
   Year                     = {2011},
   Pages                    = {123--126},
 
+  Abstract                 = {Next generations of spatial information infrastructures call for more dynamic service composition, more sources of information, as well as stronger capabilities for their integration. Sensor networks have been identified as a major data provider for such infrastructures, while Semantic Web technologies have demonstrated their integration capabilities. So far, the Sensor Web and Semantic Web are not well connected which limits data exchange as well as combining their services. 
+
+To address this problem, the authors have proposed and partially implemented a Semantic Enablement Layer for Spatial Data Infrastructures. The report describes the implementation of a transparent and RESTful SOS proxy that can serve Linked Sensor Data without any modifications to existing OGC services and existing SDI deployments.We decided to use a RESTful approach as it combines three key advantages.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.27}
 }
@@ -456,6 +459,12 @@ The proposed Semantic Web Architecture for Sensor Networks (SWANS) consists of 4
   Booktitle                = {Towards digital earth: Search, discover and share geospatial data. Workshop at Future Internet Symposium},
   Year                     = {2010},
 
+  Abstract                 = {This paper addresses two problems: (i) how to refer to changing and frequently updated data sets such as stored in Sensor Observation Services using Uniform Resource Identifiers, and (ii) how to establish meaningful links between those data sets, i.e., observations, sensors, features of interest, observed properties, and further participants in the measurement process. It focuses on the problem of assigning meaningful URIs.
+
+Observation is the act in which sensors perceive stimuli and translate them into another, often digital, representation. Typically, we are not interested in these stimuli but in what they tell us about the properties of particular real word entities - the features of interest. However, it is difficult to determine which features to link to. Therefore, links to different kinds of features can be made. Also, this paper suggests a method of providing a ' vague'  region with a certain confidence level.
+
+Meaningful URIs, links, and vocabularies are the essential building blocks of Linked (Open) Data, while the machine-readable RDF is rather an enabling encoding that provides some basic reasoning support in addition. The main O&M components associated with an observation and offered by
+an SOS are features of interest, sensors (procedures), and observed properties. The URIs are assigned to these components by appending the component type to the URI identifying the authority.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.27}
 }
@@ -756,6 +765,7 @@ The use cases presented here involve semantics for better understanding the data
   Booktitle                = {The 14th AGILE International Conference on Geographic Information Science},
   Year                     = {2011},
 
+  Abstract                 = {This paper introduces an approach for a Spatiotemporal Aggregation Service (STAS) in the Sensor Web using standardized web-based geoprocessing. The STAS is defined as a profile of the Web Processing Service (WPS). It takes a web features service and a sensor observation service as input together with parameters for temporal aggregation. It then retrieves the features from the WFS and the sensor data from the SOS and aggregates the sensor data temporally and then spatially based on the features.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.27}
 }
@@ -768,6 +778,19 @@ The use cases presented here involve semantics for better understanding the data
   Editor                   = {Taylor, Kerry and Ayyagari, Arun and de Roure, David},
   Pages                    = {46},
 
+  Abstract                 = {Fostering the reusability of observations and derived applications calls for (i) spatial, temporal, and thematic aggregation of measured values, and (ii) easy integration mechanisms with external data sources.
+
+This paper investigates how work on sensor observation aggregation can be incorporated into a Linked Data framework focusing on external linkage as well as provenance information. 
+
+In other communities, e.g., the database community or in environmental sciences, spatio-temporal aggregation has been a research topic for years and is sometimes also referred to as scaling of observations and environmental models. A spatio-temporal aggregation service that can be used to provide such aggregation functionality on the Sensor Web has been introduced in our previous work (towards a spatiotemporal aggregation service in the sensor web, 2011).
+
+Definition of aggregation: During an aggregation process, the observations are grouped by a grouping predicate, e.g., by a spatial predicate which is defned by the polygon representing the area of a city, or by a temporal predicate defned by the time period of a month. After grouping, an aggregation function is applied that computes a single value, an aggregate, for the result values of an observation group. 
+
+For aggregation of observations a mechanism that helps to retrace the original observations and sensors from the aggregated observations is important. Linked Data provides a promising paradigm to provide such a mechanism, as the original observations and the aggregates can be easily linked with clear semantics.
+
+Provenance of sensor data can be defned as information about the source of the sensor data as well as information about transformations applied to the original data. The proposed approach shows how most of relevant provenance information is already provided in our Linked Sensor Data and how the links can be mapped to provenance relationships as defned in the OPM (Open Provenance Model).
+
+The main contributions of this paper are threefold. They (i) present a Linked Data model for aggregated sensor data, (ii) discuss the effects of aggregation on links from and to observations, and (iii) outline the role of provenance in this setting.},
   Journal                  = {Semantic Sensor Networks},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.27}
@@ -976,6 +999,9 @@ The paper mentions that XML is often too verbose and large for small IoT devices
   Note                     = {52 North, Communities, Sensor Web},
   Year                     = {2015},
 
+  Abstract                 = {Besides client applications which provide a classic user interface, the OX-Framework can also be used to build server applications which encapsulate, chain or orchestrate other OGC services.
+
+This means that 52 North does not only provide the traditional SOS server, but also a OX RESTful SOS which is a RESTful wrapper for SOS that takes get/post/delete/put requests.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.27},
   Url                      = {http://52north.org/communities/sensorweb/clients/OX_RESTful_SOS/index.html}
