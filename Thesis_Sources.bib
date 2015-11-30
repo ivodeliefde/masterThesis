@@ -9,14 +9,36 @@
   Year                     = {2015},
   Organization             = {Hrvatska znanstvena bibliografija i MZOS-Svibor},
 
-  Abstract                 = {This article presents an event and clustering analytics server that acts as an interface for novel analytical IoT services. The approach presented in this paper also demonstrates how sensor data acquired from mobile devices can be integrated within IoT platforms to enable analytics on data streams. It is based on the OpenIoT platform. The use case for evaluating the proposed solution is a mobile crowd-sensing application for air quality monitoring in a smart city environment, where users provide data streams with wearable sensors. In the framework of the OpenIoT project, the Intelligent OpenIoT server is the gateway for the Extended Global Sensor Networks (X-GSN) middleware. Working on annotated RDF data, Linked Sensor Middleware (LSM-Light) provides even more sophisticated means to filter and aggregate data. The X-GSN middleware can either push data to LSM-light or LSM-ligth can periodically pull data. 
+  Abstract                 = {Sensor technology and sensor networks have
+evolved so rapidly that they are now considered a core driver
+of the Internet of Things (IoT), however data analytics on IoT
+streams is still in its infancy. This paper introduces an
+approach to sensor data analytics by using the OpenIoT1
+middleware; real time event processing and clustering
+algorithms have been used for this purpose. The OpenIoT
+platform has been extended to support stream processing and
+thus we demonstrate its flexibility in enabling real time ondemand
+application domain analytics. We use mobile crowdsensed
+data, provided in real time from wearable sensors, to
+analyse and infer air quality conditions. This experimental
+evaluation has been implemented using the design principles
+and methods for IoT data interoperability specified by the
+OpenIoT project. We describe an event and clustering
+analytics server that acts as an interface for novel analytical
+IoT services. The approach presented in this paper also
+demonstrates how sensor data acquired from mobile devices
+can be integrated within IoT platforms to enable analytics on
+data streams. It can be regarded as a valuable tool to
+understand complex phenomena, e.g., air pollution dynamics
+and its impact on human health.},
+  Owner                    = {Ivo},
+  Review                   = {This article presents an event and clustering analytics server that acts as an interface for novel analytical IoT services. The approach presented in this paper also demonstrates how sensor data acquired from mobile devices can be integrated within IoT platforms to enable analytics on data streams. It is based on the OpenIoT platform. The use case for evaluating the proposed solution is a mobile crowd-sensing application for air quality monitoring in a smart city environment, where users provide data streams with wearable sensors. In the framework of the OpenIoT project, the Intelligent OpenIoT server is the gateway for the Extended Global Sensor Networks (X-GSN) middleware. Working on annotated RDF data, Linked Sensor Middleware (LSM-Light) provides even more sophisticated means to filter and aggregate data. The X-GSN middleware can either push data to LSM-light or LSM-ligth can periodically pull data. 
 
 Often individual sensor readings are not relevant but instead an aggregated value is required. The three levels (physical, virtual (X-GSN) and semantic (LSM) feature different aggregation capabilities.
 
 The data was split into 2 hours non-overlapping time windows. They used the coordinates to spatially group the data by means of the k-means clustering algorithm with predefined cluster centroids. 
 
 The analytics they perform as well as the middleware architecture might be relevant for my thesis. This article takes IoT sensors and maps them as RDF. Pretty much like my idea, but for openIoT instead of SWE (see figure 1) and not taking vector features into consideration.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -32,8 +54,35 @@ The analytics they perform as well as the middleware architecture might be relev
   Series                   = {CEUR Workshop Proceedings},
   Volume                   = {1142},
 
-  Abstract                 = {The landscape of spatial data infrastructures (SDIs) is changing. In addition to traditional authoritative and reliably sourced geospatial data, SDIs increasingly need to incorporate data from non-traditional sources, such as local sensor networks and crowd-sourced message databases. These new data come with variable, loosely defined, and sometimes unknown provenance, semantics, and content. A core research challenge remains to recognise and resolve - to the degree possible - a comprehensive set of model dimensions that will enable us to characterise the many possible models by which geospatial data can be represented.},
+  Abstract                 = {The landscape of spatial data infrastructures (SDIs) is changing. In addition
+to traditional authoritative and reliably sourced geospatial data, SDIs increasingly
+need to incorporate data from non-traditional sources, such as local sensor
+networks and crowd-sourced message databases. These new data come
+with variable, loosely defined, and sometimes unknown provenance, semantics,
+and content. The next generation of SDIs will need the capability to integrate
+and federate geospatial data that are highly heterogeneous. These data
+comprise a vast observation space: they could be represented in many forms,
+will have been generated by a variety of producers using different processes
+and will have originally been intended for purposes that may differ markedly
+from their later use. There are several discriminative dimensions along which
+we can describe the properties of the data found in SDIs, such as the data
+structure, the spatial framework (e.g., field, image, or object-based), the semantics
+of the attributes, the author or producer, the licensing, etc. These
+dimensions define a universe of model possibilities for data in an SDI, known
+as a model space. A core research challenge remains to recognise and resolve
+- to the degree possible - a comprehensive set of model dimensions that will
+enable us to characterise the many possible models by which geospatial data
+can be represented. A second challenge is to describe the transformations
+within and between models, and the ways in which these transformations
+change aspects of the underlying model. Despite recent movement toward
+semantically described services for SDIs, the scope and range of descriptive
+dimensions for geospatial data are underspecified. In this paper we present
+a diverse set of important dimensions that point to a series of challenges for
+data integration and then describe how both traditional and emergent datasets
+can be characterised within these dimensions, and point to some interesting
+differences.},
   Owner                    = {Ivo},
+  Review                   = {The landscape of spatial data infrastructures (SDIs) is changing. In addition to traditional authoritative and reliably sourced geospatial data, SDIs increasingly need to incorporate data from non-traditional sources, such as local sensor networks and crowd-sourced message databases. These new data come with variable, loosely defined, and sometimes unknown provenance, semantics, and content. A core research challenge remains to recognise and resolve - to the degree possible - a comprehensive set of model dimensions that will enable us to characterise the many possible models by which geospatial data can be represented.},
   Timestamp                = {2015.11.23}
 }
 
@@ -45,12 +94,30 @@ The analytics they perform as well as the middleware architecture might be relev
   Year                     = {2015},
   Pages                    = {121--130},
 
-  Abstract                 = {This paper describes how we have used Linked Data to describe how alternate data product representations and observational data may be linked to specific features. We show further how domain models can be used to standardize and document links between different features. It focusses on the use of Linked Data for enabling hydrological and spatial data infrastructures.
+  Abstract                 = {Information about localized phenomena may be represented in multiple
+ways. GIS systems may be used to record the spatial extent of the phenomena.
+Observations about the state of one or more properties of the phenomena
+are available from real-time sensors, models, or from archives. The relationships
+between these data sources, or specific features in different data products,
+cannot easily be specified. Additionally, features change over time, their representations
+use different spatial scales and different aspects of them are of
+concern to different stakeholders. This greatly increases the number of potential
+relationships between features. Thus, for a given feature we can expect that
+heterogeneous information systems will exist, holding different types of data
+related to that feature. We propose the use of Linked Data to describe the relationships
+between them. We demonstrate this in practice using the Australian
+Hydrologic Geospatial Fabric (Geofabric) feature dataset and observational data
+of varying forms, including time-series and discrete measurements. We describe
+how different resources, and different aspects and versions of them, can be
+discovered and accessed. A web client is described that can navigate between related
+resources, including using the Geofabric’s feature relationships, to navigate
+from one observational dataset to another related by hydrological connectivity.},
+  Owner                    = {Ivo},
+  Review                   = {This paper describes how we have used Linked Data to describe how alternate data product representations and observational data may be linked to specific features. We show further how domain models can be used to standardize and document links between different features. It focusses on the use of Linked Data for enabling hydrological and spatial data infrastructures.
 
 The prototype preseted in this paper shows how the linking of different data sets via the semantic web can be used to discover how other data sets measure the same feature. A monitoring point can be selected and then a request can be made to retrieve ‘alternates’ views of this feature. This is similar to my idea of linking sensor data sources, but leaves a certain amount of manual steps. When you retrieve the different data sources with their relations (contains, within, touching, etc. ) you still need to use that in new requests.
 
 The article describes the necessity of moving away from the 'dataset' centric approaches towards linking data from distributed heterogeneous data sources.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.20}
 }
 
@@ -60,7 +127,21 @@ The article describes the necessity of moving away from the 'dataset' centric ap
   Publisher                = {Springer},
   Year                     = {2009},
 
-  Abstract                 = {This article shows how the collaboratively collected OpenStreetMap data can be transformed and represented adhering to the RDF data model, how this data can be interlinked with other spatial data sets and how it can be made accessible for machines according to the linked data paradigm.
+  Abstract                 = {In order to employ the Web as a medium for data and information
+integration, comprehensive datasets and vocabularies are required
+as they enable the disambiguation and alignment of other data
+and information. Many real-life information integration and aggregation
+tasks are impossible without comprehensive background knowledge related
+to spatial features of the ways, structures and landscapes surrounding
+us. In this paper we contribute to the generation of a spatial dimension
+for the DataWeb by elaborating on how the collaboratively collected
+OpenStreetMap data can be transformed and represented adhering to
+the RDF data model, how this data can be interlinked with other spatial
+data sets, how it can be made accessible for machines according to the
+linked data paradigm and for humans by means of a faceted geo-data
+browser.},
+  Owner                    = {Ivo},
+  Review                   = {This article shows how the collaboratively collected OpenStreetMap data can be transformed and represented adhering to the RDF data model, how this data can be interlinked with other spatial data sets and how it can be made accessible for machines according to the linked data paradigm.
 
 This is similar to my thesis research: using OSM data as RDF to interlink spatial datasets on the semantic web. However, I would like to extend this with sensor data: linking sensor data sets together based on OSM data as RDF.
 
@@ -71,7 +152,6 @@ Part of the ontology is deriveed from the relational representation (see figure 
 The article mentions how LinkedGeoData has been matched to DBPedia (first restricted to objects with latitude, longitude properties, but furter research should extend this).
 
 Related work this article mentions: There is a large body of work dedicated to converting relational databases to RDF and OWL. The W3C RDB2RDF incubator group, which we are participating in, has the aim to classify and standardize such approaches.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -83,8 +163,23 @@ Related work this article mentions: There is a large body of work dedicated to c
   Pages                    = {155-185},
   Volume                   = {6},
 
-  Abstract                 = {This paper presents a context-aware ontology-based semantic mediation service for heterogeneous sensor services. It addresses the issue of finding semantic mappings for sensor data. Uses OGC SWE standards, not the W3C SSN ontology.},
+  Abstract                 = {Sensors play an increasingly critical role in capturing and distributing observations
+of phenomena in our environment. The vision of the semantic sensor web is to enable
+the interoperability of various applications that use sensor data provided by semantically
+heterogeneous sensor services. However, several challenges still need to be addressed to
+achieve this vision. More particularly, mechanisms that can support context-aware semantic
+mapping and that can adapt to the dynamic metadata of sensors are required. Semantic
+mapping for the sensor web is required to support sensor data fusion, sensor data discovery
+and retrieval, and automatic semantic annotation, to name only a few tasks. This paper
+presents a context-aware ontology-based semanticmediation service for heterogeneous
+sensor services. The semantic mediation service is context-aware and dynamic because it
+takes into account the real-time variability of thematic, spatial, and temporal elements that
+describe sensor data in different contexts. The semantic mediation service integrates rulebased
+reasoning to support the resolution of semantic heterogeneities. An application scenario
+is presented showing how the semantic mediation service can improve sensor data
+interpretation, reuse, and sharing in static and dynamic settings.},
   Owner                    = {Ivo},
+  Review                   = {This paper presents a context-aware ontology-based semantic mediation service for heterogeneous sensor services. It addresses the issue of finding semantic mappings for sensor data. Uses OGC SWE standards, not the W3C SSN ontology.},
   Timestamp                = {2015.11.10}
 }
 
@@ -95,10 +190,31 @@ Related work this article mentions: There is a large body of work dedicated to c
   Year                     = {2010},
   Volume                   = {668},
 
-  Abstract                 = {This paper describes a linked-data platform to publish sensor data and link them to existing resource on the semantic Web. The linked sensor data platform, called Sense2Web supports flexible and interoperable descriptions and provide association of different sensor data ontologies to resources described on the semantic Web and the Web of data. 
+  Abstract                 = {This paper describes a linked-data platform to publish sen-
+sor data and link them to existing resource on the semantic Web. The
+linked sensor data platform, called Sense2Web supports 
+exible and in-
+teroperable descriptions and provide association of dierent sensor data
+ontologies to resources described on the semantic Web and the Web of
+data. The current advancements in (wireless) sensor networks and being
+able to manufacture low cost and energy ecient hardware for sensors
+has lead to much interest in integrating physical world data into theWeb.
+Wireless sensor networks employ various types of hardware and software
+components to observe and measure physical phenomena and make the
+obtained data available through dierent networking services. Applica-
+tions and users are typically interested in querying various events and
+requesting measurement and observation data from the physical world.
+Using a linked data approach enables data consumers to access sensor
+data and query the data and relations to obtain information and/or inte-
+grate data from various sources. Global access to sensor data can provide
+a wide range of applications in dierent domains such as geographical
+information systems, healthcare, smart homes, and business applications
+and scenarios. In this paper we focus on publishing linked-data to anno-
+tate sensors and link them to other existing resources on the Web.},
+  Owner                    = {Ivo},
+  Review                   = {This paper describes a linked-data platform to publish sensor data and link them to existing resource on the semantic Web. The linked sensor data platform, called Sense2Web supports flexible and interoperable descriptions and provide association of different sensor data ontologies to resources described on the semantic Web and the Web of data. 
 
 The approach proposed in this article uses the OGC SWE standards and the W3C SSN ontology.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.16}
 }
 
@@ -138,8 +254,16 @@ The approach proposed in this article uses the OGC SWE standards and the W3C SSN
   Year                     = {2009},
   Pages                    = {205-227},
 
-  Abstract                 = {Article that discusses the development of Linked data and how it is contributing to a 'Web of data'},
+  Abstract                 = {The term Linked Data refers to a set of best practices for publishing and connecting
+structured data on the Web. These best practices have been adopted by an increasing
+number of data providers over the last three years, leading to the creation of a global data
+space containing billions of assertions - the Web of Data. In this article we present the
+concept and technical principles of Linked Data, and situate these within the broader context
+of related technological developments. We describe progress to date in publishing Linked
+Data on the Web, review applications that have been developed to exploit the Web of Data,
+and map out a research agenda for the Linked Data community as it moves forward.},
   Owner                    = {Ivo},
+  Review                   = {Article that discusses the development of Linked data and how it is contributing to a 'Web of data'},
   Timestamp                = {2015.11.16}
 }
 
@@ -151,8 +275,9 @@ The approach proposed in this article uses the OGC SWE standards and the W3C SSN
   Year                     = {2008},
   Pages                    = {175--190},
 
-  Abstract                 = {This article presents the different components of the SWE Standards Framework as part of the 5th International ISCRAM Conference – Washington, DC, USA, May 2008. Very similar content to OGC® Sensor Web Enablement: Overview And High Level Architecture (2007).},
+  Abstract                 = {A precursor paper (also available as an OGC White Paper) provides a high-level overview of and architecture for the Open Geospatial Consortium (OGC) standards activities that focus on sensors, sensor networks, and a concept called the “Sensor Web”. This OGC focus area is known as Sensor Web Enablement (SWE). For readers interested in greater technical and architecture details, please download and read the OGC SWE Architecture Discussion Paper titled “The OGC Sensor Web Enablement Architecture” (OGC document 06-021r1).},
   Owner                    = {Ivo},
+  Review                   = {This article presents the different components of the SWE Standards Framework as part of the 5th International ISCRAM Conference – Washington, DC, USA, May 2008. Very similar content to OGC® Sensor Web Enablement: Overview And High Level Architecture (2007).},
   Timestamp                = {2015.11.12}
 }
 
@@ -164,8 +289,17 @@ The approach proposed in this article uses the OGC SWE standards and the W3C SSN
   Type                     = {OGC White Paper},
   Year                     = {2007},
 
-  Abstract                 = {Precursor paper that presents the different components of the SWE Standards Framework: Observations & Measurements (O&M), Sensor Model Language (SensorML), TransducerML (TML), Sensor Observation Service (SOS), Sensor Planning Service (SPS), Sensor Alert Service (SAS) and Web Notification Service (WNS).},
+  Abstract                 = {This white paper provides a high-level overview of and architecture for the Open Geospatial
+Consortium (OGC) standards activities that focus on sensors, sensor networks, and a concept
+called the “Sensor Web”. This OGC focus area is known as Sensor Web Enablement (SWE). For
+readers interested in greater technical and architecture details, please download and read the
+OGC SWE Architecture Discussion Paper titled “The OGC Sensor Web Enablement Architecture”
+(OGC document 06-021r1).
+Attention is drawn to the possibility that some of the elements of this document may be the
+subject of patent rights. The OGC shall not be held responsible for identifying any or all such
+patent rights.},
   Owner                    = {Ivo},
+  Review                   = {Precursor paper that presents the different components of the SWE Standards Framework: Observations & Measurements (O&M), Sensor Model Language (SensorML), TransducerML (TML), Sensor Observation Service (SOS), Sensor Planning Service (SPS), Sensor Alert Service (SAS) and Web Notification Service (WNS).},
   Timestamp                = {2015.11.12}
 }
 
@@ -176,11 +310,53 @@ The approach proposed in this article uses the OGC SWE standards and the W3C SSN
   Year                     = {2011},
   Pages                    = {123--126},
 
-  Abstract                 = {Next generations of spatial information infrastructures call for more dynamic service composition, more sources of information, as well as stronger capabilities for their integration. Sensor networks have been identified as a major data provider for such infrastructures, while Semantic Web technologies have demonstrated their integration capabilities. So far, the Sensor Web and Semantic Web are not well connected which limits data exchange as well as combining their services. 
+  Abstract                 = {Next generations of spatial information infrastructures call for more
+dynamic service composition, more sources of information, as well as stronger
+capabilities for their integration. Sensor networks have been identified as a major
+data provider for such infrastructures, while Semantic Web technologies have
+demonstrated their integration capabilities. Most sensor data is stored and accessed
+using the Observations & Measurements (O&M) standard of the Open
+Geospatial Consortium (OGC) as data model. However, with the advent of the
+Semantic Sensor Web, work on an ontological model gained importance within
+Sensor Web Enablement (SWE). The ongoing paradigm shift to Linked Sensor
+Data complements this attempt and also adds interlinking as a new challenge. In
+this demonstration paper, we briefly present a Linked Data model and a RESTful
+proxy for OGC’s Sensor Observation Service (SOS) to improve integration and
+inter-linkage of observation data.},
+  Owner                    = {Ivo},
+  Review                   = {Next generations of spatial information infrastructures call for more dynamic service composition, more sources of information, as well as stronger capabilities for their integration. Sensor networks have been identified as a major data provider for such infrastructures, while Semantic Web technologies have demonstrated their integration capabilities. So far, the Sensor Web and Semantic Web are not well connected which limits data exchange as well as combining their services. 
 
 To address this problem, the authors have proposed and partially implemented a Semantic Enablement Layer for Spatial Data Infrastructures. The report describes the implementation of a transparent and RESTful SOS proxy that can serve Linked Sensor Data without any modifications to existing OGC services and existing SDI deployments.We decided to use a RESTful approach as it combines three key advantages.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.27}
+}
+
+@InProceedings{SW:Broring2,
+  Title                    = {Making the sensor observation service INSPIRE compliant},
+  Author                   = {Br{\"o}ring, Arne and Jirka, Simon and Kotsev, Alexander and Spinsanti, Laura},
+  Booktitle                = {INSPIRE Conference 2013},
+  Year                     = {2013},
+
+  Abstract                 = {The Sensor Observation Service (SOS) [3] provides access to near real-time
+environmental data, or observations, in a standardized way. Thereby, the SOS offers
+flexible spatial, temporal, and thematic filtering capabilities that enable clients to query
+and discover large sources of time series data over the Web. The SOS standard is
+already in version 2.0 [6] and applied in many projects and organizational
+infrastructures (see e.g., [4]). The data encoding leveraged by SOS is the Observations
+& Measurements (O&M) standard, which is been introduced in the INSPIRE data
+specification through the Guidelines for the use of O&M. O&M data can also be
+accessed through the Web Feature Service (WFS), which has been incorporated in
+INSPIRE [2] as an implementation of the INSPIRE Download Service [1]. However,
+the WFS interface is very generic and not optimized for O&M data access. So, an
+inclusion of the SOS in the INSPIRE Technical Guidance (TG) is desired. Hence, this
+work analyses the SOS specification on how it can be enhanced to conform to the
+implementation rules for INSPIRE download services.},
+  Owner                    = {Ivo},
+  Review                   = {In order for the EU member states to provide sensor data to INSPIRE in a structured way OGC and ISO standards are being used. O&M data can also be accessed through the Web Feature Service (WFS), which has been incorporated in INSPIRE as an implementation of the INSPIRE Download Service. However, the WFS interface is very generic and not optimized for O&M data acces. 
+
+This article analyses the SOS specification on how it can be enhanced to conform to the implementation rules for INSPIRE download services. 
+
+It is a very brief outline of how the INSPIRE WFS download service is supposed to be mapped to the SWE SOS service.},
+  Timestamp                = {2015.11.30}
 }
 
 @Misc{SSW:Calbimonte,
@@ -189,13 +365,29 @@ To address this problem, the authors have proposed and partially implemented a S
   Author                   = {Calbimonte, Jean-Paul and Jeung, Hoyoung and Corcho, Oscar and Aberer, Karl},
   Year                     = {2011},
 
-  Abstract                 = {This article addresses the growing use of sensors which increases the difficulty for applications to manage and query sensor data. This difficulty becomes even more noticeable when applications need to search for a particular information set over federated and heterogeneous sensor networks, providing huge volumes of sensor data to large user communities. This paper proposes a framework that enables efficient ontology-based querying of sensor data in a federated sensor network using the W3 SSN ontology.
+  Abstract                 = {Sensor network deployments are a primary source of massive
+amounts of data about the real world that surrounds us, measuring a
+wide range of physical properties in real time. However, in large-scale
+deployments it becomes hard to eectively exploit the data captured
+by the sensors, since there is no precise information about what devices
+are available and what properties they measure. Even when metadata is
+available, users need to know low-level details such as database schemas
+or names of properties that are specic to a device or platform. Therefore
+the task of coherently searching, correlating and combining sensor data
+becomes very challenging. We propose an ontology-based approach, that
+consists in exposing sensor observations in terms of ontologies enriched
+with semantic metadata, providing information such as: which sensor
+recorded what, where, when, and in which conditions. For this, we allow
+dening virtual semantic streams, whose ontological terms are related to
+the underlying sensor data schemas through declarative mappings, and
+can be queried in terms of a high level sensor network ontology.},
+  Owner                    = {Ivo},
+  Publisher                = {Informatica},
+  Review                   = {This article addresses the growing use of sensors which increases the difficulty for applications to manage and query sensor data. This difficulty becomes even more noticeable when applications need to search for a particular information set over federated and heterogeneous sensor networks, providing huge volumes of sensor data to large user communities. This paper proposes a framework that enables efficient ontology-based querying of sensor data in a federated sensor network using the W3 SSN ontology.
 
 The article describes how to link sensors to the semantic web using the SSN. It also addresses the spatial component where the location of a sensor can be used for querying the sensor data. This is done by using a WKT point filter in which the coordinates are entered in the query (page 17) or using a map interface (page 22).
 
 It describes that the implementation in this article does not use the OGC SWE standards. However, they do mention this as future research.},
-  Owner                    = {Ivo},
-  Publisher                = {Informatica},
   Timestamp                = {2015.11.11}
 }
 
@@ -206,14 +398,37 @@ It describes that the implementation in this article does not use the OGC SWE st
   Year                     = {2014},
   Number                   = {EPFL-CONF-200926},
 
-  Abstract                 = {This article presents 'XGSN': an open-source system that relies on semantic representations of sensor metadata and observations, to guide the process of annotating and publishing sensor data on the Web. It is based on the SSN ontology. It shows how this approach has been implemented in XGSN, and incorporated to the wider OpenIoT platform, providing a highly flexible and scalable system for managing the life-cycle of sensor data, from acquisition to publishing, in the context of the semantic Web of Things.
+  Abstract                 = {We present XGSN, an open-source system that relies on semantic
+representations of sensor metadata and observations, to guide the
+process of annotating and publishing sensor data on the Web. XGSN is
+able to handle the data acquisition process of a wide number of devices
+and protocols, and is designed as a highly extensible platform, leveraging
+on the existing capabilities of the Global Sensor Networks (GSN) middleware.
+Going beyond traditional sensor management systems, XGSN
+is capable of enriching virtual sensor descriptions with semantically annotated
+content using standard vocabularies. In the proposed approach,
+sensor data and observations are annotated using an ontology network
+based on the SSN ontology, providing a standardized queryable representation
+that makes it easier to share, discover, integrate and interpret
+the data. XGSN manages the annotation process for the incoming sensor
+observations, producing RDF streams that are sent to the cloud-enabled
+Linked Sensor Middleware, which can internally store the data or perform
+continuous query processing. The distributed nature of XGSN allows deploying
+different remote instances that can interchange observation data,
+so that virtual sensors can be aggregated and consume data from other
+remote virtual sensors. In this paper we show how this approach has
+been implemented in XGSN, and incorporated to the wider OpenIoT
+platform, providing a highly flexible and scalable system for managing
+the life-cycle of sensor data, from acquisition to publishing, in the context
+of the semantic Web of Things.},
+  Owner                    = {Ivo},
+  Review                   = {This article presents 'XGSN': an open-source system that relies on semantic representations of sensor metadata and observations, to guide the process of annotating and publishing sensor data on the Web. It is based on the SSN ontology. It shows how this approach has been implemented in XGSN, and incorporated to the wider OpenIoT platform, providing a highly flexible and scalable system for managing the life-cycle of sensor data, from acquisition to publishing, in the context of the semantic Web of Things.
 
 The article describes XGSN, a middleware solution that handles the lifecycle of virtual sensors (devices, objects or people observing properties around them), providing semantic annotations for them and the observation data that they produce.
 
 Two main types of semantic annotations have been added in XGSN for virtual sensors. First of all, the metadata annotations related to sensors, sensing devices and their capabilities, eg the sensing device that produces the data in a particular virtual sensor, its location, the type of observation it produces, the responsible person or organization, the source type, etc. Second of all, metadata related to the observations or measurements produced continuously by the sensors. This includes the semantic information that describes the time and context when the observation happened, the observed property, unit, the values themselves, etc. XGSN considers the location of the virtual sensor, which is annotated with geo-location vocabularies.
 
 This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openiot/wiki}) which currently only runs on Linux systems. The architecture principles are very interesting. ALso, at the end of the article (paragraph 6) describes related work.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -224,8 +439,15 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Year                     = {2011},
   Pages                    = {1--8},
 
-  Abstract                 = {Short paper by the editor of the SSN incubator group report (Compton et al., 2012) which reviews the initiation of the Semantic Sensor Networks Incubator Group and the ontology produced.},
+  Abstract                 = {This short paper accompanies the keynote given at SSN'11.
+It reviews the initiation of the Semantic Sensor Networks Incubator
+Group and the ontology produced. Also, examples of the use of the ontol-
+ogy, potential extensions and options for future use are brief
+y discussed.
+The ontology is available at:
+http://purl.oclc.org/NET/ssnx/ssn.},
   Owner                    = {Ivo},
+  Review                   = {Short paper by the editor of the SSN incubator group report (Compton et al., 2012) which reviews the initiation of the Semantic Sensor Networks Incubator Group and the ontology produced.},
   Timestamp                = {2015.11.13}
 }
 
@@ -237,8 +459,13 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Pages                    = {25-32},
   Volume                   = {17},
 
-  Abstract                 = {The W3C Semantic Sensor Network Incubator group (the SSN-XG) produced an OWL 2 ontology to describe sensors and observations — the SSN ontology. This article describes the SSN ontology, a use case and the use of the ontology in recent research projects.},
+  Abstract                 = {The W3C Semantic Sensor Network Incubator group (the SSN-XG) produced an OWL 2 ontology to
+describe sensors and observations — the SSN ontology, available at http://purl.oclc.org/NET/ssnx/ssn. The
+SSN ontology can describe sensors in terms of capabilities, measurement processes, observations and
+deployments. This article describes the SSN ontology. It further gives an example and describes the use of
+the ontology in recent research projects.},
   Owner                    = {Ivo},
+  Review                   = {The W3C Semantic Sensor Network Incubator group (the SSN-XG) produced an OWL 2 ontology to describe sensors and observations — the SSN ontology. This article describes the SSN ontology, a use case and the use of the ontology in recent research projects.},
   Timestamp                = {2015.11.10}
 }
 
@@ -248,8 +475,22 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Booktitle                = {To appear 7th International Semantic Sensor Networks Workshop (October 2014)},
   Year                     = {2014},
 
-  Abstract                 = {This paper presents an alignment between the W3C ProvenanceWorking Group's recommended ontology (PROV-O) and the W3C Semantic Sensor Networks Incubator Group's ontology (SSNO). The alignment views PROV-O as an upper ontology which is extended with SSNO concepts and properties. This allows representation of observation details and sensor deployments that are not possible in the SSNO alone, and gives a basis for alignment with Open Geospatial Consortium Observations & Measurements aligned ontologies.},
+  Abstract                 = {This paper presents an alignment between the W3C ProvenanceWorking
+Group's recommended ontology (PROV-O) and the W3C
+Semantic Sensor Networks Incubator Group's ontology (SSNO). The
+alignment views PROV-O as an upper ontology which is extended with
+SSNO concepts and properties. This allows representation of observation
+details and sensor deployments that are not possible in the SSNO
+alone, and gives a basis for alignment with Open Geospatial Consortium
+Observations & Measurements aligned ontologies. Further to the alignment,
+rules are presented that further constrain the interpretation of the
+aligned ontologies and provide a mechanism by which provenance information
+can be generated from SSN data thereby allowing modellers to
+take advantage of the new features. The benet of the aligned ontologies
+is illustrated with an example of cross-domain provenance querying
+enabled by the alignment.},
   Owner                    = {Ivo},
+  Review                   = {This paper presents an alignment between the W3C ProvenanceWorking Group's recommended ontology (PROV-O) and the W3C Semantic Sensor Networks Incubator Group's ontology (SSNO). The alignment views PROV-O as an upper ontology which is extended with SSNO concepts and properties. This allows representation of observation details and sensor deployments that are not possible in the SSNO alone, and gives a basis for alignment with Open Geospatial Consortium Observations & Measurements aligned ontologies.},
   Timestamp                = {2015.11.24}
 }
 
@@ -262,8 +503,9 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Pages                    = {121-125},
   Volume                   = {1.1},
 
-  Abstract                 = {Shows a basic structure of a Semantic Sensor Network. Provides 5 areas for future research: abstraction level, quality (and quality of service), integration and fusion of data, identification and location of relevant sensor-based data sources, and rapid development of applications. The third and fourth research topic are what my thesis focusses on.},
+  Abstract                 = {The combination of sensor networks with the Web, web services and database technologies, was named some years ago as the Sensor Web or the Sensor Internet. Most efforts in this area focused on the provision of platforms that could be used to build sensor-based applications more efficiently, considering some of the most important challenges in sensor-based data management and sensor network configuration. The introduction of semantics into these platforms provides the opportu-nity of going a step forward into the understanding, management and use of sensor-based data sources, and this is a topic be-ing explored by ongoing initiatives. In this paper we go through some of the most relevant challenges of the current Sensor Web, and describe some ongoing work and open opportunities for the introduction of semantics in this context.},
   Owner                    = {Ivo},
+  Review                   = {Shows a basic structure of a Semantic Sensor Network. Provides 5 areas for future research: abstraction level, quality (and quality of service), integration and fusion of data, identification and location of relevant sensor-based data sources, and rapid development of applications. The third and fourth research topic are what my thesis focusses on.},
   Timestamp                = {2015.11.10}
 }
 
@@ -310,12 +552,21 @@ This article uses the OpenIoT platform (\url{https://github.com/OpenIotOrg/openi
   Author                   = {Cox, Simon J. D.},
   Year                     = {2015},
 
-  Abstract                 = {This paper addresses the following issues of the W3C SSN ontology: SSN omits sampling features, it inherets conflicting classes from DOLCE and the UML-OWL conversion rule used for OMU triggers a web of dependencies on additional, sometimes highly detailed, ontologies derived from other ISO 19100-series UML models. Therefore, they introduce a new OWL implementation of O&M which aims to overcome these limitations with two new ontologies. 
+  Abstract                 = {We introduce new OWL ontologies for observations and sampling features, based on the O&M conceptual model
+from OGC and ISO 19156. Previous efforts, (a) through the W3C SSN project, and (b) following ISO rules for
+conversion from UML, had dependencies on elaborate pre-existing ontologies and frameworks. The new ontologies,
+known as om-lite and sam-lite, remove such dependencies, and can therefore be used with minimal ontological
+commitment beyond the O&M conceptual model. Time and space concepts, for which there are multiple existing
+solutions, are implemented as stub-classes, and patterns for linking to the existing ontologies are described. PROV
+is used to support certain requirements for the description of specimens. A more general alignment of both observation
+and sampling feature ontologies with PROV is described, as well as mappings to some other observation
+models and ontologies.},
+  Owner                    = {Ivo},
+  Review                   = {This paper addresses the following issues of the W3C SSN ontology: SSN omits sampling features, it inherets conflicting classes from DOLCE and the UML-OWL conversion rule used for OMU triggers a web of dependencies on additional, sometimes highly detailed, ontologies derived from other ISO 19100-series UML models. Therefore, they introduce a new OWL implementation of O&M which aims to overcome these limitations with two new ontologies. 
 
 The new ontology for observations, known as “omlite” (namespace prefix “oml:”), covers the key classes from O&M. However, where the UML model imported classes from other ISO 19100-series UML models, in om-lite these are implemented as local stubs. The stub classes support the definition of classes which have constraints involving these types, but do not commit the user to any specific existing vocabulary for geometric or temporal objects. Six core properties characterize an observation: featureOfInterest, observedProperty, procedure, phenomenonTime (time range of how long measurement applies), resultTime (time stamp of when measured) and result.
 
 The ontology for sampling features, known as “sam-lite” (namespace prefix “samfl:”) includes all the classes from the O&M Sampling Features model. At least one samfl:sampledFeature property will be present, whose value indicates the intention of the sampling feature. samfl:GeometryObject and its specializations are stub classes. A user can select any suitable vocabulary that implements these classes, such as GeoSPARQL [43] or W3C Basic Geo [3].},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.23}
 }
 
@@ -327,6 +578,31 @@ The ontology for sampling features, known as “sam-lite” (namespace prefix “samfl
   Organization             = {ACM},
   Pages                    = {1--4},
 
+  Abstract                 = {With the growth of the World Wide Web has come the insight
+that currently available methods for finding and using information
+on the web are often insufficient. In order to move the Web from a
+data repository to an information resource, a totally new way of
+organizing information is needed. The advent of the Semantic
+Web promises better retrieval methods by incorporating the data’s
+semantics and exploiting the semantics during the search process.
+Such a development needs special attention from the geospatial
+perspective so that the particularities of geospatial meaning are
+captured appropriately. The creation the Semantic Geospatial Web
+needs the development multiple spatial and terminological
+ontologies, each with a formal semantics; the representation of
+those semantics such that they are available both to machines for
+processing and to people for understanding; and the processing of
+geospatial queries against these ontologies and the evaluation of
+the retrieval results based on the match between the semantics of
+the expressed information need and the available semantics of the
+information resources and search systems. This will lead to a new
+framework for geospatial information retrieval based on the
+semantics of spatial and terminological ontologies. By explicitly
+representing the role of semantics in different components of the
+information retrieval process (people, interfaces, search systems,
+and information resources), the Semantic Geospatial Web will
+enable users to retrieve more precisely the data they need, based
+on the semantics associated with these data.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.13}
 }
@@ -337,6 +613,63 @@ The ontology for sampling features, known as “sam-lite” (namespace prefix “samfl
   Publisher                = {Carre \& Strauss, United Kingdom},
   Year                     = {2014},
 
+  Abstract                 = {“In a few decades’ time, computers
+will be interwoven into almost every
+industrial product”, wrote computer
+scientist Karl Steinbuch in 1966.
+Coupled with connectivity, this
+prediction is finally coming to fruition.
+It is called the ‘Internet of Things’ (IoT)
+and it has the potential to change every
+aspect of the economy, society, politics
+and the environment.
+This roadmap therefore takes the
+reader on a journey, starting with
+an examination of the IoT’s principal
+characteristics, massive scale and
+impact. To bring things to life it
+provides concrete examples and
+demonstrates how the IoT is heading
+towards a world of ‘Everything-as-a-
+Service’ (XaaS).
+The roadmap then examines
+the technology that makes the IoT
+possible - a world of sensors, actuators,
+microcontrollers, connectivity and the
+cloud. From here it explores how a
+complex and scattered value chain is
+bringing this technology architecture to
+market.
+This leads the roadmap to address
+the future governance of the IoT. For
+if the IoT is to deliver on its promise of
+a better world then it is going to need
+to successfully address a whole series
+of powers, rights and interests. These
+include power over network standards,
+power over products and their
+distribution, power over network traffic,
+as well as power over services and their
+distribution. Rights, such as property
+and privacy, are going to need to be
+safeguarded. Security is going to have
+to be guaranteed, as is competition in
+the marketplace. With a plethora of IoT
+stakeholder interests dispersed across
+a highly fluid value chain this is not a
+trivial task.
+To assist with developing good
+governance in the IoT this roadmap
+proposes a three step process. This
+process is grounded in the ‘Smarter
+Intervention in Complex Systems’
+methodology. It dovetails the IoT’s
+value chain with a regulatory framework
+for balancing power, rights and
+interests.
+If the IoT can be nudged in the right
+direction then there is no limit on its
+potential to enhance our lives.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.13}
 }
@@ -348,8 +681,22 @@ The ontology for sampling features, known as “sam-lite” (namespace prefix “samfl
   Note                     = {OGC Implementation Standard},
   Year                     = {2014},
 
-  Abstract                 = {OGC standard for discovering sensor data via RSS and Atom},
+  Abstract                 = {This document is the specification for the OpenSearch Geo and Time extensions.
+This standard is intended to provide a very simple way to make spatial and temporal
+queries to a repository of geospatial content that contains geographic and temporal
+properties and to allow simple syndication of repositories.
+The use cases at OpenSearch.org deal primarily with full-text search across textual data,
+but the protocol is equally applicable to simple searches across collections of structured
+data – particularly data with a geospatial component.
+Attention is drawn to the possibility that some of the elements of this document may be
+the subject of patent rights. The Open Geospatial Consortium shall not be held
+responsible for identifying any or all such patent rights.
+Recipients of this document are requested to submit, with their comments, notification of
+any relevant patent claims or other intellectual property rights of which they may be
+aware that might be infringed by any implementation of the standard set forth in this
+document, and to provide supporting documentation.},
   Owner                    = {Ivo},
+  Review                   = {OGC standard for discovering sensor data via RSS and Atom},
   Timestamp                = {2015.11.12}
 }
 
@@ -361,14 +708,39 @@ The ontology for sampling features, known as “sam-lite” (namespace prefix “samfl
   Organization             = {IEEE},
   Pages                    = {44--53},
 
-  Abstract                 = {Many SWE applications are ill equipped at handling raw sensor data as provided by SOS and require actionable knowledge of the environment in order to be practically useful. There are two approaches to deal with this obstacle, make the applications smarter or make the data smarter. We propose the latter option and accomplish this by leveraging semantic technologies in order to provide and apply more meaningful representation of sensor data.
+  Abstract                 = {Sensor Observation Service (SOS) is a Web service
+specification defined by the Open Geospatial Consortium
+(OGC) Sensor Web Enablement (SWE) group in order to
+standardize the way sensors and sensor data are
+discovered and accessed on the Web. This standard goes a
+long way in providing interoperability between
+repositories of heterogeneous sensor data and applications
+that use this data. Many of these applications, however,
+are ill equipped at handling raw sensor data as provided
+by SOS and require actionable knowledge of the
+environment in order to be practically useful. There are
+two approaches to deal with this obstacle, make the
+applications smarter or make the data smarter. We
+propose the latter option and accomplish this by
+leveraging semantic technologies in order to provide and
+apply more meaningful representation of sensor data.
+More specifically, we are modeling the domain of sensors
+and sensor observations in a suite of ontologies, adding
+semantic annotations to the sensor data, using the ontology
+models to reason over sensor observations, and extending
+an open source SOS implementation with our semantic
+knowledge base. This semantically enabled SOS, or
+SemSOS, provides the ability to query high-level
+knowledge of the environment as well as low-level raw
+sensor data.},
+  Owner                    = {Ivo},
+  Review                   = {Many SWE applications are ill equipped at handling raw sensor data as provided by SOS and require actionable knowledge of the environment in order to be practically useful. There are two approaches to deal with this obstacle, make the applications smarter or make the data smarter. We propose the latter option and accomplish this by leveraging semantic technologies in order to provide and apply more meaningful representation of sensor data.
 
 This paper presents an architecture in which semantics are added to the sensor data before it can be queried by SOS. The SOS request therefore creates a SPARQL query on the server side. This is useful for working with a single data source, but makes combining data sources more complicated (especially if other sources use 'normal' SOS instead of SemSOS). They have used the 52 North SOS architecture as a foundation for the SemSOS prototype.
 
 It also mentions that in order to encode relationships in XML, the OGC-SWE often make use of XLink, XML Linking Language, a markup language that 'allows elements to be inserted into XML documents in order to create and describe links between resources'. However, they argue that the triple-pattern approach of RDF provides a far more natural and useful approach to encoding relationships. Still, they use XLink to output semantic data in SOS via XML. 
 
 This article uses OWL to represent the O&M data which is normally in XML. They state: ' translation between O&M in OWL and O&M in XML is straightforward and thus allows SemSOS to remain SOS compliant' (for the mapping: see figure 3 on page 4). For the time aspect they use the ontology 'OWL-Time' , which allows for temporal calculus, provides descriptions of temporal concepts such as owl-time:instant and owl-time:interval, which supports defining interval queries such as within, contains, and overlaps.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.12}
 }
 
@@ -381,6 +753,22 @@ This article uses OWL to represent the O&M data which is normally in XML. They s
   Pages                    = {67--88},
   Volume                   = {36},
 
+  Abstract                 = {The Amsterwarm project investigates the urban heat island of Amsterdam, the vulnerability of its population,
+the energy efficiency of its buildings and landuse. A novel mapping approach provides insights into
+the questions of what causes the urban heat island and who will be affected by it. Landuse does affect the
+surface temperature. The difference between the areas in the city with the least and the greatest impervious
+surface coverage accounts for an average land surface temperature difference of 11.6C per hectare.
+The study demonstrates furthermore that the vulnerability of people and buildings to the urban heat
+island effect is a local condition in which the energy efficiency of buildings, quality of life and demographic
+factors should all be considered in an approach that is sensitive to place.
+Practical application: The typological maps will allow local authorities to prioritise adaptive actions in
+urban planning in response to the urban heat island, an emerging climate-related challenge that has a
+significant impact on the comfort and health of its citizens and on the (future) energy use required for
+cooling buildings. Raising the albedo in those areas of the city that are dominated by impervious surface
+cover seems an effective adaptation strategy, suitable to a city such as Amsterdam that no longer builds on
+green field sites but only builds as possible within the envelope of the existing city. Improving the quality of
+life in neighbourhoods and the energy efficiency/climate proofing of the building stock could also be
+prioritised in the identified neighbourhoods.},
   Owner                    = {Ivo},
   Publisher                = {SAGE Publications},
   Timestamp                = {2015.11.26}
@@ -395,6 +783,12 @@ This article uses OWL to represent the O&M data which is normally in XML. They s
   Pages                    = {43--58},
   Volume                   = {1},
 
+  Abstract                 = {Sensing Hotterdam recorded the temperature in 1,000 Rotterdam homes and at 300 public spaces in the
+summer of 2014 in order to outline the links between the urban heat island, the built environment and public
+health in the city of Rotterdam. The measured outdoor temperature readings point to a clear heat island
+effect in Rotterdam. Temperatures in homes are generally higher than those in the surrounding area, and
+also show a large degree of variation. Indoor temperatures are less affected by local outdoor temperatures
+than we had expected.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.20}
 }
@@ -408,6 +802,7 @@ This article uses OWL to represent the O&M data which is normally in XML. They s
   Pages                    = {10546--10570},
   Volume                   = {6},
 
+  Abstract                 = {Accurate and fine-grained discovery by diverse Earth observation (EO) sensors ensures a comprehensive response to collaborative observation-required emergency tasks. This discovery remains a challenge in an EO sensor web environment. In this study, we propose an EO sensor observation capability metadata model that reuses and extends the existing sensor observation-related metadata standards to enable the accurate and fine-grained discovery of EO sensors. The proposed model is composed of five sub-modules, namely, ObservationBreadth, ObservationDepth, ObservationFrequency, ObservationQuality and ObservationData. The model is applied to different types of EO sensors and is formalized by the Open Geospatial Consortium Sensor Model Language 1.0. The GeosensorQuery prototype retrieves the qualified EO sensors based on the provided geo-event. An actual application to flood emergency observation in the Yangtze River Basin in China is conducted, and the results indicate that sensor inquiry can accurately achieve fine-grained discovery of qualified EO sensors and obtain enriched observation capability information. In summary, the proposed model enables an efficient encoding system that ensures minimum unification to represent the observation capabilities of EO sensors. The model functions as a foundation for the efficient discovery of EO sensors. In addition, the definition and development of this proposed EO sensor observation capability metadata model is a helpful step in extending the Sensor Model Language (SensorML) 2.0 Profile for the description of the observation capabilities of EO sensors.},
   Owner                    = {Ivo},
   Publisher                = {Multidisciplinary Digital Publishing Institute},
   Timestamp                = {2015.11.20}
@@ -421,13 +816,31 @@ This article uses OWL to represent the O&M data which is normally in XML. They s
   Organization             = {IEEE},
   Pages                    = {456--461},
 
-  Abstract                 = {This article identifies that most sensor networks are application specific and are not made for sharing or reusing sensors for other applications. In this sense the article is very much in line with my thesis, although it focuses very much on small scale sensor networks (sensors inside one building) and it does not use the OGC SWE standards. Nonetheless it is an import reference for my research since the idea of the "information oriented architecture" which allows the sensor data to be understood and
+  Abstract                 = {Wireless sensor networks (WSN) generate large
+volumes of raw data which possess natural heterogeneity.
+WSNs are normally application specific with no sharing
+or reusability of sensor data among applications. In order
+for applications and services to be developed
+independently of particular WSNs, sensor data need to be
+enriched with semantic information. In this paper, we
+propose a Semantic Web Architecture for Sensor
+Networks (SWASN). This information oriented
+architecture allows the sensor data to be understood and
+processed in a meaningful way by a variety of
+applications with different purposes. We develop
+ontologies for sensor data and use the Jena API for
+processing which includes querying and inference over
+sensor data. By studying a building fire emergency
+scenario, we show that semantic web technologies can
+provide high level information extraction and inference of
+sensor data.},
+  Owner                    = {Ivo},
+  Review                   = {This article identifies that most sensor networks are application specific and are not made for sharing or reusing sensors for other applications. In this sense the article is very much in line with my thesis, although it focuses very much on small scale sensor networks (sensors inside one building) and it does not use the OGC SWE standards. Nonetheless it is an import reference for my research since the idea of the "information oriented architecture" which allows the sensor data to be understood and
 processed in a meaningful way by a variety of applications with different purposes is similar to my idea of the SSW.
 
 Since the W3C SSN standard has only been created after the publication of this article it does not implement it yet.
 
 The proposed Semantic Web Architecture for Sensor Networks (SWANS) consists of 4 layers: Sensor Network Data Sources, Ontology Layer, Semantic Web Processing Layer and Application Layer (see figure 2, page 458). This architecture might be useful for my own proof of concept application.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.11}
 }
 
@@ -459,13 +872,29 @@ The proposed Semantic Web Architecture for Sensor Networks (SWANS) consists of 4
   Booktitle                = {Towards digital earth: Search, discover and share geospatial data. Workshop at Future Internet Symposium},
   Year                     = {2010},
 
-  Abstract                 = {This paper addresses two problems: (i) how to refer to changing and frequently updated data sets such as stored in Sensor Observation Services using Uniform Resource Identifiers, and (ii) how to establish meaningful links between those data sets, i.e., observations, sensors, features of interest, observed properties, and further participants in the measurement process. It focuses on the problem of assigning meaningful URIs.
+  Abstract                 = {Sensor data is stored and published using OGC’s Observation
+& Measurement specifications as underlying data model. With the
+advent of volunteered geographic information and the Semantic Sensor
+Web, work on an ontological, i.e. conceptual, model gains importance
+within the Sensor Web Enablement community. In contrast to a data
+model, an ontological approach abstracts from implementation details
+by focusing on modeling the real world from the perspective of a particular
+domain or application and, hence, restricts the interpretation of the
+used terminology towards their intended meaning. The shift to linked
+sensor data, however, requires yet another perspective. Two challenges
+have to be addressed, (i) how to refer to changing and frequently updated
+data sets such as stored in Sensor Observation Services using Uniform
+Resource Identifiers, and (ii) how to establish meaningful links between
+those data sets, i.e., observations, sensors, features of interest, observed
+properties, and further participants in the measurement process. In this
+short paper we focus on the problem of assigning meaningful URIs.},
+  Owner                    = {Ivo},
+  Review                   = {This paper addresses two problems: (i) how to refer to changing and frequently updated data sets such as stored in Sensor Observation Services using Uniform Resource Identifiers, and (ii) how to establish meaningful links between those data sets, i.e., observations, sensors, features of interest, observed properties, and further participants in the measurement process. It focuses on the problem of assigning meaningful URIs.
 
-Observation is the act in which sensors perceive stimuli and translate them into another, often digital, representation. Typically, we are not interested in these stimuli but in what they tell us about the properties of particular real word entities - the features of interest. However, it is difficult to determine which features to link to. Therefore, links to different kinds of features can be made. Also, this paper suggests a method of providing a ' vague'  region with a certain confidence level.
+Observation is the act in which sensors perceive stimuli and translate them into another, often digital, representation. Typically, we are not interested in these stimuli but in what they tell us about the properties of particular real word entities - the features of interest. However, it is difficult to determine which features to link to. Therefore, links to different kinds of features can be made. Also, this paper suggests a method of providing a ' vague' region with a certain confidence level.
 
 Meaningful URIs, links, and vocabularies are the essential building blocks of Linked (Open) Data, while the machine-readable RDF is rather an enabling encoding that provides some basic reasoning support in addition. The main O&M components associated with an observation and offered by
 an SOS are features of interest, sensors (procedures), and observed properties. The URIs are assigned to these components by appending the component type to the URI identifying the authority.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.27}
 }
 
@@ -478,7 +907,28 @@ an SOS are features of interest, sensors (procedures), and observed properties. 
   Pages                    = {233-254},
   Volume                   = {6},
 
-  Abstract                 = {This article describes the process of linking sensor data to the semantic web. It introduced a Linked Data model to combine OGC’s Sensor Observation Service with the Linked Data cloud. This takes shape as a RESTful server. There are detailed decsriptions of how to create such a RESTful proxy.
+  Abstract                 = {The vision of a Digital Earth calls for more dynamic information systems,
+new sources of information, and stronger capabilities for their integration.
+Sensor networks have been identified as a major information source for
+the Digital Earth, while Semantic Web technologies have been proposed to
+facilitate integration.. So far, sensor data is stored and published using the
+Observations & Measurements standard of the Open Geospatial Consortium
+(OGC) as data model. With the advent of Volunteered Geographic Information
+and the Semantic SensorWeb, work on an ontological model gained importance
+within Sensor Web Enablement (SWE). In contrast to data models,
+an ontological approach abstracts from implementation details by focusing
+on modeling the physical world from the perspective of a particular domain.
+Ontologies restrict the interpretation of vocabularies towards their intended
+meaning. The ongoing paradigm shift to Linked Sensor Data complements
+this attempt. Two questions have to be addressed: (i) how to refer to changing
+and frequently updated data sets using Uniform Resource Identifiers, and
+(ii) how to establish meaningful links between those data sets, i.e., observations,
+sensors, features of interest, and observed properties? In this paper, we
+present a Linked Data model and a RESTful proxy for OGC’s Sensor Observation
+Service to improve integration and inter-linkage of observation data
+for the Digital Earth},
+  Owner                    = {Ivo},
+  Review                   = {This article describes the process of linking sensor data to the semantic web. It introduced a Linked Data model to combine OGC’s Sensor Observation Service with the Linked Data cloud. This takes shape as a RESTful server. There are detailed decsriptions of how to create such a RESTful proxy.
 
 The implementation of this paper takes a SOS service and builts a semantic 'facade' in front of it. This is contrary to the thesis idea of creating a way of connecting SOS services to the semantic web via a third-party service that is seperate from the SOS services. "Based on the scheme introduced
 in section 3.2, the RESTful proxy extracts the user’s query from the URI, encodes it into valid SOS queries, fetches the results from the underlying SOS, and converts them (after according content negotiation) to an RDF representation aligned with the Linked Data model"
@@ -490,7 +940,6 @@ Both O&M and SSN are not sufficient to address the needs of Linked Data. While O
 There is hardly any context-free sensor data. In most cases raw data will be of limited value. The selection, processing, and publication of data using URIs already involves making certain decisions, e.g., about the features of interest.
 
 So far, links expressed as RDF predicates do not support a temporal scoping.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -503,9 +952,23 @@ So far, links expressed as RDF predicates do not support a temporal scoping.},
   Pages                    = {111--129},
   Volume                   = {14},
 
-  Abstract                 = {This article states why the current OGC SWE standards are not sufficient for the use in the Semantic Sensor Web and forms the basis for the W3C Semantic Sensor Network ontology presented in Janowicz et al. (2013).},
+  Abstract                 = {Building on abstract reference models, the Open Geospatial Consortium (OGC)
+has established standards for storing, discovering, and processing geographical
+information. These standards act as a basis for the implementation of specific
+services and Spatial Data Infrastructures (SDI). Research on geo-semantics
+plays an increasing role to support complex queries and retrieval across heterogeneous
+information sources, as well as for service orchestration, semantic translation,
+and on-the-fly integration. So far, this research targets individual solutions
+or focuses on the Semantic Web, leaving the integration into SDI aside. What is
+missing is a shared and transparent Semantic Enablement Layer for SDI which
+also integrates reasoning services known from the Semantic Web. Instead of developing
+new semantically enabled services from scratch, we propose to create profiles
+of existing services that implement a transparent mapping between the OGC
+and the Semantic Web world. Finally, we point out how to combine SDI with
+linked data.},
   Owner                    = {Ivo},
   Publisher                = {Wiley Online Library},
+  Review                   = {This article states why the current OGC SWE standards are not sufficient for the use in the Semantic Sensor Web and forms the basis for the W3C Semantic Sensor Network ontology presented in Janowicz et al. (2013).},
   Timestamp                = {2015.11.16}
 }
 
@@ -517,15 +980,34 @@ So far, links expressed as RDF predicates do not support a temporal scoping.},
   Pages                    = {31-36},
   Volume                   = {48},
 
-  Abstract                 = {This paper present the core components of the Semantic Sensor Web: Semantic Web and SWE, Ontology and optionally Rule-Based Reasoning. It also presents a few use cases and topics for future research: Real-time Search in Semantic Sensor Web, Ontology Construction for Semantic Sensor Web, Data Fusion in Semantic Sensor Web, Semantic Annotations in semantic Sensor Web, and Application Developments methodology for Semantic Sensor Web.
+  Abstract                 = {To realize sharing and reuse of sensor data and improve interoperability, semantic sensor web (SSW) is proposed to add semantic information to existing sensor networks by utilizing domain, spatial and temporal anthologies and other related semantic technology. This paper presents state of the art of SSW from various aspects from the basic concepts, characters of SSW and the core technologies of SSW to the representative real world applications. Besides, it presents the challenges and the possible future research areas in SSW.},
+  Owner                    = {Ivo},
+  Review                   = {This paper present the core components of the Semantic Sensor Web: Semantic Web and SWE, Ontology and optionally Rule-Based Reasoning. It also presents a few use cases and topics for future research: Real-time Search in Semantic Sensor Web, Ontology Construction for Semantic Sensor Web, Data Fusion in Semantic Sensor Web, Semantic Annotations in semantic Sensor Web, and Application Developments methodology for Semantic Sensor Web.
 
 The article states very well the relevance of this kind of research: while SWE standards are very useful, they are by themselves insufficient to realize knowledge-based reasoning and discovery and it does not state essence relations among data clearly. In order to obtain further information and knowledge, researchers propose SSW by adding semantics through domain ontology and spatial and temporal ontology to the existing sensor network language standards.
 
 We believe SSW, combining SWE with semantic web and ontology, is considered as a framework that enhances the expressiveness of sensor data, provides abundant and meaningful semantic descriptions, and realizes sensor knowledge reasoning.
 
 In this article 5 areas for future research are presented: Real-time Search in Semantic Sensor Web, Ontology Construction for Semantic Sensor Web, Data Fusion in Semantic Sensor Web, Semantic Annotations in semantic Sensor Web, and Application Developments methodology for Semantic Sensor Web. About data fusion in the semantic web is states: Recent research trends focus on transforming the sensor-based data into RDF and making it available using HTTP with the help of sensor-related URIs. Other work being done is to provide semantic queries that are adapted to sensed-based data. However, these methodologies still cannot complete the data integration or data fusion work.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
+}
+
+@Article{SW:Jirka,
+  Title                    = {A lightweight approach for the sensor observation service to share environmental data across Europe},
+  Author                   = {Jirka, Simon and Br{\"o}ring, Arne and Kjeld, Peter and Maidens, Jon and Wytzisk, Andreas},
+  Journal                  = {Transactions in GIS},
+  Year                     = {2012},
+  Number                   = {3},
+  Pages                    = {293--312},
+  Volume                   = {16},
+
+  Abstract                 = {The importance of near real-time access to environmental data has steadily increased over the last years. In this article, the European Environment Agency (EEA), which receives environmental data from a large number of providers, is in focus. The heterogeneous data formats and data transfer mechanisms make the data collection and integration a difficult task for the EEA. An approach is needed for facilitating the interoperable exchange of environmental data on a large scale. A core element of this approach is the Sensor Web Enablement (SWE) technology of the Open Geospatial Consortium (OGC) which allows the standardised, interoperable, vendor and domain independent exchange of sensor data. The main contribution of this article is a lightweight profile for the OGC Sensor Observation Service that ensures the necessary interoperability for seamlessly integrating the environmental data provided by the EEA’s member states and thus forms the foundation for the developed data exchange mechanisms. This is complemented by information about the resulting Sensor Web architecture and the integration into the EEA’s existing IT infrastructure. In summary, this paper shows a practical scenario in which SWE technology enables the exchange of near real-time environmental data on a large scale.},
+  Owner                    = {Ivo},
+  Publisher                = {Wiley Online Library},
+  Review                   = {The heterogeneous data formats and data transfer mechanisms make the data collection and integration a difficult task for the EEA. An approach is needed for facilitating the interoperable exchange of environmental data on a large scale. A core element of this approach is the Sensor Web Enablement (SWE) technology of the Open Geospatial Consortium (OGC) which allows the standardised, interoperable, vendor and domain independent exchange of sensor data.
+
+The main contribution of this article is a lightweight profile for the OGC Sensor Observation Service that ensures the necessary interoperability for seamlessly integrating the environmental data provided by the EEA’s member states and thus forms the foundation for the developed data exchange mechanisms.},
+  Timestamp                = {2015.11.30}
 }
 
 @InCollection{SW:Jones,
@@ -536,7 +1018,24 @@ In this article 5 areas for future research are presented: Real-time Search in S
   Year                     = {2014},
   Pages                    = {341--361},
 
+  Abstract                 = {Interoperability is the main challenge on the way to efficiently find and
+access spatial data on the web. Significant contributions regarding interoperability
+have been made by the Open Geospatial Consortium (OGC), where web service
+standards to publish and download spatial data have been established. The OGCs
+GeoSPARQL specification targets spatial data on the Web as Linked Open Data
+(LOD) by providing a comprehensive vocabulary for annotation and querying. While
+OGC web service standards are widely implemented in Geographic Information
+Systems (GIS) and offer a seamless service infrastructure, the LOD approach offers
+structured techniques to interlink and semantically describe spatial information. It
+is currently not possible to use LOD as a data source for OGC web services. In
+this chapter we make a suggestion for technically linking OGC web services and
+LOD as a data source, and we explore and discuss its benefits. We describe and test
+an adapter that enables access to geographic LOD datasets from within OGC Web
+Feature Service (WFS), enabling most current GIS to access the Web of Data. We
+discuss performance tests by comparing the proposed adapter to a reference WFS
+implementation.},
   Owner                    = {Ivo},
+  Review                   = {This paper proposes an adapter called LOD4WFS that sits between the semantic web and a web feature service, allowing the WFS to query all spatial data from the semantic web. This turns every GIS "into powerful geographic analysis tools of the LOD cloud". It requires the metadata of geographic data to be linked to features on the semantic web using Named Graphs.},
   Timestamp                = {2015.11.27}
 }
 
@@ -546,8 +1045,22 @@ In this article 5 areas for future research are presented: Real-time Search in S
   Booktitle                = {SSN},
   Year                     = {2010},
 
-  Abstract                 = {This position paper discusses the embedding of such data into the Linked Data cloud with a focus on the outgoing links that hook them up with other data sources. We outline how such links can be generated in a semi-automatic way, and argue why curation of the links is required. Finally, we point to the query potential of such an additional interface to observation data, and outline the requirements for SPARQL endpoints.},
+  Abstract                 = {The Sensor Web provides access to observations and measurements
+through standardized interfaces defined by the Open Geospatial
+Consortium’s SensorWeb Enablement (SWE) initiative. While clients
+compliant to these standards have access to the generated sensor data, it
+remains partially hidden from other knowledge infrastructures building
+on higher-level W3C standards. To overcome this problem, it has been
+proposed to make sensor data accessible using Linked Data principles
+and RESTful services. This position paper discusses the embedding of
+such data into the Linked Data cloud with a focus on the outgoing links
+that hook them up with other data sources. We outline how such links
+can be generated in a semi-automatic way, and argue why curation of
+the links is required. Finally, we point to the query potential of such an
+additional interface to observation data, and outline the requirements for
+SPARQL endpoints.},
   Owner                    = {Ivo},
+  Review                   = {This position paper discusses the embedding of such data into the Linked Data cloud with a focus on the outgoing links that hook them up with other data sources. We outline how such links can be generated in a semi-automatic way, and argue why curation of the links is required. Finally, we point to the query potential of such an additional interface to observation data, and outline the requirements for SPARQL endpoints.},
   Timestamp                = {2015.11.16}
 }
 
@@ -559,7 +1072,40 @@ In this article 5 areas for future research are presented: Real-time Search in S
   Pages                    = {1-13},
   Volume                   = {10},
 
-  Abstract                 = {INSPIRE lays down a requirement for member states to provide spatial data, also on air quality. 
+  Abstract                 = {The collection, exchange and use of air quality data
+require diverse monitoring, processing and dissemination systems
+to work seamlessly together. These systems should supply
+data in a format usable for other applications such as
+planning, assessing population exposure and environmental
+impact assessment. As air quality does not change abruptly
+near national borders, international cooperation within this
+domain is highly desirable. This manuscript reports lessons
+learned during the implementation phase of one the world’s
+largest data harmonisation effort of environmental information
+infrastructures, INSPIRE, a backbone of a European wide
+spatial data reporting system which involves an unprecedented
+number of actors and volumes of data. It is important
+within the context of the Digital Earth concept and the establishment
+of a global spatial data infrastructure (SDI) through
+the Global Earth Observation System of Systems (GEOSS), as
+the quality of ambient air is among the most pressing contemporary
+environmental problems. We summarise our findings
+from the perspective of national public authorities, obliged by
+law to transmit standardised spatio-temporal data to
+streamline reporting and facilitate the use of information,
+while keeping public expenditure under control. To develop
+implementation strategies for these type of e-reporting data
+flows we established a cross-border case study, looking at the
+process of harmonisation and exchange of data in Belgium
+and the Netherlands based on interoperable standards. Our
+results cover the legal, semantic, technological and
+organisational aspects of reporting. They are relevant to a
+cross-thematic audience having to undergo similar processes
+of reporting, such as climate change, environmental noise,
+marine, biodiversity, water management, etc.},
+  Owner                    = {Ivo},
+  Publisher                = {Springer},
+  Review                   = {INSPIRE lays down a requirement for member states to provide spatial data, also on air quality. 
 
 This manuscript reports lessons learned during the implementation phase of one the world’s largest data harmonisation effort of environmental information
 infrastructures, INSPIRE, a backbone of a European wide spatial data reporting system which involves an unprecedented number of actors and volumes of data. It is important within the context of the Digital Earth concept and the establishment of a global spatial data infrastructure (SDI) through the Global Earth Observation System of Systems (GEOSS), as the quality of ambient air is among the most pressing contemporary environmental problems.
@@ -567,8 +1113,6 @@ infrastructures, INSPIRE, a backbone of a European wide spatial data reporting s
 They identify a number of challenges which should be addressed in order to streamline e-reporting and value adding. In our study we identified that open source software as the preferred development paradigm. traditionally many of the existing practices have been implemented with centralization of data and redistribution of a final product on behalf of those who contributed the data. Now, with the emergence of the SOA as architecture it is technically completely feasible to adopt similar practices for data transmission on both country and international level. We discovered that INSPIRE and the requirements stemming out of the air quality specific legislation are not fully aligned, particularly with respect to whether data should be exposed through the establishment of distributed service oriented architecture, or centralized and disseminated through the EEA on behalf of the member countries. That is why supranational environmental legislation having to do with sharing and transmission of information should be better coordinated and lay down data exchange principles which are unambiguous.
 
 There are several important lessons to be learned which can lead to improvement of INSPIRE implementation in the mid to long term which are discussed below and are related to (1) extending the focus of the data infrastructure beyond the geospatial domain, and (2) provision of working examples with data and services for their viewing, downloading and discovery. Good candidates to be considered for provision of information in near-real time are the standards organized within the Sensor Web Enablement (SWE) framework.},
-  Owner                    = {Ivo},
-  Publisher                = {Springer},
   Timestamp                = {2015.11.23}
 }
 
@@ -580,8 +1124,21 @@ There are several important lessons to be learned which can lead to improvement 
   Year                     = {2010},
   Pages                    = {425--439},
 
-  Abstract                 = {RDF will often be the metadata model of choice in the Semantic Sensor Web. However, RDF can only represent thematic metadata and needs to be extended if we want to model spatial and temporal information. For this purpose, we develop the data model stRDF and the query language stSPARQL. stRDF is a constraint data model that extends RDF with the ability to represent spatial and temporal data.},
+  Abstract                 = {RDF will often be the metadata model of choice in the Se-
+mantic Sensor Web. However, RDF can only represent thematic meta-
+data and needs to be extended if we want to model spatial and temporal
+information. For this purpose, we develop the data model stRDF and
+the query language stSPARQL. stRDF is a constraint data model that
+extends RDF with the ability to represent spatial and temporal data.
+stSPARQL extends SPARQL for querying stRDF data. In our extension
+to RDF, we follow the main ideas of constraint databases and represent
+spatial and temporal objects as quanti¯er-free formulas in a ¯rst-order
+logic of linear constraints. Thus an important contribution of stRDF
+is to bring to the RDF world the bene¯ts of constraint databases and
+constraint-based reasoning so that spatial and temporal data can be rep-
+resented in RDF using constraints.},
   Owner                    = {Ivo},
+  Review                   = {RDF will often be the metadata model of choice in the Semantic Sensor Web. However, RDF can only represent thematic metadata and needs to be extended if we want to model spatial and temporal information. For this purpose, we develop the data model stRDF and the query language stSPARQL. stRDF is a constraint data model that extends RDF with the ability to represent spatial and temporal data.},
   Timestamp                = {2015.11.12}
 }
 
@@ -593,8 +1150,8 @@ There are several important lessons to be learned which can lead to improvement 
   Note                     = {Internship report},
   Year                     = {2011},
 
-  Abstract                 = {Intership report on how to implement sensor web enablement standards at the Royal Netherlands Meteorological Institute.},
   Owner                    = {Ivo},
+  Review                   = {Intership report on how to implement sensor web enablement standards at the Royal Netherlands Meteorological Institute.},
   Timestamp                = {2015.11.23}
 }
 
@@ -604,6 +1161,21 @@ There are several important lessons to be learned which can lead to improvement 
   Booktitle                = {GeoViz 2009 Workshop. Hamburg, Germany},
   Year                     = {2009},
 
+  Abstract                 = {Integrating actual sensor data, such as weather or environmental information can improve
+the value of Geographical Information Systems (GIS) enormously. These applications are
+nowadays supported by Spatial Data Infrastructures (SDI) in order to find, access and utilize
+relevant geodata. In contrast to the mostly static data in conventional Spatial Data
+Infrastructures (e.g. administrative boundaries) by now, sensor information need new
+standards to realize the integration of this dynamic data into SDI. These new challenge was
+handled by the Open Geospatial Consortium (OGC) within its Sensor Web Enablement
+(SWE) initiative. Several standards to administrate, detect and receive sensor data were
+passed, for example a Sensor Observation Service (SOS). For validating the standards of
+the SWE there are already existing applications using sensor information that is provided by
+a SOS. But those cases are predominantly designed for 2D data. This paper demonstrates
+an approach to integrate sensor information into a 3D-client of a 3D-SDI completely based
+on the standards of the Open Geospatial Consortium. This leads to the new concept of
+dynamic 3D SDIs. An according prototype has already been implemented and will be
+presented.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.24}
 }
@@ -616,10 +1188,39 @@ There are several important lessons to be learned which can lead to improvement 
   Organization             = {International Society for Optics and Photonics},
   Pages                    = {80470L--80470L},
 
-  Abstract                 = {This article proposes an approach that enriches sensor data streams with semantic attributes so that these feeds have proper meaning. They are focused on semantics of detected event, event classification, relationships to other events, etc. Not so much focused on the locational semantics. It also presents 6 use cases. In the future they hope "to extend and bring the SSN-XG ontology work into [their] system".
+  Abstract                 = {Data fusion plays a major role in assisting decision
+makers by providing them with an improved situational awareness
+so that informed decisions could be made about the events
+that occur in the field. This involves combining a multitude of
+sensor modalities such that the resulting output is better (i.e.,
+more accurate, complete, dependable etc.) than what it would
+have been if the data streams (hereinafter referred to as ‘feeds’)
+from the resources are taken individually. However, these feeds
+lack any context-related information (e.g., detected event, event
+classification, relationships to other events, etc.). This hinders the
+fusion process and may result in creating an incorrect picture
+about the situation. Thus, results in false alarms, waste valuable
+time/resources.
+In this paper, we propose an approach that enriches feeds with
+semantic attributes so that these feeds have proper meaning. This
+will assist underlying applications to present analysts with correct
+feeds for a particular event for fusion. We argue annotated
+stored feeds will assist in easy retrieval of historical data that
+may be related to the current fusion. We use a subset of
+Web Ontology Language (OWL) [1], OWL-DL to present a
+lightweight and efficient knowledge layer for feeds annotation
+and use rules to capture crucial domain concepts. We discuss
+a solution architecture and provide a proof-of-concept tool to
+evaluate the proposed approach. We discuss the importance of
+such an approach with a set of use-cases and show how a tool
+like the one proposed could assist analysts, planners to make
+better-informed decisions.
+Index Terms—Knowledge Technologies, SemanticWeb, Fusion,
+Publish/Subscribe, Reasoning Services},
+  Owner                    = {Ivo},
+  Review                   = {This article proposes an approach that enriches sensor data streams with semantic attributes so that these feeds have proper meaning. They are focused on semantics of detected event, event classification, relationships to other events, etc. Not so much focused on the locational semantics. It also presents 6 use cases. In the future they hope "to extend and bring the SSN-XG ontology work into [their] system".
 
 They do not make use of the SWE standards and also not yet of the W3C standards. It creates a new ontology for their sensor data and a completely new query tool.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -629,14 +1230,18 @@ They do not make use of the SWE standards and also not yet of the W3C standards.
   School                   = {Delft University of Technology},
   Year                     = {2015},
 
-  Abstract                 = {MSc. thesis by Godelief (2015) also supervised by Marian de Vries. 
+  Abstract                 = {Linked Data is a method to publish data on the Web and originates from the Informatics sector. The data model exists of subject and object which are connected through the predicate. These three elements can be depicted with web pages. Governments and municipalities open up their data and publish spatial data on the Web, to be transparent to their citizens and to stimulate innovation. This spatial open data can be confusing for users since data is published as either typical GIS-formats or metadata is missing or sparsely available. Linked Data could benefit to that regard. The 5 star scheme from Tim Berners-Lee defines a model to publish open data as linked data on the Web so that additional information can be looked up. Data as linked data is considered more user friendly, understandable, re-useable and accessible for all users and converting spatial data to spatial linked data aids in integrating spatial data on the Web. Ordnance Survey has already published spatial datasets as spatial linked data and lately in the Netherlands organizations such as Geonovum and the Kadaster and companies are exploring this subject.
+The research done for this master thesis focuses on how to apply the linked data method for spatial open data in order to profit from the benefits of linked data. This research provides a methodology to create spatial linked open data. In the case study for the Municipality of Rotterdam, four spatial open datasets concerning the composition of areas and neighborhoods in Rotterdam Zuid are converted to spatial linked open data to exemplify the possibilities and limitations for spatial linked open data.
+The case study showed that there are multiple users who can benefit from spatial linked open data, divided in two user types do layman users benefit in a better understanding of the data better and finding related information. The expert users benefit in the asking of spatial queries over the data. This can be used to create an inventory or simple analysis over the data. For more complicated queries, for transformations and data processing a GIS is needed.
+The results showed that modeling spatial data according to the OGC standard for spatial linked data, the GeoSPARQL ontology, provides the possibility to ask spatial queries over the data to do a simple analysis or inventory over multiple heterogeneous and distributed datasets, by dynamically and implicitly linking datasets together on their location. As of now, not all tools for creating linked data support spatial data yet, therefore it can be time consuming to convert the data to spatial linked data. The on-the-fly method, where the actual data is converted on the fly to linked data would be ideal, in terms of data management, since the data is more up-to-date and not copied. Spatial linked open data has benefit in cross knowledge domain issues where multiple heterogeneous datasets are required, such as in emergency management and urban planning.},
+  Owner                    = {Ivo},
+  Review                   = {MSc. thesis by Godelief (2015) also supervised by Marian de Vries. 
 
 Explains how to publish data as RDF (see flowchart page 28). There are three steps: data preparation, modeling and conversion. 
 
 It looks at different spatial vocabularies for linking spatial data to the internet: the ISA Programme Location Core Vocabulary, NeoGeo Vocabulary, schema.org, the OGC standard GeoSPARQL, the W3C Geospatial Vocabulary and stRDF. stRDF is an extension to RDF wherein a triple is extended with a fourth element: time, which is not yet exploited.
 
 Also mentions how to create RDF mappings on the fly. However, it hasn't been used in this thesis since the software it used was not compatible with spatial features and software that was compatible (Oracle DB) was not available at the time.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -646,9 +1251,83 @@ Also mentions how to create RDF mappings on the fly. However, it hasn't been use
   Author                   = {Moir, Emily and Moonen, Tim and Clark, Greg},
   Year                     = {2014},
 
-  Abstract                 = {Report of the Future City research project by the UK Government office for Science. It discusses multiple terms for future cities: digital cities, sustainable cities, smart cities, etc (see figure 1.2, page 13). It also describes how different stakeholders view the different trends.},
+  Abstract                 = {This paper reviews the origins, definitions, trends and pathways of knowledge about
+future cities and the future of cities. In particular, it examines the different terms and
+phrases that are used by key stakeholders concerned with the future of cities. Its
+findings are based on an extensive English-language source and literature review of
+relevant publications, reports, projects and online press. It identifies key developments
+in future thinking and practice amongst governments, corporations, institutions and
+citizens at the local and global level.
+The future of cities discourse is over a century old and has encompassed at least
+four cycles of thinking about the nature, purpose and destiny of cities. Today’s
+cycle of future city thinking is distinctive for its global, positive, strategic,
+integrated, and evidence-led character.
+Future city terminology can convey either environmental, social, economic or
+governance aims, or a hybrid of some or all of these elements. Although terms
+such as ‘garden city’, ‘inclusive city’, ‘competitive city’ and ‘intelligent city’ tend
+to refer to one specific domain, the more commonly used terms tend to have
+broad, hybrid or ambiguous meanings. This especially applies to current
+phrases such as ‘smart cities’, ‘sustainable cities’, ‘future cities’ and ‘liveable
+cities’. The high degree of conceptual crossover and overlap means most terms
+are highly compatible with each other, but reflect different sources or alliances,
+often with a desire to suggest conceptual differentiation despite substantive
+overlap.
+Sustainability is no longer the main prism through which thinking about the
+future of cities takes place. The ‘sustainable city’ was the most cited English
+language term in the future cities discourse in the 1990s and early 2000s, as
+awareness and consensus of the human impact on the environment grew.
+Although the literature on sustainable cities has continued to mount up, its
+popularity as a news and search term has declined since 2006.
+‘Smart cities’ has become the most popular formulation for the future city, and
+is becoming a globally recognised term, replacing or co-existing with terms in
+other languages. The ‘smart city’ has displaced the ‘sustainable city’ and ‘digital
+city’ as the word of choice to denote ICT-led urban innovation, and new modes
+of governance and urban citizenship. It is also the only English language term
+to have become widely used in continental Europe.
+‘Eco cities’ emerged as an important term for projects in Asian cities in the mid-
+2000s, and is still widely used in Asia and the Middle East to describe a model
+of low-carbon urbanism for individual districts and sometimes whole cities.
+The term has become less common since 2009, and has been linked to a
+5
+number of unsuccessful or criticised projects in China and UAE. A similar trend
+is observed with ‘digital cities’, a term found to be used in most continents, but
+whose appeal has been displaced by the broader concern of ‘smart cities’.
+A small cluster of thought leaders, knowledge centres, inter-governmental
+bodies and multi-national technology firms are the vanguard of future city
+thinking and practice. Ideas of city systems, systems of cities, integrated,
+connected, compact, flexible and resilient cities have all been successfully
+packaged and promoted by these influential ‘generators’ whose cutting edge
+R&D shapes the framework and market for government ‘customers’ and ‘endusers’.
+National and local governments adopt future city ideals and ‘demonstrator’
+projects as solutions to short-term challenges, to develop international profile
+and to build shared identity and purpose. Other future city ‘adopters’ include
+corporate sponsors of urban dialogue, one stop-shop technology solution
+providers, taught academic programmes, philanthropic organisations, media
+outlets and city benchmarking studies.
+Cities also adopt future city vocabulary in an attempt to become better
+equipped to plan and shape their futures, as they acquire and build new
+governance systems, finance tools, data streams, and city management
+techniques.
+Formal and informal citizenship engagement with future cities has become
+more inventive and collaborative. Citizens adapt future city language to their
+aspirations for quality of life, safety, design, culture and vibrancy, and pursue
+them through crowd-funding, crowdsourcing, DIY solutions and political
+campaigns, among other means.
+The science of cities is still emerging and has not yet generated global language
+norms. It is also an inter-disciplinary science, and this makes clarity of concepts
+harder to achieve. A more consistent and globally accepted set of principles for
+future cities may, paradoxically, take shape over the next decade, but it is likely
+that this will happen at the same time as local and corporate propositions and
+terminologies continue to multiply.
+The discourse of future cities is becoming more multi-disciplinary, more
+evidence-led and more conceptually watertight, but descriptions and
+imaginations of the future city will always reflect the changing way that cities
+are perceived to matter to society, the environment, and the economy, and will
+also reflect the competitive dynamics between cities and the firms and
+institutions that seek to serve them.},
   Owner                    = {Ivo},
   Publisher                = {Government Office for Science/Future Cities Catapult},
+  Review                   = {Report of the Future City research project by the UK Government office for Science. It discusses multiple terms for future cities: digital cities, sustainable cities, smart cities, etc (see figure 1.2, page 13). It also describes how different stakeholders view the different trends.},
   Timestamp                = {2015.11.16}
 }
 
@@ -687,9 +1366,26 @@ Also mentions how to create RDF mappings on the fly. However, it hasn't been use
   Type                     = {OGC White Paper},
   Year                     = {2015},
 
-  Abstract                 = {This white paper describes smart cities and their need for geo-information. Furthermore it describes what all the different OGC standards (WFS, WCS, WPS, SWE, etc.) have to offer for a smart city. Chapter 4 mentions that: The OGC Sensor Web Enablement (SWE) SensorThings API candidate standard, now in
-draft will be an important standard for IoT. It uses a REST-like API and JSON encoding and it is is linked data ready (JSON-LD).},
+  Abstract                 = {This White Paper supports development of a Smart Cities Spatial Information Framework
+based on these themes:
+ Smart Cities are high-density generators of innovation and information.
+ Location information is a major enabler of Smart City technology benefits.
+ Benefits of smart technology must be judged by benefits to residents.
+ Reuse and repurpose is vital to urban resilience
+ Open standards are needed for interoperability, efficiency, application innovation
+and cost effectiveness.
+Discussion of these themes and this white paper will occur at the OGC Smart Cities
+Location Powers Summit in Tokyo on December 2, 2014,1 the co-located OGC Technical
+Committee meeting, and in many other forums in the future. As described in this paper,
+there are many standards initiatives that focus on Smart Cities. Most Smart Cities use
+cases in some way involve indoor and/or outdoor location, and thus communication about
+location is an issue that cuts across the work programs most of the standards
+organizations that are involved with Smart Cities.
+This white paper builds on the OGC - Directions Magazine webinar: “Making Location
+Work for Smart Cities – the Case for Location Standards”2.},
   Owner                    = {Ivo},
+  Review                   = {This white paper describes smart cities and their need for geo-information. Furthermore it describes what all the different OGC standards (WFS, WCS, WPS, SWE, etc.) have to offer for a smart city. Chapter 4 mentions that: The OGC Sensor Web Enablement (SWE) SensorThings API candidate standard, now in
+draft will be an important standard for IoT. It uses a REST-like API and JSON encoding and it is is linked data ready (JSON-LD).},
   Timestamp                = {2015.11.12}
 }
 
@@ -699,10 +1395,43 @@ draft will be an important standard for IoT. It uses a REST-like API and JSON en
   School                   = {Wright State University},
   Year                     = {2013},
 
-  Abstract                 = {Contains a more detailed description on the functioning of the SemSOS architecture.
+  Abstract                 = {With sensors, storage, and bandwidth becoming ever cheaper, there has been a drive
+recently to make sensor data accessible on the Web. However, because of the vast number
+of sensors collecting data about our environment, finding relevant sensors on the
+Web and then interpreting their observations is a non-trivial challenge. The Open Geospatial
+Consortium (OGC) defines a web service specification known as the Sensor Observation
+Service (SOS) that is designed to standardize the way sensors and sensor data are
+discovered and accessed on the Web. Though this standard goes a long way in providing
+interoperability between sensor data producers and consumers, it is predicated on the
+idea that the consuming application is equipped to handle raw sensor data.
+Sensor data consuming end-points are generally interested in not just the raw data
+itself, but rather actionable information regarding their environment. The approaches
+for dealing with this are either to make each individual consuming application smarter
+or to make the data served to them smarter. This thesis presents an application of the
+latter approach, which is accomplished by providing a more meaningful representation of
+sensor data by leveraging semantic web technologies. Specifically, this thesis describes an
+approach to sensor data modeling, reasoning, discovery, and query over richer semantic
+data derived from raw sensor descriptions and observations.
+v
+The artifacts resulting from this research include:
+• an implementation of an SOS service which hews to both Sensor Web and Semantic
+Web standards in order to bridge the gap between syntactic and semantic
+sensor data consumers and that has been proven by use in a number of research
+applications storing large amounts of data, which serves as
+• an example of an approach for designing applications which integrate syntactic
+services over semantic models and allow for interactions with external reasoning
+systems.
+As more sensors and observations move online and as the Internet of Things becomes
+a reality, issues of integration of sensor data into our everyday lives will become important
+for all of us. The research represented by this thesis explores this problem space and
+presents an approach to dealing with many of these issues. Going forward, this research
+may prove a useful elucidation of the design considerations and affordances which can
+allow low-level sensor and observation data to become the basis for machine processable
+knowledge of our environment.},
+  Owner                    = {Ivo},
+  Review                   = {Contains a more detailed description on the functioning of the SemSOS architecture.
 
 As future work it is posed that the transition of SemSOS to the GeoSparql could be beneficial for modelling, querying and reasoning over the location and feature information it stores. Also, performance optimization could be researched in the future. Another topic is to employ SemSOS in the field of Internet of Things.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.13}
 }
 
@@ -713,6 +1442,10 @@ As future work it is posed that the transition of SemSOS to the GeoSparql could 
   Year                     = {2014},
   Pages                    = {16},
 
+  Abstract                 = {The objectives of the European FP7 VITAL project are to overcome Internet-of-Things (IoT) silos in
+Smart Cities and enable the deployment and integration of Internet-Connected-Objects (ICO)
+independently of the underlying IoT architecture. In achieving these goals, the project assists in the
+transition towards smart, secure and cost-effective cities.},
   Owner                    = {Ivo},
   Timestamp                = {2015.11.24}
 }
@@ -726,7 +1459,9 @@ As future work it is posed that the transition of SemSOS to the GeoSparql could 
   Pages                    = {78-83},
   Volume                   = {12},
 
-  Abstract                 = {Poses the idea of linking the OGC SW standards to the Semantic Web. Provides use cases and a prototype application to manage weather sensor observations.
+  Abstract                 = {Sensors are distributed across the globe leading to an avalanche of data about our environment. It is possible today to utilize networks of sensors to detect and identify a multitude of observations, from simple phenomena to complex events and situations. The lack of integration and communication between these networks, however, often isolates important data streams and intensifies the existing problem of too much data and not enough knowledge. With a view to addressing this problem, the semantic sensor Web (SSW) proposes that sensor data be annotated with semantic metadata that will both increase interoperability and provide contextual information essential for situational knowledge.},
+  Owner                    = {Ivo},
+  Review                   = {Poses the idea of linking the OGC SW standards to the Semantic Web. Provides use cases and a prototype application to manage weather sensor observations.
 
 This article discusses a semantic sensor Web (SSW) in which sensor data is annotated with semantic metadata to increase interoperability as well as provide
 contextual information essential for situational knowledge. In particular, this involves annotating sensor data with spatial, temporal, and thematic semantic metadata. A semantically rich sensor network would provide spatial, temporal, and thematic information essential for discovering and analyzing sensor data.
@@ -742,7 +1477,6 @@ It mentions that: several efforts are also underway to design an expressive geos
 The article states that to derive additional knowledge from semantically annotated sensor data, it’s necessary to define and use rules. For this they use Semantic Web Rule Language (SWRL)- based rules over OWL ontologies.
 
 The use cases presented here involve semantics for better understanding the data from a single source. There is no mentioning of integrating sensor data from different sources based on semantics.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -754,8 +1488,24 @@ The use cases presented here involve semantics for better understanding the data
   Year                     = {2012},
   Pages                    = {277--284},
 
-  Abstract                 = {This article proposes the sensor ontology framework and algorithms for automatic sensor ontology update and extension. In addition, sensor discovery based on time, space and theme is implemented. Figure 2 on page 280 shows the newly proposed ontology, which consists of preprocessing, sensor ontology update, sensor ontology extension, sensor ontology improvement and sensor data query. They claim that the sensor discovery should be much easier with this approach.},
+  Abstract                 = {The Internet of Things (IoT) is a novel paradigm that aims at bridging the gap
+between the physical world and its representation within the digital world. The
+idea is to integrate the state of the “things” that form the world into software
+applications, making them benefit from the world’s context information. IoT
+technology is developing rapidly and many applications have been built recently.
+But there are still many challenges in the fields of wireless sensor networks
+(WSN), radio-frequency identification (RFID), data processing, security, etc.
+The 2012 International Workshop on Internet of Things (IOT Workshop 2012)
+brought together researchers and industry pioneers to discuss this important
+frontier.
+The present volume contains the papers thatwere independently peer-reviewed
+and selected by the IoT workshop 2012 Program Committees. Forty-one percent
+of paper submissions were accepted.
+As Program Co-chairs we would like to thank the members of the Program
+Committee for the hard work. We also thank all the authors who submitted
+papers to this workshop.},
   Owner                    = {Ivo},
+  Review                   = {This article proposes the sensor ontology framework and algorithms for automatic sensor ontology update and extension. In addition, sensor discovery based on time, space and theme is implemented. Figure 2 on page 280 shows the newly proposed ontology, which consists of preprocessing, sensor ontology update, sensor ontology extension, sensor ontology improvement and sensor data query. They claim that the sensor discovery should be much easier with this approach.},
   Timestamp                = {2015.11.12}
 }
 
@@ -765,8 +1515,17 @@ The use cases presented here involve semantics for better understanding the data
   Booktitle                = {The 14th AGILE International Conference on Geographic Information Science},
   Year                     = {2011},
 
-  Abstract                 = {This paper introduces an approach for a Spatiotemporal Aggregation Service (STAS) in the Sensor Web using standardized web-based geoprocessing. The STAS is defined as a profile of the Web Processing Service (WPS). It takes a web features service and a sensor observation service as input together with parameters for temporal aggregation. It then retrieves the features from the WFS and the sensor data from the SOS and aggregates the sensor data temporally and then spatially based on the features.},
+  Abstract                 = {A growing amount of observations from different applications such as long-term
+environmental monitoring or disaster management is published in the Sensor Web. The
+standardization and provision of observations in the Sensor Web eases the integration of
+heterogeneous observations into several applications which has not been possible before.
+However, as the observations differ in the spatiotemporal extent covered by them and their
+resolution, aggregation of the observations in space and time is needed. A common approach
+for a web-based spatiotemporal aggregation is currently missing. The main contribution of this
+work is an approach for a Spatiotemporal Aggregation Service (STAS) in the Sensor Web
+using standardized web-based geoprocessing.},
   Owner                    = {Ivo},
+  Review                   = {This paper introduces an approach for a Spatiotemporal Aggregation Service (STAS) in the Sensor Web using standardized web-based geoprocessing. The STAS is defined as a profile of the Web Processing Service (WPS). It takes a web features service and a sensor observation service as input together with parameters for temporal aggregation. It then retrieves the features from the WFS and the sensor data from the SOS and aggregates the sensor data temporally and then spatially based on the features.},
   Timestamp                = {2015.11.27}
 }
 
@@ -778,7 +1537,23 @@ The use cases presented here involve semantics for better understanding the data
   Editor                   = {Taylor, Kerry and Ayyagari, Arun and de Roure, David},
   Pages                    = {46},
 
-  Abstract                 = {Fostering the reusability of observations and derived applications calls for (i) spatial, temporal, and thematic aggregation of measured values, and (ii) easy integration mechanisms with external data sources.
+  Abstract                 = {Sensor observations are usually offered in relation to a specific purpose, e.g., for reporting fine dust emissions, following strict procedures,
+and spatio-temporal scales. Consequently, the huge amount of
+data gathered by today's public and private sensor networks is most often
+not reused outside of its initial creation context. Fostering the reusability
+of observations and derived applications calls for (i) spatial, temporal,
+and thematic aggregation of measured values, and (ii) easy integration
+mechanisms with external data sources. In this paper, we investigate
+how work on sensor observation aggregation can be incorporated into a
+Linked Data framework focusing on external linkage as well as provenance
+information. We show that Linked Data adds new aspects to the
+aggregation problem, e.g., whether external links from one of the original
+observations can be preserved for the aggregate. The Stimulus-Sensor-
+Observation (SSO) ontology design pattern is extended by classes and
+relations necessary to model the aggregation of sensor observations.},
+  Journal                  = {Semantic Sensor Networks},
+  Owner                    = {Ivo},
+  Review                   = {Fostering the reusability of observations and derived applications calls for (i) spatial, temporal, and thematic aggregation of measured values, and (ii) easy integration mechanisms with external data sources.
 
 This paper investigates how work on sensor observation aggregation can be incorporated into a Linked Data framework focusing on external linkage as well as provenance information. 
 
@@ -791,8 +1566,6 @@ For aggregation of observations a mechanism that helps to retrace the original o
 Provenance of sensor data can be defned as information about the source of the sensor data as well as information about transformations applied to the original data. The proposed approach shows how most of relevant provenance information is already provided in our Linked Sensor Data and how the links can be mapped to provenance relationships as defned in the OPM (Open Provenance Model).
 
 The main contributions of this paper are threefold. They (i) present a Linked Data model for aggregated sensor data, (ii) discuss the effects of aggregation on links from and to observations, and (iii) outline the role of provenance in this setting.},
-  Journal                  = {Semantic Sensor Networks},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.27}
 }
 
@@ -804,6 +1577,7 @@ The main contributions of this paper are threefold. They (i) present a Linked Da
   Year                     = {2011},
 
   Owner                    = {Ivo},
+  Review                   = {Presentation summarizing the work of Stasch et al. (2011) "Aggregating Linked Sensor Data" in Semantic Sensor Networks.},
   Timestamp                = {2015.11.27},
   Url                      = {http://www.slideshare.net/staschc/aggregating-linked-sensor-data}
 }
@@ -814,12 +1588,35 @@ The main contributions of this paper are threefold. They (i) present a Linked Da
   School                   = {TU Delft, Delft University of Technology},
   Year                     = {2015},
 
-  Abstract                 = {Assessments of the urban heat island effect, so far use predominantly remote sensing methods, which don’t allow us to understand the crucial indoor temperatures. Therefore, this Master Thesis is focussing on the optimization of a technique for creating a three-dimensional (3D) model showing the indoor temperatures of an urban area, Rotterdam. The method created in this research is a reusable method that can be applied on other urban heat island region if necessary data is available.
+  Abstract                 = {The urban heat island (UHI) describes the phenomena that the city heats up faster and stays
+warmer than its rural surroundings. The combination of ageing societies and increasing
+temperature, due to climate change, poses serious challenges for the health and wellbeing of
+the increasing urban population. Assessments of the urban heat island effect, so far use
+predominantly remote sensing methods, which don’t allow us to understand the crucial indoor
+temperatures. Therefore, this Master Thesis is focussing on the optimization of a technique for
+creating a three-dimensional (3D) model showing the indoor temperatures of an urban area,
+Rotterdam. The method created in this research is a reusable method that can be applied on
+other urban heat island region if necessary data is available. The output of this research, a 3D
+model, functions as a tool for urban planners and designers to help them understanding local
+differences in the urban temperature allowing them to develop strategies for the reconfiguration
+of a building, block or neighbourhood.
+Data from a variety of data sources is acquired and used to create this model of which the most
+important data is coming from approximately 1300 temperature sensors that have been
+distributed over the city Rotterdam during the summer of 2014. Data coming from these
+sensors, the sampled data, is linked to a developed 3D model representing all addresses within
+the urban area of Rotterdam. Linking the sensor data to the 3D model does the transformation
+form aspatial sensor data into spatial sensor data. Data modelling is done for estimating indoor
+temperatures for all addresses of Rotterdam by analysing the sensed data and the spatial
+environment of each address of which sensor data is available. The original sensor data is
+used to validate and to determine the accuracy of the modelled temperatures. The modelled
+temperatures are visualised per adders by assigning colour gradient to the addresses
+according to their temperature.},
+  Owner                    = {Ivo},
+  Review                   = {Assessments of the urban heat island effect, so far use predominantly remote sensing methods, which don’t allow us to understand the crucial indoor temperatures. Therefore, this Master Thesis is focussing on the optimization of a technique for creating a three-dimensional (3D) model showing the indoor temperatures of an urban area, Rotterdam. The method created in this research is a reusable method that can be applied on other urban heat island region if necessary data is available.
 
 This thesis uses AHN2 for height information, BAG for addresses and TOP10NL for the 3D model and CBS data which provided population percentages but also surface use indexes and the geometry of each neighbourhood of the Netherlands by boundary geometry.
 
 If my prototype application would link to these datasets it enables to extend this research to other cities.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.20}
 }
 
@@ -839,15 +1636,29 @@ If my prototype application would link to these datasets it enables to extend th
   Institution              = {TU Delft, Faculty of Architecture and the Built Environment},
   Year                     = {2015},
 
-  Abstract                 = {Sensing Hotterdam recorded the temperature in 1,000 Rotterdam homes and at 300 public spaces in the summer of 2014 in order to outline the links between the urban heat island, the built environment and public health in the city of Rotterdam. The measured outdoor temperature readings point to a clear heat island effect in Rotterdam. Temperatures in homes are generally higher than those in the surrounding area, and also show a large degree of variation. Indoor temperatures are less affected by local outdoor temperatures than we had expected.
-
-The sensor measurements used for this research were not streamed in real-time, but measured and then read when the sensors were collected from the households. It simply identifies which neighbourhoods suffer from the urban heat island effect.},
+  Abstract                 = {In different ways, the pre-war districts of the city (North, South, and West) are
+warmer and more vulnerable than are other areas of Rotterdam. The temperature
+readings that were carried out confirm these findings as far as outdoor
+temperatures are concerned. Indoor temperatures vary widely. Homes seem to
+have their own dynamics, in which the house’s age plays a role.
+The above-average mortality of those aged 75 and over during the July 2006 heat
+wave in Rotterdam can be easily explained on the basis of a) the concentration
+of people in this age group, b) the age of the homes they live in, and c) the sum of
+sensible heat and ground heat flux.
+A varying mix of impervious surfaces, surface water, foliage, building envelopes
+and shade make one area or district warmer than another.
+Adaptation measures are in the hands of residents, home owners and the local
+council alike, and relate to changing behaviour, physical measures for homes, and
+urban design respectively},
   Owner                    = {Ivo},
   Publisher                = {TU Delft, Faculty of Architecture and the Built Environment},
+  Review                   = {Sensing Hotterdam recorded the temperature in 1,000 Rotterdam homes and at 300 public spaces in the summer of 2014 in order to outline the links between the urban heat island, the built environment and public health in the city of Rotterdam. The measured outdoor temperature readings point to a clear heat island effect in Rotterdam. Temperatures in homes are generally higher than those in the surrounding area, and also show a large degree of variation. Indoor temperatures are less affected by local outdoor temperatures than we had expected.
+
+The sensor measurements used for this research were not streamed in real-time, but measured and then read when the sensors were collected from the households. It simply identifies which neighbourhoods suffer from the urban heat island effect.},
   Timestamp                = {2015.11.20}
 }
 
-@Article{SSW:Vera,
+@Article{SSW:deVera,
   Title                    = {A Ubiquitous Sensor Network Platform for Integrating Smart Devices into the Semantic Sensor Web},
   Author                   = {de Vera, David Díaz Pardo and Izquierdo, Álvaro Sigüenza and Vercher, Jesús Bernat and Gomez, Luis Alfonso Hernández},
   Journal                  = {Sensors},
@@ -856,12 +1667,13 @@ The sensor measurements used for this research were not streamed in real-time, b
   Pages                    = {10725-10752},
   Volume                   = {14},
 
-  Abstract                 = {The IoT is generating an increasing demand for homogeneous mechanisms to access, publish and share real-world information. This Article presents a pilot platform that uses several OGC SWE standards. Also, this platform is extended to explore a first approach to Semantic Sensor Web principles and technologies, so that smart devices can access Sensor Web data, allowing them also to share richer (semantically interpreted) information.
+  Abstract                 = {Ongoing Sensor Web developments make a growing amount of heterogeneous sensor data available to smart devices. This is generating an increasing demand for homogeneous mechanisms to access, publish and share real-world information. This paper discusses, first, an architectural solution based on Next Generation Networks: a pilot Telco Ubiquitous Sensor Network (USN) Platform that embeds several OGC® Sensor Web services. This platform has already been deployed in large scale projects. Second, the USN-Platform is extended to explore a first approach to Semantic Sensor Web principles and technologies, so that smart devices can access Sensor Web data, allowing them also to share richer (semantically interpreted) information. An experimental scenario is presented: a smart car that consumes and produces real-world information which is integrated into the Semantic Sensor Web through a Telco USN-Platform. Performance tests revealed that observation publishing times with our experimental system were well within limits compatible with the adequate operation of smart safety assistance systems in vehicles. On the other hand, response times for complex queries on large repositories may be inappropriate for rapid reaction needs.},
+  Owner                    = {Ivo},
+  Review                   = {The IoT is generating an increasing demand for homogeneous mechanisms to access, publish and share real-world information. This Article presents a pilot platform that uses several OGC SWE standards. Also, this platform is extended to explore a first approach to Semantic Sensor Web principles and technologies, so that smart devices can access Sensor Web data, allowing them also to share richer (semantically interpreted) information.
 
 This paper focusses on smart devices such as a smart car that consumes and produces real-world information which is integrated into the SSW.
 
 The term Sensor Web refers to an infrastructure with automatic mechanisms to allow applications to discover and access particular information provided by sensors networks over the Internet. Standardization efforts like SWE still need to be extended to all the interfaces that can be identified between the lower layer, represented by sensor networks and smart devices, and the upper layer of final applications. In our view, the OGC SWE represents a mature standard interface between the Sensor Web Layer and the Application Layer. Universal standards for the interface between the Sensor Web and the underlying Sensor Layer, however, are still an open issue. My research focuses on the relation between Sensor Web Layer and the Application Layer as well and not on the relation between Sensor Web and the underlying Sensor Layer.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -871,8 +1683,8 @@ The term Sensor Web refers to an infrastructure with automatic mechanisms to all
   Publisher                = {Packt Publishing Ltd},
   Year                     = {2015},
 
-  Abstract                 = {A practical guide to create applications with the internet of things.},
   Owner                    = {Ivo},
+  Review                   = {A practical guide to create applications with the internet of things.},
   Timestamp                = {2015.11.12}
 }
 
@@ -882,7 +1694,10 @@ The term Sensor Web refers to an infrastructure with automatic mechanisms to all
   Author                   = {Wang, Meisong and Perera, Charith and Jayaraman, Prem Prakash and Zhang, Miranda and Strazdins, Peter and Ranjan, Rajiv},
   Year                     = {2015},
 
-  Abstract                 = {This article introduces the concept of IoT and presents in detail ten different parameters that govern their sensor data fusion evaluation framework. The main goal is to examine and survey different sensor data fusion research efforts based on our evaluation framework. 
+  Abstract                 = {Internet of Things (IoT) has gained substantial attention re-cently and play a significant role in smart city application deployments. A number of such smart city applications de- pend on sensor fusion capabilities in the cloud from diverse data sources. We introduce the concept of IoT and present in detail ten different parameters that govern our sensor data fusion evaluation framework. We then evaluate the current state-of-the art in sensor data fusion against our sensor data fusion framework. Our main goal is to examine and sur- vey different sensor data fusion research efforts based on our evaluation framework. The major open research issues related to sensor data fusion are also presented.},
+  Journal                  = {arXiv preprint arXiv:1506.09118},
+  Owner                    = {Ivo},
+  Review                   = {This article introduces the concept of IoT and presents in detail ten different parameters that govern their sensor data fusion evaluation framework. The main goal is to examine and survey different sensor data fusion research efforts based on our evaluation framework. 
 
 The concept of Sensor Data Fusion is described as well its relevance in the IoT. It can be described as a data processing technique that associates, combines, aggregates, and integrates data fromdifferentsources. The article mentions three key operations of sensor data fusion: complementary (creating a large picture from small bits of information), redundant (integrate sensors for improved accuracy), and cooperative (combine sensors to produce new knowledge). The ultimate goal of sensor data fusion is to under- stand the environment and act accordingly. 
 
@@ -897,8 +1712,6 @@ Using middleware in semantic sensor network architectures is about creating an a
 Connecting sensors to the semantic web (Semantic Sensor Web) is mentioned as an important step to increase the retrievability of sensor data.
 
 The article describes the potential of IoT and evaluates a number of 'state of the art' examples of Sensor Data Fusion. Table 1: Taxonomy of Sensor Data Fusion Research Efforts contains a taxonomy of a couple dozen researches.},
-  Journal                  = {arXiv preprint arXiv:1506.09118},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -910,10 +1723,11 @@ The article describes the potential of IoT and evaluates a number of 'state of t
   Pages                    = {94-97},
   Volume                   = {83},
 
-  Abstract                 = {This article provides a very brief overview (2 pages) of 'the state of the art' in SSW ontologies and the mapping and query of SSW. They state that currently the acquired sensor data is heterogeneous in the syntax, schema and semantic level and lack of semantic information, it’s hard to be shared and integrated. The distinction is made between 3 layers of a SSW architecture: sensor data source layer, the data integration layer and the application layer (contrary to the 4 layers by Huang and Javed, 2008). 
+  Abstract                 = {As Sensor Network is used more and more widely in all fields, a large number of heterogeneous data is produced. In order to eliminate the heterogeneity and make these data shared and integrated semantically, semantic web technology is introduced in the sensor network. In this paper, we present a comprehensive review studies about Semantic Sensor Web (SSW) from the perspective of ontology, mapping and query respectively. Finally, the future research directions of SSW are proposed.},
+  Owner                    = {Ivo},
+  Review                   = {This article provides a very brief overview (2 pages) of 'the state of the art' in SSW ontologies and the mapping and query of SSW. They state that currently the acquired sensor data is heterogeneous in the syntax, schema and semantic level and lack of semantic information, it’s hard to be shared and integrated. The distinction is made between 3 layers of a SSW architecture: sensor data source layer, the data integration layer and the application layer (contrary to the 4 layers by Huang and Javed, 2008). 
 
 The article sums up extensions of the SSN ontology. One of them is the SCO ontology by Shi et al. (2012). This extension adds three important classes: Space, Time and Theme in the Context module and might therefore be useful to my research.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.10}
 }
 
@@ -939,8 +1753,29 @@ The article sums up extensions of the SSN ontology. One of them is the SCO ontol
   Pages                    = {847-869},
   Volume                   = {7},
 
-  Abstract                 = {Addresses issues with Web-based search interfaces on a Sensor Web data infrastructure. It focusses on a user interface to discover sensor metadata in a way that is also understandable for other people besides sensor web experts. This approach uses PostgreSQL, PostGIS, PHP and X3DEarth technologies to allow the Web3D standard and its geospatial component to be used for visual exploration and levelof- detail control of a dynamic scene.},
+  Abstract                 = {There are several issues with Web-based search
+interfaces on a Sensor Web data infrastructure. It can be difficult
+to 1) find the proper keywords for the formulation of queries and
+2) explore the information if the user does not have previous
+knowledge about the particular sensor systems providing the
+information. We investigate how the visualization of metadata on
+a 3D Web-based globe organized by level-of-detail can enhance
+search and exploration of information by easing the formulation
+of geospatial queries against the metadata of sensor systems. Our
+case study provides an approach inspired by geographical
+mashups in which freely-available functionality and data are
+flexibly combined. We use PostgreSQL, PostGIS, PHP and X3DEarth
+technologies to allow the Web3D standard and its
+geospatial component to be used for visual exploration and levelof-
+detail control of a dynamic scene. Our goal is to facilitate the
+dynamic exploration of the Sensor Web and allow the user to
+seamlessly focus in on a particular sensor system from a set of
+registered sensor networks deployed across the globe. We present
+a prototype metadata exploration system featuring levels-ofdetail
+for a multi-scaled Sensor Web and use it to visually explore
+personal and project-based local weather stations.},
   Owner                    = {Ivo},
+  Review                   = {Addresses issues with Web-based search interfaces on a Sensor Web data infrastructure. It focusses on a user interface to discover sensor metadata in a way that is also understandable for other people besides sensor web experts. This approach uses PostgreSQL, PostGIS, PHP and X3DEarth technologies to allow the Web3D standard and its geospatial component to be used for visual exploration and levelof- detail control of a dynamic scene.},
   Timestamp                = {2015.11.10}
 }
 
@@ -953,6 +1788,27 @@ The article sums up extensions of the SSN ontology. One of them is the SCO ontol
   Pages                    = {463--481},
   Volume                   = {8},
 
+  Abstract                 = {Distributed information infrastructures are increasingly
+used in the geospatial domain. In the infrastructures, data
+are being collected by distributed sensor services, served by
+distributed geospatial data services, transformed by processing
+services and workflows, and consumed by smart clients.
+Consequently, Geographical Information Systems (GISs) are
+moving from GISystems to GIServices. Intelligent GIServices
+are enriched with new capabilities including knowledge representation,
+semantic reasoning, automatic workflow composition,
+and quality and traceability. Such Intelligent
+GIServices facilitate information discovery and integration
+over the network and automate the assembly of GIServices
+to provide value-added products. This paper provides an overview
+of intelligent GIServices. The concept of intelligent
+GIServices is described, followed by a review of the stateof-
+the-art technologies and methodologies relevant to intelligent
+GIServices. Visions on how GIServices can perceive,
+reason, learn, and act intelligently are highlighted. The results
+can provide better services for big data processing, semantic
+interoperability, knowledge discovery, and cross-discipline
+collaboration in Earth science applications.},
   Owner                    = {Ivo},
   Publisher                = {Springer},
   Timestamp                = {2015.11.20}
@@ -967,7 +1823,29 @@ The article sums up extensions of the SSN ontology. One of them is the SCO ontol
   Pages                    = {22--32},
   Volume                   = {1},
 
-  Abstract                 = {Building a general architecture for the IoT is hence a very complex task, mainly because of the extremely large variety of devices, link layer technologies, and services that may be involved in such a system. This paper focusses specifically to an urban IoT system that, while still being quite a broad category, are characterized by their specific application domain. 
+  Abstract                 = {The Internet of Things (IoT) shall be able to incorporate
+transparently and seamlessly a large number of different and
+heterogeneous end systems, while providing open access to selected
+subsets of data for the development of a plethora of digital services.
+Building a general architecture for the IoT is hence a very complex
+task, mainly because of the extremely large variety of devices, link
+layer technologies, and services that may be involved in such a
+system. In this paper, we focus specifically to an urban IoT system
+that, while still being quite a broad category, are characterized by
+their specific application domain. Urban IoTs, in fact, are designed
+to support the Smart City vision, which aims at exploiting the most
+advanced communication technologies to support added-value
+services for the administration of the city and for the citizens. This
+paper hence provides a comprehensive survey of the enabling
+technologies, protocols, and architecture for an urban IoT. Furthermore,
+the paper will present and discuss the technical solutions
+and best-practice guidelines adopted in the Padova Smart City
+project, a proof-of-concept deployment of an IoT island in the
+city of Padova, Italy, performed in collaboration with the city
+municipality.},
+  Owner                    = {Ivo},
+  Publisher                = {IEEE},
+  Review                   = {Building a general architecture for the IoT is hence a very complex task, mainly because of the extremely large variety of devices, link layer technologies, and services that may be involved in such a system. This paper focusses specifically to an urban IoT system that, while still being quite a broad category, are characterized by their specific application domain. 
 
 Under the political dimension, the primary obstacle is the attribution of decision-making power to the different stakeholders. On the technical side, the most relevant issue consists in the noninteroperability of the heterogeneous technologies currently used in city and urban developments. In this respect, the IoT vision can become the building block to realize a unified urbanscale ICT platform.
 
@@ -976,8 +1854,6 @@ A number of use cases are identified: Structural Health of Buildings, Waste Mana
 A fundamental aspect is the necessity to make (part of) the data collected by the urban IoT easily accessible by authorities and citizens, to increase the responsiveness of authorities to city problems, and to promote the awareness and the participation of citizens in public matters.
 
 The paper mentions that XML is often too verbose and large for small IoT devices and therefore W3C has developed the EXI format, which makes it possible even for very constrained devices to natively support and generate messages using an open data format compatible with XML.},
-  Owner                    = {Ivo},
-  Publisher                = {IEEE},
   Timestamp                = {2015.11.12}
 }
 
@@ -987,8 +1863,8 @@ The paper mentions that XML is often too verbose and large for small IoT devices
   Note                     = {W3C},
   Year                     = {2015},
 
-  Abstract                 = {This document is a first publication of the work in progress at W3C to develop a generic sensor API. This api should enable more applications to make use of the efforts by earlier W3C working groups of creating ontologies for sensor data on the semantic web.},
   Owner                    = {Ivo},
+  Review                   = {This document is a first publication of the work in progress at W3C to develop a generic sensor API. This api should enable more applications to make use of the efforts by earlier W3C working groups of creating ontologies for sensor data on the semantic web.},
   Timestamp                = {2015.11.26},
   Url                      = {http://www.w3.org/TR/generic-sensor/}
 }
@@ -999,10 +1875,10 @@ The paper mentions that XML is often too verbose and large for small IoT devices
   Note                     = {52 North, Communities, Sensor Web},
   Year                     = {2015},
 
-  Abstract                 = {Besides client applications which provide a classic user interface, the OX-Framework can also be used to build server applications which encapsulate, chain or orchestrate other OGC services.
+  Owner                    = {Ivo},
+  Review                   = {Besides client applications which provide a classic user interface, the OX-Framework can also be used to build server applications which encapsulate, chain or orchestrate other OGC services.
 
 This means that 52 North does not only provide the traditional SOS server, but also a OX RESTful SOS which is a RESTful wrapper for SOS that takes get/post/delete/put requests.},
-  Owner                    = {Ivo},
   Timestamp                = {2015.11.27},
   Url                      = {http://52north.org/communities/sensorweb/clients/OX_RESTful_SOS/index.html}
 }
@@ -1013,8 +1889,8 @@ This means that 52 North does not only provide the traditional SOS server, but a
   Organization             = {Centraal Bureau voor de Statistiek},
   Year                     = {2014},
 
-  Abstract                 = {Manual on how to query open data from the Dutch central bureau of statistics.},
   Owner                    = {Ivo},
+  Review                   = {Manual on how to query open data from the Dutch central bureau of statistics.},
   Timestamp                = {2015.11.20}
 }
 
