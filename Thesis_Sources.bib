@@ -540,8 +540,23 @@ enabled by the alignment.},
   Month                    = {February},
   Year                     = {2015},
 
+  Abstract                 = {Much of the information concerning the natural world that is transferred or otherwise shared is based on Observations and Sampling. These provide the evidence that forms the basis for the description of features, interpretations and models.
+In many cases, the details of how the observations were actually made is of little interest, and it is sufficient to embed the results in the description of a feature. However, in other cases, more information is needed. It turns out that the kinds of information that are associated with reporting of an act of observation are common, across all disciplines, when classified appropriately.
+Consider the following statements:
+The 7th banana weighed 270gm on the kitchen scales this morning
+The attitude of the foliation at outcrop 321 of the Leederville Formation was 63/085, measured using a Brunton compass/clinometer on 2006-08-08
+Specimen H69 was determined on 1999-01-14 by Amy Bachrach to be of the species Eucalyptus Caesia
+IR image ASgh67c of Camp Iota was obtained by Aster in 2003
+Sample WMC997t collected at Empire Dam on 1996-03-30 was found to have 5.6 g/T Au as measured by ICPMS at ABC Labs on 1996-05-31
+The X-Z Geobarometer determined that the ore-body was at depth 3.5 km at 1.75 Ga
+The simulation run on 2004-09-09 indicated a pressure reduction of 4 MPa in geologic unit Q at 600 Ma},
   Comment                  = {Date accessed: 24/11/2015},
   Owner                    = {Ivo},
+  Review                   = {This paper suggests new OWL ontologies based on the Observations and Measurements information model (by OGC and ISO) for storing storing sampling features and observations on the semantic web.
+
+An Observation is an action whose result is an estimate of the value of some property of the feature-of-interest, obtained using a specified procedure
+
+It uses the OWL for Observations and OWL (2015) for Sampling features (2015).},
   Timestamp                = {2015.11.24},
   Url                      = {https://www.seegrid.csiro.au/wiki/AppSchemas/ObservationsAndSampling}
 }
@@ -568,6 +583,44 @@ The new ontology for observations, known as “omlite” (namespace prefix “oml:”), 
 
 The ontology for sampling features, known as “sam-lite” (namespace prefix “samfl:”) includes all the classes from the O&M Sampling Features model. At least one samfl:sampledFeature property will be present, whose value indicates the intention of the sampling feature. samfl:GeometryObject and its specializations are stub classes. A user can select any suitable vocabulary that implements these classes, such as GeoSPARQL [43] or W3C Basic Geo [3].},
   Timestamp                = {2015.11.23}
+}
+
+@Article{SW:Devaraju,
+  Title                    = {Q-SOS—A Sensor Observation Service for Accessing Quality Descriptions of Environmental Data},
+  Author                   = {Devaraju, Anusuriya and Jirka, Simon and Kunkel, Ralf and Sorg, Juergen},
+  Journal                  = {ISPRS International Journal of Geo-Information},
+  Year                     = {2015},
+  Number                   = {3},
+  Pages                    = {1346--1365},
+  Volume                   = {4},
+
+  Abstract                 = {The worldwide Sensor Web comprises observation data from diverse sources.
+Each data provider may process and assess datasets differently before making them available
+online. This information is often invisible to end users. Therefore, publishing observation
+data with quality descriptions is vital as it helps users to assess the suitability of data
+for their applications. It is also important to capture contextual information concerning
+data quality such as provenance to trace back incorrect data to its origins. In the Open
+Geospatial Consortium (OGC)’s Sensor Web Enablement (SWE) framework, there is no
+sufficiently and practically applicable approach how these aspects can be systematically
+represented and made accessible. This paper presents Q-SOS—an extension of the OGC’s
+Sensor Observation Service (SOS) that supports retrieval of observation data together with
+quality descriptions. These descriptions are represented in an observation data model
+covering various aspects of data quality assessment. The service and the data model
+have been developed based on open standards and open source tools, and are productively
+being used to share observation data from the TERENO observatory infrastructure. We
+discuss the advantages of deploying the presented solutions from data provider and
+consumer viewpoints. Enhancements applied to the related open-source developments are
+also introduced.},
+  Owner                    = {Ivo},
+  Publisher                = {Multidisciplinary Digital Publishing Institute},
+  Review                   = {This article addresses the fact that OGC's standard Sensor Observation Service does not support quality descriptions of the sensor data. Therefore, Q-SOS is presented, which is an extension of SOS.
+
+The specific problem with the current SOS is that is unclear how various aspects of data quality (e.g., quality flags and levels) associated with different sensing applications can be represented in relation to existing observation concepts, and then made accessible to users via the standard service.
+
+One important aspect in modeling data quality is granularity, i.e., the level of details at which quality information of observation data is specified, e.g., at a time instant or a time interval for a given time series, or a collection of several data series. Data granularity may subject to the context of use. In the context of SOS servers, the quality information can be specified in a SensorML file if it refers the whole sensing process or in an O&M document if it applies to measurement values. Q-SOS's data model considers both levels of granularities.
+
+the Sensors Anywhere (SANY) project is a very similar approach, but SANY only focuses on quality flags.},
+  Timestamp                = {2015.11.30}
 }
 
 @InProceedings{LD:Egenhofer,
@@ -771,6 +824,7 @@ life in neighbourhoods and the energy efficiency/climate proofing of the buildin
 prioritised in the identified neighbourhoods.},
   Owner                    = {Ivo},
   Publisher                = {SAGE Publications},
+  Review                   = {This study can be seen as a use-case for my thesis research. It combines sensor data of the temperature in Amsterdam with statistics on neighbourhoods, such as demographics and land use.},
   Timestamp                = {2015.11.26}
 }
 
@@ -1010,6 +1064,20 @@ The main contribution of this article is a lightweight profile for the OGC Senso
   Timestamp                = {2015.11.30}
 }
 
+@Article{SW:Jirka2,
+  Title                    = {Discovery mechanisms for the sensor web},
+  Author                   = {Jirka, Simon and Br{\"o}ring, Arne and Stasch, Christoph},
+  Journal                  = {Sensors},
+  Year                     = {2009},
+  Number                   = {4},
+  Pages                    = {2661--2681},
+  Volume                   = {9},
+
+  Owner                    = {Ivo},
+  Publisher                = {Molecular Diversity Preservation International},
+  Timestamp                = {2015.11.30}
+}
+
 @InCollection{SW:Jones,
   Title                    = {Making the web of data available via web feature services},
   Author                   = {Jones, Jim and Kuhn, Werner and Ke{\ss}ler, Carsten and Scheider, Simon},
@@ -1177,6 +1245,11 @@ on the standards of the Open Geospatial Consortium. This leads to the new concep
 dynamic 3D SDIs. An according prototype has already been implemented and will be
 presented.},
   Owner                    = {Ivo},
+  Review                   = {This short article shows how sensor data is integrated in a 3D web client. Opposed to similar proprietary systems like Google Earth, this approach is based on the open OGC standards. Therefore it is very flexible and adaptive. 
+
+Even an indoor use case has already been tested with the developed prototype.
+
+Future investigations shall offer a concept to analyze and geoprocess the sensor information by the standardized OGC Web Processing Service (WPS) interface.},
   Timestamp                = {2015.11.24}
 }
 
@@ -1352,9 +1425,32 @@ institutions that seek to serve them.},
   Journal                  = {Web Semantics: Science, Services and Agents on the World Wide Web},
   Year                     = {2015},
 
-  Abstract                 = {Not yet in my possession},
+  Abstract                 = {The INSPIRE Directive by the European Commission sets the legal and technical foundations towards
+interoperable Spatial Data Infrastructures (SDIs) across Europe. EU member states are already providing
+such services for several geospatial data themes (e.g., transportation networks, administrative units).
+Unfortunately, the INSPIRE ecosystem has been largely disjoint from the Semantic Web, without any
+means to repurpose existing SDIs as high-quality data sources, and thus multiply their value through
+interlinking, reasoning and inferencing. In this paper, we introduce a methodology that can assist
+stakeholders in exposing INSPIRE-aligned SDIs on the Semantic Web according to the recent GeoSPARQL
+standard. We develop methods for discovering INSPIRE data through a virtual SPARQL endpoint over
+existing INSPIRE catalogue services. Further, we implement a suite of tools for automatically transforming
+INSPIRE data and metadata into RDF triples with geometries. The compiled geographic and thematic
+information can then be loaded into semantic repositories for querying or interlinked with other data. Our
+open-source solutions essentially repurpose existing INSPIRE SDIs, so as to promote uptake and facilitate
+their reuse in practice. Finally, as a case study, we report our experience in validating this approach on a
+real-world SDI with publicly available data for Greece in order to expose its contents through (Geo)SPARQL
+endpoints.},
   Owner                    = {Ivo},
   Publisher                = {Elsevier},
+  Review                   = {SDIs have a simple, yet challenging goal: make geospatial data easier to discover and use. SDIs have a simple, yet challenging goal: make geospatial data easier to discover and use. 
+
+By 2020, the under way INSPIRE in Europe will enable discovery, download, and visualization of geospatial information in a common, cross-boundary manner. Unfortunately, the INSPIRE ecosystem has been largely disjoint from the Semantic Web.
+
+The goal of this article is to devise effective methods for automatically exposing INSPIRE data and metadata as Linked Open Data (LOD). This is done in the form of a middleware between the semantic web (GeoSPARQL), the metadata catalogues and the downloadable RDF triples. (see figure 4.2 at page 4)
+
+This work deals with the first group of data themes, as specified in Annex I. This does not yet include the sensor data under the theme "environmental monitoring facilities".
+
+At present, no complete INSPIRE ontology in RDF/OWL exists. This reflects the difficulty of bridging the ‘‘closed world’’ assumption of UML models in INSPIRE with the ‘‘open world’’ view of RDF. However, this is a common problem with a number of studies addressing this already.},
   Timestamp                = {2015.11.24}
 }
 
@@ -1565,7 +1661,9 @@ For aggregation of observations a mechanism that helps to retrace the original o
 
 Provenance of sensor data can be defned as information about the source of the sensor data as well as information about transformations applied to the original data. The proposed approach shows how most of relevant provenance information is already provided in our Linked Sensor Data and how the links can be mapped to provenance relationships as defned in the OPM (Open Provenance Model).
 
-The main contributions of this paper are threefold. They (i) present a Linked Data model for aggregated sensor data, (ii) discuss the effects of aggregation on links from and to observations, and (iii) outline the role of provenance in this setting.},
+The main contributions of this paper are threefold. They (i) present a Linked Data model for aggregated sensor data, (ii) discuss the effects of aggregation on links from and to observations, and (iii) outline the role of provenance in this setting.
+
+The authors have extende the W3C SSO (SSN) ontology with 4 extra classes: isAggregateOf, SensingDevice, ggregationProcess and AggregationProcedure.},
   Timestamp                = {2015.11.27}
 }
 
