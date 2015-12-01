@@ -7,20 +7,23 @@
 \section{background}
 In 2008 the \ac{ogc} introduced a new set of standards called \ac{swe}. These standards make it possible to connect sensors to the internet and retrieve data in a uniform way. This allows users or applications to retrieve all kinds of sensor data, regardless of the type of observations or the sensor's manufacturer \citep{SW:Botts}. Among other standards \ac{swe} includes the \ac{om} which is a model for encoding sensor data, the \ac{sensorml} which is a model for describing sensor metadata and the \ac{sos} which is a service for retrieving sensor data \citep{SW:OGC}. 
 
-Recently \ac{ogc} has defined the rol which their standards could play in smart city developments \citep{SC:OGC}. Smart cities can be defined as "enhanced city systems which use data and technology to achieve integrated management and interoperability" \citep[p. 18]{SC:Moir}. Research on smart cities has shown a great potential for using sensor data in urban areas. Often this is presented in the context of the \ac{iot} \citep{IOT:Zanelli, SSW:Perera}. \cite{IOT:Atzori} describes the \ac{iot} as "the pervasive presence around us of a variety of \textit{things} or \textit{objects} ... [which] are able to interact with each other and cooperate with their neighbors to reach common goals" \cite[p. 2787]{IOT:Atzori}. 
+Recently \ac{ogc} has defined the rol which their standards could play in smart city developments \citep{SC:OGC}. Smart cities can be defined as "enhanced city systems which use data and technology to achieve integrated management and interoperability" \citep[p. 18]{SC:Moir}. Research on smart cities has shown a great potential for using sensor data in urban areas. Often this is presented in the context of the \ac{iot} \citep{IOT:Zanelli, SSW:Perera}. The \ac{iot} can be described as "the pervasive presence around us of a variety of \textit{things} or \textit{objects} ... [which] are able to interact with each other and cooperate with their neighbors to reach common goals" \cite[p. 2787]{IOT:Atzori}. 
 
 Parallel to the development of the sensor web other research has focused on the semantic web, as proposed by \cite{LD:Berners-lee}. This is a response to the traditional way of using the web, where information is only available for humans to read. The semantic web is an extension of the internet which contains meaningful data that machines can interpret as well. Rather than publishing documents on the internet the semantic web contains linked data using the \ac{rdf} \citep{LD:Bizer}.    
 
-\cite{SSW:Sheth} proposes to use semantic web technologies in the sensor web. This so-called \ac{ssw} builds on standards by \ac{ogc} and the \ac{w3c} "to provide enhanced descriptions and meaning to sensor data" \cite[p.78]{SSW:Sheth}. \ac{w3c} responded to this development by developing a standard ontology for sensor data on the semantic web \cite{SSW:SSN_incubatorGroup}. \\
+\cite{SSW:Sheth} proposes to use semantic web technologies in the sensor web. This so-called \ac{ssw} builds on standards by \ac{ogc} and the \ac{w3c} "to provide enhanced descriptions and meaning to sensor data" \cite[p.78]{SSW:Sheth}. \ac{w3c} responded to this development by developing a standard ontology for sensor data on the semantic web \citep{SSW:SSN_incubatorGroup}. \\
  
 INSPIRE has adopted a number of \ac{swe} standards. All EU member states should provide sensor data to INSPIRE in order to comply with annex III: environmental monitoring facilities \\
 
 % Problem statement
 \section{Problem Statement}
-The implementation of the sensor web is still in an early stage. 
-A number of companies and organisations still use their own custom APIs to connect sensors to the internet. 
-It is hard to find \ac{sos} services on the internet. Creating a \ac{ssw} is an even younger development. 
-It has been argued that it is difficult to integrate sensor data from different sources to perform data fusion \citep{SSW:Corcho}. 
+The implementation of the sensor web is still in an early stage. \\
+
+A number of companies and organisations still use their own custom APIs to connect sensors to the internet. \\
+
+It is hard to find \ac{sos} services on the internet. \\
+
+It has been argued that it is difficult to integrate sensor data from different sources to perform data fusion \citep{SSW:Corcho, SSW:Ji, SSW:Wang}. Data fusion is "a data processing technique that associates, combines, aggregates, and integrates data from different sources" \cite[p. 2]{SSW:Perera}. \\
 
 
 % Related research
@@ -36,9 +39,10 @@ It has been argued that it is difficult to integrate sensor data from different 
 \cite{SSW:Cox3} has been working on an improved semantic ontology based on \ac{om}. 
 
 % Research question 
-Sem-SOS \citep{SSW:Henson, SSW:Pschorr} as well as \ac{sel} \citep{SSW:Janowicz} focus on publishing meaningful sensor data, but do not address the integration and aggregation of sensor data. The method of aggregating sensor data and publishing it on the semantic web by \cite{SSW:Stasch} is very limited in the aggregated data it provides, as the aggregates have to be predefined. Furthermore, this method requires the application to continuously calculate all kinds of aggregates and publishes them on the semantic web. It might be more efficient to create the aggregates on-the-fly when they are requested. Another advantage of on-the-fly aggregation is also that users could enter custom parameters making the service more valuable. The idea by \cite{SW:Jones} of delivering data to users through a service with which they are familiar is very appealing. However, \cite{SW:Jones} has been mainly concerned with static geographic data. Being able to provide users aggregated sensor data via a \ac{wfs} or \ac{wps} would enable this data to be immediately used in any existing \ac{gis}.
+\section{Research question}
+Sem-SOS \citep{SSW:Henson, SSW:Pschorr} as well as \ac{sel} \citep{SSW:Janowicz} focus on publishing meaningful sensor data, but do not address the integration and aggregation of sensor data. \cite{SSW:Stasch} suggests an interesting method for aggregating sensor data and publishing it on the semantic web based on spatial features. However, the implementation is limited in the aggregated data it provides, as the aggregates have to be predefined. Furthermore, this method requires the application to continuously calculate all kinds of aggregates and publishes them on the semantic web. It might be more efficient to create the aggregates on-the-fly whenever they are requested. Also, an advantage of on-the-fly aggregation is  that users could enter custom parameters making the service more valuable. The approach by \cite{SSW:Stasch} takes sensor data as input that is already on the semantic web as linked data. This leads to a number of issues regarding the validity of the links after the aggregation process. The idea by \cite{SW:Jones} of delivering data to users through a service with which they are already familiar is very appealing, because it would enable sensor data to be immediately used in any existing \ac{gis}. However, \cite{SW:Jones} has been mainly concerned with static geographic data, instead of (aggregated) sensor data. 
 
-This thesis aims to build on the recent literature by creating a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from heterogeneous sources. The outcome of this thesis should make it easier to find and work with sensor data coming from different sources. The following question will be answered in this research:   
+This thesis aims to build on the recent literature by creating a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from heterogeneous sources. The following question will be answered in this research:   
 \textit{How can the semantic web improve the discovery, integration and aggregation of distributed sensor data?} 
 
 
