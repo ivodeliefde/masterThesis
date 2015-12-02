@@ -1700,7 +1700,7 @@ for a web-based spatiotemporal aggregation is currently missing. The main contri
 work is an approach for a Spatiotemporal Aggregation Service (STAS) in the Sensor Web
 using standardized web-based geoprocessing.},
   Owner                    = {Ivo},
-  Review                   = {This paper introduces an approach for a Spatiotemporal Aggregation Service (STAS) in the Sensor Web using standardized web-based geoprocessing. The STAS is defined as a profile of the Web Processing Service (WPS). It takes a web features service and a sensor observation service as input together with parameters for temporal aggregation. It then retrieves the features from the WFS and the sensor data from the SOS and aggregates the sensor data temporally and then spatially based on the features.},
+  Review                   = {This paper introduces an approach for a Spatiotemporal Aggregation Service (STAS) in the Sensor Web using standardized web-based geoprocessing (a Web Processing Service). The STAS is defined as a profile of the Web Processing Service (WPS). It takes a web features service and a sensor observation service as input together with parameters for temporal aggregation. It then retrieves the features from the WFS and the sensor data from the SOS and aggregates the sensor data temporally and then spatially based on the features.},
   Timestamp                = {2015.11.27}
 }
 
@@ -1811,6 +1811,14 @@ environment R. We consider our theory groundwork to automate semantic interopera
 models.},
   Owner                    = {Ivo},
   Publisher                = {Elsevier},
+  Review                   = {The STAS WPS by SSW:Stasch & SSW:Stasch3 automatically calculates the min, max and mean of sensor data overlayed with polygons. Not for all sensor data this is aggregation makes sense: summing temperature measurements or interpolating point source emissions is not meaningful. This paper formalises meaningfulness
+of applying prediction and aggregation procedures to data. In order to provide support from information systems for automatically discouraging or proposing prediction or aggregation methods for a dataset, expert knowledge needs to be formalized.
+
+It focuses on the aggregation of point data (either point patterns or geostatistical variables) to areal data.
+
+The basic idea of our formalism is a formal distinction between 'representations of procedures as functions', which capture knowledge about potential operations such as observing or predicting phenomena, and 'representations of data sets as predicates over function domains', which denote limited (finite) results of applying such operations.
+
+One challenge for future work consists in tractable implementations of meaningfulness checks in open Semantic Web environments as well as in statistical software.},
   Timestamp                = {2015.12.01}
 }
 
