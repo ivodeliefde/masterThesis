@@ -3,6 +3,19 @@
 \label{chap:rw}
 
 a related work section in which the relevant literature is presented and linked to the project;
+\section{Semantic sensor data middleware}
+\cite{SSW:Henson} and \cite{SSW:Pschorr} suggest adding semantic annotations to a \ac{sos} which they call semantically enabled \ac{sos} or Sem-SOS. In Sem-SOS the raw sensor data goes through a process of semantic annotating before it can be requested with a \ac{sos} service. The retrieved data is still an \ac{xml} document, but with embedded semantic terminology as defined in an ontology model. 
+
+\cite{SSW:Janowicz} has specified a method that uses a \ac{rest}ful proxy as a fa\c{c}ade for \ac{sos}. When a specific \ac{uri} is requested the so-called \ac{sel} translates this to a \ac{sos} request, fetches the data and translates the results back to \ac{rdf}. In this method the sensor data is converted to \ac{rdf} on-the-fly.  
+
+\section{Sensor data ontologies}
+\cite{SSW:SSN_incubatorGroup} have developed an ontology based on the stimulus-sensor-observation pattern.
+
+\cite{SSW:Cox3} has been working on an improved semantic ontology based on \ac{om}.
+
+\section{Sensor data aggregation}
+\cite{SSW:Stasch} propose to aggregate sensor data based on the geometry of sampling features. \cite{SSW:Stasch4} argue that in order for automatic aggregation to work there needs to be semantics on which kind of aggregation methods are appropriate for a specific kind of sensor data. This requires a formalisation of expert knowledge which they call semantic reference systems.
+ 
 
 \iffalse
 \section{Sensor Web}

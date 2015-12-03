@@ -25,19 +25,6 @@ It is hard to find \ac{sos} services on the internet. \\
 
 It has been argued that it is difficult to integrate sensor data from different sources to perform data fusion \citep{SSW:Corcho, SSW:Ji, SSW:Wang}. Data fusion is "a data processing technique that associates, combines, aggregates, and integrates data from different sources" \cite[p. 2]{SSW:Perera}. \\
 
-
-% Related research
-\section{Related research}
-\cite{SSW:Henson} and \cite{SSW:Pschorr} suggest adding semantic annotations to a \ac{sos} which they call semantically enabled \ac{sos} or Sem-SOS. In Sem-SOS the raw sensor data goes through a process of semantic annotating before it can be requested with a \ac{sos} service. The retrieved data is still an \ac{xml} document, but with embedded semantic terminology as defined in an ontology model. 
-
-\cite{SSW:Janowicz} has specified a method that uses a \ac{rest}ful proxy as a fa\c{c}ade for \ac{sos}. When a specific \ac{uri} is requested the so-called \ac{sel} translates this to a \ac{sos} request, fetches the data and translates the results back to \ac{rdf}. In this method the sensor data is converted to \ac{rdf} on-the-fly.  
-
-\cite{SSW:Stasch} propose to aggregate sensor data based on the geometry of sampling features. \cite{SSW:Stasch4} argue that in order for automatic aggregation to work there needs to be semantics on which kind of aggregation methods are appropriate for a specific kind of sensor data. This requires a formalisation of expert knowledge which they call semantic reference systems.
-
-\cite{SW:Jones} looked into using a well-known \ac{ogc} standard for retrieving static geographic data - the \ac{wfs} - and how this could be applied to the semantic web.
-
-\cite{SSW:Cox3} has been working on an improved semantic ontology based on \ac{om}. 
-
 % Research question 
 \section{Research question}
 Sem-SOS \citep{SSW:Henson, SSW:Pschorr} as well as \ac{sel} \citep{SSW:Janowicz} focus on publishing meaningful sensor data, but do not address the integration and aggregation of sensor data. \cite{SSW:Stasch} suggests an interesting method for aggregating sensor data and publishing it on the semantic web based on spatial features. \cite{SSW:Stasch3} proposes a \ac{wps} that takes sensor data right from a \ac{sos} service in order to aggregate it. The approach by \cite{SSW:Stasch} takes sensor data as input that is already on the semantic web as linked data. This leads to a number of issues regarding the validity of the links after the aggregation process. The idea by \cite{SW:Jones} of delivering data to users through a service with which they are already familiar is very appealing, because it would enable sensor data to be immediately used in any existing \ac{gis}. However, \cite{SW:Jones} has been mainly concerned with static geographic data, not with (aggregated) sensor data. \\
