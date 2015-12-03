@@ -329,6 +329,39 @@ patent rights.},
   Timestamp                = {2015.11.12}
 }
 
+@Article{SW:Broring3,
+  Title                    = {New generation sensor web enablement},
+  Author                   = {Br{\"o}ring, Arne and Echterhoff, Johannes and Jirka, Simon and Simonis, Ingo and Everding, Thomas and Stasch, Christoph and Liang, Steve and Lemmens, Rob},
+  Journal                  = {Sensors},
+  Year                     = {2011},
+  Number                   = {3},
+  Pages                    = {2652--2699},
+  Volume                   = {11},
+
+  Owner                    = {Ivo},
+  Publisher                = {Molecular Diversity Preservation International},
+  Review                   = {In the new generation of SWE specifications, TML is not referenced anymore and recent conversations in OGC’s SWE working group showed that there is no urgent demand in TML and a retirement of the standard is in discussion.
+
+The new generation of SWE adds further functionalities to the SWE framework, which is also not yet approved as standards:
+Eventing mechanisms which advance the basic alerting functionality of the first generation SWE specifications.
+Discovery of sensor resources and sensor observables.
+
+In conventional SDIs consisting of servers providing maps, coverages or geometric features, data discovery is usually covered by the OGC Catalogue. Due to the specifics of sensor networks, this approach is not directly applicable for the Sensor Web.
+
+There are a kind of catalogue services for SWE: The Sensor Instance Registry (SIR) for harvesting, managing and transforming sensor metadata as well as the Sensor Observable Registry (SOR) for managing the semantics of the phenomena observed by sensors.
+
+In order to achieve this aim, the SIR provides functionality to: collect sensor metadata (i.e., automatic harvesting of SensorML documents and manual insertion of sensor metadata), provide extended discovery functionality based on the metadata provided through SensorML, manage status information of sensors (e.g., finding all sensors with a critical battery level or automatic notification if a sensor reaches a critical state), transform SensorML-based sensor metadata into conventional Catalogue information models and push the transformed metadata sets into OGC Catalogue instances
+
+In order to support users when dealing with identifiers pointing to phenomenon definitions, the SOR interface has been designed. It provides functionality to: retrieve a list of known phenomenon identifiers so that a user can select those identifiers that fit to his needs, resolve phenomenon identifiers (i.e., returning a dictionary entry describing what a certain phenomenon identifier means), find related phenomena so that sensor discovery requests can be semantically enhanced (e.g., searching for all sensors that measure some kind of temperature)
+
+In the future it is expected that more generic approaches will be developed that support not only the handling of phenomenon definitions but also other kinds of names and identifiers (e.g., for sensor types, units of measurement, etc.).
+
+The ability to dynamically integrate sensors is still an unresolved challenge within SWE. An on-the-fly integration of sensors into the Sensor Web with a minimum of human intervention is not straight- forward with the given methods. Especially in hazard or disaster situations, a live deployment or densification of sensor networks and an ad-hoc integration of those sensors into the Sensor Web to allow multiple parties an easy access and usage of the sensors must be enabled.
+
+The presented approaches of the Semantic Sensor Web and linked sensor data build a solid basis for future efforts in this research area. Much work still remains to be done. From the perspective of SWE, a central challenge is semantic enablement of SWE specifications and incorporation into the OGC standardization process. This is needed to pave the way to utilization of those methods in real world applications.},
+  Timestamp                = {2015.12.03}
+}
+
 @InProceedings{SSW:Broring,
   Title                    = {Demonstration: A RESTful SOS Proxy for Linked Sensor Data.},
   Author                   = {Br{\"o}ring, Arne and Janowicz, Krzysztof and Stasch, Christoph and Schade, Sven and Everding, Thomas and Llaves, Alejandro},
