@@ -3,20 +3,33 @@
 \label{chap:TD}
 
 since specific data and tools have to be used, it’s good to present these concretely, so that the mentors know that you have a grasp of all aspects of the project;
-\iffalse
 
 \section{Data}
-Topographic data\\
-Sensor data (different sources)
+Topographic data of neighbourhoods, city districts, municipalities and provinces\\
+Air quality sensor data from the \ac{rivm} (http://inspire.rivm.nl/sos/) and from the \ac{ircel} (http://sos.irceline.be/).
 
 \section{Database}
-Postgres
+A Postgres database will be used with the Postgis extension.
 
 \section{Server}
-Localhost at first, but in the end host on university server.
+Prototyping will be done using a localhost at first, but in the end it could be hosted on the university server.
 
 \section{Prototype}
-Use Python programming language and Flask for server sided scripts\\
-Perhaps with Python's \href{http://docs.python-requests.org/en/latest/user/quickstart/}{Request} library for making POST or GET requests.  
+\begin{itemize}
+	\item The Python programming language will be used for scripting a prototype. 
+	\item Psycopg2 will be used to connect a Python script to a Postgres database.
+	\item Python's \href{http://docs.python-requests.org/en/latest/user/quickstart/}{Request} library will be used for making \ac{http} POST and GET requests. 
+	\item For working with \ac{xml} Python's xml package will be used.
+	\item To create \ac{rdf} documents the Python library RDFLib will be used. 
+\end{itemize}
 
-\fi
+
+
+
+
+
+
+
+
+  
+
