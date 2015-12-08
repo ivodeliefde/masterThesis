@@ -13,7 +13,7 @@ Publishing static geographic data on the semantic web requires a conversion of S
 The sensor metadata is also being published on the semantic web. To do this an \ac{xml} document is automatically retrieved from a \ac{sos} by a Python script. This script then extracts the relevant data from the \ac{xml} and maps it to an ontology. It outputs an \ac{rdf} file that will be published online. When new sources of sensor data are added the \ac{rdf} document will be updated.   
 
 \section{Ontology mapping}
-To publish data on the semantic web ontologies are required to specify the different classes and their relations. An ontology for static geographic data has to be connected to an ontology for sensor metadata. For this the ontologies by \cite{SSW:Cox4} will be used: \ac{owl} for observations and \ac{owl} for sampling features.  
+To publish data on the semantic web ontologies are required to specify the different classes and their relations. An ontology for static geographic data has to be connected to an ontology for sensor metadata. For this the ontologies by \cite{SSW:Cox4} will be used (\ac{owl} for observations and \ac{owl} for sampling features) in combination with the GeoSPARQL vocabulary for geometries as linked data \citep{LD:OGC}.  
 
 \section{Sensor data aggregation}
 There are many different ways to aggregate sensor data, for example by taking the minimum value, the maximum value, the average value, the sum, etc. In order to determine which method of aggregation is applicable for a specific kind of sensor data the sensor metadata will contain links to appropriate aggregation methods. However, which methods are appropriate should be based on expert knowledge. Therefore, this requires a literature analysis. 

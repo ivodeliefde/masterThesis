@@ -1,5 +1,5 @@
 from rdflib import URIRef, BNode, Literal, Graph
-from rdflib.namespace import RDF
+from rdflib.namespace import RDF, RDFS
 import rdflib
 import psycopg2
 
@@ -11,15 +11,12 @@ def getData(dbms_name, user, password):
 	# Retrieve the names and geometries of the provinces
 	cur.execute("select provincien, ST_astext(geom) from provinces")
 	table = cur.fetchall()
-	
+
 	return table
 
 def table2RDF(table):
-	RDF.type 
-	# = rdflib.term.URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
-
-	# NeoGeo vocabulary
-	geom = rdflib.Namespace("http://geovocab.org/geometry#")
+	# GeoSPARQL vocabulary
+	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
 	dbpedia = rdflib.Namespace("http://dbpedia/resource/")
 
@@ -28,13 +25,15 @@ def table2RDF(table):
 
 	# Add provinces with links to the graph
 	for province in provinces:
-		# Name and geometry should still get URIs
+		# Name and geometry should still get URIs assigned to them
 		name = Literal(province[0])
 		geometry = Literal(province[1])
 		# Create links
 		g.add( (name, RDF.type, dbpedia.Province) )
-		g.add( (geometry, RDF.type, geom.MultiPolygon) )
-		g.add( (name, geom.Geometry, geometry) )
+		g.add( (geometry, RDFS.Datatype, geom.wktLiteral) )
+		g.add( (name, geom.hasGeometry, geometry) )
+		
+	print g.serialize(format='turtle')
 
 	# Write the graph to a RDF file in the turtle format
 	g.serialize("test.rdf", format='turtle')
