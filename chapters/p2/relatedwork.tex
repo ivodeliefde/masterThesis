@@ -19,6 +19,8 @@ phenomena with multiple stakeholder perspectives" \cite[p.129]{SSW:Atkinson}. Th
 
 \cite{SSW:Cox3} has been working on an improved semantic ontology based on \ac{om}.
 
+The \ac{lustre} aims to "help users to easier and better express and use thesauri and controlled vocabularies for metadata work within Spatial Data Infrastructures" \cite[p. 137]{LD:LusTRE}. This ontology does not focus on sensor data, but does describe many phenomenon that are being observed.  
+
 \section{Sensor data aggregation}
 \cite{SSW:Stasch} propose to aggregate sensor data based on the geometry of sampling features. \cite{SSW:Stasch3} proposes a \ac{wps} that takes sensor data right from a \ac{sos} service in order to aggregate it. The approach by \cite{SSW:Stasch} takes sensor data as input that is already published on the semantic web.
 
@@ -28,58 +30,3 @@ phenomena with multiple stakeholder perspectives" \cite[p.129]{SSW:Atkinson}. Th
 \ac{semsos} \citep{SSW:Henson, SSW:Pschorr} as well as \ac{sel} \citep{SSW:Janowicz} focus on combining the sensor web with the semantic web, but do not address the integration and aggregation of sensor data. Similarly, \cite{SSW:Atkinson} proposes to expose sensor data to the semantic web in order to find other kinds of related data about the same feature-of-interest. Data that is collected from another area of research for example. Also \cite{SSW:Atkinson} does not mention the integration of sensor data from heterogeneous sources. \cite{SSW:Stasch} and \cite{SSW:Stasch3} suggest interesting methods for aggregating sensor data based on features-of-interest. However, also these studies use sensor data from a only single source into account. Moreover, \cite{SSW:Corcho} and \cite{SSW:Ji} argue that methods for integration and fusion of sensor data on the semantic web is still an area for future research. Data fusion is "a data processing technique that associates, combines, aggregates, and integrates data from different sources" \cite[p. 2]{SSW:Wang2}. This thesis therefore focuses on the discovery, integration and aggregation of sensor data, building on some of the principles proposed by related research discussed in this chapter.  
 
 The idea by \cite{SW:Jones} of delivering data to users through a service with which they are already familiar is very appealing, because it would enable sensor data to be immediately used in any existing \ac{gis}. This is also suggested by \cite{SSW:Atkinson} to ease the transition to the linked data world. However, current research has mainly been concerned with static geographic data, not with (aggregated) sensor data. Therefore, this thesis aims to provide the service for integrating and aggregating sensor data as a \ac{wps}.
-
-\iffalse
-\section{Sensor Web}
-
-\ac{ogc} \ac{swe} standards such as \ac{sos} and \ac{sensorml} \citep{SW:OGC}, \citep{SW:Botts} \\
-
-Different data formats: \ac{xml} (\ac{swe}), EXI (\ac{w3c}) and \ac{json} SensorThings \ac{api} \citep{IOT:Zanelli} \\
-
-\ac{ogc} has been working on standards for geodata discovery that allow users to find datasets based on geographic and temporal properties \citep{SW:OGC2}. It is available as an extension for existing formats like RSS and Atom. However, it does not mention support for sensor data discovery. \\
-
-Sensor metadata visualisation has been studied by \cite{SW:Yoo} in order to improve the discovery of sensor data. How to integrate or combine different datasets is not addressed in this approach. 
-
-
-\section{Linked Data}
-
-Linked Data \citep{LD:Berners-lee}
-
-Web of Data \cite{LD:Bizer} 
-
-Research by \cite{LD:Auer} under the name of 'linked geodata' shows how to convert \ac{osm} data into \ac{rdf} triplets and publish it on the semantic web. The linked \ac{osm} data used to be accessible online at \url{http://linkedgeodata.org/OnlineAccess}. However, this is no longer the case. They do offer a manual and open source software for publishing \ac{osm} data as linked data at \url{https://github.com/GeoKnow/LinkedGeoData}. Anyone interested in using linked \ac{osm} data can refer to this for their own implementation.     
-
-Publishing geodata as \ac{rdf} and mapping on-the-fly \citep{LD:Missier}
-
-
-\section{Semantic Sensor Web}
-
-\ac{ssw} \citep{SSW:Sheth}, \citep{SSW:deMel}, \citep{SSW:Bakillah} \\ 
-
-\cite{SSW:Huang} add semantics to sensor data, but do not use the \ac{swe} standards by \ac{ogc}. \\ 
-
-Extending RDF with the ability to represent spatial and temporal data \citep{SSW:Koubarakis} \\ 
-
-\cite{SSW:Janowicz2} argue that the current \ac{swe} standards are not sufficient for dealing with sensor data on the semantic web. A transparent \ac{sel} for \ac{ogc} services is proposed that replaces the \ac{om} and \ac{sensorml} standards. This research formed the basis for the development of the \ac{w3c} \ac{ssn} ontology \citep{SSW:SSN_incubatorGroup}. \\ 
-
-\cite{SSW:Henson} and \cite{SSW:Pschorr} present the SemSOS architecture which adds semantics to sensor data and publishes the semantically enriched sensor data via \ac{sos} and the \ac{om} encoding. However, in SemSOS the semantics are not being used to integrate or combine data from different sources, but rather to enrich data from a single source. \\ 
-
-Applications using \ac{ogc} \ac{sos} and \ac{w3c} \ac{ssn} \citep{SSW:Kessler}, \citep{SSW:Barnaghi} \\
-
-Three layer model: the sensor data source layer, the data integration layer and the application layer \cite{SSW:Wang}.
-
-\section{Internet of Things}
-
-More and more devices connected to the internet. Also a growing amount of research on using sensors of smart devices. \citep{IOT:Waher}, \citep{IOT:Zarko}, \citep{SSW:Calbimonte} \\
-
-Research on connecting smart devices to \ac{ssw} \citep{SSW:Vera}  \\
-
-OpenIoT platform \citep{IOT:Calbimonte}
-
-
-\section{Smart Cities} 
-
-The role of sensors in smart cities \citep{IOT:Zanelli}
-
-The role of \ac{ogc} standards in smart cities \citep{SC:OGC}
-\fi
