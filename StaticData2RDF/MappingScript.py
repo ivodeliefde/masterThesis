@@ -1,5 +1,5 @@
 from rdflib import URIRef, BNode, Literal, Graph
-from rdflib.namespace import RDF, RDFS, FOAF
+from rdflib.namespace import RDF, RDFS
 import rdflib
 import psycopg2
 
@@ -31,7 +31,7 @@ def table2RDF(table):
 		# Create links
 		g.add( (thing, RDF.type, dbpedia.Province) )
 		g.add( (geometry, RDF.type, geom.Geometry ) )
-		g.add( (thing, FOAF.name, Literal(province[0])) )
+		g.add( (thing, RDFS.label, Literal(province[0])) )
 		g.add( (geometry, RDFS.Datatype, geom.wktLiteral) )
 		g.add( (thing, geom.hasGeometry, Literal(province[1])) )
 		
