@@ -1,5 +1,5 @@
 from rdflib import URIRef, BNode, Literal, Graph
-from rdflib.namespace import RDF, RDFS
+from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
 import psycopg2
 
@@ -26,17 +26,19 @@ def table2RDF(table):
 	# Add provinces with links to the graph
 	for province in provinces:
 		# Name and geometry should still get URIs assigned to them
-		name = Literal(province[0])
-		geometry = Literal(province[1])
+		thing = BNode() #Literal(province[0])
+		geometry = BNode() #Literal(province[1])
 		# Create links
-		g.add( (name, RDF.type, dbpedia.Province) )
+		g.add( (thing, RDF.type, dbpedia.Province) )
+		g.add( (geometry, RDF.type, geom.Geometry ) )
+		g.add( (thing, FOAF.name, Literal(province[0])) )
 		g.add( (geometry, RDFS.Datatype, geom.wktLiteral) )
-		g.add( (name, geom.hasGeometry, geometry) )
+		g.add( (thing, geom.hasGeometry, Literal(province[1])) )
 		
 	print g.serialize(format='turtle')
 
 	# Write the graph to a RDF file in the turtle format
-	g.serialize("test.rdf", format='turtle')
+	g.serialize("test.ttl", format='turtle')
 
 
 if (__name__ == "__main__"):
