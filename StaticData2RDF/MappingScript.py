@@ -26,14 +26,15 @@ def table2RDF(table):
 	# Add provinces with links to the graph
 	for province in provinces:
 		# Name and geometry should still get URIs assigned to them
-		thing = BNode() #Literal(province[0])
-		geometry = BNode() #Literal(province[1])
+		thing = URIRef('http://example.com/netherlands/province/' + province[0].lower())
+		geometry = URIRef('http://example.com/netherlands/province/' + province[0].lower() + '/geometry')
 		# Create links
 		g.add( (thing, RDF.type, dbpedia.Province) )
 		g.add( (geometry, RDF.type, geom.Geometry ) )
-		g.add( (thing, RDFS.label, Literal(province[0])) )
+		g.add( (thing, RDFS.label, Literal(province[0]) ) )
 		g.add( (geometry, RDFS.Datatype, geom.wktLiteral) )
-		g.add( (thing, geom.hasGeometry, Literal(province[1])) )
+		g.add( (geometry, RDFS.Literal, Literal(province[1]) ) )
+		g.add( (thing, geom.hasGeometry, geometry ) )
 		
 	print g.serialize(format='turtle')
 
