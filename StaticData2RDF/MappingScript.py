@@ -14,6 +14,7 @@ def getData(dbms_name, user, password):
 
 	return table
 
+# table2RDF takes a table with spatial objects which have a name and a geometry as input and creates an RDF file from it
 def table2RDF(table):
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
@@ -24,16 +25,16 @@ def table2RDF(table):
 	g = Graph()
 
 	# Add provinces with links to the graph
-	for province in provinces:
+	for row in table:
 		# Name and geometry should still get URIs assigned to them
-		thing = URIRef('http://example.com/netherlands/province/' + province[0].lower())
-		geometry = URIRef('http://example.com/netherlands/province/' + province[0].lower() + '/geometry')
+		thing = URIRef('http://example.com/netherlands/province/' + row[0].lower() )
+		geometry = URIRef('http://example.com/netherlands/province/' + row[0].lower() + '#geometry')
 		# Create links
 		g.add( (thing, RDF.type, dbpedia.Province) )
 		g.add( (geometry, RDF.type, geom.Geometry ) )
-		g.add( (thing, RDFS.label, Literal(province[0]) ) )
+		g.add( (thing, RDFS.label, Literal(row[0]) ) )
 		g.add( (geometry, RDFS.Datatype, geom.wktLiteral) )
-		g.add( (geometry, RDFS.Literal, Literal(province[1]) ) )
+		g.add( (geometry, RDFS.Literal, Literal(row[1]) ) )
 		g.add( (thing, geom.hasGeometry, geometry ) )
 		
 	print g.serialize(format='turtle')
@@ -41,6 +42,7 @@ def table2RDF(table):
 	# Write the graph to a RDF file in the turtle format
 	g.serialize("test.ttl", format='turtle')
 
+	return
 
 if (__name__ == "__main__"):
 	provinces = getData("Masterthesis", "postgres", "")
