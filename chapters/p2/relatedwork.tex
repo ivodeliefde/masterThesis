@@ -22,7 +22,16 @@ phenomena with multiple stakeholder perspectives" \cite[p.129]{SSW:Atkinson}. Th
 	\label{fig:sens-stim-obs}
 \end{figure}
 
-\cite{SW:Hu} have reviewed a number of metadata models (including \ac{sensorml} and \ac{ssno}). They argue that all of the current metadata models are not sufficient for sensor data discovery. Therefore, they propose a metadata model that "reuses and extends the existing sensor observation-related metadata standards" \cite[p. 10546]{SW:Hu}.
+\cite{SW:Hu} have reviewed a number of metadata models (including \ac{sensorml} and \ac{ssno}) for the use of earth observation (including remote sensing). They argue that all of the current metadata models are not sufficient for sensor data discovery. This conclusion is based on an evaluation of six criteria. Three steps have been identified in the process of obtaining relevant sensor data for earth observation, which have been used to derive criteria for their evaluation framework. These steps are sensor filtration, sensor optimisation and sensor dispatch. The filtration of sensors should result in a set of sensors that meets the requirements of the application: it should measure the right phenomenon, be active, be inside the spatial and temporal range, and have a certain sample interval. In sensor optimisation the selected sensors should be combined to complement or enhance each other. To do this, the observation quality, coverage and application is relevant. In the last step - sensor dispatch - the data should be retrieved, stored transmitted. In every evaluated model sensors can describe in different ways or only partially, which affects the outcome of the sensor dispatch. 
+
+Therefore, a metadata model is proposed that "reuses and extends the existing sensor observation-related metadata standards" \cite[p. 10546]{SW:Hu}. It is composed of five modules: observation breadth, observation depth, observation frequency, observation quality and observation data. They should be derived from metadata elements described using the Dublin Core metadata element set. These five modules can then be formalized following the \ac{sensorml} schema which can be queried by users via the 'Unified Sensor Capability Description Model-based Engine' (figure \ref{fig:Hu}). 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\linewidth]{figs/hu.png}
+	\caption{Architecture of the sensor discovery system by \cite[p. 10553]{SW:Hu}}
+	\label{fig:Hu}
+\end{figure}
 
 \cite{SSW:Cox3} has been working on an improved semantic ontology based on \ac{om}.
 
