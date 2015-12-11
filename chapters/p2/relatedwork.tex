@@ -2,7 +2,7 @@
 % a related work section in which the relevant literature is presented and linked to the project;
 \chapter{Related work}
 \label{chap:rw}
-A number of research topics are relevant for this thesis: how to connect existing standards for publishing sensor data to the semantic web, developing ontologies that are suitable for many different kinds of sensor data and how to aggregate sensor data based on features-of-interest and time. This chapter discusses the recent relevant literature on these topics.     
+A number of research topics are relevant for this thesis: how to use existing standards for publishing sensor data to the semantic web, developing ontologies that are suitable for many different kinds of sensor data and how to aggregate sensor data based on features-of-interest and time. This chapter discusses the recent relevant literature on these topics.     
 
 \section{Semantic sensor data middleware}
 \cite{SSW:Henson} and \cite{SSW:Pschorr} suggest adding semantic annotations to a \ac{sos} which they call \ac{semsos}. In \ac{semsos} the raw sensor data goes through a process of semantic annotating before it can be requested with a \ac{sos} service. The retrieved data is still an \ac{xml} document, but with embedded semantic terminology as defined in an ontology model. The data retrieved from \ac{semsos} is therefore semantically enriched.  
@@ -13,9 +13,16 @@ A number of research topics are relevant for this thesis: how to connect existin
 phenomena with multiple stakeholder perspectives" \cite[p.129]{SSW:Atkinson}. Therefore, they propose that methods should be developed to move away from the traditional dataset centric approaches and towards using linked data for cataloguing. This has the potential to bring together data and knowledge from different areas of research about the same (or similar) features-of-interest. It is also argued that using both linked data services and data-specific services could ease the transition into the linked data world.  
 
 \section{Sensor data ontologies}
- \ac{w3c} has developed an ontology based on the stimulus-sensor-observation pattern \citep{SSW:SSN_incubatorGroup}.
+ \ac{w3c} has developed an ontology for sensors and observations called the \ac{ssno}. This ontology aims to address semantic interoperability on top of the syntactic operability that the \ac{swe} standards provide. To accommodate different definitions of the same concepts the broadest definitions have been used. Depending on the interpretation these can be further defined with subconcepts. The \ac{ssno} is based on the stimulus-sensor-observation pattern, describing the relations between a sensor, a stimulus and observations (figure \ref{fig:sens-stim-obs}). Sensors are defined as "physical objects ... that observe, transforming incoming stimuli ... into another, often digital, representation", stimuli are defined as "changes or states ... in an environment that a sensor can detect and use to measure a property" and observations are defined as "contexts for interpreting incoming stimuli and fixing parameters such as time and location" \cite[p 28]{SSW:SSN_incubatorGroup}. The ontology can be used to model sensor networks from four different perspectives (sensor, observation, system, and feature \& property), which have been discussed together with additional relevant concepts.
 
-\cite{SW:Hu} has reviewed a number of metadata models (including \ac{sensorml} and \ac{ssno}). They argue that all of the current metadata models are not sufficient for sensor data discovery. Therefore, they propose a metadata model that "reuses and extends the existing sensor observation-related metadata standards" \cite[p. 10546]{SW:Hu}.
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{figs/sens_stim_obs.png}
+	\caption{The stimulus–sensor–observation pattern \cite[p. 28]{SSW:SSN_incubatorGroup}}
+	\label{fig:sens-stim-obs}
+\end{figure}
+
+\cite{SW:Hu} have reviewed a number of metadata models (including \ac{sensorml} and \ac{ssno}). They argue that all of the current metadata models are not sufficient for sensor data discovery. Therefore, they propose a metadata model that "reuses and extends the existing sensor observation-related metadata standards" \cite[p. 10546]{SW:Hu}.
 
 \cite{SSW:Cox3} has been working on an improved semantic ontology based on \ac{om}.
 
