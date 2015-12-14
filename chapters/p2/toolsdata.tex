@@ -1,15 +1,19 @@
 %!TEX root = thesis.tex
+
+%since specific data and tools have to be used, it’s good to present these concretely, so that the mentors know that you have a grasp of all aspects of the project;
+
+
 \chapter{Tools and Data}
 \label{chap:TD}
-
-since specific data and tools have to be used, it’s good to present these concretely, so that the mentors know that you have a grasp of all aspects of the project;
 
 \section{Data}
 Topographic data of neighbourhoods, city districts, municipalities and provinces\\
 
 Air quality sensor data from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). \\
 
+\iffalse
 The \ac{lustre} aims to "help users to easier and better express and use thesauri and controlled vocabularies for metadata work within Spatial Data Infrastructures" \cite[p. 137]{LD:LusTRE}. This ontology does not focus on sensor data, but does describe many environmental phenomenon that are being observed. This fits with the idea of \cite{SSW:Cox4} to use ontologies that are already available online for defining metadata elements of sensor data. Since the \ac{sos} from the \ac{RIVM} and the \ac{sos} from \ac{irceline} provides information on   
+\fi
 
 \section{Database}
 A Postgres database will be used with the Postgis extension.
