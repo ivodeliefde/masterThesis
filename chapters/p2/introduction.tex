@@ -1,12 +1,12 @@
 %!TEX root = ../thesis.tex
 
-\chapter{Introduction}
+\section{Introduction}
 \label{chap:introduction}
 
 From 2020 onwards all member states of the \ac{eu} should provide sensor data to the \ac{inspire} in order to comply with annex II and III of the \ac{inspire} directive \citep{SDI:INSPIRE5}. For this a number of \ac{swe} standards are required to be used \citep{SDI:INSPIRE2}. The sensor web is a relatively new development and there are still many questions on how to structure it. This thesis aims to develop a method to publish and link sensor metadata on the semantic web for discovering, integrating and aggregating sensor data.
 
 % Introduction to the subject
-\section{Background}
+\subsection{Background}
 In 2008 the \ac{ogc} introduced a new set of standards called \ac{swe}. These standards make it possible to connect sensors to the internet and retrieve data in a uniform way. This allows users or applications to retrieve sensor data through standard protocols, regardless of the type of observations or the sensor's manufacturer \citep{SW:Botts}. Among other standards \ac{swe} includes the \ac{om} which is a model for encoding sensor data, the \ac{sensorml} which is a model for describing sensor metadata and the \ac{sos} which is a service for retrieving sensor data \citep{SW:OGC}. \ac{om} has also been adopted by the \ac{iso} under \ac{iso} 19156:2011 \citep{SW:ISO}. 
 
 Recently \ac{ogc} has defined the role which their standards could play in smart city developments \citep{SC:OGC}. Smart cities can be defined as "enhanced city systems which use data and technology to achieve integrated management and interoperability" \citep[p. 18]{SC:Moir}. Research on smart cities has shown a great potential for using sensor data in urban areas. Often this is presented in the context of the \ac{iot} \citep{IOT:Zanelli, SSW:Wang2}. The \ac{iot} can be described as "the pervasive presence around us of a variety of \textit{things} or \textit{objects} ... [which] are able to interact with each other and cooperate with their neighbors to reach common goals" \cite[p. 2787]{IOT:Atzori}. 
@@ -16,19 +16,19 @@ Parallel to the development of the sensor web other research has focused on the 
 \cite{SSW:Sheth} proposes to use semantic web technologies in the sensor web. This so-called \ac{ssw} builds on standards by \ac{ogc} and the \ac{w3c} "to provide enhanced descriptions and meaning to sensor data" \cite[p.78]{SSW:Sheth}. \ac{w3c} responded to this development by creating a standard ontology for sensor data on the semantic web \citep{SSW:SSN_incubatorGroup}. 
  
 % Problem statement
-\section{Problem statement}
+\subsection{Problem statement}
 Finding sensor data that can be retrieved using a \ac{sos} is not easy. The implementation of the sensor web is still in an early stage. At the moment there are only a limited number of \ac{sos} implementations available on the web and they contain a limited amount of data. In the Netherlands the \ac{sos} by the \ac{rivm} is one of the first ones to be developed. It has only recently been created and contains data on air quality. A number of other organisations still use a custom \ac{api} to retrieve data from sensors connected to the internet. It has been researched to what extent a catalogue services could be useful for discovering sensor data: the \ac{sir} \citep{SW:OGC3} and the \ac{sor} \citep{SW:OGC4}. Catalogue services have already been available for example for the \ac{wms}, \ac{wfs} or \ac{wcs} \citep{SDI:OGC2}. However, for discovering sensor data from the \ac{sos} services used in this paper no register or catalogue service has been implemented. 
 
 It has been argued that one of the challenges of using sensor data is the difficulty of integrating data from different sources to perform data fusion \citep{SSW:Corcho, SSW:Ji, SSW:Wang}. Data fusion is "a data processing technique that associates, combines, aggregates, and integrates data from different sources" \cite[p. 2]{SSW:Wang2}. Even if the sources comply with the \ac{swe} standards it is challenging, since the data can be of a different scale, both in time and space. 
 
 A question that comes to mind is to what extent the semantic web could be a better solution for publishing sensor data than using a \ac{sos}. The geoweb has some very good qualities, such as very structured approaches in which (sensor) data can be retrieved using well defined services. This is different from for example web pages where content can be completely unstructured. The response of a \ac{sos} also contains some semantics about sensor data. There can be x-links inside the \ac{xml} with \ac{uri}s that point to semantic definitions of objects. Still, the semantic web could be beneficial for the geoweb as it is machine understandable which could be useful for automatic integration and aggregation. It also contains links to other relevant data which could make discovering sensor data more easy. 
 
-\section{Scientific relevance}
+\subsection{Scientific relevance}
 Sensor data ties together many different fields of research. On the one hand there is research on how to create the most efficient sensor networks that uses the least amount of power to transfer the observed data over long distances. This involves academic fields such as mathematics, physics and electrical engineering. On the other hand there is research that uses sensor data to gain insights into real world phenomenon. This involves academic fields such as geography, environmental studies and urbanism. In order to connect these scientific fields, research has been focused on the use of computer science and standardisation for transferring sensor data over the internet. 
 
 In the future more sensor data is expected to be produced, on the one hand by experts because of European legislation (\ac{inspire}). However, on the other hand also non-experts will be involved more often via smart cities and \ac{iot} developments where users or consumer electronics produce sensor data. This vast amount of data could be very useful for academic research, provided researchers are able to find the data they need online and are able to integrate and aggregate data from heterogeneous sources. Publishing sensor metadata on the semantic web could make it easier to find what you need through related data on the internet. A \ac{sor} or \ac{sir} is only useful for users if it is already known in advance where to find a specific catalogue service, as content inside the service cannot be linked to from other parts of the web. It is also dependent on whether people producing data have invested time and effort to register their sensors to such a service.      
 
 % Research question 
-\section{Research question}
+\subsection{Research question}
 This thesis aims to develop a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from heterogeneous sources. The following question will be answered in this research:   
 \textit{How can the semantic web improve the discovery, integration and aggregation of distributed sensor data?} 

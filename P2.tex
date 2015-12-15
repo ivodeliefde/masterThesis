@@ -1,57 +1,41 @@
-
-\documentclass[10pt,a4paper,openright,titlepage,fleqn,%
-               headinclude,footinclude,BCOR5mm,%
-               numbers=noenddot,cleardoublepage=empty]{report}
+\documentclass[a4paper,11pt]{article}
 
 \usepackage{graphicx}
-\usepackage{amsmath,amssymb,amsthm}
-\usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc} %-- pour utiliser des accents en français
+\usepackage{amsmath,amssymb,amsthm} 
 \usepackage[round]{natbib}
-% \usepackage{subfig} 
-\usepackage{subcaption} 
-\usepackage{hyperref} 
-\usepackage[ruled,vlined,algochapter,linesnumbered]{algorithm2e}
-\usepackage{chngpage}
-\usepackage{calc}
-\usepackage{listings}
-\usepackage{ccicons} 
-\usepackage{xspace} 
-\usepackage{booktabs} 
-\usepackage[english]{babel}  
-\usepackage{listings}
-\usepackage{scrhack} % ignore warnings about deprecated KOMA-Script
-\usepackage{apalike}
-\usepackage[printonlyused,smaller,withpage]{acronym}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage[left=20mm,top=20mm]{geometry}
+\usepackage{algorithmic}
+\usepackage{subcaption}
+\usepackage{mathpazo}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[nolist, nohyperlinks]{acronym}
+% \usepackage{draftwatermark}
 
-\usepackage[floatperchapter,dottedtoc,eulerchapternumbers,pdfspacing,linedheaders]{classicthesis}
-\usepackage{arsclassica}
+\newcommand{\ie}{ie}
+\newcommand{\eg}{eg}
+\newcommand{\reffig}[1]{Figure~\ref{#1}}
+\newcommand{\refsec}[1]{Section~\ref{#1}}
 
-\input{mysettings}
+%\setcapindent{1em} %-- for captions of Figures
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\title{Discovery, Integration and Aggregation of Sensor Data Using the Semantic Web}
+\author{Ivo de Liefde\\ \url{i.deliefde@student.tudelft.nl}}
+\date{\today}
 
 \begin{document}
 	
-\pagenumbering{roman}
-\pagestyle{plain}
-
-%******************************************************************
-% Frontmatter
-%******************************************************************
-\input{front/p2/titlepage}
-\clearpage
-%\input{front/p2/titleback}
-%\clearpage
-%\input{front/p2/abstract}
-%\pagestyle{scrheadings} 
-%\clearpage
-\input{front/p2/contents}
-\clearpage
+\maketitle
 \input{front/p2/acronyms}
-\cleardoublepage
-
 %******************************************************************
 % Mainmatter
 %******************************************************************
-\pagenumbering{arabic}
 \input{chapters/p2/introduction}
 \input{chapters/p2/relatedwork}
 \input{chapters/p2/objectives}
@@ -66,19 +50,9 @@
 
 %%%
 %- bibliography
-\bibliographystyle{apalike}
+\bibliographystyle{plainnat}
 \bibliography{Thesis_sources}
 
-%%%
-%- the mandatory reflection can be put as an Appendix
-\cleardoublepage
-%\include{appendices/someumldia}
-
-
-\clearpage
-\include{back/colophon}
-% \clearpage
-% \input{back/Index}
 
 \end{document}
 

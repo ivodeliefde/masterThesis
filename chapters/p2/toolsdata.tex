@@ -3,10 +3,10 @@
 %since specific data and tools have to be used, it’s good to present these concretely, so that the mentors know that you have a grasp of all aspects of the project;
 
 
-\chapter{Tools and Data}
+\section{Tools and Data}
 \label{chap:TD}
 
-\section{Data}
+\subsection{Data}
 Topographic data of neighbourhoods, city districts, municipalities and provinces\\
 
 Air quality sensor data from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). \\
@@ -15,14 +15,14 @@ Air quality sensor data from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) a
 The \ac{lustre} aims to "help users to easier and better express and use thesauri and controlled vocabularies for metadata work within Spatial Data Infrastructures" \cite[p. 137]{LD:LusTRE}. This ontology does not focus on sensor data, but does describe many environmental phenomenon that are being observed. This fits with the idea of \cite{SSW:Cox4} to use ontologies that are already available online for defining metadata elements of sensor data. Since the \ac{sos} from the \ac{RIVM} and the \ac{sos} from \ac{irceline} provides information on   
 \fi
 
-\section{Database}
+\subsection{Database}
 A Postgres database will be used with the Postgis extension.
 
-\section{Server}
+\subsection{Server}
 Prototyping will be done using a localhost at first, but in the end it could be hosted on the university server.
 
 
-\section{Prototype}
+\subsection{Prototype}
 \begin{itemize}
 	\item The Python programming language will be used for scripting a prototype. 
 	\item Psycopg2 will be used to connect a Python script to a Postgres database.
