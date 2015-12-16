@@ -2,18 +2,39 @@
 
 %since specific data and tools have to be used, it’s good to present these concretely, so that the mentors know that you have a grasp of all aspects of the project;
 
-
 \section{Tools and Data}
 \label{chap:TD}
 
+The methods that will be researched in this thesis are also going to be tested in a prototype application. Creating a prototype requires data and software tools. This chapter briefly describes the tools and data that will be used.  
+
 \subsection{Data}
-Topographic data of neighbourhoods, city districts, municipalities and provinces\\
+\begin{sloppypar}
+The data can be divided into static geographic data and sensor data. For static data the topographic data sets from the \ac{cbs} and the Dutch cadaster will be used. Shapefiles of Dutch neighbourhoods (wijken, figure \ref{fig:neighbourhoods}) have been downloaded from \url{http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/publicaties/geografische-data/archief/2015/wijk-en-buurtkaart-2014-art.htm}. The dataset of Dutch provinces (provincies, figure \ref{fig:provinces}) and municipalities (gemeenten, figure \ref{fig:municipalities}) has been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. It was very difficult to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}.
+\end{sloppypar}
 
-Air quality sensor data from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). \\
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/Neighbourhoods.png}
+	\caption{Dataset of neighbourhoods in the Netherlands in 2014 (from \ac{cbs})}
+	\label{fig:neighbourhoods}
+\end{figure}
 
-\iffalse
-The \ac{lustre} aims to "help users to easier and better express and use thesauri and controlled vocabularies for metadata work within Spatial Data Infrastructures" \cite[p. 137]{LD:LusTRE}. This ontology does not focus on sensor data, but does describe many environmental phenomenon that are being observed. This fits with the idea of \cite{SSW:Cox4} to use ontologies that are already available online for defining metadata elements of sensor data. Since the \ac{sos} from the \ac{RIVM} and the \ac{sos} from \ac{irceline} provides information on   
-\fi
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/Municipalities.png}
+	\caption{Dataset of municipalities in the Netherlands and Belgium in 2015 (from Dutch cadaster and GADM.org)}
+	\label{fig:municipalities}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/Provinces.png}
+	\caption{Dataset of provinces in the Netherlands and Belgium in 2015 (from Dutch cadaster and GADM.org)}
+	\label{fig:provinces}
+\end{figure}
+
+Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. They provide three kinds of sensor data: particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$).
+
 
 \subsection{Database}
 A Postgres database will be used with the Postgis extension.
