@@ -1,6 +1,6 @@
 %!TEX root = thesis.tex
 
-%since specific data and tools have to be used, it’s good to present these concretely, so that the mentors know that you have a grasp of all aspects of the project;
+%since specific data and tools have to be used, it’s good to present these concretely, so that the mentors know that you have a grasp of all aspects of the project; 
 
 \section{Tools and Data}
 \label{chap:TD}
@@ -11,6 +11,10 @@ The methods that will be researched in this thesis are also going to be tested i
 \begin{sloppypar}
 The data can be divided into static geographic data and sensor data. For static data the topographic data sets from the \ac{cbs} and the Dutch cadaster will be used. Shapefiles of Dutch neighbourhoods (wijken, figure \ref{fig:neighbourhoods}) have been downloaded from \url{http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/publicaties/geografische-data/archief/2015/wijk-en-buurtkaart-2014-art.htm}. The dataset of Dutch provinces (provincies, figure \ref{fig:provinces}) and municipalities (gemeenten, figure \ref{fig:municipalities}) has been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. It was very difficult to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}.
 \end{sloppypar}
+
+Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. They provide three kinds of sensor data: particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$).
+
+To store the static geographic data a spatial database will be created. A Postgres database will be used for this with the Postgis extension. With the plugin 'PostGIS 2.0 Shapefile and DBF loader' the downloaded shapefiles can be imported into the database.  
 
 \begin{figure}
 	\centering
@@ -31,27 +35,22 @@ The data can be divided into static geographic data and sensor data. For static 
 	\includegraphics[width=0.5\linewidth]{figs/Provinces.png}
 	\caption{Dataset of provinces in the Netherlands and Belgium in 2015 (from Dutch cadaster and GADM.org)}
 	\label{fig:provinces}
-\end{figure}
-
-Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. They provide three kinds of sensor data: particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$).
-
-
-\subsection{Database}
-A Postgres database will be used with the Postgis extension.
-
-\subsection{Server}
-Prototyping will be done using a localhost at first, but in the end it could be hosted on the university server.
-
+\end{figure} 
 
 \subsection{Prototype}
-\begin{itemize}
-	\item The Python programming language will be used for scripting a prototype. 
+The methods researched in this thesis will be implemented in a prototype. The prototype will be written in the Python programming language and will use a number of Python packages and libraries:\\
+
+\vbox{%
+\begin{itemize} 
 	\item Psycopg2 will be used to connect a Python script to a Postgres database.
 	\item Python's \href{http://docs.python-requests.org/en/latest/user/quickstart/}{Request} library will be used for making \ac{http} POST and GET requests. 
 	\item For working with \ac{xml} Python's xml package will be used.
 	\item To create \ac{rdf} documents the Python library \href{https://rdflib.readthedocs.org/en/stable/}{RDFLib} will be used. 
 	\item The scripts will be part of a \ac{wps} using \href{http://pywps.wald.intevation.org/}{PyWPS} 
-\end{itemize}
+\end{itemize}}
+
+\subsection{Server}
+The prototyp will be created on a localhost at first. Once finished it could be hosted on the university server. For the localhost the Apache software will be used, since the PyWPS software requires this. 
 
 
 
