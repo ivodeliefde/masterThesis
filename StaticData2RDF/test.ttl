@@ -5,92 +5,95 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://example.com/antwerpen/province/antwerpen> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/antwerpen> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/antwerpen#geometry> ;
     ns2:name "Antwerpen" .
 
-<http://example.com/brabant_wallon/province/brabant_wallon> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/brabant_wallon> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/brabant_wallon#geometry> ;
     ns2:name "Brabant Wallon" .
 
-<http://example.com/bruxelles/province/bruxelles> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/bruxelles> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/bruxelles#geometry> ;
     ns2:name "Bruxelles" .
 
-<http://example.com/drenthe/province/drenthe> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/drenthe#geometry> ;
-    ns2:name "Drenthe" .
-
-<http://example.com/flevoland/province/flevoland> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/flevoland#geometry> ;
-    ns2:name "Flevoland" .
-
-<http://example.com/friesland/province/friesland> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/friesland#geometry> ;
-    ns2:name "Friesland" .
-
-<http://example.com/gelderland/province/gelderland> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/gelderland#geometry> ;
-    ns2:name "Gelderland" .
-
-<http://example.com/groningen/province/groningen> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/groningen#geometry> ;
-    ns2:name "Groningen" .
-
-<http://example.com/hainaut/province/hainaut> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/hainaut> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/hainaut#geometry> ;
     ns2:name "Hainaut" .
 
-<http://example.com/limburg/province/limburg> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Belgium/province/limburg#geometry>,
-        <http://example.com/Netherlands/province/limburg#geometry> ;
+<http://example.com/Belgium/province/limburg> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Belgium/province/limburg#geometry> ;
     ns2:name "Limburg" .
 
-<http://example.com/liège/province/liège> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/liège> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/liège#geometry> ;
     ns2:name "Liège" .
 
-<http://example.com/luxembourg/province/luxembourg> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/luxembourg> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/luxembourg#geometry> ;
     ns2:name "Luxembourg" .
 
-<http://example.com/namur/province/namur> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/namur> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/namur#geometry> ;
     ns2:name "Namur" .
 
-<http://example.com/noord-brabant/province/noord-brabant> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/noord-brabant#geometry> ;
-    ns2:name "Noord-Brabant" .
-
-<http://example.com/noord-holland/province/noord-holland> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/noord-holland#geometry> ;
-    ns2:name "Noord-Holland" .
-
-<http://example.com/oost-vlaanderen/province/oost-vlaanderen> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/oost-vlaanderen> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/oost-vlaanderen#geometry> ;
     ns2:name "Oost-Vlaanderen" .
 
-<http://example.com/overijssel/province/overijssel> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/overijssel#geometry> ;
-    ns2:name "Overijssel" .
-
-<http://example.com/utrecht/province/utrecht> a <http://dbpedia/resource/Province> ;
-    ns1:hasGeometry <http://example.com/Netherlands/province/utrecht#geometry> ;
-    ns2:name "Utrecht" .
-
-<http://example.com/vlaams_brabant/province/vlaams_brabant> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/vlaams_brabant> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/vlaams_brabant#geometry> ;
     ns2:name "Vlaams Brabant" .
 
-<http://example.com/west-vlaanderen/province/west-vlaanderen> a <http://dbpedia/resource/Province> ;
+<http://example.com/Belgium/province/west-vlaanderen> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Belgium/province/west-vlaanderen#geometry> ;
     ns2:name "West-Vlaanderen" .
 
-<http://example.com/zeeland/province/zeeland> a <http://dbpedia/resource/Province> ;
+<http://example.com/Netherlands/province/drenthe> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/drenthe#geometry> ;
+    ns2:name "Drenthe" .
+
+<http://example.com/Netherlands/province/flevoland> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/flevoland#geometry> ;
+    ns2:name "Flevoland" .
+
+<http://example.com/Netherlands/province/friesland> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/friesland#geometry> ;
+    ns2:name "Friesland" .
+
+<http://example.com/Netherlands/province/gelderland> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/gelderland#geometry> ;
+    ns2:name "Gelderland" .
+
+<http://example.com/Netherlands/province/groningen> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/groningen#geometry> ;
+    ns2:name "Groningen" .
+
+<http://example.com/Netherlands/province/limburg> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/limburg#geometry> ;
+    ns2:name "Limburg" .
+
+<http://example.com/Netherlands/province/noord-brabant> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/noord-brabant#geometry> ;
+    ns2:name "Noord-Brabant" .
+
+<http://example.com/Netherlands/province/noord-holland> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/noord-holland#geometry> ;
+    ns2:name "Noord-Holland" .
+
+<http://example.com/Netherlands/province/overijssel> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/overijssel#geometry> ;
+    ns2:name "Overijssel" .
+
+<http://example.com/Netherlands/province/utrecht> a <http://dbpedia/resource/Province> ;
+    ns1:hasGeometry <http://example.com/Netherlands/province/utrecht#geometry> ;
+    ns2:name "Utrecht" .
+
+<http://example.com/Netherlands/province/zeeland> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Netherlands/province/zeeland#geometry> ;
     ns2:name "Zeeland" .
 
-<http://example.com/zuid-holland/province/zuid-holland> a <http://dbpedia/resource/Province> ;
+<http://example.com/Netherlands/province/zuid-holland> a <http://dbpedia/resource/Province> ;
     ns1:hasGeometry <http://example.com/Netherlands/province/zuid-holland#geometry> ;
     ns2:name "Zuid-Holland" .
 

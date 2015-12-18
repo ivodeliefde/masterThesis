@@ -35,13 +35,13 @@ def table2RDF(table, country, AdmUnitType):
 	for row in table:
 		if AdmUnitType.lower() == "province":
 			# Name and geometry should still get URIs assigned to them
-			thing = URIRef('http://example.com/{1}/province/{1}'.format(country, row[0].lower().replace(' ', '_') ) )
+			thing = URIRef('http://example.com/{0}/province/{1}'.format(country, row[0].lower().replace(' ', '_') ) )
 			geometry = URIRef('http://example.com/{0}/province/{1}#geometry'.format(country, row[0].lower() ).replace(' ', '_') )
 			# Create links
 			g.add( (thing, RDF.type, dbpedia.Province) )
 		elif AdmUnitType.lower() == "municipality":
 			# Name and geometry should still get URIs assigned to them
-			thing = URIRef('http://example.com/{1}/municipality/{1}'.format(country, row[0].lower() ) )
+			thing = URIRef('http://example.com/{0}/municipality/{1}'.format(country, row[0].lower() ) )
 			geometry = URIRef('http://example.com/{0}/municipality/{1}#geometry'.format(country, row[0].lower() ) )
 			# Create links
 			g.add( (thing, RDF.type, dbpedia.Municipality) )
