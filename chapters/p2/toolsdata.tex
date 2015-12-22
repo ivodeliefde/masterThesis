@@ -15,9 +15,7 @@ The data can be divided into static geographic data and sensor data. For static 
 To store the static geographic data a spatial database will be created. A Postgres database will be used for this with the Postgis extension. With the plugin 'PostGIS 2.0 Shapefile and DBF loader' the downloaded shapefiles can be imported into the database.  
 
 Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. They provide three kinds of sensor data: particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$).\\
-
 \hl{How many sensors are available? (create a map with the sensor locations)}\\
-
 \hl{Also use landcover data (from CORINE) as static geographic data to link to.}\\
 
 \begin{figure}
@@ -54,9 +52,8 @@ The methods researched in this thesis will be implemented in a prototype. The pr
 \end{itemize}}
 
 \subsection{Server}
-The prototype will be created on a localhost at first. Once finished it could be hosted on the university server. For the localhost the Apache software will be used, since the PyWPS software requires this. 
-
-Fuseki Jena is the \ac{sparql} endpoint that is being used.
+The prototype will be created on a localhost at first. Once finished it could be hosted on the university server. For the localhost the Apache software will be used, since the PyWPS software requires this. \\
+\hl{Fuseki Jena is the SPARQL endpoint that is being used.}
 
 
 
