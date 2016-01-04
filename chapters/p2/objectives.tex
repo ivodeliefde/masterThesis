@@ -23,20 +23,16 @@ To answer the main question a number of sub-questions need to be answered:
 
 This thesis explores a method to store metadata of sensors on the semantic web, and to link it to real world features-of-interest and to appropriate methods for aggregation. This should improve the discovery of sensor data through links to other related data on the internet.  
 
-To improve the integration of sensor data a middleware architecture will be designed that can return sensor data for features-of-interest from different sources. The sensor data can be returned raw or aggregated. Only appropriate methods of aggregation are offered for each kind of observations, based on a formalisation of expert knowledge on the semantic web. The service can be accessed as a \ac{wps}. A prototype implementation will be created as a proof of concept.
+To improve the integration of sensor data a middleware architecture will be designed that can return sensor data for features-of-interest from different sources. It finds the relevant sensors and the \ac{sos} from where they can be queried to retrieve the required data on the semantic web. The sensor data can be returned raw or aggregated. Only appropriate methods of aggregation are offered for each kind of observations, based on a formalisation of expert knowledge on the semantic web. The service can be accessed as a \ac{wps}. A prototype implementation will be created as a proof of concept.
 
 \subsection{Scope}
-The focus of this thesis is to explore the role of the semantic web in discovering, integrating and aggregating sensor data from heterogeneous sources. Therefore, accepted \ac{ogc} and \ac{iso} standards will be, such as \ac{sos}, \ac{sensorml} and \ac{om}. The om-lite and sam-lite ontologies will be used in combination with geoSPARQL. An in-depth analysis of different (upcoming) standards lies outside the scope of this research. 
+The focus of this thesis is to explore the role of the semantic web in discovering, integrating and aggregating sensor data from heterogeneous sources. Therefore, accepted \ac{ogc} and \ac{iso} standards will be used, such as \ac{sos}, \ac{sensorml} and \ac{om}. The data on the semantic web will use the om-lite and sam-lite ontologies in combination with geoSPARQL. An in-depth analysis of different (upcoming) standards lies outside the scope of this research. 
+
+The idea by \cite{SW:Jones} of delivering data to users through a service with which they are already familiar is very appealing, because it enables data to be immediately used in any existing \ac{gis}. This is also suggested by \cite{SSW:Atkinson} to ease the transition to the linked data world. However, current research has mainly been concerned with static geographic data, not with sensor data. Therefore, this thesis aims to provide a proof of concept for integrating and aggregating sensor data using the \ac{ogc} standard \ac{wps}.
+
+The proof of concept implementation will cover the Netherlands and Belgium. This area has been selected because there is already sensor data available via a \ac{sos} service. Also, the shared boundary will be used to test querying sensor data from different sources. The implementation should be able to receive a request for sensor data with a specified bounding box that overlaps both countries. It should efficiently retrieve the relevant data from two different sources, process the data and return the data with a single response. The processing includes integrated data from different sources, but the \ac{wps} should also have a parameter that can be used to aggregate the data as well.     
 
 
-\subsection{Research methodology}
-
-\hl{Paragraph that describes that the research area is the Netherlands and Belgium.}\\
-\hl{The data should be retrieved, but also the SOS services}\\
-\hl{The prototype application returns more than the raw data, it processes it first (integrating and aggregating) }\\
-\hl{For online processes there is an OGC standard: WPS. The prototype will be a WPS.}\\
-
-The idea by \cite{SW:Jones} of delivering data to users through a service with which they are already familiar is very appealing, because it enables data to be immediately used in any existing \ac{gis}. This is also suggested by \cite{SSW:Atkinson} to ease the transition to the linked data world. However, current research has mainly been concerned with static geographic data, not with sensor data. Therefore, this thesis aims to provide a service for integrating and aggregating sensor data as a \ac{wps}.
 
 
 
