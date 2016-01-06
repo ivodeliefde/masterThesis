@@ -12,7 +12,7 @@ The methods that will be researched in this thesis are also going to be tested i
 The data can be divided into static geographic data and sensor data. For static data the topographic data sets from the \ac{cbs} and the Dutch cadaster will be used. Shapefiles of Dutch neighbourhoods (wijken, figure \ref{fig:neighbourhoods}) have been downloaded from \url{http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/publicaties/geografische-data/archief/2015/wijk-en-buurtkaart-2014-art.htm}. The dataset of Dutch provinces (provincies, figure \ref{fig:provinces}) and municipalities (gemeenten, figure \ref{fig:municipalities}) has been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. It was very difficult to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}.
 \end{sloppypar}
 
-To store the static geographic data a spatial database will be created. A Postgres database will be used for this with the Postgis extension. With the plugin 'PostGIS 2.0 Shapefile and DBF loader' the downloaded shapefiles can be imported into the database.  
+To store the static geographic data a spatial database will be created. A Postgres database will be used for this with the Postgis extension. With the plugin `PostGIS 2.0 Shapefile and DBF loader' the downloaded shapefiles can be imported into the database.  
 
 \begin{figure}
 	\centering
