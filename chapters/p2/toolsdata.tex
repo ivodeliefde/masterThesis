@@ -9,7 +9,7 @@ The methods that will be researched in this thesis are also going to be tested i
 
 \subsection{Data}
 \begin{sloppypar}
-The data can be divided into static geographic data and sensor data. For static data the topographic data sets from the \ac{cbs} and the Dutch cadaster will be used. Shapefiles of Dutch neighbourhoods (wijken, figure \ref{fig:neighbourhoods}) have been downloaded from \url{http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/publicaties/geografische-data/archief/2015/wijk-en-buurtkaart-2014-art.htm}. The dataset of Dutch provinces (provincies, figure \ref{fig:provinces}) and municipalities (gemeenten, figure \ref{fig:municipalities}) has been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. It was very difficult to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}.
+The data can be divided into static geographic data and sensor data. For static data the topographic data sets from the \ac{cbs} and the Dutch cadaster will be used. Shapefiles of Dutch neighbourhoods (wijken, Figure \ref{fig:neighbourhoods}) have been downloaded from \url{http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/publicaties/geografische-data/archief/2015/wijk-en-buurtkaart-2014-art.htm}. The dataset of Dutch provinces (provincies, Figure \ref{fig:provinces}) and municipalities (gemeenten, Figure \ref{fig:municipalities}) has been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. It was very difficult to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}.
 \end{sloppypar}
 
 To store the static geographic data a spatial database will be created. A Postgres database will be used for this with the Postgis extension. With the plugin `PostGIS 2.0 Shapefile and DBF loader' the downloaded shapefiles can be imported into the database.  
@@ -45,13 +45,13 @@ To store the static geographic data a spatial database will be created. A Postgr
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{figs/CORINE_NL_BE_color_zoom.PNG}
-	\caption{Landcover of the province of South Holland (subsection of the dataset from figure \ref{fig:CORINE})}
+	\caption{Landcover of the province of South Holland (subsection of the dataset from Figure \ref{fig:CORINE})}
 	\label{fig:CORINEZOOM}
 \end{figure}
 
 Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. They provide three kinds of sensor data: particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$).\\
 \hl{How many sensors are available? (create a map with the sensor locations)}\\
-Also landcover data will be used to link to. For this the CORINE dataset will be used (see figure \ref{fig:CORINE} \& \ref{fig:CORINEZOOM}). 
+Also landcover data will be used to link to. For this the CORINE dataset will be used (see Figure \ref{fig:CORINE} \& \ref{fig:CORINEZOOM}). 
 
 \subsection{Prototype}
 The methods researched in this thesis will be implemented in a prototype. The prototype will be written in the Python programming language and will use a number of Python packages and libraries:\\
