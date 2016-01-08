@@ -14,7 +14,7 @@ To answer the main question a number of sub-questions need to be answered:
 \begin{itemize}
 	\item To what extent can sensor metadata be automatically retrieved from a \ac{sos} and published on the semantic web?
 	\item How can metadata on the semantic web be linked to relevant features-of-interest using existing vocabularies?
-	\item To what extent can incoming links be automatically generated from DBPedia?
+	\item To what extent can incoming links be automatically generated from DBPedia\footnote{DBPedia is an online knowledge base with linked data extracted from Wikipedia. It consists of 1.46 billion facts available in 14 languages \citep{LD:DBPedia}}?
 	\item How can aggregation methods be represented on the semantic web to formalise expert knowledge and prevent meaningless aggregation?
 	\item To what extent can already existing standards for retrieving geographic data be used for a service that supplies integrated and aggregated sensor data?
 \end{itemize}
@@ -23,7 +23,7 @@ To answer the main question a number of sub-questions need to be answered:
 
 This thesis explores a method to store metadata of sensors on the semantic web, and to link it to real world features-of-interest and to appropriate methods for aggregation. This should improve the discovery of sensor data through links to other related data on the internet.  
 
-To improve the integration of sensor data a middleware architecture will be designed that can return sensor data for features-of-interest from different sources. It finds the relevant sensors and the \ac{sos} from where they can be queried to retrieve the required data on the semantic web. The sensor data can be returned raw or aggregated. Only appropriate methods of aggregation are offered for each kind of observations, based on a formalisation of expert knowledge on the semantic web. The service can be accessed as a \ac{wps}. A prototype implementation will be created as a proof of concept.
+To improve the integration of sensor data a middleware architecture will be designed that can return sensor data for features-of-interest from different sources. It finds the relevant sensors and the \ac{sos} from where they can be queried to retrieve the required data on the semantic web. The sensor data can be returned raw or aggregated. Only appropriate methods of aggregation are offered for each kind of observations, based on a formalisation of expert knowledge on the semantic web. The service can be accessed as a \ac{wps}. A prototype implementation will be created as a proof of concept. The prototype should also include a visualisation in either QGIS (as a Python plugin) or on a web map. 
 
 \subsection{Scope}
 The focus of this thesis is to explore the role of the semantic web in discovering, integrating and aggregating sensor data from heterogeneous sources. Therefore, accepted \ac{ogc} and \ac{iso} standards will be used, such as \ac{sos}, \ac{sensorml} and \ac{om}. The data on the semantic web will use the om-lite and sam-lite ontologies in combination with geoSPARQL. An in-depth analysis of different (upcoming) standards lies outside the scope of this research. 
