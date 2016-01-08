@@ -52,8 +52,17 @@ To store the static geographic data a spatial database will be created. A Postgr
 	\label{fig:CORINEZOOM}
 \end{figure}
 
-Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. They provide three kinds of sensor data: particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$).\\
-\hl{How many sensors are available? (create a map with the sensor locations)}\\
+Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. They provide three kinds of sensor data: particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$). Figure \ref{fig:Sensor} shows one of the sensor locations in the city center of Amsterdam. 
+
+\hl{Create map with the locations of sensors}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{figs/SensorAdam.png}
+	\caption{Google Streetview image of \ac{rivm} sensor location in Amsterdam}
+	\label{fig:Sensor}
+\end{figure}
+
 
 \vbox{%
 \subsection{Prototype}
@@ -68,8 +77,7 @@ The methods researched in this thesis will be implemented in a prototype. The pr
 \end{itemize}}
 
 \subsection{Server}
-The prototype will be created on a localhost at first. Once finished it could be hosted on the university server. For the localhost the Apache software will be used, since the PyWPS software requires this. \\
-\hl{Fuseki Jena is the SPARQL endpoint that is being used.}
+The prototype will be created on a localhost at first. Once finished it could be hosted on the university server. For the localhost the Apache software will be used, since the PyWPS software requires this. Fuseki Jena is the SPARQL endpoint that is being used (\url{https://jena.apache.org/documentation/serving_data/}).
 
 
 
