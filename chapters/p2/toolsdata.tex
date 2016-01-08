@@ -55,10 +55,10 @@ To store the static geographic data a spatial database will be created. A Postgr
 Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. They provide three kinds of sensor data: particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$).\\
 \hl{How many sensors are available? (create a map with the sensor locations)}\\
 
+\vbox{%
 \subsection{Prototype}
 The methods researched in this thesis will be implemented in a prototype. The prototype will be written in the Python programming language and will use a number of Python packages and libraries:\\
 
-\vbox{%
 \begin{itemize} 
 	\item Psycopg2 will be used to connect a Python script to a Postgres database.
 	\item Python's \href{http://docs.python-requests.org/en/latest/user/quickstart/}{Request} library will be used for making \ac{http} POST and GET requests. 
