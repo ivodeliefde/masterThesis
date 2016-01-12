@@ -3,6 +3,8 @@ from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
 import psycopg2
 
+LocalhostPath = "D:/URI_test"
+
 def getData(dbms_name, table, user, password):
 	# Connect to the Postgres database
 	conn = psycopg2.connect(host="localhost", port='5433', database=dbms_name, user=user, password=password) 
@@ -13,6 +15,17 @@ def getData(dbms_name, table, user, password):
 	table = cur.fetchall()
 
 	return table
+
+def createURI(name, location):
+	# create a basic HTML file which will serve as an URI in the form of an URL
+	content = "<!DOCTYPE html><html><head><title>{0}</title></head><body><h1>URI for {0}</h1></body></html>".format(name)
+	
+	# Store the HTML file in the proper location on the server and host it to establish the new URI
+	global LocalhostPath
+	with open("{0}/{1}.html".format(location,name), 'w') as f:
+		f.write(content)
+	f.close()
+
 
 # table2RDF takes a table with spatial objects which have a name and a geometry as input and creates an RDF file from it
 def table2RDF(table, country, AdmUnitType):
@@ -25,9 +38,10 @@ def table2RDF(table, country, AdmUnitType):
 	g = Graph()
 	
 	try:
+		# Check if the file already exist, in which case the new triples will be appended to it
 		g.parse("test.ttl", format="turtle")
 		#print g.serialize(format='turtle')
-		print len(g.serialize(format='turtle'))
+		# print len(g.serialize(format='turtle'))
 	except:
 		pass
 
@@ -35,14 +49,21 @@ def table2RDF(table, country, AdmUnitType):
 	for row in table:
 		if AdmUnitType.lower() == "province":
 			# Name and geometry should still get URIs assigned to them
-			thing = URIRef('http://example.com/{0}/province/{1}'.format(country, row[0].lower().replace(' ', '_') ) )
-			geometry = URIRef('http://example.com/{0}/province/{1}#geometry'.format(country, row[0].lower() ).replace(' ', '_') )
-			# Create links
+			name = row[0].lower().replace(' ', '_')
+			# Create the URI to be used for the administrative unit 
+			createURI( name , "province/{0}".format(country) )
+			# Create RDF link that uses the new URI
+			thing = URIRef('http://localhost:8000/{0}/province/{1}'.format(country, name ) )
+			# Create the URI to be used for the geometry of the administrative unit 
+			createURI(name,"province/{0}/geometry".format(country) )
+			# Create RDF link that uses the new URI
+			geometry = URIRef('http://localhost:8000/{0}/province/{1}/geometry'.format(country, name ) )
+			# Add links to graph
 			g.add( (thing, RDF.type, dbpedia.Province) )
 		elif AdmUnitType.lower() == "municipality":
 			# Name and geometry should still get URIs assigned to them
 			thing = URIRef('http://example.com/{0}/municipality/{1}'.format(country, row[0].lower() ) )
-			geometry = URIRef('http://example.com/{0}/municipality/{1}#geometry'.format(country, row[0].lower() ) )
+			geometry = URIRef('http://example.com/{0}/municipality/{1}/geometry'.format(country, row[0].lower() ) )
 			# Create links
 			g.add( (thing, RDF.type, dbpedia.Municipality) )
 		g.add( (geometry, RDF.type, geom.Geometry) )
