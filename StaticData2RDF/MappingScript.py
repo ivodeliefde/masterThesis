@@ -5,6 +5,7 @@ import psycopg2
 import os
 
 LocalhostPath = "D:/URI_test"
+httpAddress = "http://localhost:8000/"
 
 def getData(dbms_name, table, user, password):
 	# Connect to the Postgres database
@@ -54,6 +55,7 @@ def table2RDF(table, country, AdmUnitType):
 	except:
 		pass
 
+	global httpAddress
 	# Add administrative units with links to the graph
 	for row in table:
 		geometry = row[1]
@@ -62,11 +64,11 @@ def table2RDF(table, country, AdmUnitType):
 			# Create the URI to be used for the administrative unit 
 			createURI( name , "{0}/province".format( country ) )
 			# Create RDF link that uses the new URI
-			thing = URIRef('http://localhost:8000/{0}/province/{1}'.format( country, name ) )
+			thing = URIRef('{0}{1}/province/{2}'.format( httpAddress, country, name ) )
 			# Create the URI to be used for the geometry of the administrative unit 
 			createURI( "{0}_geometry".format(name) ,"{0}/province".format( country), geometry )
 			# Create RDF link that uses the new URI
-			geometry = URIRef('http://localhost:8000/{0}/province/{1}_geometry'.format(country, name ) )
+			geometry = URIRef('{0}{1}/province/{2}_geometry'.format( httpAddress, country, name ) )
 			# Add links to graph
 			g.add( (thing, RDF.type, dbpedia.Province) )
 		elif AdmUnitType.lower() == "municipality":
@@ -74,11 +76,11 @@ def table2RDF(table, country, AdmUnitType):
 			# Create the URI to be used for the administrative unit 
 			createURI( name , "{0}/municipality".format( country ) )
 			# Create RDF link that uses the new URI
-			thing = URIRef( 'http://localhost:8000/{0}/municipality/{1}'.format( country, name ) )
+			thing = URIRef( '{0}{1}/municipality/{2}'.format( httpAddress, country, name ) )
 			# Create the URI to be used for the geometry of the administrative unit 
 			createURI( "{0}_geometry".format(name)  , "{0}/municipality".format( country ), geometry )
 			# Create RDF link that uses the new URI
-			geometry = URIRef( 'http://localhost:8000/{0}/municipality/{1}_geometry'.format( country, name ) )
+			geometry = URIRef( '{0}{1}/municipality/{2}_geometry'.format( httpAddress, country, name ) )
 			# Create links
 			g.add( (thing, RDF.type, dbpedia.Municipality) )
 		g.add( (geometry, RDF.type, geom.Geometry) )
