@@ -54,7 +54,7 @@ def table2RDF(table, country, AdmUnitType):
 	except:
 		pass
 
-	# Add provinces with links to the graph
+	# Add administrative units with links to the graph
 	for row in table:
 		geometry = row[1]
 		if AdmUnitType.lower() == "province":
@@ -97,4 +97,4 @@ def table2RDF(table, country, AdmUnitType):
 if (__name__ == "__main__"):
 	provinces = getData("Masterthesis", "nl_provinces","postgres", "")
 	table2RDF(provinces, 'Netherlands', 'province')
-
+	
