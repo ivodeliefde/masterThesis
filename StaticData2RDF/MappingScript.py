@@ -2,6 +2,7 @@ from rdflib import URIRef, BNode, Literal, Graph
 from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
 import psycopg2
+import os
 
 LocalhostPath = "D:/URI_test"
 
@@ -16,15 +17,23 @@ def getData(dbms_name, table, user, password):
 
 	return table
 
-def createURI(name, location):
+def createURI(name, location, value=""):
 	# create a basic HTML file which will serve as an URI in the form of an URL
-	content = "<!DOCTYPE html><html><head><title>{0}</title></head><body><h1>URI for {0}</h1></body></html>".format(name)
+	content = "<!DOCTYPE html><html><head><title>{0}</title></head><body><h1>{0}</h1><p>{1}</p></body></html>".format(name, value)
 	
-	# Store the HTML file in the proper location on the server and host it to establish the new URI
 	global LocalhostPath
-	with open("{0}/{1}.html".format(location,name), 'w') as f:
+	filename = "{0}/{1}/{2}.html".format(LocalhostPath, location, name)
+	# Check if the directories already exist. If not create the directories to store the files in.
+	if not os.path.exists(os.path.dirname(filename)):
+		print "Create URI directories"
+		os.makedirs(os.path.dirname(filename))
+
+	# Store the HTML file in the proper location on the server and host it to establish the new URI
+	with open(filename, 'w') as f:
 		f.write(content)
 	f.close()
+
+	return
 
 
 # table2RDF takes a table with spatial objects which have a name and a geometry as input and creates an RDF file from it
@@ -47,29 +56,35 @@ def table2RDF(table, country, AdmUnitType):
 
 	# Add provinces with links to the graph
 	for row in table:
+		geometry = row[1]
 		if AdmUnitType.lower() == "province":
-			# Name and geometry should still get URIs assigned to them
 			name = row[0].lower().replace(' ', '_')
 			# Create the URI to be used for the administrative unit 
-			createURI( name , "province/{0}".format(country) )
+			createURI( name , "{0}/province".format( country ) )
 			# Create RDF link that uses the new URI
-			thing = URIRef('http://localhost:8000/{0}/province/{1}'.format(country, name ) )
+			thing = URIRef('http://localhost:8000/{0}/province/{1}'.format( country, name ) )
 			# Create the URI to be used for the geometry of the administrative unit 
-			createURI(name,"province/{0}/geometry".format(country) )
+			createURI( "{0}_geometry".format(name) ,"{0}/province".format( country), geometry )
 			# Create RDF link that uses the new URI
-			geometry = URIRef('http://localhost:8000/{0}/province/{1}/geometry'.format(country, name ) )
+			geometry = URIRef('http://localhost:8000/{0}/province/{1}_geometry'.format(country, name ) )
 			# Add links to graph
 			g.add( (thing, RDF.type, dbpedia.Province) )
 		elif AdmUnitType.lower() == "municipality":
-			# Name and geometry should still get URIs assigned to them
-			thing = URIRef('http://example.com/{0}/municipality/{1}'.format(country, row[0].lower() ) )
-			geometry = URIRef('http://example.com/{0}/municipality/{1}/geometry'.format(country, row[0].lower() ) )
+			name = row[0].lower()
+			# Create the URI to be used for the administrative unit 
+			createURI( name , "{0}/municipality".format( country ) )
+			# Create RDF link that uses the new URI
+			thing = URIRef( 'http://localhost:8000/{0}/municipality/{1}'.format( country, name ) )
+			# Create the URI to be used for the geometry of the administrative unit 
+			createURI( "{0}_geometry".format(name)  , "{0}/municipality".format( country ), geometry )
+			# Create RDF link that uses the new URI
+			geometry = URIRef( 'http://localhost:8000/{0}/municipality/{1}_geometry'.format( country, name ) )
 			# Create links
 			g.add( (thing, RDF.type, dbpedia.Municipality) )
 		g.add( (geometry, RDF.type, geom.Geometry) )
 		g.add( (thing, FOAF.name, Literal(row[0])) )
 		g.add( (geometry, RDFS.Datatype, geom.wktLiteral) )
-		g.add( (geometry, RDFS.Literal, Literal(row[1]) ) )
+		g.add( (geometry, RDFS.Literal, Literal(geometry) ) )
 		g.add( (thing, geom.hasGeometry, geometry) )
 		
 	#print g.serialize(format='turtle')
