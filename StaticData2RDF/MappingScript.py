@@ -6,6 +6,7 @@ import os
 
 LocalhostPath = "D:/URI_test"
 httpAddress = "http://localhost:8000/"
+outputFile = "test"
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
@@ -51,9 +52,11 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	# Create a graph
 	g = Graph()
 	
+	global outputFile
+
 	try:
 		# Check if the file already exist, in which case the new triples will be appended to it
-		g.parse("test.ttl", format="turtle")
+		g.parse("{0}.ttl".format(outputFile), format="turtle")
 		#print g.serialize(format='turtle')
 		# print len(g.serialize(format='turtle'))
 	except:
@@ -63,8 +66,9 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	# Add administrative units with links to the graph
 	for row in table:
 		geometry = row[1]
+		name = row[0].lower().replace(' ', '_')
+
 		if AdmUnitType.lower() == "province":
-			name = row[0].lower().replace(' ', '_')
 			# Create the URI to be used for the administrative unit 
 			createURI( name , "{0}/province".format( country ) )
 			# Create RDF link that uses the new URI
@@ -72,11 +76,10 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			# Create the URI to be used for the geometry of the administrative unit 
 			createURI( "{0}_geometry".format(name) ,"{0}/province".format( country), geometry )
 			# Create RDF link that uses the new URI
-			geometry = URIRef('{0}{1}/province/{2}_geometry'.format( httpAddress, country, name ) )
+			URIgeometry = URIRef('{0}{1}/province/{2}_geometry'.format( httpAddress, country, name ) )
 			# Add links to graph
 			g.add( (thing, RDF.type, dbpedia.Province) )
 		elif AdmUnitType.lower() == "municipality":
-			name = row[0].lower()
 			# Create the URI to be used for the administrative unit 
 			createURI( name , "{0}/municipality".format( country ) )
 			# Create RDF link that uses the new URI
@@ -84,48 +87,82 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			# Create the URI to be used for the geometry of the administrative unit 
 			createURI( "{0}_geometry".format(name)  , "{0}/municipality".format( country ), geometry )
 			# Create RDF link that uses the new URI
-			geometry = URIRef( '{0}{1}/municipality/{2}_geometry'.format( httpAddress, country, name ) )
+			URIgeometry = URIRef( '{0}{1}/municipality/{2}_geometry'.format( httpAddress, country, name ) )
 			# Create links
 			g.add( (thing, RDF.type, dbpedia.Municipality) )
-		g.add( (geometry, RDF.type, geom.Geometry) )
+		g.add( (URIgeometry, RDF.type, geom.Geometry) )
 		g.add( (thing, FOAF.name, Literal(row[0])) )
-		g.add( (geometry, RDFS.Datatype, geom.wktLiteral) )
-		g.add( (geometry, RDFS.Literal, Literal(geometry) ) )
-		g.add( (thing, geom.hasGeometry, geometry) )
+		g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
+		g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
+		g.add( (thing, geom.hasGeometry, URIgeometry) )
 		
 	#print g.serialize(format='turtle')
 
 	# Write the graph to a RDF file in the turtle format
-	g.serialize("test.ttl", format='turtle')
-	print len(g.serialize(format='turtle'))
+	g.serialize("{0}.ttl".format(outputFile), format='turtle')
+	# print len(g.serialize(format='turtle'))
 	return
 
 # LandcoverTable2RDF takes a table with landcover data which all have a name and a geometry as input and stores it in an RDF file
 def LandcoverTable2RDF(table):
-	
+	# GeoSPARQL vocabulary
+	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
+	# DBPedia
+	dbpedia = rdflib.Namespace("http://dbpedia/resource/")
+
 	# Create a graph
 	g = Graph()
 	
+	global outputFile
+
 	try:
 		# Check if the file already exist, in which case the new triples will be appended to it
-		g.parse("test.ttl", format="turtle")
+		g.parse("{0}.ttl".format(outputFile), format="turtle")
 		#print g.serialize(format='turtle')
 		# print len(g.serialize(format='turtle'))
 	except:
 		pass
+	
+	global httpAddress
+
+	for row in table:
+		ID, Landcover, geometry = row
+
+		# Create the URI for the landcover feature
+		createURI( ID , "landcover")
+		# Create the RDF link that uses the new URI 
+		thing = URIRef('{0}landcover/{1}'.format( httpAddress, ID ) )
+
+		# Create the URI to be used for the geometry of the landcover feature 
+		createURI( "{0}_geometry".format(ID), "landcover", geom )
+		# Create RDF link that uses the new URI
+		URIgeometry = URIRef('{0}landcover/{1}_geometry'.format( httpAddress, ID ) )
+
+		g.add( (thing, RDF.type, dbpedia.Land_cover) )
+		
+		
+		g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
+		g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
+		g.add( (thing, geom.hasGeometry, URIgeometry) )
+
+		g.serialize("{0}.ttl".format(outputFile), format='turtle')
 
 	return
 
 if (__name__ == "__main__"):
-	# NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
-	# AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
-	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
-	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
-	# NL_municipalities = getData("Masterthesis", "nl_munacipalities", "postgres", "")
+# Create linked data of provinces
+	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
+	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
+	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+
+# Create linked data of municipalities
+	# NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
 	# AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 	# BE_municipalities = getData("Masterthesis", "be_munacipalities", "postgres", "")
 	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')	
 
+# Create linked data of landcover
 	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
 	LandcoverTable2RDF(Landcover)
