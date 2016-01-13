@@ -3,6 +3,8 @@ from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
 import psycopg2
 import os
+import  progressbar
+import time
 
 LocalhostPath = "D:/URI_test"
 httpAddress = "http://localhost:8000/"
@@ -64,37 +66,41 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 	global httpAddress
 	# Add administrative units with links to the graph
-	for row in table:
-		geometry = row[1]
-		name = row[0].lower().replace(' ', '_')
+	print "Creating linked data from {0} {1} dataset".format(AdmUnitType, country)
+	with progressbar.ProgressBar(max_value=len(table)) as bar:
+		for i, row in enumerate(table):
+			geometry = row[1]
+			name = row[0].lower().replace(' ', '_')
 
-		if AdmUnitType.lower() == "province":
-			# Create the URI to be used for the administrative unit 
-			createURI( name , "{0}/province".format( country ) )
-			# Create RDF link that uses the new URI
-			thing = URIRef('{0}{1}/province/{2}'.format( httpAddress, country, name ) )
-			# Create the URI to be used for the geometry of the administrative unit 
-			createURI( "{0}_geometry".format(name) ,"{0}/province".format( country), geometry )
-			# Create RDF link that uses the new URI
-			URIgeometry = URIRef('{0}{1}/province/{2}_geometry'.format( httpAddress, country, name ) )
-			# Add links to graph
-			g.add( (thing, RDF.type, dbpedia.Province) )
-		elif AdmUnitType.lower() == "municipality":
-			# Create the URI to be used for the administrative unit 
-			createURI( name , "{0}/municipality".format( country ) )
-			# Create RDF link that uses the new URI
-			thing = URIRef( '{0}{1}/municipality/{2}'.format( httpAddress, country, name ) )
-			# Create the URI to be used for the geometry of the administrative unit 
-			createURI( "{0}_geometry".format(name)  , "{0}/municipality".format( country ), geometry )
-			# Create RDF link that uses the new URI
-			URIgeometry = URIRef( '{0}{1}/municipality/{2}_geometry'.format( httpAddress, country, name ) )
-			# Create links
-			g.add( (thing, RDF.type, dbpedia.Municipality) )
-		g.add( (URIgeometry, RDF.type, geom.Geometry) )
-		g.add( (thing, FOAF.name, Literal(row[0])) )
-		g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
-		g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
-		g.add( (thing, geom.hasGeometry, URIgeometry) )
+			if AdmUnitType.lower() == "province":
+				# Create the URI to be used for the administrative unit 
+				createURI( name , "{0}/province".format( country ) )
+				# Create RDF link that uses the new URI
+				thing = URIRef('{0}{1}/province/{2}.html'.format( httpAddress, country, name ) )
+				# Create the URI to be used for the geometry of the administrative unit 
+				createURI( "{0}_geometry".format(name) ,"{0}/province".format( country), geometry )
+				# Create RDF link that uses the new URI
+				URIgeometry = URIRef('{0}{1}/province/{2}_geometry.html'.format( httpAddress, country, name ) )
+				# Add links to graph
+				g.add( (thing, RDF.type, dbpedia.Province) )
+			elif AdmUnitType.lower() == "municipality":
+				# Create the URI to be used for the administrative unit 
+				createURI( name , "{0}/municipality".format( country ) )
+				# Create RDF link that uses the new URI
+				thing = URIRef( '{0}{1}/municipality/{2}.html'.format( httpAddress, country, name ) )
+				# Create the URI to be used for the geometry of the administrative unit 
+				createURI( "{0}_geometry".format(name)  , "{0}/municipality".format( country ), geometry )
+				# Create RDF link that uses the new URI
+				URIgeometry = URIRef( '{0}{1}/municipality/{2}_geometry.html'.format( httpAddress, country, name ) )
+				# Create links
+				g.add( (thing, RDF.type, dbpedia.Municipality) )
+			g.add( (URIgeometry, RDF.type, geom.Geometry) )
+			g.add( (thing, FOAF.name, Literal(row[0])) )
+			g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
+			g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
+			g.add( (thing, geom.hasGeometry, URIgeometry) )
+			
+			bar.update(i)
 		
 	#print g.serialize(format='turtle')
 
@@ -109,6 +115,15 @@ def LandcoverTable2RDF(table):
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
 	dbpedia = rdflib.Namespace("http://dbpedia/resource/")
+
+	# Read the CORINE Land cover legend file and store it in a Python dictionary
+	CLC_legend = {}
+	with open("clc_legend.csv", 'r') as legend:
+		for i, line in enumerate(legend):
+			if i > 0:
+				lineList = line.split(';')
+				CLC_legend[lineList[1]] = lineList[2]
+	legend.close()
 
 	# Create a graph
 	g = Graph()
@@ -125,27 +140,39 @@ def LandcoverTable2RDF(table):
 	
 	global httpAddress
 
-	for row in table:
-		ID, Landcover, geometry = row
+	print "Creating linked data from CORINE 2012 Legend"
+	for key, value in CLC_legend.iteritems():
+		# Create URIs for every legend item
+		createURI( "CLC_{0}".format( key ), "Landcover/legend", value )
+		# Linking URI as subclass of Landcover definition on DBPedia
+		g.add( ( URIRef("{0}landcover/legend/CLC_{1}.html".format(httpAddress, key) ), RDFS.subClassOf , dbpedia.Land_cover ) )
+		g.add( ( URIRef("{0}landcover/legend/CLC_{1}.html".format(httpAddress, key) ), FOAF.name , Literal(value) ) )
 
-		# Create the URI for the landcover feature
-		createURI( ID , "landcover")
-		# Create the RDF link that uses the new URI 
-		thing = URIRef('{0}landcover/{1}'.format( httpAddress, ID ) )
 
-		# Create the URI to be used for the geometry of the landcover feature 
-		createURI( "{0}_geometry".format(ID), "landcover", geom )
-		# Create RDF link that uses the new URI
-		URIgeometry = URIRef('{0}landcover/{1}_geometry'.format( httpAddress, ID ) )
+	print "Creating linked data from CORINE 2012 dataset"
+	with progressbar.ProgressBar(max_value=len(table)) as bar:
+		for i, row in enumerate(table):
+			ID, Landcover, geometry = row
 
-		g.add( (thing, RDF.type, dbpedia.Land_cover) )
-		
-		
-		g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
-		g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
-		g.add( (thing, geom.hasGeometry, URIgeometry) )
+			# Create the URI for the landcover feature
+			createURI( ID , "landcover")
+			# Create the RDF link that uses the new URI 
+			thing = URIRef("{0}landcover/{1}.html".format( httpAddress, ID ) )
 
-		g.serialize("{0}.ttl".format(outputFile), format='turtle')
+			# Create the URI to be used for the geometry of the landcover feature 
+			createURI( "{0}_geometry".format(ID), "landcover", geometry )
+			# Create RDF link that uses the new URI
+			URIgeometry = URIRef("{0}landcover/{1}_geometry.html".format( httpAddress, ID ) )
+
+			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}.html".format(httpAddress, Landcover) ) ) )
+			g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
+			g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
+			g.add( (thing, geom.hasGeometry, URIgeometry) )
+
+			g.serialize("{0}.ttl".format(outputFile), format='turtle')
+
+			if i % 100 == 0:
+				bar.update(i)
 
 	return
 
@@ -166,3 +193,4 @@ if (__name__ == "__main__"):
 # Create linked data of landcover
 	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
 	LandcoverTable2RDF(Landcover)
+
