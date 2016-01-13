@@ -5,6 +5,50 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<http://localhost:8000/Belgium/province/antwerpen> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/antwerpen_geometry> ;
+    ns1:name "Antwerpen" .
+
+<http://localhost:8000/Belgium/province/brabant_wallon> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/brabant_wallon_geometry> ;
+    ns1:name "Brabant Wallon" .
+
+<http://localhost:8000/Belgium/province/bruxelles> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/bruxelles_geometry> ;
+    ns1:name "Bruxelles" .
+
+<http://localhost:8000/Belgium/province/hainaut> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/hainaut_geometry> ;
+    ns1:name "Hainaut" .
+
+<http://localhost:8000/Belgium/province/limburg> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/limburg_geometry> ;
+    ns1:name "Limburg" .
+
+<http://localhost:8000/Belgium/province/liège> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/liège_geometry> ;
+    ns1:name "Liège" .
+
+<http://localhost:8000/Belgium/province/luxembourg> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/luxembourg_geometry> ;
+    ns1:name "Luxembourg" .
+
+<http://localhost:8000/Belgium/province/namur> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/namur_geometry> ;
+    ns1:name "Namur" .
+
+<http://localhost:8000/Belgium/province/oost-vlaanderen> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/oost-vlaanderen_geometry> ;
+    ns1:name "Oost-Vlaanderen" .
+
+<http://localhost:8000/Belgium/province/vlaams_brabant> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/vlaams_brabant_geometry> ;
+    ns1:name "Vlaams Brabant" .
+
+<http://localhost:8000/Belgium/province/west-vlaanderen> a <http://dbpedia/resource/Province> ;
+    ns2:hasGeometry <http://localhost:8000/Belgium/province/west-vlaanderen_geometry> ;
+    ns1:name "West-Vlaanderen" .
+
 <http://localhost:8000/Netherlands/province/drenthe> a <http://dbpedia/resource/Province> ;
     ns2:hasGeometry <http://localhost:8000/Netherlands/province/drenthe_geometry> ;
     ns1:name "Drenthe" .
@@ -52,6 +96,50 @@
 <http://localhost:8000/Netherlands/province/zuid-holland> a <http://dbpedia/resource/Province> ;
     ns2:hasGeometry <http://localhost:8000/Netherlands/province/zuid-holland_geometry> ;
     ns1:name "Zuid-Holland" .
+
+<http://localhost:8000/Belgium/province/antwerpen_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/antwerpen_geometry" .
+
+<http://localhost:8000/Belgium/province/brabant_wallon_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/brabant_wallon_geometry" .
+
+<http://localhost:8000/Belgium/province/bruxelles_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/bruxelles_geometry" .
+
+<http://localhost:8000/Belgium/province/hainaut_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/hainaut_geometry" .
+
+<http://localhost:8000/Belgium/province/limburg_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/limburg_geometry" .
+
+<http://localhost:8000/Belgium/province/liège_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/liège_geometry" .
+
+<http://localhost:8000/Belgium/province/luxembourg_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/luxembourg_geometry" .
+
+<http://localhost:8000/Belgium/province/namur_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/namur_geometry" .
+
+<http://localhost:8000/Belgium/province/oost-vlaanderen_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/oost-vlaanderen_geometry" .
+
+<http://localhost:8000/Belgium/province/vlaams_brabant_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/vlaams_brabant_geometry" .
+
+<http://localhost:8000/Belgium/province/west-vlaanderen_geometry> a ns2:Geometry ;
+    rdfs:Datatype ns2:wktLiteral ;
+    rdfs:Literal "http://localhost:8000/Belgium/province/west-vlaanderen_geometry" .
 
 <http://localhost:8000/Netherlands/province/drenthe_geometry> a ns2:Geometry ;
     rdfs:Datatype ns2:wktLiteral ;

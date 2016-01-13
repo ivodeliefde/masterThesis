@@ -7,13 +7,18 @@ import os
 LocalhostPath = "D:/URI_test"
 httpAddress = "http://localhost:8000/"
 
-def getData(dbms_name, table, user, password):
+def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
 	conn = psycopg2.connect(host="localhost", port='5433', database=dbms_name, user=user, password=password) 
 	cur = conn.cursor()
 
-	# Retrieve the names and geometries of the provinces
-	cur.execute("select name, ST_astext(geom) from {0};".format(table))
+	if AdmUnit == True:
+		# Retrieve the names and geometries of the administrative unites
+		cur.execute("select name, ST_astext(geom) from {0};".format(table))
+	else:
+		# Retrieve the ID, landcover type and geometries of the CORINE dataset
+		cur.execute("select id, code_12, ST_astext(geom) from {0};".format(table))
+
 	table = cur.fetchall()
 
 	return table
@@ -36,9 +41,8 @@ def createURI(name, location, value=""):
 
 	return
 
-
-# table2RDF takes a table with spatial objects which have a name and a geometry as input and creates an RDF file from it
-def table2RDF(table, country, AdmUnitType):
+# dminUnitTable2RDF takes a table with administrative units which all have a name and a geometry as input and stores it in an RDF file
+def AdminUnitTable2RDF(table, country, AdmUnitType):
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
@@ -96,7 +100,32 @@ def table2RDF(table, country, AdmUnitType):
 	print len(g.serialize(format='turtle'))
 	return
 
-if (__name__ == "__main__"):
-	provinces = getData("Masterthesis", "nl_provinces","postgres", "")
-	table2RDF(provinces, 'Netherlands', 'province')
+# LandcoverTable2RDF takes a table with landcover data which all have a name and a geometry as input and stores it in an RDF file
+def LandcoverTable2RDF(table):
 	
+	# Create a graph
+	g = Graph()
+	
+	try:
+		# Check if the file already exist, in which case the new triples will be appended to it
+		g.parse("test.ttl", format="turtle")
+		#print g.serialize(format='turtle')
+		# print len(g.serialize(format='turtle'))
+	except:
+		pass
+
+	return
+
+if (__name__ == "__main__"):
+	# NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
+	# AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
+	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+
+	# NL_municipalities = getData("Masterthesis", "nl_munacipalities", "postgres", "")
+	# AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	# BE_municipalities = getData("Masterthesis", "be_munacipalities", "postgres", "")
+	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')	
+
+	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
+	LandcoverTable2RDF(Landcover)
