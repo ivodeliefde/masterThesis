@@ -5,7 +5,7 @@ import psycopg2
 import  progressbar
 import time
 
-BaseURI = "data:"
+BaseURI = "http://localhost:3030/masterThesis/"
 outputFile = "test"
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
@@ -22,6 +22,8 @@ def getData(dbms_name, table, user, password, AdmUnit=True):
 
 	data = cur.fetchall()
 
+	conn.close()
+	
 	return data
 
 # dminUnitTable2RDF takes a table with administrative units which all have a name and a geometry as input and stores it in an RDF file
@@ -29,8 +31,8 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
-	dbpedia = rdflib.Namespace("http://dbpedia/resource/")
-
+	dbpedia = rdflib.Namespace("http://dbpedia.com.com/resource/")
+	
 	# Create a graph
 	g = Graph()
 	
@@ -50,18 +52,29 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
 		for i, row in enumerate(table):
 			geometry = row[1]
-			name = row[0].lower().replace(' ', '_')
+			# print row
+			try:
+				name = row[0].lower().replace(' ', '_')
+				if '"' in name:
+					name = name.replace('"', '')
+			except:
+				print 'error:',row[0]
 
 			if AdmUnitType.lower() == "province":
-				thing = URIRef('{0}{1}/province/{2}.html'.format( BaseURI, country, name ) )
-				URIgeometry = URIRef('{0}{1}/province/{2}_geometry.html'.format( BaseURI, country, name ) )
+				thing = URIRef('{0}{1}/province/{2}'.format( BaseURI, country, name ) )
+				URIgeometry = URIRef('{0}{1}/province/{2}_geometry'.format( BaseURI, country, name ) )
 
 				g.add( (thing, RDF.type, dbpedia.Province) )
 			elif AdmUnitType.lower() == "municipality":
-				thing = URIRef( '{0}{1}/municipality/{2}.html'.format( BaseURI, country, name ) )
-				URIgeometry = URIRef( '{0}{1}/municipality/{2}_geometry.html'.format( BaseURI, country, name ) )
+				thing = URIRef( '{0}{1}/municipality/{2}'.format( BaseURI, country, name ) )
+				URIgeometry = URIRef( '{0}{1}/municipality/{2}_geometry'.format( BaseURI, country, name ) )
 
 				g.add( (thing, RDF.type, dbpedia.Municipality) )
+			elif AdmUnitType.lower() == "neighbourhood":
+				thing = URIRef( '{0}{1}/neighbourhood/{2}'.format( BaseURI, country, name ) )
+				URIgeometry = URIRef( '{0}{1}/neighbourhood/{2}_geometry'.format( BaseURI, country, name ) )
+
+				g.add( (thing, RDF.type, dbpedia.Neighbourhood) )
 
 			g.add( (URIgeometry, RDF.type, geom.Geometry) )
 			g.add( (thing, FOAF.name, Literal(row[0])) )
@@ -83,7 +96,7 @@ def LandcoverTable2RDF(table):
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
-	dbpedia = rdflib.Namespace("http://dbpedia/resource/")
+	dbpedia = rdflib.Namespace("http://dbpedia.com/resource/")
 
 	# Read the CORINE Land cover legend file and store it in a Python dictionary
 	CLC_legend = {}
@@ -110,20 +123,25 @@ def LandcoverTable2RDF(table):
 	global BaseURI
 
 	print "Creating linked data from CORINE 2012 Legend"
-	for key, value in CLC_legend.iteritems():
-		# Linking URI as subclass of Landcover definition on DBPedia
-		g.add( ( URIRef("{0}landcover/legend/CLC_{1}.html".format(BaseURI, key) ), RDFS.subClassOf , dbpedia.Land_cover ) )
-		g.add( ( URIRef("{0}landcover/legend/CLC_{1}.html".format(BaseURI, key) ), FOAF.name , Literal(value) ) )
+	i = 0
+	with progressbar.ProgressBar(max_value=len(table)) as bar:
+		for key, value in CLC_legend.iteritems():
+			# Linking URI as subclass of Landcover definition on DBPedia
+			g.add( ( URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, key) ), RDFS.subClassOf , dbpedia.Land_cover ) )
+			g.add( ( URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, key) ), FOAF.name , Literal(value) ) )
+			bar.update(i)
+			i += 1
+
 
 	print "Creating linked data from CORINE 2012 dataset"
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
 		for i, row in enumerate(table):
 			ID, Landcover, geometry = row
 
-			thing = URIRef("{0}landcover/{1}.html".format( BaseURI, ID ) )
-			URIgeometry = URIRef("{0}landcover/{1}_geometry.html".format( BaseURI, ID ) )
+			thing = URIRef("{0}landcover/{1}".format( BaseURI, ID ) )
+			URIgeometry = URIRef("{0}landcover/{1}_geometry".format( BaseURI, ID ) )
 
-			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}.html".format(BaseURI, Landcover) ) ) )
+			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
 			g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
 			g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
 			g.add( (thing, geom.hasGeometry, URIgeometry) )
@@ -132,6 +150,7 @@ def LandcoverTable2RDF(table):
 
 			if i % 100 == 0:
 				bar.update(i)
+				g.serialize("{0}.ttl".format(outputFile), format='turtle')
 
 	return
 
@@ -144,12 +163,17 @@ if (__name__ == "__main__"):
 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
 # Create linked data of municipalities
-	# NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
-	# AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-	# BE_municipalities = getData("Masterthesis", "be_munacipalities", "postgres", "")
-	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')	
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+
+# Create linked data of neighbourhoods
+	NL_neighbourhoods = getData("Masterthesis", "NL_neighbourhoods", "postgres", "")
+	AdminUnitTable2RDF(NL_neighbourhoods, 'Netherlands', 'neighbourhood')
+
 
 # Create linked data of landcover
-	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
-	LandcoverTable2RDF(Landcover)
+	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
+	# LandcoverTable2RDF(Landcover)
 
