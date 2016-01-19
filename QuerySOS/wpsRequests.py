@@ -13,6 +13,13 @@ def Request(url):
 
 	sensors = {} # dictionary with structure: sensor[ID]: [phenomenon, location, etc.]
 
+
+	print "Get requests:"
+
+	#----------------------------------------------------------------------#
+	# Get Capabilities
+	#----------------------------------------------------------------------#
+
 	# Retrieve the GetCapabilities document
 	GetCapabilities = '{0}service=SOS&request=GetCapabilities'.format(url)
 	r = requests.get(GetCapabilities)
@@ -56,7 +63,6 @@ def Request(url):
 									for obsProperty in allowedvalues:
 										observableProperty.append(obsProperty.text)
 
-
 						except:
 							pass
 
@@ -65,19 +71,64 @@ def Request(url):
 		# 	print level1.tag
 
 
+	#----------------------------------------------------------------------#
+	# GetFeatureOfInterest
+	#----------------------------------------------------------------------#
 
-	print "	Provided by: {0}".format(organisation)
+	GetFeatureOfInterest = '{0}service=SOS&version=2.0.0&request=GetFeatureOfInterest'.format(url)
+	
+
+	r = requests.get(GetFeatureOfInterest)
+	
+	tree = etree.fromstring(r.content)
+	for level1 in tree:
+		if 'exception' in level1.tag.lower():	
+			GetFeatureOfInterest += '&featureOfInterest=allFeatures'
+			r = requests.get(GetFeatureOfInterest)
+			tree = etree.fromstring(r.content)
+			break
+
+	print GetFeatureOfInterest
+
+	for featureMember in tree:
+		currentFOI = False
+		for info in featureMember:
+			if 'sf_spatialsamplingfeature' in info.tag.lower():
+				for attributes in info:
+					if 'identifier' in attributes.tag.lower():
+						currentFOI = attributes.text
+					elif 'shape' in attributes.tag.lower():
+						coords = attributes[0][0].text
+						CRS = attributes[0][0].attrib['srsName']
+
+			featureofinterest[currentFOI].extend([coords, CRS])
+			# else:
+			# 	print info.tag
+
+	#----------------------------------------------------------------------#
+	# DescribeSensor
+	#----------------------------------------------------------------------#
+
+	#----------------------------------------------------------------------#
+	# Results
+	#----------------------------------------------------------------------#
+
+	print "\n	Provided by: {0}".format(organisation)
 	print "	Costs: {0}".format(costs)
 	print "	Acccess constraints: {0}".format(acccesConstraints)
 	print "	Data available from: {0}".format(minTime)
 	print "	There are {0} features of interest".format(len(featureofinterest))
 	print "	There are {0} observable properties".format(len(observableProperty))
+	print 
+	print "features of interest: \n",featureofinterest
 
 	return
 
 if (__name__ == "__main__"):
 # 	Requesting the Belgian SOS IRCELINE	
-	Request('http://sos.irceline.be/sos?')
+	# Request('http://sos.irceline.be/sos?')
 # 	Requesting the Dutch SOS from RIVM
-	# Request('http://inspire.rivm.nl/sos/eaq/service?')
-								
+	Request('http://inspire.rivm.nl/sos/eaq/service?')
+
+# http://sos.irceline.be/sos?REQUEST=GetFeatureOfInterest&service=SOS&version=2.0.0&featureOfInterest=allFeatures
+# http://inspire.rivm.nl/sos/eaq/service?REQUEST=GetFeatureOfInterest&service=SOS&version=2.0.0&featureOfInterest=NL.RIVM.AQ/SPO_F-NL00131_00046_101_101
