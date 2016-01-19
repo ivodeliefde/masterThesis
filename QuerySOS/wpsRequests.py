@@ -8,11 +8,9 @@ def Request(url):
 	acccesConstraints = False
 	minTime = False
 
-	featureofinterest = {}
-	observableProperty = []
-
-	sensors = {} # dictionary with structure: sensor[ID]: [phenomenon, location, etc.]
-
+	featureofinterest = {} # contains all the features of interest and their location
+	observableProperty = [] # list of all observable properties
+	offerings = {} # An offering is the equivalent of a layer in a WMS. It contains information on which sensors observe a specific observable property. 
 
 	print "Get requests:"
 
@@ -31,22 +29,22 @@ def Request(url):
 	tree = etree.fromstring(r.content)
 
 	# Loop trough the first level of the document to find the branches that we need 
-	for level1 in tree:
-		if "serviceidentification" in level1.tag.lower():
-			for info in level1:
+	for section in tree:
+		if "serviceidentification" in section.tag.lower():
+			for info in section:
 				# print "		->		"+info.tag
 				if "fees" in info.tag.lower():
 						costs = info.text
 				elif "accessconstraints" in info.tag.lower():
 					acccesConstraints = info.text
 			
-		elif "serviceprovider" in level1.tag.lower():
-			for details in level1:
+		elif "serviceprovider" in section.tag.lower():
+			for details in section:
 				if "providername" in details.tag.lower():
 					organisation = details.text 
 
-		elif "operationsmetadata" in level1.tag.lower():
-			for info in level1:
+		elif "operationsmetadata" in section.tag.lower():
+			for info in section:
 				if "getobservation" in info.attrib['name'].lower():
 					for each in info:
 						try:
@@ -56,7 +54,10 @@ def Request(url):
 							if "featureofinterest" in each.attrib['name'].lower():
 								for allowedvalues in each:
 									for feature in allowedvalues:
-										featureofinterest[feature.text] = []
+										if feature.text in featureofinterest:
+											print feature.text, 'already exists'
+										else:
+											featureofinterest[feature.text] = {}
 
 							if "observedproperty" in each.attrib['name'].lower():
 								for allowedvalues in each:
@@ -66,9 +67,19 @@ def Request(url):
 						except:
 							pass
 
-						
+		elif "contents" in section.tag.lower():
+			for offering in section[0]:
+				if "observationoffering" in offering[0].tag.lower():
+					for info in offering[0]:
+						if "identifier" in info.tag.lower():
+							currentOffering = info.text
+						elif "observableproperty" in info.tag.lower():
+							obsProperty = info.text
+					offerings[currentOffering] = {'obsProperty': obsProperty}
+
+
 		# else:
-		# 	print level1.tag
+		# 	print section.tag.lower()
 
 
 	#----------------------------------------------------------------------#
@@ -81,8 +92,8 @@ def Request(url):
 	r = requests.get(GetFeatureOfInterest)
 	
 	tree = etree.fromstring(r.content)
-	for level1 in tree:
-		if 'exception' in level1.tag.lower():	
+	for section in tree:
+		if 'exception' in section.tag.lower():	
 			GetFeatureOfInterest += '&featureOfInterest=allFeatures'
 			r = requests.get(GetFeatureOfInterest)
 			tree = etree.fromstring(r.content)
@@ -101,9 +112,9 @@ def Request(url):
 						coords = attributes[0][0].text
 						CRS = attributes[0][0].attrib['srsName']
 
-			featureofinterest[currentFOI].extend([coords, CRS])
-			# else:
-			# 	print info.tag
+				featureofinterest[currentFOI]['coords'] = [coords, CRS]
+			else:
+				print info.tag
 
 	#----------------------------------------------------------------------#
 	# DescribeSensor
@@ -121,14 +132,14 @@ def Request(url):
 	print "	There are {0} observable properties".format(len(observableProperty))
 	print 
 	print "features of interest: \n",featureofinterest
+	print "Offerings: \n", offerings, "\n"
 
-	return
+
+	return organisation, costs, acccesConstraints, minTime, featureofinterest, observableproperty, offerings
 
 if (__name__ == "__main__"):
 # 	Requesting the Belgian SOS IRCELINE	
-	# Request('http://sos.irceline.be/sos?')
+	Request('http://sos.irceline.be/sos?')
 # 	Requesting the Dutch SOS from RIVM
 	Request('http://inspire.rivm.nl/sos/eaq/service?')
 
-# http://sos.irceline.be/sos?REQUEST=GetFeatureOfInterest&service=SOS&version=2.0.0&featureOfInterest=allFeatures
-# http://inspire.rivm.nl/sos/eaq/service?REQUEST=GetFeatureOfInterest&service=SOS&version=2.0.0&featureOfInterest=NL.RIVM.AQ/SPO_F-NL00131_00046_101_101
