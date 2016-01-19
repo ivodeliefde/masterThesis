@@ -6,6 +6,11 @@ def Request(url):
 	organisation = False
 	costs = False
 	acccesConstraints = False
+	minTime = False
+
+	featureofinterest = {}
+	observableProperty = []
+
 	sensors = {} # dictionary with structure: sensor[ID]: [phenomenon, location, etc.]
 
 	# Retrieve the GetCapabilities document
@@ -33,12 +38,40 @@ def Request(url):
 				if "providername" in details.tag.lower():
 					organisation = details.text 
 
+		elif "operationsmetadata" in level1.tag.lower():
+			for info in level1:
+				if "getobservation" in info.attrib['name'].lower():
+					for each in info:
+						try:
+							if "temporalfilter" in each.attrib['name'].lower():
+								minTime = each[0][0][0].text
+
+							if "featureofinterest" in each.attrib['name'].lower():
+								for allowedvalues in each:
+									for feature in allowedvalues:
+										featureofinterest[feature.text] = []
+
+							if "observedproperty" in each.attrib['name'].lower():
+								for allowedvalues in each:
+									for obsProperty in allowedvalues:
+										observableProperty.append(obsProperty.text)
+
+
+						except:
+							pass
+
+						
+		# else:
+		# 	print level1.tag
 
 
 
-	print "Provided by: {0}".format(organisation)
-	print "Costs: {0}".format(costs)
-	print "Acccess constraints: {0}".format(acccesConstraints)
+	print "	Provided by: {0}".format(organisation)
+	print "	Costs: {0}".format(costs)
+	print "	Acccess constraints: {0}".format(acccesConstraints)
+	print "	Data available from: {0}".format(minTime)
+	print "	There are {0} features of interest".format(len(featureofinterest))
+	print "	There are {0} observable properties".format(len(observableProperty))
 
 	return
 
