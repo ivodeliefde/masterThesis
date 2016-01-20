@@ -15,7 +15,32 @@ A number of studies related to this thesis have been reviewed in Chapter \ref{ch
 Since data on the web has a distributed nature it can be questioned whether centralised catalogue services are feasible to create. It places a burden on the owner of the \ac{sos} to register with a catalogue service. Also, there could be multiple of these services on the web creating issue regarding the discovery of relevant catalogues. The semantic web could solve this issue by getting rid of the `dataset-centric' approach and adding metadata directly to the web instead.
 
 \section{Sensor observation service}
-There are a number of different requests that can be made to retrieve sensor (meta)data from a \ac{sos}: \texttt{GetCapabilities, DescribeSensor and GetObservation}. \texttt{GetCapabilities} returns a complete overview of what the \ac{sos} has to offer. This includes metadata on the kind of observations the service can offer, the spatial extent and the temporal extent. The  \texttt{DescribeSensor} request returns detailed information about individual sensors. Using \texttt{GetObservation} actual measurements can be retrieved. These requests can be made as a \ac{http} GET request or a \ac{http} POST request. The response is an \ac{xml} document using \ac{om} (for GetObservation) or \ac{sensorml} (for DescribeSensor).
+There are three core requests that can be made to retrieve sensor (meta)data from a \ac{sos}: \texttt{GetCapabilities}, \texttt{DescribeSensor} and \texttt{GetObservation}. \texttt{Get} \texttt{Capabilities} returns a complete overview of what the \ac{sos} has to offer. The \texttt{DescribeSensor} request returns detailed information about individual sensors. These three core requests are mandatory in a \ac{sos} under the 2.0 specifications \citep{SW:OGC2}. There are also a number of optional extensions to a \ac{sos}. Requests can be made as a \ac{http} GET request or a \ac{http} POST request. There can be different response formats. Usually there is at least the option to retrieve the response as an \ac{xml} document. Based on the specification by \cite{SW:OGC2} this paragraph describes the core and optional requests of a \ac{sos}, as well as the structure of their responses. 
+
+\subsection{Get capabilities}
+The \texttt{GetCapabilities} request is the first step in communicating with a \ac{sos}. It returns a document including information on what it has to offer. The structure contains a number of sections: service identification, service provider, operations metadata, filter capabilities and contents. 
+
+In the service identification section there is general information about the service, such as the title and supported \ac{sos} versions, but also whether there are fees or access constraints. The service provider section contains details on which organisation provides the \ac{sos} and lists their contact information. The operations metadata section lists the supported request types. It also contains an overview of all features-of-interest, observed properties, procedures and offerings. Offerings are similar to layers in a \ac{wms}, grouping together observations collected by one procedure.
+
+The contents section describes the data that can be retrieved, grouped in offerings. Each offering has an identifier, together with information on the procedure, observable properties and the feature-of-interest type. Which filters can be applied in a request is described in the filter capabilities section. The supported parameters for both spatial and temporal filters are listed here.
+
+\begin{figure}
+	%\centering
+	\includegraphics[width=0.7\linewidth]{figs/SOS_2_dataModel_GetCapabilities.PNG}
+	\caption{Data model behind the capabilities document of a \ac{sos} \citep{SW:OGC2}}
+	\label{fig:Capabilities}
+\end{figure}
+
+\subsection{Describe sensor}
+
+\texttt{DescribeSensor} gives detailed information on a specific sensor.
+
+\subsection{Get observation}
+
+Using \texttt{GetObservation} actual measurements can be retrieved. 
+
+\subsection{Optional extensions}
+
 
 \section{Resource description framework}
 For publishing static geographic data on the semantic web a conversion of Shapefiles to \ac{rdf} is required. For this the method by \cite{LD:Missier} will be used. First the Shapefile is loaded into a Postgres database with the Postgis extension. After that a Python script retrieves the records from the database. Attributes of the records will be mapped to classes from predefined ontologies. Then the script creates an \ac{rdf} graph and serialises it to a certain \ac{rdf} notation. This is written to a file. The final step is to publish the \ac{rdf} on the web and create a \ac{sparql} endpoint to query the data \citep{LD:Missier}. 
