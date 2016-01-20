@@ -141,42 +141,42 @@ def Request(url):
 
 	# for key in offerings:
 	# key = 'NL.RIVM.AQ/STA-NL00929/8'
-	key = '62101 - TT_._99920'
-	responseformat = 'http://www.opengis.net/om/2.0'
-	GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&offering={1}&responseformat={2}&temporalFilter=om:resultTime,after,{3}'.format(url, key, responseformat, yesterday)
-	r = requests.get(GetObservation)
+	# key = '62101 - TT_._99920'
+	# responseformat = 'http://www.opengis.net/om/2.0'
+	# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&offering={1}&responseformat={2}&temporalFilter=om:resultTime,after,{3}'.format(url, key, responseformat, yesterday)
+	# r = requests.get(GetObservation)
 
-	print GetObservation
+	# print GetObservation
 
-	tree = etree.fromstring(r.content)
-	for featureMember in tree:
-		if "observationdata" in featureMember.tag.lower():
-			for observation in featureMember[0]:
+	# tree = etree.fromstring(r.content)
+	# for featureMember in tree:
+	# 	if "observationdata" in featureMember.tag.lower():
+	# 		for observation in featureMember[0]:
 					
-					if "procedure" in observation.tag.lower():
-						for data in observation.attrib:
-							if 'href' in data.lower():
-								procedureKey = data
-						if observation.attrib[procedureKey] not in offerings[key]['procedure']:
-							offerings[key]['procedure'].append(observation.attrib[procedureKey])
+	# 				if "procedure" in observation.tag.lower():
+	# 					for data in observation.attrib:
+	# 						if 'href' in data.lower():
+	# 							procedureKey = data
+	# 					if observation.attrib[procedureKey] not in offerings[key]['procedure']:
+	# 						offerings[key]['procedure'].append(observation.attrib[procedureKey])
 					
-					elif "featureofinterest" in observation.tag.lower():
-						for data in observation.attrib:
-							if 'href' in data.lower():
-								FOIKey = data
+	# 				elif "featureofinterest" in observation.tag.lower():
+	# 					for data in observation.attrib:
+	# 						if 'href' in data.lower():
+	# 							FOIKey = data
 
-						if observation.attrib[FOIKey] not in offerings[key]['FOI']:
-							offerings[key]['FOI'].append(observation.attrib[FOIKey])
+	# 					if observation.attrib[FOIKey] not in offerings[key]['FOI']:
+	# 						offerings[key]['FOI'].append(observation.attrib[FOIKey])
 
-						for each in offerings[key]['procedure']:
-							if each not in featureofinterest[observation.attrib[FOIKey]]['procedure']:
-								featureofinterest[observation.attrib[FOIKey]]['procedure'].append(each)
-						for each in offerings[key]['obsProperty']:
-							if each not in featureofinterest[observation.attrib[FOIKey]]['obsProperty']:
-								featureofinterest[observation.attrib[FOIKey]]['obsProperty'].append(each)
+	# 					for each in offerings[key]['procedure']:
+	# 						if each not in featureofinterest[observation.attrib[FOIKey]]['procedure']:
+	# 							featureofinterest[observation.attrib[FOIKey]]['procedure'].append(each)
+	# 					for each in offerings[key]['obsProperty']:
+	# 						if each not in featureofinterest[observation.attrib[FOIKey]]['obsProperty']:
+	# 							featureofinterest[observation.attrib[FOIKey]]['obsProperty'].append(each)
 
-	print offerings[key]
-	print featureofinterest[FOIKey]
+	# print offerings[key]
+	# print featureofinterest[FOIKey]
 
 
 	#----------------------------------------------------------------------#
@@ -187,7 +187,7 @@ def Request(url):
 	print "	Costs: {0}".format(costs)
 	print "	Acccess constraints: {0}".format(acccesConstraints)
 	print "	Data available from: {0}".format(minTime)
-	print "	Available versions: {0}".format(version)
+	# print "	Available versions: {0}".format(version)
 	print "	Available response formats: {0}".format(responseformat)
 	print "	There are {0} features of interest".format(len(featureofinterest))
 	print "	There are {0} observable properties".format(len(observableProperty)) 
