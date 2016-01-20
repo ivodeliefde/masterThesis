@@ -1,5 +1,6 @@
 import requests
 from lxml import etree
+from datetime import datetime, timedelta
 
 def Request(url):
 	# Parameters we're interested in:
@@ -7,6 +8,8 @@ def Request(url):
 	costs = False
 	acccesConstraints = False
 	minTime = False
+	version = [] 
+	responseformat = []
 
 	featureofinterest = {} # contains all the features of interest and their location
 	observableProperty = [] # list of all observable properties
@@ -51,7 +54,7 @@ def Request(url):
 							if "temporalfilter" in each.attrib['name'].lower():
 								minTime = each[0][0][0].text
 
-							if "featureofinterest" in each.attrib['name'].lower():
+							elif "featureofinterest" in each.attrib['name'].lower():
 								for allowedvalues in each:
 									for feature in allowedvalues:
 										if feature.text in featureofinterest:
@@ -59,10 +62,14 @@ def Request(url):
 										else:
 											featureofinterest[feature.text] = {}
 
-							if "observedproperty" in each.attrib['name'].lower():
+							elif "observedproperty" in each.attrib['name'].lower():
 								for allowedvalues in each:
 									for obsProperty in allowedvalues:
 										observableProperty.append(obsProperty.text)
+
+							elif "responseformat" in each.attrib['name'].lower():
+								for format in each[0]:
+									responseformat.append(format.text)
 
 						except:
 							pass
@@ -75,7 +82,9 @@ def Request(url):
 							currentOffering = info.text
 						elif "observableproperty" in info.tag.lower():
 							obsProperty = info.text
-					offerings[currentOffering] = {'obsProperty': obsProperty}
+					offerings[currentOffering] = {'obsProperty': [obsProperty]}
+					offerings[currentOffering]['FOI'] = []
+					offerings[currentOffering]['procedure'] = []
 
 
 		# else:
@@ -113,12 +122,62 @@ def Request(url):
 						CRS = attributes[0][0].attrib['srsName']
 
 				featureofinterest[currentFOI]['coords'] = [coords, CRS]
-			else:
-				print info.tag
+				featureofinterest[currentFOI]['procedure'] = []
+				featureofinterest[currentFOI]['obsProperty'] = []
+			# else:
+			# 	print info.tag
 
 	#----------------------------------------------------------------------#
-	# DescribeSensor
+	# GetObservation
 	#----------------------------------------------------------------------#
+
+	# A small amount of data will be requested from every offering to retrieve 
+	# some missing links that are not always found in the previous documents: 
+	# Which features of interest are observed by which offering and with which
+	# procedure.  
+
+	yesterday = datetime.now() - timedelta(hours=6)
+	yesterday = yesterday.isoformat()
+
+	# for key in offerings:
+	# key = 'NL.RIVM.AQ/STA-NL00929/8'
+	key = '62101 - TT_._99920'
+	responseformat = 'http://www.opengis.net/om/2.0'
+	GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&offering={1}&responseformat={2}&temporalFilter=om:resultTime,after,{3}'.format(url, key, responseformat, yesterday)
+	r = requests.get(GetObservation)
+
+	print GetObservation
+
+	tree = etree.fromstring(r.content)
+	for featureMember in tree:
+		if "observationdata" in featureMember.tag.lower():
+			for observation in featureMember[0]:
+					
+					if "procedure" in observation.tag.lower():
+						for data in observation.attrib:
+							if 'href' in data.lower():
+								procedureKey = data
+						if observation.attrib[procedureKey] not in offerings[key]['procedure']:
+							offerings[key]['procedure'].append(observation.attrib[procedureKey])
+					
+					elif "featureofinterest" in observation.tag.lower():
+						for data in observation.attrib:
+							if 'href' in data.lower():
+								FOIKey = data
+
+						if observation.attrib[FOIKey] not in offerings[key]['FOI']:
+							offerings[key]['FOI'].append(observation.attrib[FOIKey])
+
+						for each in offerings[key]['procedure']:
+							if each not in featureofinterest[observation.attrib[FOIKey]]['procedure']:
+								featureofinterest[observation.attrib[FOIKey]]['procedure'].append(each)
+						for each in offerings[key]['obsProperty']:
+							if each not in featureofinterest[observation.attrib[FOIKey]]['obsProperty']:
+								featureofinterest[observation.attrib[FOIKey]]['obsProperty'].append(each)
+
+	print offerings[key]
+	print featureofinterest[FOIKey]
+
 
 	#----------------------------------------------------------------------#
 	# Results
@@ -128,18 +187,20 @@ def Request(url):
 	print "	Costs: {0}".format(costs)
 	print "	Acccess constraints: {0}".format(acccesConstraints)
 	print "	Data available from: {0}".format(minTime)
+	print "	Available versions: {0}".format(version)
+	print "	Available response formats: {0}".format(responseformat)
 	print "	There are {0} features of interest".format(len(featureofinterest))
-	print "	There are {0} observable properties".format(len(observableProperty))
-	print 
-	print "features of interest: \n",featureofinterest
+	print "	There are {0} observable properties".format(len(observableProperty)) 
+	print "\nFeatures of interest: \n",featureofinterest
 	print "Offerings: \n", offerings, "\n"
 
-
-	return organisation, costs, acccesConstraints, minTime, featureofinterest, observableproperty, offerings
+	return organisation, costs, acccesConstraints, minTime, featureofinterest, observableProperty, offerings
 
 if (__name__ == "__main__"):
 # 	Requesting the Belgian SOS IRCELINE	
 	Request('http://sos.irceline.be/sos?')
 # 	Requesting the Dutch SOS from RIVM
 	Request('http://inspire.rivm.nl/sos/eaq/service?')
+
+
 
