@@ -15,7 +15,7 @@ class SOS:
 		self.procedure = {} # contains dictionary instances with structure 'ID': {'offerings': [], 'obsProperty': '...' ,'FOI': [] }
 		self.featureofinterest = {} # contains dictionary instance with structure 'ID': {'coords': [], 'CRS': '...' }
 
-		self.log("SOS instance created")
+		
 		# Check if the user input URL is correct
 		url = self.checkURL(url)
 		
@@ -180,7 +180,7 @@ class SOS:
 
 
 	def log(self, event):
-		with open('log_{0}'.format(self.name), 'a') as f:
+		with open('log.txt', 'a') as f:
 			f.write("at {0}\t-->\t{1}\n".format(datetime.now().isoformat(), event))
 		# pass
 		return
@@ -193,7 +193,7 @@ if (__name__ == "__main__"):
 	IRCELINE_SOS.printInformation()
 
 # 	Requesting the Dutch SOS from RIVM
- 	# RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
- # 	RIVM_SOS.printInformation()
+ 	RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
+ 	RIVM_SOS.printInformation()
 	
-	# 
+	
