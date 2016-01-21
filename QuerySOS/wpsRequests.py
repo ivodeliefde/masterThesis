@@ -4,14 +4,16 @@ from datetime import datetime, timedelta
 
 class SOS:
 
-	def __init__(self, url, name="", organisation="", costs="", acccesConstraints="", version="", responseFormat=[]):
+	def __init__(self, url, name="", organisation="", costs="", accessConstraints="", version="", responseFormat=[]):
 		# Information that needs to be retrieved from the SOS
 		self.name = name
 		self.organisation = organisation
 		self.costs = costs 
-		self.acccesConstraints = acccesConstraints
+		self.accessConstraints = accessConstraints
 		self.version = version
 		self.responseFormat = responseFormat 
+		self.procedure = {} # contains dictionary instances with structure 'ID': {'offerings': [], 'obsProperty': '...' ,'FOI': [] }
+		self.featureofinterest = {} # contains dictionary instance with structure 'ID': {'coords': [], 'CRS': '...' }
 
 		self.log("SOS instance created")
 		# Check if the user input URL is correct
@@ -24,6 +26,7 @@ class SOS:
 			self.url = url
 
 		return self.Request()
+
 
 	def checkURL(self, url):
 		if type(url) != str:
@@ -43,13 +46,12 @@ class SOS:
 
 		return url
 
+
 	def Request(self):
 		# observableProperty = {}  --> each item should be dictionary as well, containing 'procedure', 'offerings' and 'FOI'
 
 		featureofinterest = {} # contains all the features of interest and their location
-		observableProperty = [] # list of all observable properties
-		offerings = {} # An offering is the equivalent of a layer in a WMS. It contains information on which sensors observe a specific observable property. 
-
+	
 		#-------------------------------------------------------------------------------#
 		# Get Capabilities --> find the general metadata and the offerings per procedure
 		#-------------------------------------------------------------------------------#
@@ -67,73 +69,64 @@ class SOS:
 
 		# Store the retrieved document as an etree object
 		tree = etree.fromstring(r.content)
+		nsm = tree.nsmap
 
-		# Loop trough the capabilities document 
-		for section in tree:
-			# Section: service identification 
-			if "serviceidentification" in section.tag.lower():
-				for info in section:
-					# print "		->		"+info.tag
-					if "fees" in info.tag.lower():
-							self.costs = info.text
-					elif "accessconstraints" in info.tag.lower():
-						self.acccesConstraints = info.text
-			
-			# Section: service provider
-			elif "serviceprovider" in section.tag.lower():
-				for details in section:
-					if "providername" in details.tag.lower():
-						self.organisation = details.text 
+		# Retrieving information from the capabilities document 
+		self.costs = tree.find('.//ows:Fees', nsm).text
+		self.name = tree.find('.//ows:Title', nsm).text
+		self.accesConstraints = tree.find('.//ows:AccessConstraints', nsm).text
+		self.organisation = tree.find('.//ows:ProviderName', nsm).text	
+		self.minTime = tree.find(".//ows:Parameter[@name='temporalFilter']/ows:AllowedValues/ows:Range/ows:MinimumValue", nsm).text
+		
+		FOI = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='featureOfInterest']/ows:AllowedValues", nsm)
+		for feature in FOI:
+			if feature.text in featureofinterest:
+				print feature.text, 'already exists'
+			else:
+				featureofinterest[feature.text] = {}
+		
+		procedures = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='procedure']/ows:AllowedValues", nsm)
+		for procedure in procedures:
+			self.procedure[procedure.text] = {'offerings': [], 'obsProperty': '', 'FOI': []}
 
-			# Section: operations metadata		
-			elif "operationsmetadata" in section.tag.lower():
-				for info in section:
-					if "getobservation" in info.attrib['name'].lower():
-						for each in info:
-							try:
-								if "temporalfilter" in each.attrib['name'].lower():
-									self.minTime = each[0][0][0].text
+		responseformat = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='responseFormat']/ows:AllowedValues", nsm)
+		for format in responseformat:
+			self.responseFormat.append(format.text)
 
-								elif "featureofinterest" in each.attrib['name'].lower():
-									for allowedvalues in each:
-										for feature in allowedvalues:
-											if feature.text in featureofinterest:
-												print feature.text, 'already exists'
-											else:
-												featureofinterest[feature.text] = {}
+		contents = tree.findall(".//sos:ObservationOffering", nsm)
+		for offering in contents:
+			currentOffering = offering.find('.//swes:identifier', nsm).text
+			obsProperty = offering.find('.//swes:observableProperty', nsm).text
+			procedure = offering.find('.//swes:procedure', nsm).text
 
-								elif "observedproperty" in each.attrib['name'].lower():
-									for allowedvalues in each:
-										for obsProperty in allowedvalues:
-											observableProperty.append(obsProperty.text)
-
-								elif "responseformat" in each.attrib['name'].lower():
-									for format in each[0]:
-										self.responseFormat.append(format.text)
-
-							except:
-								pass
-			
-			# Section: contents
-			elif "contents" in section.tag.lower():
-				for offering in section[0]:
-					if "observationoffering" in offering[0].tag.lower():
-						for info in offering[0]:
-							if "identifier" in info.tag.lower():
-								currentOffering = info.text
-							elif "observableproperty" in info.tag.lower():
-								obsProperty = info.text
-						offerings[currentOffering] = {'obsProperty': [obsProperty]}
-						offerings[currentOffering]['FOI'] = []
-						offerings[currentOffering]['procedure'] = []
-
-			# else:
-			# 	print section.tag.lower()
-
+			self.procedure[procedure]['offerings'].append(currentOffering)		
+			if len(self.procedure[procedure]['obsProperty']) == 0: 
+				self.procedure[procedure]['obsProperty'] = obsProperty	
 
 		#-------------------------------------------------------------------------------#
 		# GetFeatureOfInterest --> retrieve the features-of-interest per procedure
 		#-------------------------------------------------------------------------------#
+
+
+		# for procedure in self.procedure:
+		# 	for offering in self.procedure[procedure]['offerings']:
+		# 		GetFeatureOfInterest = '{0}service=SOS&version=2.0.0&request=GetFeatureOfInterest&procedure={1}&offering={2}'.format(self.url, procedure, offering)
+				
+		# 		try:
+		# 			r = requests.get(GetFeatureOfInterest)
+		# 		except:
+		# 			self.log("Could not send the request: {0}".format(GetCapabilities))
+				
+		# 		# Print the request URL
+		# 		self.log("Get request: {0}".format(GetFeatureOfInterest))
+		# 		print "Get request: {0}".format(GetFeatureOfInterest)
+		# 		break
+
+
+
+
+
+
 
 		# GetFeatureOfInterest = '{0}service=SOS&version=2.0.0&request=GetFeatureOfInterest'.format(self.url)
 		
@@ -180,7 +173,7 @@ class SOS:
 		return
 
 	def printInformation(self):
-		results = "Information for {0}\n\tProvided by: {1}\n\tCosts: {2}\n\tAcccess constraints: {3}\n\tData available since: {4}\n\tSupported version: {5}\n\tSupported response formats: {6}\n".format(self.name, self.organisation, self.costs, self.acccesConstraints, self.minTime, self.version, self.responseFormat)
+		results = "Information for {0}\n\tProvided by: {1}\n\tCosts: {2}\n\tAccess constraints: {3}\n\tData available since: {4}\n\tSupported version: {5}\n\tSupported response formats: {6}\n".format(self.name, self.organisation, self.costs, self.accesConstraints, self.minTime, self.version, self.responseFormat)
 		print results 
 		
 		return
@@ -189,7 +182,7 @@ class SOS:
 	def log(self, event):
 		with open('log_{0}'.format(self.name), 'a') as f:
 			f.write("at {0}\t-->\t{1}\n".format(datetime.now().isoformat(), event))
-		
+		# pass
 		return
 
 
@@ -200,7 +193,7 @@ if (__name__ == "__main__"):
 	IRCELINE_SOS.printInformation()
 
 # 	Requesting the Dutch SOS from RIVM
- 	RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
- 	RIVM_SOS.printInformation()
+ 	# RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
+ # 	RIVM_SOS.printInformation()
 	
-	
+	# 
