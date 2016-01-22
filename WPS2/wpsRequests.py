@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 class SOS:
 
 	def __init__(self, url, name="", organisation="", costs="", accessConstraints="", version="", responseFormat=[]):
+		self.error = False
+
 		# Information that needs to be retrieved from the SOS
 		self.name = name
 		self.organisation = organisation
@@ -71,6 +73,14 @@ class SOS:
 		tree = etree.fromstring(r.content)
 		nsm = tree.nsmap
 
+		# Check for errors
+		if len(tree.findall('.//ows:Exception', nsm)) >= 1:
+			print 'The server responded with an error message'
+			error = etree.tostring(tree, pretty_print=True)
+			self.log('ERROR url: {0} \n response:\n{1}'.format(GetCapabilities, etree.tostring(tree, pretty_print=True)))
+			self.error = True
+			return
+
 		# Retrieving information from the capabilities document 
 		self.costs = tree.find('.//ows:Fees', nsm).text
 		self.name = tree.find('.//ows:Title', nsm).text
@@ -106,21 +116,20 @@ class SOS:
 		#-------------------------------------------------------------------------------#
 		# GetFeatureOfInterest --> retrieve the features-of-interest per procedure
 		#-------------------------------------------------------------------------------#
-
-
-		# for procedure in self.procedure:
-		# 	for offering in self.procedure[procedure]['offerings']:
-		# 		GetFeatureOfInterest = '{0}service=SOS&version=2.0.0&request=GetFeatureOfInterest&procedure={1}&offering={2}'.format(self.url, procedure, offering)
+		
+		for procedure in self.procedure:
+			for offering in self.procedure[procedure]['offerings']:
+				GetFeatureOfInterest = '{0}service=SOS&version=2.0.0&request=GetFeatureOfInterest&procedure={1}&offering={2}'.format(self.url, procedure, offering)
 				
-		# 		try:
-		# 			r = requests.get(GetFeatureOfInterest)
-		# 		except:
-		# 			self.log("Could not send the request: {0}".format(GetCapabilities))
+				try:
+					r = requests.get(GetFeatureOfInterest)
+				except:
+					self.log("Could not send the request: {0}".format(GetCapabilities))
 				
-		# 		# Print the request URL
-		# 		self.log("Get request: {0}".format(GetFeatureOfInterest))
-		# 		print "Get request: {0}".format(GetFeatureOfInterest)
-		# 		break
+				# Print the request URL
+				self.log("Get request: {0}".format(GetFeatureOfInterest))
+				print "Get request: {0}".format(GetFeatureOfInterest)
+				break
 
 
 
@@ -173,8 +182,9 @@ class SOS:
 		return
 
 	def printInformation(self):
-		results = "Information for {0}\n\tProvided by: {1}\n\tCosts: {2}\n\tAccess constraints: {3}\n\tData available since: {4}\n\tSupported version: {5}\n\tSupported response formats: {6}\n".format(self.name, self.organisation, self.costs, self.accesConstraints, self.minTime, self.version, self.responseFormat)
-		print results 
+		if self.error == False:
+			results = "Information for {0}\n\tProvided by: {1}\n\tCosts: {2}\n\tAccess constraints: {3}\n\tData available since: {4}\n\tSupported version: {5}\n\tSupported response formats: {6}\n".format(self.name, self.organisation, self.costs, self.accesConstraints, self.minTime, self.version, self.responseFormat)
+			print results 
 		
 		return
 
@@ -192,8 +202,6 @@ if (__name__ == "__main__"):
 	IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
 	IRCELINE_SOS.printInformation()
 
-# 	Requesting the Dutch SOS from RIVM
- 	RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
- 	RIVM_SOS.printInformation()
-	
-	
+# # 	Requesting the Dutch SOS from RIVM
+#  	RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
+#  	RIVM_SOS.printInformation()
