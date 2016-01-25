@@ -18,7 +18,7 @@ Since data on the web has a distributed nature it can be questioned whether cent
 There are three core requests that can be made to retrieve sensor (meta)data from a \ac{sos}: \texttt{GetCapabilities}, \texttt{DescribeSensor} and \texttt{GetObservation}. \texttt{Get} \texttt{Capabilities} returns a complete overview of what the \ac{sos} has to offer. The \texttt{DescribeSensor} request returns detailed information about individual sensors. These three core requests are mandatory in a \ac{sos} under the 2.0 specifications \citep{SW:OGC2}. There are also a number of optional extensions to a \ac{sos}. Requests can be made as a \ac{http} GET request or a \ac{http} POST request. There can be different response formats. Usually there is at least the option to retrieve the response as an \ac{xml} document. Based on the specification by \cite{SW:OGC2} this paragraph describes the core and optional requests of a \ac{sos}, as well as the structure of their responses. 
 
 \subsection{Get capabilities}
-The \texttt{GetCapabilities} request is the first step in communicating with a \ac{sos}. It returns a document including information on what it has to offer. The structure contains a number of sections: service identification, service provider, operations metadata, filter capabilities and contents. 
+The \texttt{GetCapabilities} request is the first step in communicating with a \ac{sos}. The request is made by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&request=GetCapabilities}. It returns a document including information on what the service has to offer. The document contains a number of sections: service identification, service provider, operations metadata, filter capabilities and contents. 
 
 In the service identification section there is general information about the service, such as the title and supported \ac{sos} versions, but also whether there are fees or access constraints. The service provider section contains details on which organisation provides the \ac{sos} and lists their contact information. The operations metadata section lists the supported request types. It also contains an overview of all features-of-interest, observed properties, procedures and offerings. Offerings are similar to layers in a \ac{wms}, grouping together observations collected by one procedure.
 
@@ -33,11 +33,13 @@ The contents section describes the data that can be retrieved, grouped in offeri
 
 \subsection{Describe sensor}
 
-\texttt{DescribeSensor} gives detailed information on a specific sensor.
+\begin{sloppypar}
+The \texttt{DescribeSensor} request gives detailed information on a specific sensor. The request is built by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&version=2.0.0\&request=DescribeSensor\&procedure=aprocedure\&proceduredescriptionformat=aformat} where the procedure and procedure description format have to contain values defined in the capabilities document.
+\end{sloppypar}
 
 \subsection{Get observation}
 
-Using \texttt{GetObservation} actual measurements can be retrieved. 
+Using \texttt{GetObservation} actual measurements can be retrieved. The request is made by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&version=2.0.0\&request=GetObservation}. This returns a response with the default parameters, which can differ from one \ac{sos} to another. To further specify the request, optional paramaters can be added such as: observed property, procedure, feature-of-interest, offering and outputformat. Spatial and temporal filters can be added if these are supported by the service. 
 
 \subsection{Optional extensions}
 
@@ -78,6 +80,13 @@ To publish data on the semantic web ontologies are required to specify the diffe
 	\centering
 	\includegraphics[width=1\linewidth]{UML/UML_Diagram.png}
 	\caption{\ac{uml} diagram of sensor observations service, based on \cite{SSW:Cox3} and \cite{SDI:INSPIRE2}}
+	\label{fig:UML}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{UML/SensorLinks3.png}
+	\caption{\ac{uml} diagram showing sensor collections and their relation to the \ac{sos}}
 	\label{fig:UML}
 \end{figure}
 
