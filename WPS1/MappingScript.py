@@ -4,6 +4,8 @@ import rdflib
 import psycopg2
 import  progressbar
 import time
+from os import walk
+
 
 BaseURI = "http://localhost:3030/masterThesis/"
 outputFile = "test"
@@ -40,7 +42,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 	try:
 		# Check if the file already exist, in which case the new triples will be appended to it
-		g.parse("{0}.ttl".format(outputFile), format="turtle")
+		g.parse("{0}_adminUnits.ttl".format(outputFile), format="turtle")
 		#print g.serialize(format='turtle')
 		# print len(g.serialize(format='turtle'))
 	except:
@@ -87,7 +89,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	#print g.serialize(format='turtle')
 
 	# Write the graph to a RDF file in the turtle format
-	g.serialize("{0}.ttl".format(outputFile), format='turtle')
+	g.serialize("{0}_adminUnits.ttl".format(outputFile), format='turtle')
 	# print len(g.serialize(format='turtle'))
 	return
 
@@ -111,15 +113,6 @@ def LandcoverTable2RDF(table):
 	g = Graph()
 	
 	global outputFile
-
-	try:
-		# Check if the file already exist, in which case the new triples will be appended to it
-		g.parse("{0}.ttl".format(outputFile), format="turtle")
-		#print g.serialize(format='turtle')
-		# print len(g.serialize(format='turtle'))
-	except:
-		pass
-	
 	global BaseURI
 
 	print "Creating linked data from CORINE 2012 Legend"
@@ -133,6 +126,7 @@ def LandcoverTable2RDF(table):
 			i += 1
 
 
+	fileCount = 0
 	print "Creating linked data from CORINE 2012 dataset"
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
 		for i, row in enumerate(table):
@@ -148,32 +142,33 @@ def LandcoverTable2RDF(table):
 
 			g.serialize("{0}.ttl".format(outputFile), format='turtle')
 
-			if i % 100 == 0:
+			if (i % 500 == 0) or (i == 0):
 				bar.update(i)
-				g.serialize("{0}.ttl".format(outputFile), format='turtle')
+				g.serialize("{0}_landcover_{1}.ttl".format(outputFile, fileCount), format='turtle')
+				fileCount += 1
 
 	return
 
 if (__name__ == "__main__"):
 
-# Create linked data of provinces
-	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
-	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
-	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
-	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+# # Create linked data of provinces
+# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
+# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
+# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
-# Create linked data of municipalities
-	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
-	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
-	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+# # Create linked data of municipalities
+# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
+# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
+# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 
-# Create linked data of neighbourhoods
-	NL_neighbourhoods = getData("Masterthesis", "NL_neighbourhoods", "postgres", "")
-	AdminUnitTable2RDF(NL_neighbourhoods, 'Netherlands', 'neighbourhood')
+# # Create linked data of neighbourhoods
+# 	NL_neighbourhoods = getData("Masterthesis", "NL_neighbourhoods", "postgres", "")
+# 	AdminUnitTable2RDF(NL_neighbourhoods, 'Netherlands', 'neighbourhood')
 
 
 # Create linked data of landcover
-	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
-	# LandcoverTable2RDF(Landcover)
+	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
+	LandcoverTable2RDF(Landcover)
 
