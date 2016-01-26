@@ -101,7 +101,7 @@ class SOS:
 		
 		procedures = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='procedure']/ows:AllowedValues", nsm)
 		for procedure in procedures:
-			self.procedure[procedure.text] = {'offerings': [], 'obsProperty': '', 'FOI': []}
+			self.procedure[procedure.text] = {'offerings': [], 'obsProperty': '', 'FOI': set()}
 
 		responseformat = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='responseFormat']/ows:AllowedValues", nsm)
 		for format in responseformat:
@@ -121,56 +121,106 @@ class SOS:
 		# GetFeatureOfInterest --> retrieve the features-of-interest per procedure
 		#-------------------------------------------------------------------------------#
 		
-		# for procedure in self.procedure:
-		# 	for offering in self.procedure[procedure]['offerings']:
-		# 		GetFeatureOfInterest = '{0}service=SOS&version=2.0.0&request=GetFeatureOfInterest&procedure={1}&offering={2}'.format(self.url, procedure, offering)
-				
-		# 		try:
-		# 			r = requests.get(GetFeatureOfInterest)
-		# 		except:
-		# 			self.log("Could not send the request: {0}".format(GetCapabilities))
-				
-		# 		# Print the request URL
-		# 		self.log("Get request: {0}".format(GetFeatureOfInterest))
-		# 		print "Get request: {0}".format(GetFeatureOfInterest)
-		# 		break
 
+		GetFeatureOfInterest = '{0}service=SOS&version=2.0.0&request=GetFeatureOfInterest'.format(self.url)
 
-
-
-
-		# GetFeatureOfInterest = '{0}service=SOS&version=2.0.0&request=GetFeatureOfInterest'.format(self.url)
+		r = requests.get(GetFeatureOfInterest)
 		
+		tree = etree.fromstring(r.content)
+		for section in tree:
+			if 'exception' in section.tag.lower():	
+				GetFeatureOfInterest += '&featureOfInterest=allFeatures'
+				r = requests.get(GetFeatureOfInterest)
+				tree = etree.fromstring(r.content)
+				break
 
-		# r = requests.get(GetFeatureOfInterest)
+		self.log("Get request: {0}".format(GetFeatureOfInterest))
+
+		for featureMember in tree:
+			currentFOI = False
+			for info in featureMember:
+				if 'sf_spatialsamplingfeature' in info.tag.lower():
+					for attributes in info:
+						if 'identifier' in attributes.tag.lower():
+							currentFOI = attributes.text
+						elif 'shape' in attributes.tag.lower():
+							coords = attributes[0][0].text
+							CRS = attributes[0][0].attrib['srsName']
+
+					featureofinterest[currentFOI]['coords'] = [coords, CRS]
+				# else:
+				# 	print info.tag
+
+		#-------------------------------------------------------------------------------#
+		# GetObservation --> retrieve small amounts of data to link a procedure to a FOI
+		#-------------------------------------------------------------------------------#
+			
+		yesterday = (datetime.now() - timedelta(days=1)).isoformat()
+		temporalFilter = '&temporalFilter=om:resultTime,after,{0}'.format(yesterday)
 		
-		# tree = etree.fromstring(r.content)
-		# for section in tree:
-		# 	if 'exception' in section.tag.lower():	
-		# 		GetFeatureOfInterest += '&featureOfInterest=allFeatures'
-		# 		r = requests.get(GetFeatureOfInterest)
-		# 		tree = etree.fromstring(r.content)
-		# 		break
+		for procedure in self.procedure:
+			for offering in self.procedure[procedure]['offerings']:
+				GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(self.url, procedure, offering, self.procedure[procedure]['obsProperty'])
+				temporalFilterUsed = True
+				GetObservationWtempfilter = GetObservation + temporalFilter
+				try:
+					r = requests.get(GetObservationWtempfilter)
+				except:
+					self.log("Could not send the request: {0}".format(GetObservationWtempfilter))
+				
+				tree = etree.fromstring(r.content)
+				
+				for section in tree:
+					if 'exception' in section.tag.lower():	
+						temporalFilterUsed = False
+						try:
+							# Temporal filter not accepted, so request data without temporal filter
+							r = requests.get(GetObservation)
+						except:
+							self.log("Could not send the request: {0}".format(GetObservation))
 
-		# self.log("Get request: {0}".format(GetFeatureOfInterest))
+						break
 
-		# for featureMember in tree:
-		# 	currentFOI = False
-		# 	for info in featureMember:
-		# 		if 'sf_spatialsamplingfeature' in info.tag.lower():
-		# 			for attributes in info:
-		# 				if 'identifier' in attributes.tag.lower():
-		# 					currentFOI = attributes.text
-		# 				elif 'shape' in attributes.tag.lower():
-		# 					coords = attributes[0][0].text
-		# 					CRS = attributes[0][0].attrib['srsName']
+				tree = etree.fromstring(r.content)
+				nsm = tree.nsmap
 
-		# 			featureofinterest[currentFOI]['coords'] = [coords, CRS]
-		# 			featureofinterest[currentFOI]['procedure'] = []
-		# 			featureofinterest[currentFOI]['obsProperty'] = []
-		# 		# else:
-		# 		# 	print info.tag
 
+				# Print the request URL
+				if temporalFilterUsed:
+					self.log("Get request: {0}".format(GetObservation+temporalFilter))
+					# print GetObservationWtempfilter
+				else:
+					self.log("Get request: {0}".format(GetObservation))
+					# print GetObservation
+
+				# print etree.tostring(tree, pretty_print=True)
+				
+				try:
+					FOI = tree.findall(".//om:featureOfInterest", nsm)
+					
+					for feature in FOI:
+						try:
+							for attribute, value in feature.attrib.iteritems():
+								if str(value) in featureofinterest:
+									self.procedure[procedure]['FOI'].add(value)
+									
+						except:
+							print "didn't work.. "
+							break
+						break
+					
+						# self.procedure[procedure]['FOI'] = tree.find(".// ", nsm).text # insert tag that holds the point coordinates
+				except:
+					print "also didn't work.. "
+				
+			print self.procedure[procedure]
+			return
+
+
+				
+
+
+		
 
 		#-------------------------------------------------------------------------------#
 		# Results
@@ -207,6 +257,9 @@ if (__name__ == "__main__"):
  	RIVM_SOS.printInformation()
 
 # # 	Requesting the Belgian SOS IRCELINE	
-	IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
-	IRCELINE_SOS.printInformation()
+	# IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
+	# IRCELINE_SOS.printInformation()
+	
 
+	# yesterday = (datetime.now() - timedelta(days=1)).isoformat()
+	# print yesterday
