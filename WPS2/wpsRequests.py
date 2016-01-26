@@ -2,6 +2,11 @@ import requests
 from lxml import etree
 from datetime import datetime, timedelta
 
+try:
+	import cPickle as pickle
+except:
+	import pickle
+
 class SOS:
 
 	def __init__(self, url, name="", organisation="", costs="", accessConstraints="", version=set(), responseFormat=set()):
@@ -97,7 +102,7 @@ class SOS:
 			if feature.text in featureofinterest:
 				print feature.text, 'already exists'
 			else:
-				featureofinterest[feature.text] = {}
+				self.featureofinterest[feature.text] = {}
 		
 		procedures = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='procedure']/ows:AllowedValues", nsm)
 		for procedure in procedures:
@@ -147,7 +152,7 @@ class SOS:
 							coords = attributes[0][0].text
 							CRS = attributes[0][0].attrib['srsName']
 
-					featureofinterest[currentFOI]['coords'] = [coords, CRS]
+					self.featureofinterest[currentFOI]['coords'] = [coords, CRS]
 				# else:
 				# 	print info.tag
 
@@ -200,21 +205,20 @@ class SOS:
 							pass
 						
 						self.log("featureofinterest not in attributes")
-						print "featureofinterest not in attributes"
+						# print "featureofinterest not in attributes"
 
 						value = tree.findall(".//om:featureOfInterest/sams:SF_SpatialSamplingFeature/gml:identifier", nsm)
 						# print "no. gml:identifier", len(value)
 						if len(value) > 0:
 							for each in value:
-								print each.text
 								self.procedure[procedure]['FOI'].add(each.text)
 								# print "new: ", self.procedure[procedure]['FOI']
-						else:
-							print "no observations available"
+						# else:
+							# print "no observations available"
 
 				except:
 					self.log("no observations available")
-					print "not an observations available"
+					# print "not an observations available"
 				
 			print self.procedure
 			
@@ -223,24 +227,10 @@ class SOS:
 			else:
 				i += 1
 
-
-				
-
-
-		
-
-		#-------------------------------------------------------------------------------#
-		# Results
-		#-------------------------------------------------------------------------------#
-
-		# print "	There are {0} features of interest".format(len(featureofinterest))
-		# print "	There are {0} observable properties".format(len(observableProperty)) 
-		# print "\nFeatures of interest: \n",featureofinterest
-		# print "Offerings: \n", offerings, "\n"
-
 		return
 
 	def printInformation(self):
+		# prints the variables of a SOS instance
 		if self.error == False:
 			results = "Information for {0}\n\tProvided by: {1}\n\tCosts: {2}\n\tAccess constraints: {3}\n\tData available since: {4}\n\tSupported version: {5}\n\tSupported response formats: {6}\n".format(self.name, self.organisation, self.costs, self.accesConstraints, self.minTime, self.version, self.responseFormat)
 			print results 
@@ -251,21 +241,34 @@ class SOS:
 
 
 	def log(self, event):
+		# logs an event to the log.txt file
 		with open('log.txt', 'a') as f:
 			f.write("at {0}\t-->\t{1}\n".format(datetime.now().isoformat(), event))
-		# pass
+
 		return
 
+	def store(self):
+		# stores the SOS instance and it's variables
+		pickle.dump(self, open( "{0}.p".format(self.name), "wb" ) )
+
+		return
 
 
 if (__name__ == "__main__"):
 # # 	Requesting the Dutch SOS from RIVM
  	# RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
- 	# RIVM_SOS.printInformation()
+ 	# RIVM_SOS.store()
+ 	RIVM_SOS = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
+ 	RIVM_SOS.printInformation()
+ 	print RIVM_SOS.procedure
+ 	print RIVM_SOS.featureofinterest
 
 # # 	Requesting the Belgian SOS IRCELINE	
-	IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
+	# IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
+	# IRCELINE_SOS.store()
+	IRCELINE_SOS = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 	IRCELINE_SOS.printInformation()
+	print IRCELINE_SOS.procedure
+	print IRCELINE_SOS.featureofinterest
+
 	
-	# yesterday = (datetime.now() - timedelta(days=1)).isoformat()
-	# print yesterday
