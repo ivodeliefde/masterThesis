@@ -14,7 +14,7 @@ class SOS:
 		self.accessConstraints = accessConstraints
 		self.version = version
 		self.responseFormat = responseFormat 
-		self.procedure = {} # contains dictionary instances with structure 'ID': {'offerings': [], 'obsProperty': '...' ,'FOI': [] }
+		self.procedure = {} # contains dictionary instances with structure 'ID': {'offerings': [], 'obsProperty': '...' ,'FOI': set() }
 		self.featureofinterest = {} # contains dictionary instance with structure 'ID': {'coords': [], 'CRS': '...' }
 
 		
@@ -157,7 +157,7 @@ class SOS:
 			
 		yesterday = (datetime.now() - timedelta(days=1)).isoformat()
 		temporalFilter = '&temporalFilter=om:resultTime,after,{0}'.format(yesterday)
-		
+		i = 0 
 		for procedure in self.procedure:
 			for offering in self.procedure[procedure]['offerings']:
 				GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(self.url, procedure, offering, self.procedure[procedure]['obsProperty'])
@@ -165,23 +165,13 @@ class SOS:
 				GetObservationWtempfilter = GetObservation + temporalFilter
 				try:
 					r = requests.get(GetObservationWtempfilter)
+					tree = etree.fromstring(r.content)
 				except:
-					self.log("Could not send the request: {0}".format(GetObservationWtempfilter))
-				
-				tree = etree.fromstring(r.content)
-				
-				for section in tree:
-					if 'exception' in section.tag.lower():	
-						temporalFilterUsed = False
-						try:
-							# Temporal filter not accepted, so request data without temporal filter
-							r = requests.get(GetObservation)
-						except:
-							self.log("Could not send the request: {0}".format(GetObservation))
+					self.log("Could not send the request with temporal filter: {0}".format(GetObservationWtempfilter))
+					r = requests.get(GetObservation)
+					tree = etree.fromstring(r.content)
+					temporalFilterUsed = False
 
-						break
-
-				tree = etree.fromstring(r.content)
 				nsm = tree.nsmap
 
 
@@ -197,24 +187,41 @@ class SOS:
 				
 				try:
 					FOI = tree.findall(".//om:featureOfInterest", nsm)
+					# print "no. om:featureofinterest",len(FOI), FOI
 					
 					for feature in FOI:
 						try:
 							for attribute, value in feature.attrib.iteritems():
-								if str(value) in featureofinterest:
+								if value in featureofinterest:
 									self.procedure[procedure]['FOI'].add(value)
-									
+									continue
+	
 						except:
-							print "didn't work.. "
-							break
-						break
-					
-						# self.procedure[procedure]['FOI'] = tree.find(".// ", nsm).text # insert tag that holds the point coordinates
+							pass
+						
+						self.log("featureofinterest not in attributes")
+						print "featureofinterest not in attributes"
+
+						value = tree.findall(".//om:featureOfInterest/sams:SF_SpatialSamplingFeature/gml:identifier", nsm)
+						# print "no. gml:identifier", len(value)
+						if len(value) > 0:
+							for each in value:
+								print each.text
+								self.procedure[procedure]['FOI'].add(each.text)
+								# print "new: ", self.procedure[procedure]['FOI']
+						else:
+							print "no observations available"
+
 				except:
-					print "also didn't work.. "
+					self.log("no observations available")
+					print "not an observations available"
 				
-			print self.procedure[procedure]
-			return
+			print self.procedure
+			
+			if i > 5:
+				return
+			else:
+				i += 1
 
 
 				
@@ -253,13 +260,12 @@ class SOS:
 
 if (__name__ == "__main__"):
 # # 	Requesting the Dutch SOS from RIVM
- 	RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
- 	RIVM_SOS.printInformation()
+ 	# RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
+ 	# RIVM_SOS.printInformation()
 
 # # 	Requesting the Belgian SOS IRCELINE	
-	# IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
-	# IRCELINE_SOS.printInformation()
+	IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
+	IRCELINE_SOS.printInformation()
 	
-
 	# yesterday = (datetime.now() - timedelta(days=1)).isoformat()
 	# print yesterday
