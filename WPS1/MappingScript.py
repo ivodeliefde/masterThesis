@@ -142,10 +142,12 @@ def LandcoverTable2RDF(table):
 
 			g.serialize("{0}.ttl".format(outputFile), format='turtle')
 
-			if (i % 500 == 0) or (i == 0):
+			if (i % 500 == 0):
 				bar.update(i)
 				g.serialize("{0}_landcover_{1}.ttl".format(outputFile, fileCount), format='turtle')
 				fileCount += 1
+			elif (i == 0):
+				bar.update(i)
 
 	return
 
