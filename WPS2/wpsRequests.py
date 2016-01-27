@@ -162,7 +162,9 @@ class SOS:
 			
 		yesterday = (datetime.now() - timedelta(days=1)).isoformat()
 		temporalFilter = '&temporalFilter=om:resultTime,after,{0}'.format(yesterday)
-		i = 0 
+
+		# i = 0 
+
 		for procedure in self.procedure:
 			for offering in self.procedure[procedure]['offerings']:
 				GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(self.url, procedure, offering, self.procedure[procedure]['obsProperty'])
@@ -193,11 +195,10 @@ class SOS:
 				try:
 					FOI = tree.findall(".//om:featureOfInterest", nsm)
 					# print "no. om:featureofinterest",len(FOI), FOI
-					
 					for feature in FOI:
 						try:
 							for attribute, value in feature.attrib.iteritems():
-								if value in featureofinterest:
+								if value in self.featureofinterest:
 									self.procedure[procedure]['FOI'].add(value)
 									continue
 	
@@ -220,12 +221,12 @@ class SOS:
 					self.log("no observations available")
 					# print "not an observations available"
 				
-			print self.procedure
 			
-			if i > 5:
-				return
-			else:
-				i += 1
+			
+			# if i > 3:
+			# 	return
+			# else:
+			# 	i += 1
 
 		return
 
@@ -260,8 +261,9 @@ if (__name__ == "__main__"):
  	# RIVM_SOS.store()
  	RIVM_SOS = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
  	RIVM_SOS.printInformation()
- 	print RIVM_SOS.procedure
- 	print RIVM_SOS.featureofinterest
+ 	print RIVM_SOS.procedure, "\n"
+ 	
+
 
 # # 	Requesting the Belgian SOS IRCELINE	
 	# IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
@@ -269,6 +271,6 @@ if (__name__ == "__main__"):
 	IRCELINE_SOS = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 	IRCELINE_SOS.printInformation()
 	print IRCELINE_SOS.procedure
-	print IRCELINE_SOS.featureofinterest
+
 
 	
