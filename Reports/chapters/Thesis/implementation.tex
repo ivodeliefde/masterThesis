@@ -1,0 +1,57 @@
+%!TEX root = thesis.tex
+
+\chapter{Implementation}
+\label{chap:impl}
+
+The implementation of the methods are described in this chapter.
+
+\section{Preparing linked data}
+First linked data is prepared that will be used to retrieve and process sensor data on the semantic web.
+
+\subsection{Creating linked data of administrative units}
+Data of countries, provinces and municipalities
+
+\subsection{Creating linked data of land cover}
+\ac{corine} 2012 land cover dataset. 
+
+\subsection{Creating linked raster data}
+The \ac{eea} reference grid with resolutions of 10km\textsuperscript{2} and 100km\textsuperscript{2}.
+
+\subsection{Publishing Resource Description Framework data}
+Setting up the Apache Jena Fuseki (Figure \ref{fig:Fuseki}), Apache Tomcat and Pubby software (Figure \ref{fig:Pubby}\textbf{}).
+
+\begin{figure}
+	%\centering
+	\includegraphics[width=\linewidth]{figs/fuseki.PNG}
+	\caption{Apache Jena Fuseki endpoint}
+	\label{fig:Fuseki}
+\end{figure}
+
+\begin{figure}
+	%\centering
+	\includegraphics[width=\linewidth]{figs/pubby.PNG}
+	\caption{Pubby interface for \ac{rdf}}
+	\label{fig:Pubby}
+\end{figure}
+
+
+\section{Retrieving metadata from the Sensor Observation Service}
+The metadata is automatically retrieved from the \ac{sos}.
+
+problems: 
+\begin{itemize}
+	\item Observation are the central concept in a \ac{sos}. This makes it hard to retrieve the locations of the sensors from the capabilities document. A workaround is to retrieve small amounts of observations for each feature of interest.
+	\item Although standardised, the \ac{sos} contains information that can be implemented in different ways. This makes it hard to automatically retrieve data. An example is the feature of interest in the \texttt{GetObservation} document. 
+\end{itemize}
+
+\section{Modelling with the om-lite and sam-lite ontologies}
+Using the ontologies to create a model that suits the purpose of this thesis.
+
+\section{Establishing inward links from DBPedia}
+Sending triples to DBPedia the project.
+
+\section{Setting up the Web Processing Services}
+Creating two \ac{wps} using PyWPS.
+
+\section{Prototype implementation}
+Crawling the semantic web to find specific sensor data.

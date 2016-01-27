@@ -40,7 +40,9 @@ class Process(WPSProcess):
 
         url = self.textIn.getValue()
 
-        organisation, costs, acccesConstraints, minTime, featureofinterest, observableproperty, offerings = Request(url)
+        sos = SOS(url)
+
+        sos.printInformation()
 
         # make linked data from the data retrieved above
 
