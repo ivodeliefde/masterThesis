@@ -3,13 +3,30 @@
 \chapter{Implementation}
 \label{chap:impl}
 
-The implementation of the methods are described in this chapter.
+Implementation of the methods are described in this chapter.
 
 \section{Preparing linked data}
-First linked data is prepared that will be used to retrieve and process sensor data on the semantic web.
+First linked data is prepared that will be used to retrieve and process sensor data on the semantic web (Figure \ref*{fig:Static}).
+
+\begin{figure}
+	%\centering
+	\includegraphics[width=0.7\linewidth]{UML/staticdata2.PNG}
+	\caption{Static Data}
+	\label{fig:Static}
+\end{figure}
 
 \subsection{Creating linked data of administrative units}
 Data of countries, provinces and municipalities
+
+Using RDFlib triples are added for every administrative unit: 
+\begin{itemize}
+	\item administrative unit $>$ type $>$ dbpedia country/province/municipality/neighbourhood
+	\item administrative unit $>$ foaf:Name $>$ Name
+	\item administrative unit $>$ hasGeometry $>$ geometryObject
+	\item geometryObject $>$ type $>$ geometry
+	\item geometryObject $>$ dataType $>$ WKTLiteral
+	\item geometryObject $>$ literal $>$ Polygon(....)
+\end{itemize}
 
 \subsection{Creating linked data of land cover}
 \ac{corine} 2012 land cover dataset. 
