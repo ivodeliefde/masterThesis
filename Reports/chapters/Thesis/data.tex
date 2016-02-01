@@ -3,12 +3,25 @@
 \chapter{Data}
 \label{chap:data}
 
+\section{Vector data}
+\subsection{Topography}
 \begin{sloppypar}
-	The data can be divided into static geographic data and sensor data. For static data the topographic data sets from the \ac{cbs} and the Dutch cadaster will be used. The dataset of Dutch provinces (provincies, Figure \ref{fig:provinces}) and municipalities (gemeenten, Figure \ref{fig:municipalities}) has been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. It is difficult to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}. The geographic data contains the name of the administrative units and their (polygon) geometry.
+	The topographic data sets from the Dutch cadaster will be used. The datasets of Dutch provinces (provincies, Figure \ref{fig:provinces}) and municipalities (gemeenten, Figure \ref{fig:municipalities}) have been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. There are 12 features in the provinces and 393 in the municipalities dataset. 
 	
-	Data on landcover will be used to complement the data of administrative units. A section of the 2012 dataset from the \ac{corine} programme will be used (Figure \ref{fig:CORINE}). This dataset contains polygons (Figure \ref{fig:CORINEZOOM}) with a unique identifier, a code that defines the type of landcover and the size of the polygon's surface. It was downloaded from \url{http://land.copernicus.eu/pan-european/corine-land-cover/clc-2012}. 
+	It has been challenging to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}. There are also 12 features in the provinces (including the capitol region of Brussels) and there are 589 features in the municipalities dataset.  
 	
+	The administrative unit data contains the name of the administrative units and their (polygon) geometry.
 \end{sloppypar}
+
+\subsection{Land cover}
+\begin{sloppypar}
+	Data on land cover will be used to complement the data of administrative units. A section of the 2012 dataset from the \ac{corine} programme will has been selected for this (Figure \ref{fig:CORINE}). The entire CORINE dataset was retrieved from \url{http://land.copernicus.eu/pan-european/corine-land-cover/clc-2012}. The features overlapping the Netherlands and Belgium have been retrieved from this dataset using the \ac{qgis} software and stored in a separate database in Postgres. 
+	
+	The database contains polygon geometries (Figure \ref{fig:CORINEZOOM}) with a unique identifier and a code that refers to the type of landcover. These codes can be looked up in the accompanied spreadsheet file containing the legend table of \ac{corine} 2012.  	
+\end{sloppypar}
+
+\section{Raster data}
+Data is often converted to a raster representation for \ac{gis} computations. For natural phenomenon a raster representation is especially well suited. The \ac{eea} reference grid is a standard grid which covers Europe. It is available with a resolution of 100km\textsuperscript{2}, 10km\textsuperscript{2} and 1km\textsuperscript{2}. In this thesis the \ac{eea} grid cells with a resolution of 100km\textsuperscript{2} (Figure \ref{fig:100KM}) and 10km\textsuperscript{2} (Figure \ref{fig:10KM}) have been used that overlap the Netherlands and Belgium. There are 15 grid cells of 100km\textsuperscript{2} and 843 grid cells of 10km\textsuperscript{2}.  
 
 \begin{figure}
 	\centering
@@ -38,6 +51,21 @@
 	\label{fig:CORINEZOOM}
 \end{figure}
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figs/EEA100km.png}
+	\caption{\ac{eea} reference grid cells with a resolution of 100km\textsuperscript{2} overlapping the Netherlands and Belgium}
+	\label{fig:100KM}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figs/EEA10km.png}
+	\caption{\ac{eea} reference grid cells with a resolution of 10km\textsuperscript{2} overlapping the Netherlands and Belgium}
+	\label{fig:10KM}
+\end{figure}
+
+\section{Sensor data}
 Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. The one of the \ac{rivm} has been online since the 21\textsuperscript{st} of August, 2015. \ac{ircel} already made the \ac{sos} available on the first of January, 2011. Figure \ref{fig:RIVMSensor} and Figure \ref{fig:IRCELINESensor} show the sensor networks of both organisations. They provide different kinds of sensor data, such as particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$). Figure \ref{fig:Sensor} shows one of the sensor locations in the city center of Amsterdam. 
 
 
