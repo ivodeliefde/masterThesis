@@ -153,24 +153,24 @@ def LandcoverTable2RDF(table):
 
 if (__name__ == "__main__"):
 
-# # Create linked data of provinces
-# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
-# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
-# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
-# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+# Create linked data of provinces
+	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
+	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
+	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
-# # Create linked data of municipalities
-# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
-# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
-# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+# Create linked data of municipalities
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 
-# # Create linked data of neighbourhoods
-# 	NL_neighbourhoods = getData("Masterthesis", "NL_neighbourhoods", "postgres", "")
-# 	AdminUnitTable2RDF(NL_neighbourhoods, 'Netherlands', 'neighbourhood')
+# Create linked data of neighbourhoods
+	NL_neighbourhoods = getData("Masterthesis", "NL_neighbourhoods", "postgres", "")
+	AdminUnitTable2RDF(NL_neighbourhoods, 'Netherlands', 'neighbourhood')
 
 
 # Create linked data of landcover
-	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
-	LandcoverTable2RDF(Landcover)
+	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
+	# LandcoverTable2RDF(Landcover)
 
