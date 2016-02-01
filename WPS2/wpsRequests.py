@@ -271,6 +271,3 @@ if (__name__ == "__main__"):
 	IRCELINE_SOS = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 	IRCELINE_SOS.printInformation()
 	print IRCELINE_SOS.procedure
-
-
-	
