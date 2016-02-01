@@ -31,6 +31,16 @@ Using RDFlib triples are added for every administrative unit:
 \subsection{Creating linked data of land cover}
 \ac{corine} 2012 land cover dataset. 
 
+Using RDFlib triples are added for every landcover feature: 
+\begin{itemize}
+	\item landcover feature $>$ type $>$ dbpedia landcover type definition
+	\item landcover feature$>$ foaf:Name $>$ ID
+	\item landcover feature$>$ hasGeometry $>$ geometryObject
+	\item geometryObject $>$ type $>$ geometry
+	\item geometryObject $>$ dataType $>$ WKTLiteral
+	\item geometryObject $>$ literal $>$ Polygon(....)
+\end{itemize}
+
 \subsection{Creating linked raster data}
 The \ac{eea} reference grid with resolutions of 10km\textsuperscript{2} and 100km\textsuperscript{2}.
 
