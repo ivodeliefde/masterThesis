@@ -1,0 +1,63 @@
+%!TEX root = thesis.tex
+
+\chapter{Data}
+\label{chap:data}
+
+\begin{sloppypar}
+	The data can be divided into static geographic data and sensor data. For static data the topographic data sets from the \ac{cbs} and the Dutch cadaster will be used. The dataset of Dutch provinces (provincies, Figure \ref{fig:provinces}) and municipalities (gemeenten, Figure \ref{fig:municipalities}) has been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. It is difficult to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}. The geographic data contains the name of the administrative units and their (polygon) geometry.
+	
+	Data on landcover will be used to complement the data of administrative units. A section of the 2012 dataset from the \ac{corine} programme will be used (Figure \ref{fig:CORINE}). This dataset contains polygons (Figure \ref{fig:CORINEZOOM}) with a unique identifier, a code that defines the type of landcover and the size of the polygon's surface. It was downloaded from \url{http://land.copernicus.eu/pan-european/corine-land-cover/clc-2012}. 
+	
+\end{sloppypar}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/Municipalities.png}
+	\caption{Dataset of municipalities in the Netherlands and Belgium in 2015 (from Dutch cadaster and GADM.org)}
+	\label{fig:municipalities}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/Provinces.png}
+	\caption{Dataset of provinces in the Netherlands and Belgium in 2015 (from Dutch cadaster and GADM.org)}
+	\label{fig:provinces}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{figs/CORINE_NL_BE_color.PNG}
+	\caption{Dataset of landcover in the Netherlands and Belgium in 2012 (from Copernicus  The European Earth Observation Programme)}
+	\label{fig:CORINE}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{figs/CORINE_NL_BE_color_zoom.PDF}
+	\caption{Landcover of the province of South Holland (subsection of the dataset from Figure \ref{fig:CORINE})}
+	\label{fig:CORINEZOOM}
+\end{figure}
+
+Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. The one of the \ac{rivm} has been online since the 21\textsuperscript{st} of August, 2015. \ac{ircel} already made the \ac{sos} available on the first of January, 2011. Figure \ref{fig:RIVMSensor} and Figure \ref{fig:IRCELINESensor} show the sensor networks of both organisations. They provide different kinds of sensor data, such as particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$). Figure \ref{fig:Sensor} shows one of the sensor locations in the city center of Amsterdam. 
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\linewidth]{figs/RIVMSensors.png}
+	\caption{Webmap by the \ac{rivm} showing their air quality sensor network (\url{http://www.lml.rivm.nl/meetnet})}
+	\label{fig:RIVMSensor}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\linewidth]{figs/IRCELINESensors.png}
+	\caption{Webmap by \ac{ircel} showing their air quality sensor network (\url{http://www.irceline.be/en/air-quality/measurements/monitoring-stations/})}
+	\label{fig:IRCELINESensor}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{figs/SensorAdam.png}
+	\caption{Google Streetview image of \ac{rivm} sensor location in Amsterdam in 2015}
+	\label{fig:Sensor}
+\end{figure}
