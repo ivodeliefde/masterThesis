@@ -24,6 +24,7 @@ def getData(dbms_name, table, user, password, AdmUnit=True):
 
 	data = cur.fetchall()
 
+	cur.close()
 	conn.close()
 	
 	return data
@@ -64,25 +65,19 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 			if AdmUnitType.lower() == "province":
 				thing = URIRef('{0}{1}/province/{2}'.format( BaseURI, country, name ) )
-				URIgeometry = URIRef('{0}{1}/province/{2}_geometry'.format( BaseURI, country, name ) )
 
 				g.add( (thing, RDF.type, dbpedia.Province) )
 			elif AdmUnitType.lower() == "municipality":
 				thing = URIRef( '{0}{1}/municipality/{2}'.format( BaseURI, country, name ) )
-				URIgeometry = URIRef( '{0}{1}/municipality/{2}_geometry'.format( BaseURI, country, name ) )
 
 				g.add( (thing, RDF.type, dbpedia.Municipality) )
-			elif AdmUnitType.lower() == "neighbourhood":
-				thing = URIRef( '{0}{1}/neighbourhood/{2}'.format( BaseURI, country, name ) )
-				URIgeometry = URIRef( '{0}{1}/neighbourhood/{2}_geometry'.format( BaseURI, country, name ) )
+			# elif AdmUnitType.lower() == "neighbourhood":
+			# 	thing = URIRef( '{0}{1}/neighbourhood/{2}'.format( BaseURI, country, name ) )
 
-				g.add( (thing, RDF.type, dbpedia.Neighbourhood) )
+			# 	g.add( (thing, RDF.type, dbpedia.Neighbourhood) )
 
-			g.add( (URIgeometry, RDF.type, geom.Geometry) )
 			g.add( (thing, FOAF.name, Literal(row[0])) )
-			g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
-			g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
-			g.add( (thing, geom.hasGeometry, URIgeometry) )
+			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^http://www.opengis.net/ont/geosparql#wktLiteral".format(geometry) ) ) )
 			
 			bar.update(i)
 		
@@ -133,21 +128,17 @@ def LandcoverTable2RDF(table):
 			ID, Landcover, geometry = row
 
 			thing = URIRef("{0}landcover/{1}".format( BaseURI, ID ) )
-			URIgeometry = URIRef("{0}landcover/{1}_geometry".format( BaseURI, ID ) )
 
 			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
-			g.add( (URIgeometry, RDFS.Datatype, geom.wktLiteral) )
-			g.add( (URIgeometry, RDFS.Literal, Literal(geometry) ) )
-			g.add( (thing, geom.hasGeometry, URIgeometry) )
+			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^http://www.opengis.net/ont/geosparql#wktLiteral".format(geometry) )) )
 
 			g.serialize("{0}.ttl".format(outputFile), format='turtle')
 
-			if (i % 500 == 0):
+			if i % 500 == 0:
 				bar.update(i)
 				g.serialize("{0}_landcover_{1}.ttl".format(outputFile, fileCount), format='turtle')
+				g = Graph()
 				fileCount += 1
-			elif (i == 0):
-				bar.update(i)
 
 	return
 
@@ -166,11 +157,11 @@ if (__name__ == "__main__"):
 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 
 # Create linked data of neighbourhoods
-	NL_neighbourhoods = getData("Masterthesis", "NL_neighbourhoods", "postgres", "")
-	AdminUnitTable2RDF(NL_neighbourhoods, 'Netherlands', 'neighbourhood')
+	# NL_neighbourhoods = getData("Masterthesis", "NL_neighbourhoods", "postgres", "")
+	# AdminUnitTable2RDF(NL_neighbourhoods, 'Netherlands', 'neighbourhood')
 
 
-# Create linked data of landcover
-	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
-	# LandcoverTable2RDF(Landcover)
+# # Create linked data of landcover
+# 	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
+# 	LandcoverTable2RDF(Landcover)
 
