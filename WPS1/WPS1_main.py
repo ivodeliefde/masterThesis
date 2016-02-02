@@ -1,5 +1,13 @@
 from pywps.Process import WPSProcess
-from wpsRequests import Request    
+from sosRequests import SOS
+from linkedDataCapabilities import capabilities
+
+
+# Load pickle for testing purposes
+try:
+    import cPickle as pickle
+except:
+    import pickle
 
 class Process(WPSProcess):
 
@@ -38,14 +46,23 @@ class Process(WPSProcess):
 
     def execute(self):
 
-        url = self.textIn.getValue()
+#       Original input
+        # url = self.textIn.getValue()
+        # sos = SOS(url)
 
-        sos = SOS(url)
+#       Test input
+        sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
 
         sos.printInformation()
 
         # make linked data from the data retrieved above
+        capabilities(sos)
+
 
         self.textOut.setValue( 'The WPS has finished' )
 
         return
+
+if (__name__ == "__main__"):
+    Process = Process()
+    Process.execute()
