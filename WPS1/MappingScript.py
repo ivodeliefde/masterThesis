@@ -77,7 +77,8 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			# 	g.add( (thing, RDF.type, dbpedia.Neighbourhood) )
 
 			g.add( (thing, FOAF.name, Literal(row[0])) )
-			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^http://www.opengis.net/ont/geosparql#wktLiteral".format(geometry) ) ) )
+			# g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^geo:wktLiteral".format(geometry) ) ) )
+			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral ) ) )
 			
 			bar.update(i)
 		
@@ -130,7 +131,7 @@ def LandcoverTable2RDF(table):
 			thing = URIRef("{0}landcover/{1}".format( BaseURI, ID ) )
 
 			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
-			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^http://www.opengis.net/ont/geosparql#wktLiteral".format(geometry) )) )
+			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^geo:wktLiteral".format(geometry) ) ) )
 
 			g.serialize("{0}.ttl".format(outputFile), format='turtle')
 
@@ -147,14 +148,14 @@ if (__name__ == "__main__"):
 # Create linked data of provinces
 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
-	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
-	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
+	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
 # Create linked data of municipalities
-	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
-	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
-	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	# NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
+	# AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	# BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
+	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 
 # Create linked data of neighbourhoods
 	# NL_neighbourhoods = getData("Masterthesis", "NL_neighbourhoods", "postgres", "")
