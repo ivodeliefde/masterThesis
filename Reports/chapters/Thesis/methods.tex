@@ -66,6 +66,22 @@ There are a number of different notations for writing down these triples (serial
 
 The sensor metadata will also be published on the semantic web. To do this an \ac{xml} document is automatically retrieved from a \ac{sos} by a Python script. This script then extracts the relevant data from the \ac{xml} and maps it to an ontology. It outputs an \ac{rdf} file that will be published online. When new sources of sensor data are added the \ac{rdf} documents will be updated.   
 
+\section{GeoSPARQL}
+
+\begin{lstlisting}
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+
+SELECT 
+?name
+WHERE {
+?feature geo:hasGeometry ?geo .
+?feature foaf:name ?name.
+FILTER (geof:sfContains(?geo,"POINT(52.027337 4.289244)"^^geo:wktLiteral))
+}
+\end{lstlisting}
+
 \section{Ontology mapping}
 When publishing data on the semantic web, ontologies are required to specify what things are and how they relate to other things. The evaluation of observation metadata ontologies by \cite{SW:Hu} is interesting, since it exposes what the relevant aspects are in the process of observation discovery. However, their proposed model focusses mainly on including remote sensing and imagery data in metadata models that were not originally created for this kind of data. The \ac{ssno} is an ontology that clearly describes the process between sensor, stimulus and observation. However, \cite{SSW:Cox4} points out that an important aspect of describing a sensor network is missing in this ontology: the sampling. Also, the om-lite and sam-lite ontologies by \cite{SSW:Cox4} are lightweight ontologies that can be complemented by already existing linked data ontologies. They do not rely on the (heavy) \ac{iso} specifications that date from before the semantic web, unlike the \ac{ssno}. The om-lite and sam-lite ontologies will therefore be used in this thesis. 
 
