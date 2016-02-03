@@ -27,7 +27,7 @@ A number of data sets are converted to linked data. They will be used for the pr
 
 2. Dataset of Provinces in the Netherlands and Belgium 
 
-3. Dataset of land cover in the Netherlands and Belgium (from [CORINE 2012](http://land.copernicus.eu/pan-european/corine-land-cover/clc-2012)  
+3. Dataset of land cover in the Netherlands and Belgium (from [CORINE 2012](http://land.copernicus.eu/pan-european/corine-land-cover/clc-2012))
 
 4. Dataset of [EEA](http://www.eea.europa.eu/data-and-maps/data/eea-reference-grids) reference grid cells covering the Netherlands and Belgium with a resolution of 100km<sup>2</sup> and 10km<sup>2</sup>. 
 
