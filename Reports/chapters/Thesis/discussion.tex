@@ -3,4 +3,14 @@
 \chapter{Discussion}
 \label{chap:disc}
 
-%\section{title}
+\section{Metadata duplication}
+The method presented in this thesis takes metadata from a \ac{sos}, converts it to linked data and publishes it on the semantic web. Although the metadata has taken another form, it is now stored twice in two different locations. This may not be desirable, for instance when data is updated in the original source and its linked data equivalent is not. Also more storage space is required for the same amount of data. However, extra functionality is achieved in return.  
+
+\section{Metadata quality}
+The quality of the metadata in the \ac{sos} influences the quality of the metadata \ac{sparql} endpoint. 
+
+\section{Automated process}
+If there is no meaning added to definitions like observed property, the metadata is not machine understandable. In this case, manual work has to be done to make it machine understandable. Only after this manual process it can be published on the semantic web.
+
+\section{Explicit topological relations}
+Spatial features have topological relations with other spatial features. These relations can be made explicit on the semantic web. However, in this thesis they have not been made explicit and are calculated on-the-fly with spatial queries using GeoSPARQL. Making topological relations explicit in a subject-predicate-object structure could improve query speed, as they are likely less expensive than spatial queries. However, this is a trade-off with the required storage space. Furthermore, the chances of incorrect or broken links increase as both features and topological relations can change over time.
