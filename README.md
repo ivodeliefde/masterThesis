@@ -16,9 +16,9 @@ This thesis aims to explore to what extent the semantic web can add usefull func
 ## Methods
 A catalogue service can be used to discover a SOS, but the semantic web has a number of characteristics that could make it a good alternative. The metadata is explicitly defined on the web, with a multitude of links to related data. The semantic web can therefore be crawled to find the data sources that are relevant, instead of making a specific request to a catalogue service at a specific URL. 
 
-When different data sources are being used the data needs to be integrated. From the multiple responses a single data set has to be created to work return to the user. The semantics make sure that data about the same observed properties or data created by the same procedure are grouped together. 
+When different data sources are being used the data needs to be integrated. From the multiple responses a single data set has to be created to return to the user. The semantics make sure that data about the same observed property or data created by the same procedure are grouped together. 
 
-The aggregation of sensor data can be simplified using semantics. For spatial aggregation users don't have to provide a geometry in the query, a name or other descriptive term suffices. For example, aggregation per [EEA](http://www.eea.europa.eu/data-and-maps/data/eea-reference-grids) reference grid cell of 10km<sup>2</sup> covering the Netherlands can be translated to a SPARQL query to retrieve the required geometry.
+The aggregation of sensor data can be simplified using semantics. For spatial aggregation users don't have to provide a geometry in the query, a name or other descriptive term suffices. For example, aggregation per [EEA](http://www.eea.europa.eu/data-and-maps/data/eea-reference-grids) reference grid cell of 10km<sup>2</sup> covering the Netherlands can be translated to a SPARQL query to retrieve the required geometries for aggregation.
 
 ## Data
 A number of data sets are converted to linked data. They will be used for the proof of concept implementation. 
