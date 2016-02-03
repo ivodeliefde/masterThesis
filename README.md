@@ -8,7 +8,9 @@ However, every SOS has a certain spatial, thematic and temporal extent. Sensor o
 
 ## Goal
 This thesis aims to explore to what extent the semantic web can add usefull functionality to Sensor Observation Services. The focus lies on three functionalities: discovery of sensor data sources, integration of sensor data and aggregation of sensor data. The goal is to create two automated processes: 
-1. Generate linked data from metadata inside a SOS and publish it in a SPARQL endpoint <Enter>
+
+1. Generate linked data from metadata inside a SOS and publish it in a SPARQL endpoint 
+
 2. Retrieve, integrate and aggregate data from all relevant sources for a sensor data request.    
 
 ## Methods
@@ -20,9 +22,13 @@ The aggregation of sensor data can be simplified using semantics. For spatial ag
 
 ## Data
 A number of data sets are converted to linked data. They will be used for the proof of concept implementation. 
-1. Dataset of municipalities in the Netherlands and Belgium <Enter>
-2. Dataset of Provinces in the Netherlands and Belgium <Enter>
-3. Dataset of land cover in the Netherlands and Belgium (from [CORINE 2012](http://land.copernicus.eu/pan-european/corine-land-cover/clc-2012)  <Enter>
-4. Dataset of [EEA](http://www.eea.europa.eu/data-and-maps/data/eea-reference-grids) reference grid cells covering the Netherlands and Belgium with a resolution of 100km<sup>2</sup> and 10km<sup>2</sup>. <Enter>
+
+1. Dataset of municipalities in the Netherlands and Belgium 
+
+2. Dataset of Provinces in the Netherlands and Belgium 
+
+3. Dataset of land cover in the Netherlands and Belgium (from [CORINE 2012](http://land.copernicus.eu/pan-european/corine-land-cover/clc-2012)  
+
+4. Dataset of [EEA](http://www.eea.europa.eu/data-and-maps/data/eea-reference-grids) reference grid cells covering the Netherlands and Belgium with a resolution of 100km<sup>2</sup> and 10km<sup>2</sup>. 
 
 Two sensor observation services are being used for the proof of concept implementation: the air quality SOS by the [RIVM](http://www.lml.rivm.nl/) and the air quality sos by [ircel-celine](http://www.irceline.be/). 
