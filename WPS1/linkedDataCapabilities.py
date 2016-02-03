@@ -32,7 +32,7 @@ def capabilities(SOS):
 	g.add( ( uriSOS, prov.ActedOnBehalfOf,  URIRef("{0}/{1}".format(baseURI, SOS.organisation) ) ) )
 	# g.add( ( uriSOS, ) )
 
-	uniqueObsProperties = set()
+	uniqueObsProperties = {}
 
 	# procedure a prov:Activity, omlite:procedure;
 	count = 1
@@ -47,7 +47,15 @@ def capabilities(SOS):
 			uriProcedure = URIRef(proc)
 		else:
 			uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, count, proc) ) 
+
+		if obsProperty in uniqueObsProperties:
+			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation, uniqueObsProperties[obsProperty]) )
+		else:
+			uniqueObsProperties[obsProperty] = count
+			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation, uniqueObsProperties[obsProperty]) )
 		
+		g.add( ( collection, RDF.type, sam_lite.SamplingCollection ) )
+		g.add( ( collection, om_lite.observedProperty, obsProperty) )
 		g.add( ( uriProcedure, RDF.type, prov.Activity) )
 		g.add( ( uriProcedure, RDF.type, om_lite.procedure) )
 
@@ -68,12 +76,13 @@ def capabilities(SOS):
 				FOI = URIRef(feature)
 			else:
 				FOI = URIRef("{0}/{1}/FOI/{2}".format(baseURI, SOS.organisation, feature) )
+
 			geometry = SOS.featureofinterest[feature]
 			g.add( ( FOI, RDF.type, prov.Entity ) )
 			g.add( ( FOI, RDF.type, sam_lite.SamplingPoint ) ) 
 			g.add( ( FOI, geo.hasGeometry, Literal("<{0}> POINT({1})".format(geometry['coords'][1], geometry['coords'][0]), datatype=geo.wktLiteral ) ) )
 			g.add( ( FOI, om_lite.observedProperty, obsProperty) )
-
+			g.add( ( collection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
 
 		count += 1
@@ -96,3 +105,7 @@ def capabilities(SOS):
 			count += 1
 		else:
 			count += 1
+	# Storing the remaining triples
+	query = "INSERT DATA { " + triples + "}"
+	r = requests.post(endpoint, data={'update': query}) 
+
