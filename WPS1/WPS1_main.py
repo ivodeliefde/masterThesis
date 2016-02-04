@@ -48,13 +48,16 @@ class Process(WPSProcess):
 
 #       Original input
         # url = self.textIn.getValue()
-        # sos = SOS(url)
+#        test URL
+        url = 'http://sos.irceline.be/sos?'
+        sos = SOS(url)
+        IRCELINE_SOS.store()
 
-#       Test input
-        sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
+#       Test input from pickle
+        # sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
 
         sos.printInformation()
-        print sos.procedure
+        print sos.featureofinterest
         # make linked data from the data retrieved above
         # capabilities(sos)
 

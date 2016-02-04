@@ -150,6 +150,8 @@ class SOS:
 							currentFOI = attributes.text
 						elif 'shape' in attributes.tag.lower():
 							coords = attributes[0][0].text
+							coords.split()
+							coords = " ".join([coords[1], coords[0], coords[2]])
 							CRS = attributes[0][0].attrib['srsName']
 
 					self.featureofinterest[currentFOI]['coords'] = [coords, CRS]
