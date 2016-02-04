@@ -70,6 +70,5 @@ class Process(WPSProcess):
         return
 
 if (__name__ == "__main__"):
-    # Process = Process()
-    # Process.execute()
-    print datetime.now().isoformat()
+    Process = Process()
+    Process.execute()
