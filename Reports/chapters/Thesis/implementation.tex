@@ -65,11 +65,13 @@ Setting up the Parliament(Figure \ref{fig:Parliament}), Apache Tomcat and Pubby 
 \section{Retrieving metadata from the Sensor Observation Service}
 The metadata is automatically retrieved from the \ac{sos}.
 
-problems: 
-\begin{itemize}
-	\item Observation are the central concept in a \ac{sos}. This makes it hard to retrieve the locations of the sensors from the capabilities document. A workaround is to retrieve small amounts of observations for each feature of interest.
-	\item Although standardised, the \ac{sos} contains information that can be implemented in different ways. This makes it hard to automatically retrieve data. An example is the feature of interest in the \texttt{GetObservation} document. 
-\end{itemize}
+A sequence of request are being made to retrieve all the desired data: observed properties, procedures, features of interest, locations of features of interest, procedures related to features of interest, observed properties related to procedures and metadata about the \ac{sos} (name, organisation, requests, filters and formats it supports).
+
+%problems: 
+%\begin{itemize}
+%	\item Observation are the central concept in a \ac{sos}. This makes it hard to retrieve the locations of the sensors from the capabilities document. A workaround is to retrieve small amounts of observations for each feature of interest.
+%	\item Although standardised, the \ac{sos} contains information that can be implemented in different ways. This makes it hard to automatically retrieve data. An example is the feature of interest in the \texttt{GetObservation} document. 
+%\end{itemize}
 
 \section{Modelling with the om-lite and sam-lite ontologies}
 Using the ontologies to create a model that suits the purpose of this thesis.
