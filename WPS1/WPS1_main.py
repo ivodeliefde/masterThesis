@@ -54,9 +54,9 @@ class Process(WPSProcess):
         sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
 
         sos.printInformation()
-
+        print sos.procedure
         # make linked data from the data retrieved above
-        capabilities(sos)
+        # capabilities(sos)
 
 
         self.textOut.setValue( 'The WPS has finished' )
