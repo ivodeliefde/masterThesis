@@ -1,5 +1,6 @@
 from pywps.Process import WPSProcess
-
+from datetime import datetime
+from sparqlRequests import sparqlQuery
 
 class Process(WPSProcess):
 
@@ -41,9 +42,15 @@ class Process(WPSProcess):
     def execute(self):
         # receive the Request parameters
         inputString = self.textIn.getValue() # should be replaced with request input parameters
+        
+        # Test input data
+        observedProperties = ['http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5']
+        features = ['Zuid-Holland']
+        tempRange = ['2016-01-04T09:42:47.151000', '2016-02-04T09:42:47.151000']
+        aggregation = ['average']
 
-        # Make SPARQL queries that finds the relevant sensors via: observed properties -> collections of features of interest (with locations) -> sensors (with SOS HTTP addresses)
-
+        # Make SPARQL queries that find the relevant sensors via: observed properties -> collections of features of interest (with locations) -> sensors (with SOS HTTP addresses)
+        sparqlQuery(observedProperties, features, tempRange, aggregation)
 
         # Make SOS queries for every found data source to retrieve data for all found sensors
 
@@ -63,5 +70,6 @@ class Process(WPSProcess):
         return
 
 if (__name__ == "__main__"):
-    Process = Process()
-    Process.execute()
+    # Process = Process()
+    # Process.execute()
+    print datetime.now().isoformat()
