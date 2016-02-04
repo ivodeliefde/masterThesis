@@ -2,16 +2,16 @@
 Master thesis by Ivo de Liefde (student MSc. Geomatics at Delft University of Technology)
 
 ## Background
-Sensor data can be retrieved online in a standardized way from so-called Sensor Observation Services (SOS). Requests can be send to these services to get data from them, as defined by the [OGC Sensor Web Enablement standards](http://www.opengeospatial.org/projects/groups/sensorwebdwg). 
+Sensor data can be retrieved online in a standardized way from so-called Sensor Observation Services (SOS). Requests can be send to these services to receive data, as defined by the [OGC Sensor Web Enablement standards](http://www.opengeospatial.org/projects/groups/sensorwebdwg). 
 
-However, every SOS has a certain spatial, thematic and temporal extent. Sensor observation services could therefore complement each other. Especially when different kinds of sensor data are required for data fusion this is the case.   
+However, every SOS has a certain spatial, thematic and temporal extent. Sensor observation services could therefore complement each other, especially when different kinds of sensor data are required for data fusion.   
 
 ## Goal
 This thesis aims to explore to what extent the semantic web can add usefull functionality to Sensor Observation Services. The focus lies on three functionalities: discovery of sensor data sources, integration of sensor data and aggregation of sensor data. The goal is to create two automated processes: 
 
 1. Generate linked data from metadata inside a SOS and publish it in a SPARQL endpoint 
 
-2. Retrieve, integrate and aggregate data from all relevant sources for a sensor data request.    
+2. Retrieve, integrate and aggregate data from all relevant sources for a sensor data request, using the semantic web.    
 
 ## Methods
 A catalogue service can be used to discover a SOS, but the semantic web has a number of characteristics that could make it a good alternative. The metadata is explicitly defined on the web, with a multitude of links to related data. The semantic web can therefore be crawled to find the data sources that are relevant, instead of making a specific request to a catalogue service at a specific URL. 
