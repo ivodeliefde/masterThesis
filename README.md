@@ -31,4 +31,4 @@ A number of data sets are converted to linked data. They will be used for the pr
 
 4. Dataset of [EEA](http://www.eea.europa.eu/data-and-maps/data/eea-reference-grids) reference grid cells covering the Netherlands and Belgium with a resolution of 100km<sup>2</sup> and 10km<sup>2</sup>. 
 
-Two sensor observation services are being used for the proof of concept implementation: the air quality SOS by the [RIVM](http://www.lml.rivm.nl/) and the air quality sos by [ircel-celine](http://www.irceline.be/). 
+Two sensor observation services are being used for the proof of concept implementation: the air quality SOS by the [RIVM](http://www.lml.rivm.nl/) and the air quality SOS by [ircel-celine](http://www.irceline.be/). 
