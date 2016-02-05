@@ -146,7 +146,7 @@ def LandcoverTable2RDF(table):
 			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
 			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^geo:wktLiteral".format(geometry) ) ) )
 
-			g.serialize("{0}.ttl".format(outputFile), format='turtle')
+			g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
 			g = Graph()
 
 			if i % 500 == 0:
