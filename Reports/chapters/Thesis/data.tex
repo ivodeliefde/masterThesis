@@ -6,11 +6,11 @@
 \section{Vector data}
 \subsection{Topography}
 \begin{sloppypar}
-	The topographic data sets from the Dutch cadaster will be used. The datasets of Dutch provinces (provincies, Figure \ref{fig:provinces}) and municipalities (gemeenten, Figure \ref{fig:municipalities}) have been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. There are 12 features in the provinces and 393 in the municipalities dataset. 
+	The datasets of Dutch provinces (provincies, Figure \ref{fig:provinces}) and municipalities (gemeenten, Figure \ref{fig:municipalities}) have been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. For the Netherlands there are 12 features in the provinces and 393 in the municipalities dataset. 
 	
 	It has been challenging to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Therefore, all data for Belgium was retrieved from \url{http://www.gadm.org/}. There are also 12 features in the provinces (including the capitol region of Brussels) and there are 589 features in the municipalities dataset.  
 	
-	The administrative unit data contains the name of the administrative units and their (polygon) geometry.
+	The country datasets have also been downloaded from \url{http://www.gadm.org/} (Figure \ref{fig:countries}). The administrative unit data contains the names of the administrative units and their (polygon) geometry. 
 \end{sloppypar}
 
 \subsection{Land cover}
@@ -21,7 +21,7 @@
 \end{sloppypar}
 
 \section{Raster data}
-Data is often converted to a raster representation for \ac{gis} computations. For natural phenomenon a raster representation is especially well suited. The \ac{eea} reference grid is a standard grid which covers Europe. It is available with a resolution of 100km\textsuperscript{2}, 10km\textsuperscript{2} and 1km\textsuperscript{2}. In this thesis the \ac{eea} grid cells with a resolution of 100km\textsuperscript{2} (Figure \ref{fig:100KM}) and 10km\textsuperscript{2} (Figure \ref{fig:10KM}) have been used that overlap the Netherlands and Belgium. There are 15 grid cells of 100km\textsuperscript{2} and 843 grid cells of 10km\textsuperscript{2}.  
+Data is often used in a raster representation for computations in a \ac{gis}. For natural phenomenon a raster representation is especially well suited. The \ac{eea} reference grid is a standard grid which covers Europe. It is available with a resolution of 100km\textsuperscript{2}, 10km\textsuperscript{2} and 1km\textsuperscript{2}. In this thesis the \ac{eea} grid cells with a resolution of 100km\textsuperscript{2} (Figure \ref{fig:100KM}) and 10km\textsuperscript{2} (Figure \ref{fig:10KM}) have been used that overlap the Netherlands and Belgium. 15 grid cells of 100km\textsuperscript{2} and 843 grid cells of 10km\textsuperscript{2} have been selected from the original dataset.  
 
 \begin{figure}
 	\centering
@@ -35,6 +35,13 @@ Data is often converted to a raster representation for \ac{gis} computations. Fo
 	\includegraphics[width=0.5\linewidth]{figs/Provinces.png}
 	\caption{Dataset of provinces in the Netherlands and Belgium in 2015 (from Dutch cadaster and GADM.org)}
 	\label{fig:provinces}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/Countries.png}
+	\caption{Dataset of the Netherlands and Belgium in 2015 (from GADM.org)}
+	\label{fig:countries}
 \end{figure}
 
 \begin{figure}

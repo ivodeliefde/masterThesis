@@ -9,6 +9,8 @@ The \ac{sor} is \enquote{a web service interface for managing the definitions of
 
 Another web service interface specification by \ac{ogc} is \ac{sir}. \ac{sir} is aimed at \enquote{managing the metadata and status information of sensors} \cite[p. xii]{SW:OGC3}. The goal of this web service is to close the gap between metadata models based on \ac{sensorml}, which is used in \ac{swe}, and the metadata model used in \ac{ogc} catalogue services. Furthermore, it provides functionalities to discover sensors, to harvest sensor metadata from a \ac{sos}, to handle status information about sensors and to link \ac{sir} instances to \ac{ogc} catalogue services. 
 
+\cite{SSW:Pschorr2} has created a prototype that is able to find sensors from a \ac{sos} using linked data. The user can input a location and find sensors that are located nearby. They acknowledge the above mentioned advantages of linked data over a catalogue service. However, the method presented by \cite{SSW:Pschorr2} is still limited to retrieving sensors from a single source in a buffer around a point location.  
+
 \section{Semantic sensor data middleware}
 \cite{SSW:Henson} and \cite{SSW:Pschorr} suggest adding semantic annotations to a \ac{sos} which they call \ac{semsos}. In \ac{semsos} the raw sensor data goes through a process of semantic annotating before it can be requested with a \ac{sos} service. The retrieved data is still an \ac{xml} document, but with embedded semantic terminology as defined in an ontology. The data retrieved from \ac{semsos} is therefore semantically enriched.  
 
