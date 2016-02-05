@@ -74,7 +74,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			# except:
 			# 	name = name.replace('è', 'e')
 			
-			thing = URIRef('{0}/{1}/{2}'.format( BaseURI, AdmUnitType.lower(), name ) )
+			thing = URIRef('{0}{1}/{2}'.format( BaseURI, AdmUnitType.lower(), name ) )
 
 			if AdmUnitType.lower() == "country":
 				g.add( (thing, RDF.type, dbpedia.Country) )
