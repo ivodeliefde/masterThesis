@@ -46,7 +46,15 @@ def sparqlQuery(observedProperties, featureCategory, featureNames, tempRange, ag
 	else: 
 		print "wrong featureCategory input"
 
-	query = r"SELECT ?feature ?geom WHERE {{ ?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.com.com/resource/{0}> . ?feature <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . ?feature <http://xmlns.com/foaf/0.1/name> ?name . {1} }}".format(featureCategory.title(), featureNames)
+	query = r"""
+	SELECT 
+	  ?feature ?geom 
+	WHERE {{ 
+	  ?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.com.com/resource/{0}> . 
+	  ?feature <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . 
+	  ?feature <http://xmlns.com/foaf/0.1/name> ?name . 
+	  {1}
+	}}""".format(featureCategory.title(), featureNames)
 
 	# print query 
 	r = requests.post(myEndpoint, data={'query': query}) 
@@ -79,7 +87,18 @@ def sparqlQuery(observedProperties, featureCategory, featureNames, tempRange, ag
 
 
 		# Retrieve sensors that are linked to the collection of sampling features
-		query = r"SELECT DISTINCT ?sos WHERE {{ ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> {0} . ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  ?FOI <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . {1} }}".format(obsProperty, spatialFilter) 
+		query = r"""
+		SELECT DISTINCT 
+		  ?sos 
+		WHERE {{ 
+		  ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
+		  ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> {0} . 
+		  ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
+		  ?FOI <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . 
+		  ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
+		  ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
+		  {1}
+		}}""".format(obsProperty, spatialFilter) 
 		
 		# r = requests.post(myEndpoint, data={'query': query}) 
 		print query
