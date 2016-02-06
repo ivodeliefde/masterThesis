@@ -1,4 +1,4 @@
-# -*- coding:iso-8859-1 -*-
+# encoding: utf-8
 from rdflib import URIRef, BNode, Literal, Graph
 from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
@@ -68,11 +68,8 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			except:
 				print 'error:',row[0]
 
-			# try:
-			# 	unicode(name)
-				
-			# except:
-			# 	name = name.replace('è', 'e')
+			
+
 			
 			thing = URIRef('{0}{1}/{2}'.format( BaseURI, AdmUnitType.lower(), name ) )
 
@@ -93,7 +90,12 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 			# Write the graph to a RDF file in the turtle format
 			
-			g.serialize('{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
+			try:
+				unicode(name)
+			except:
+				name = name.decode('utf-8')
+				
+			g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
 			g = Graph()
 	
 	return
@@ -157,18 +159,18 @@ def LandcoverTable2RDF(table):
 if (__name__ == "__main__"):
 
 # Create linked data of provinces
-	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
-	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+	# NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
+	# AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
 # Create linked data of municipalities
-	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
-	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
-	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	# NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
+	# AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	# BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
+	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 
 # # Create linked data of landcover
-  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
-  	LandcoverTable2RDF(Landcover)
+  	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
+  	# LandcoverTable2RDF(Landcover)
 
