@@ -25,7 +25,7 @@ In the service identification section there is general information about the ser
 The contents section describes the data that can be retrieved, grouped in offerings. Each offering has an identifier, together with information on the procedure, observable properties and the feature-of-interest type. Which filters can be applied in a request is described in the filter capabilities section. The supported parameters for both spatial and temporal filters are listed here.
 
 \begin{figure}
-	%\centering
+	\centering
 	\includegraphics[width=0.7\linewidth]{figs/SOS_2_dataModel_GetCapabilities.PNG}
 	\caption{Data model behind the capabilities document of a \ac{sos} \citep{SW:OGC2}}
 	\label{fig:Capabilities}
@@ -41,14 +41,23 @@ The \texttt{DescribeSensor} request gives detailed information on a specific sen
 
 Using \texttt{GetObservation} actual measurements can be retrieved. The request is made by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&version=2.0.0\&request=GetObservation}. This returns a response with the default parameters, which can differ from one \ac{sos} to another. To further specify the request, optional paramaters can be added such as: observed property, procedure, feature-of-interest, offering and outputformat. Spatial and temporal filters can be added if these are supported by the service. 
 
-\section{Resource description framework}
+\section{Semantic web}
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figs/semanticweb.png}
+	\caption{Hierarchy of the semantic web \citep{LD:Koivunen}}
+	\label{fig:SemanticWeb}
+\end{figure}
+
+\subsection{Resource Description Framework}
 For publishing geographic data on the semantic web a conversion of Shapefiles to \ac{rdf} is required. For this the method by \cite{LD:Missier} will be used. First the Shapefile is loaded into a Postgres database with the Postgis extension. After that a Python script retrieves the records from the database. Attributes of the records will be mapped to classes from predefined ontologies. Then the script creates an \ac{rdf} graph and serialises it to a certain \ac{rdf} notation. This is written to a file. The final step is to publish the \ac{rdf} on the web and create a \ac{sparql} endpoint to query the data \citep{LD:Missier}. 
 
-\subsection{Triples}
 In \ac{rdf} data is stored as so-called `triples'. These triples are structured as: subject, predicate and object \citep{LD:Berners-lee}. The subject and the object are things and the predicate is the relation between these two things. For example, to define a geographic feature such as the municipality of Delft on the semantic web a number of triples can be made. Figure \ref{fig:Triples} shows how Delft can be defined as a municipality with a certain geometry using triples of subject, predicate and object.
 
 \begin{figure}
-	%\centering
+	\centering
 	\includegraphics[width=0.7\linewidth]{figs/Triples.png}
 	\caption{Triples of object, predicate and subject define Delft as a municipality with a geometry}
 	\label{fig:Triples}
@@ -62,7 +71,7 @@ Sometimes it is useful to refer to things without assigning them with a global i
 There are a number of different notations for writing down these triples (serialisation), such as \ac{xml} \citep{LD:W3C3}, N3 \citep{LD:W3C5} and Turtle \citep{LD:W3C4}. Turtle will be used in this thesis, because it is commonly used notation which is also relatively easy to read for humans. The DBPedia \ac{iri} is used for the object `Municipality'. The `is a' predicate is represented by a built-in \ac{rdf} predicate which can be written simple as `a'. The second predicate is `hasGeometry' for which the GeoSPARQL \ac{iri} is used. The geometry is a literal in the \ac{wkt} format. Note that the subject is only written once when there are multiple triples with the same subject. Triples that shares the same subject are divided by semicolons. A point marks the end of the last triple with a specific subject.
 
 \begin{figure}
-	%\centering
+	\centering
 	\includegraphics[width=1\linewidth]{figs/Turtle.png}
 	\caption{Triples of Figure \ref{fig:Triples} in the Turtle notation}
 	\label{fig:Turtle}
