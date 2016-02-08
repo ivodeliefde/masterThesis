@@ -136,6 +136,8 @@ class Request(inputParameters):
 			print query
 			r = requests.post(myEndpoint, data={'query': query}) 
 			print r.content
+			tree = etree.fromstring(r.content)
+			nsm = tree.nsmap
 
 			tag = '{{{0}}}result'.format(nsm[None])
 			for result in tree.findall('.//{0}'.format(tag)):
