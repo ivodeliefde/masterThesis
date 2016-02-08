@@ -33,6 +33,8 @@ def capabilities(SOS):
 
 	uniqueObsProperties = {}
 
+
+
 	# procedure a prov:Activity, omlite:procedure;
 	count = 1
 	for proc, value in SOS.procedure.iteritems():  
@@ -53,10 +55,29 @@ def capabilities(SOS):
 			uniqueObsProperties[obsProperty] = count
 			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation.replace(' ', ''), uniqueObsProperties[obsProperty]) )
 		
-		g.add( ( collection, RDF.type, sam_lite.SamplingCollection ) )
-		g.add( ( collection, om_lite.observedProperty, obsProperty) )
+		# check the mapping between observed properties from SOS and as defined by DBPedia 
+		# the collections of samplign features are based on the DBPedia definitions
+		query = """
+			SELECT ?collection
+			WHERE {
+			  ?collection <https://www.w3.org/2002/07/owl#sameAs> <{0}> .
+			}""".format(collection)
+
+		r = requests.post(endpoint, data={'query': query}) 
+		tree = etree.fromstring(r.content)
+		nsm = tree.nsmap
+
+		tag = '{{{0}}}result'.format(nsm[None])
+			for result in tree.findall('.//{0}'.format(tag)):
+				for each in result.getchildren():
+					if each.attrib['name'] == 'collection':
+						StandardObsProperty = each[0].text
+
+		g.add( ( collection, RDF.type, sam_lite.SamplingCollection ) ) # this has to be changed to the universal sampling collection which is linked to by DBPedia definitions
+		g.add( ( collection, om_lite.observedProperty, StandardObsProperty) )
 		g.add( ( uriProcedure, RDF.type, prov.Activity) )
 		g.add( ( uriProcedure, RDF.type, om_lite.procedure) )
+		g.add( ( uriProcedure, FOAF.name, proc) )
 
 		# uniqueObsProperties.add(SOS.procedure[proc]['obsProperty'])
 		
@@ -75,13 +96,14 @@ def capabilities(SOS):
 				FOI = URIRef(feature)
 			else:
 				FOI = URIRef("{0}/{1}/FOI/{2}".format(baseURI, SOS.organisation.replace(' ', ''), feature) )
+			g.add( ( FOI, FOAF.name, Literal(feature) ) )
 
 			geometry = SOS.featureofinterest[feature]
 			g.add( ( FOI, RDF.type, prov.Entity ) )
 			g.add( ( FOI, RDF.type, sam_lite.SamplingPoint ) ) 
 			g.add( ( FOI, geo.hasGeometry, Literal("<{0}>POINT({1})".format(geometry['coords'][1], geometry['coords'][0]), datatype=geo.wktLiteral ) ) )
 			g.add( ( FOI, om_lite.observedProperty, obsProperty) )
-			g.add( ( collection, sam_lite.member, FOI ) )
+			g.add( ( StandardCollection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
 
 		count += 1
