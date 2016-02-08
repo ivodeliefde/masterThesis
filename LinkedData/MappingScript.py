@@ -7,8 +7,10 @@ import  progressbar
 import time
 import os
 import unicodedata
+import requests
 
 BaseURI = "http://localhost:3030/masterThesis/"
+endpoint = 'http://localhost:8089/parliament/sparql?' 
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
@@ -39,17 +41,9 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	# Create a graph
 	g = Graph()
 	
-	global outputFile
-
-	try:
-		# Check if the file already exist, in which case the new triples will be appended to it
-		g.parse("{0}_adminUnits.ttl".format(outputFile), format="turtle")
-		#print g.serialize(format='turtle')
-		# print len(g.serialize(format='turtle'))
-	except:
-		pass
-
+	global endpoint
 	global BaseURI
+
 	# Add administrative units with links to the graph
 	print "Creating linked data from {0} {1} dataset".format(AdmUnitType, country)
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
@@ -67,9 +61,6 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				name = name.replace(' ', '_')
 			except:
 				print 'error:',row[0]
-
-			
-
 			
 			thing = URIRef('{0}{1}/{2}'.format( BaseURI, AdmUnitType.lower(), name ) )
 
@@ -83,13 +74,15 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			g.add( (thing, FOAF.name, Literal(row[0])) )
 			
 			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral ) ) )
-			
-			bar.update(i)
 		
-			#print g.serialize(format='turtle')
-
+			# send data to enpoint
+			triples = ""
+			for s,p,o in g.triples((None, None, None)):
+				triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
+			query = "INSERT DATA { " + triples + "}"
+			r = requests.post(endpoint, data={'update': query}) 
+					
 			# Write the graph to a RDF file in the turtle format
-			
 			try:
 				unicode(name)
 			except:
@@ -97,6 +90,8 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				
 			g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
 			g = Graph()
+
+			bar.update(i)
 	
 	return
 
@@ -148,6 +143,14 @@ def LandcoverTable2RDF(table):
 			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
 			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^geo:wktLiteral".format(geometry) ) ) )
 
+			# send data to enpoint
+			triples = ""
+			for s,p,o in g.triples((None, None, None)):
+				triples += '<{0}> <{1}> "{2}" .'.format(s,p,o)
+			query = "INSERT DATA { " + triples + "}"
+			r = requests.post(endpoint, data={'update': query}) 
+
+			# Write the graph to a RDF file in the turtle format
 			g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
 			g = Graph()
 
@@ -161,12 +164,12 @@ if (__name__ == "__main__"):
 # Create linked data of provinces
 	# NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
 	# AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
-	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
-	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
+	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
 # Create linked data of municipalities
-	# NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
-	# AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 	# BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
 	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 
