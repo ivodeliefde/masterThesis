@@ -1,13 +1,15 @@
+import logging
 from rdflib import URIRef, BNode, Literal, Graph
 from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
 import requests
 
-
+logging.basicConfig()
 
 baseURI = "http://localhost:3030"
 
 def capabilities(SOS):
+	global baseURI
 
 	prov = rdflib.Namespace('http://www.w3.org/ns/prov#')
 	om_lite = rdflib.Namespace('http://def.seegrid.csiro.au/ontology/om/om-lite#')
@@ -23,14 +25,11 @@ def capabilities(SOS):
 	except:
 		pass
 
-	# Defined a 'sam_lite.SamplingCollection' for every observed property
-
 	# Define observation service
 	uriSOS = URIRef(SOS.url)
 	g.add( ( uriSOS, RDF.type, prov.Agent) )
 	g.add( ( uriSOS, FOAF.name, Literal(SOS.name) ) )
-	g.add( ( uriSOS, prov.ActedOnBehalfOf,  URIRef("{0}/{1}".format(baseURI, SOS.organisation) ) ) )
-	# g.add( ( uriSOS, ) )
+	g.add( ( uriSOS, prov.ActedOnBehalfOf,  URIRef("{0}/{1}".format(baseURI, SOS.organisation.replace(' ', '') ) ) ) )
 
 	uniqueObsProperties = {}
 
@@ -41,7 +40,7 @@ def capabilities(SOS):
 			# link to URL
 			obsProperty = URIRef(SOS.procedure[proc]['obsProperty'])
 		else:
-			obsProperty = URIRef("{0}/OP/{1}/{2}".format(baseURI, count, i) )
+			obsProperty = URIRef("{0}/OP/{1}".format(baseURI, count) )
 		
 		if (proc[:4].lower() == 'http'):
 			uriProcedure = URIRef(proc)
@@ -49,10 +48,10 @@ def capabilities(SOS):
 			uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, count, proc) ) 
 
 		if obsProperty in uniqueObsProperties:
-			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation, uniqueObsProperties[obsProperty]) )
+			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation.replace(' ', ''), uniqueObsProperties[obsProperty]) )
 		else:
 			uniqueObsProperties[obsProperty] = count
-			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation, uniqueObsProperties[obsProperty]) )
+			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation.replace(' ', ''), uniqueObsProperties[obsProperty]) )
 		
 		g.add( ( collection, RDF.type, sam_lite.SamplingCollection ) )
 		g.add( ( collection, om_lite.observedProperty, obsProperty) )
@@ -66,7 +65,7 @@ def capabilities(SOS):
 		# 		# Look for the name of the observed propert that is being described.
 
 		for i, feature in enumerate(SOS.procedure[proc]['FOI']):
-			sensor = URIRef("{0}/{1}/PROC/{2}/SENSOR/{3}".format(baseURI, SOS.organisation, count, i+1) )
+			sensor = URIRef("{0}/{1}/PROC/{2}/SENSOR/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1) )
 			g.add( ( sensor, RDF.type, prov.Agent ) )
 			g.add( ( sensor, RDF.type, om_lite.procedure ) ) 
 			g.add( ( uriProcedure, prov.wasAssociatedWith, sensor ) )
@@ -75,7 +74,7 @@ def capabilities(SOS):
 			if (feature[:4].lower() == 'http'):
 				FOI = URIRef(feature)
 			else:
-				FOI = URIRef("{0}/{1}/FOI/{2}".format(baseURI, SOS.organisation, feature) )
+				FOI = URIRef("{0}/{1}/FOI/{2}".format(baseURI, SOS.organisation.replace(' ', ''), feature) )
 
 			geometry = SOS.featureofinterest[feature]
 			g.add( ( FOI, RDF.type, prov.Entity ) )
@@ -99,6 +98,7 @@ def capabilities(SOS):
 		if (count % 50 == 0) and (count > 0):
 			# send data to enpoint
 			query = "INSERT DATA { " + triples + "}"
+			# print query
 			r = requests.post(endpoint, data={'update': query}) 
 			
 			triples = ""
@@ -108,4 +108,5 @@ def capabilities(SOS):
 	# Storing the remaining triples
 	query = "INSERT DATA { " + triples + "}"
 	r = requests.post(endpoint, data={'update': query}) 
+	# print query
 

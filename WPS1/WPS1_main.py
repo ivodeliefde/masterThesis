@@ -49,17 +49,18 @@ class Process(WPSProcess):
 #       Original input
         # url = self.textIn.getValue()
 #        test URL
-        url = 'http://sos.irceline.be/sos?'
-        sos = SOS(url)
-        IRCELINE_SOS.store()
+        # url = 'http://sos.irceline.be/sos?'
+        # sos = SOS(url)
+        # sos.store()
 
 #       Test input from pickle
-        # sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
+        sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 
-        sos.printInformation()
+        # sos.printInformation()
         print sos.featureofinterest
         # make linked data from the data retrieved above
-        # capabilities(sos)
+        capabilities(sos)
+
 
 
         self.textOut.setValue( 'The WPS has finished' )
