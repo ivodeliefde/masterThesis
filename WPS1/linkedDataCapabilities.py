@@ -17,6 +17,7 @@ def capabilities(SOS):
 	geo = rdflib.Namespace('http://www.opengis.net/ont/geosparql#')
 	owl = rdflib.Namespace('http://www.w3.org/2002/07/owl#')
 	dc = rdflib.Namespace('http://purl.org/dc/terms/')
+	owl = rdflib.Namespace('https://www.w3.org/2002/07/owl#')
 
 	g = Graph()
 
@@ -31,64 +32,50 @@ def capabilities(SOS):
 	g.add( ( uriSOS, FOAF.name, Literal(SOS.name) ) )
 	g.add( ( uriSOS, prov.ActedOnBehalfOf,  URIRef("{0}/{1}".format(baseURI, SOS.organisation.replace(' ', '') ) ) ) )
 
-	uniqueObsProperties = {}
-
-
 
 	# procedure a prov:Activity, omlite:procedure;
 	count = 1
 	for proc, value in SOS.procedure.iteritems():  
-		if (SOS.procedure[proc]['obsProperty'][:4].lower() == 'http'):
-			# link to URL
-			obsProperty = URIRef(SOS.procedure[proc]['obsProperty'])
-		else:
-			obsProperty = URIRef("{0}/OP/{1}".format(baseURI, count) )
-		
 		if (proc[:4].lower() == 'http'):
 			uriProcedure = URIRef(proc)
 		else:
 			uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, count, proc) ) 
-
-		if obsProperty in uniqueObsProperties:
-			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation.replace(' ', ''), uniqueObsProperties[obsProperty]) )
-		else:
-			uniqueObsProperties[obsProperty] = count
-			collection = URIRef("{0}/{1}/FOI_Collection/{2}".format(baseURI, SOS.organisation.replace(' ', ''), uniqueObsProperties[obsProperty]) )
 		
 		# check the mapping between observed properties from SOS and as defined by DBPedia 
 		# the collections of samplign features are based on the DBPedia definitions
 		query = """
-			SELECT ?collection
+			SELECT ?observedProperty
 			WHERE {
-			  ?collection <https://www.w3.org/2002/07/owl#sameAs> <{0}> .
-			}""".format(collection)
+			  ?observedProperty <https://www.w3.org/2002/07/owl#sameAs> <{0}> .
+			}""".format(obsProperty)
 
 		r = requests.post(endpoint, data={'query': query}) 
 		tree = etree.fromstring(r.content)
 		nsm = tree.nsmap
 
-		tag = '{{{0}}}result'.format(nsm[None])
+		try:
+			tag = '{{{0}}}result'.format(nsm[None])
 			for result in tree.findall('.//{0}'.format(tag)):
 				for each in result.getchildren():
-					if each.attrib['name'] == 'collection':
+					if each.attrib['name'] == 'observedProperty':
 						StandardObsProperty = each[0].text
+		except:
+			StandardCollection = URIRef("{0}/FOI_Collection/{2}".format(baseURI, SOS.organisation.replace(' ', ''), SOS.procedure[proc]['obsProperty']) )
 
-		g.add( ( collection, RDF.type, sam_lite.SamplingCollection ) ) # this has to be changed to the universal sampling collection which is linked to by DBPedia definitions
-		g.add( ( collection, om_lite.observedProperty, StandardObsProperty) )
-		g.add( ( uriProcedure, RDF.type, prov.Activity) )
-		g.add( ( uriProcedure, RDF.type, om_lite.procedure) )
-		g.add( ( uriProcedure, FOAF.name, proc) )
-
-		# uniqueObsProperties.add(SOS.procedure[proc]['obsProperty'])
+		StandardCollection = URIRef("{0}/FOI_Collection/{2}".format(baseURI, StandardObsProperty) )
 		
-		# 	# Make a get request to the address
-		# 	r = requests.get(SOS.procedure[proc]['obsProperty'])
-		# 		# Look for the name of the observed propert that is being described.
+		g.add( ( StandardCollection, RDF.type, sam_lite.SamplingCollection ) ) 
+		g.add( ( StandardCollection, om_lite.observedProperty, StandardObsProperty) )
+		g.add( ( uriProcedure, RDF.type, prov.Activity) )
+		g.add( ( uriProcedure, RDF.type, om_lite.process) )
+		g.add( ( uriProcedure, FOAF.name, Literal(proc) ) )
+		g.add( ( uriSOS, om_lite.observedProperty, Literal(SOS.procedure[proc]['obsProperty']) ) )
 
 		for i, feature in enumerate(SOS.procedure[proc]['FOI']):
 			sensor = URIRef("{0}/{1}/PROC/{2}/SENSOR/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1) )
 			g.add( ( sensor, RDF.type, prov.Agent ) )
-			g.add( ( sensor, RDF.type, om_lite.procedure ) ) 
+			g.add( ( sensor, RDF.type, om_lite.process ) ) 
+			g.add( ( sensor, om_lite.procedure, Literal(proc) ) )
 			g.add( ( uriProcedure, prov.wasAssociatedWith, sensor ) )
 			g.add( ( sensor, dc.isPartOf, uriSOS) )
 
@@ -105,6 +92,14 @@ def capabilities(SOS):
 			g.add( ( FOI, om_lite.observedProperty, obsProperty) )
 			g.add( ( StandardCollection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
+
+		for i, offeringName in enumerate(SOS.procedure[proc]['offerings']):
+			offering = URIRef("{0}/{1}/PROC/{2}/OFFERING/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1 ) )
+			
+			g.add( ( offering, RDF.type, prov.Entity ) )
+			g.add( ( offering, prov.specializationOf, StandardCollection ) )
+			g.add( ( offering, FOAF.name, offeringName ) )
+			g.add( ( offering, om_lite.procedure, Literal(proc) ) )
 
 		count += 1
 

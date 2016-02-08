@@ -117,19 +117,22 @@ class Request(inputParameters):
 		for obsProperty in self.observedProperties:
 			# Check out DBPedia to find the observed property and see to which collection of sampling features it links  
 
-
-			self.sensors[obsProperty] = {}
 			# Retrieve sensors that are linked to the collection of sampling features
+			self.sensors[obsProperty] = {}
 			query = r"""
 			SELECT DISTINCT 
-			  ?sensor ?geom ?sos 
+			  ?sensor ?sos ?procedure
 			WHERE {{ 
 			  ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
-			  ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> <{0}> . 
+			  ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
 			  ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
+			  ?obsProperty <http://www.w3.org/2002/07/owl#sameAs> <{0}>
 			  ?FOI <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . 
+			  ?sensor <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/om-lite#process>
 			  ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
 			  ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
+			  ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
+			  ?procedure <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/om-lite#process> .
 			  {1}
 			}}""".format(obsProperty, spatialFilter) 
 			
@@ -151,16 +154,19 @@ class Request(inputParameters):
 						sensorSOS = each[0].text
 					elif each.attrib['name'] == 'geom':
 						sensorGEOM = each[0].text
-				self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'observations': []}
+				self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'offerings':[], 'observations': []}
 
 				if sensorSOS in self.sos:
 					self.sos[sensorSOS].append(sensor)
 				else:
 					self.sos[sensorSOS] = [sensor]
+
+
 	return
 
 	def getObservations(self):
 		for sos, sensors in self.sos.iteritems():
+			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
 			GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
 
 	return
