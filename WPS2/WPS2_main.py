@@ -1,6 +1,6 @@
 from pywps.Process import WPSProcess
 from datetime import datetime
-from sparqlRequests import sparqlQuery
+import requestClass
 
 class Process(WPSProcess):
 
@@ -44,17 +44,13 @@ class Process(WPSProcess):
         inputString = self.textIn.getValue() # should be replaced with request input parameters
         
         # Test input data
-        observedProperties = ['http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5']
-        featureCategory = 'province'
-        featureNames = ['Utrecht']
-        tempRange = ['2016-01-04T09:42:47.151000', '2016-02-04T09:42:47.151000']
-        aggregation = ['average']
+        dataRequest = Request(inputString)
 
         # Make SPARQL queries that find the relevant sensors via: observed properties -> collections of features of interest (with locations) -> sensors (with SOS HTTP addresses)
-        sparqlQuery(observedProperties, featureCategory, featureNames, tempRange, aggregation)
+        dataRequest.sparqlQuery()
 
         # Make SOS queries for every found data source to retrieve data for all found sensors
-
+        dataRequest.getObservations()
 
         # integrate the sensor data
 
