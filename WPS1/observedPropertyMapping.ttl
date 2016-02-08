@@ -1,0 +1,5 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<http://dbpedia.org/resource/Ozone> owl:sameAs <http://dd.eionet.europa.eu/vocabulary/aq/pollutant/7> .
+<http://dbpedia.org/resource/Particulates> owl:sameAs <http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5> .
+<http://dbpedia.org/page/Nitrogen_dioxide> owl:sameAs <http://dd.eionet.europa.eu/vocabulary/aq/pollutant/8> .
