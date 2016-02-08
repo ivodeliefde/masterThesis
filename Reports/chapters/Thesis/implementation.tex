@@ -23,7 +23,13 @@ The \ac{corine} 2012 land cover dataset contains features with an identifier, a 
 The \ac{eea} reference grid with resolutions of 10km\textsuperscript{2} and 100km\textsuperscript{2}. Every feature is defined by an identifier, a resolution and a point geometry of the origin (Figure \ref{fig:Static}). The identifier is a code given to a feature by the \ac{eea} and has the form of: resolution + `E' + x coordinate + `N' + y coordinate.   
 
 \section{Publishing linked data}
-Setting up the Parliament(Figure \ref{fig:Parliament}), Apache Tomcat and Pubby software.
+Setting up the Parliament(Figure \ref{fig:Parliament}), Apache Tomcat and Pubby software. \\
+
+The parliament endpoint has been selected since it handles GeoSPARQL queries. \\
+
+Pubby software in combination with Apache Tomcat allows for a user interface that is easier to navigate through for humans. The links stored in \ac{rdf} triples are represented as hyperlinks which can be used to navigate between pages about different concepts. \\
+
+Setting it up on the university server
 
 \begin{figure}
 	%\centering
@@ -43,8 +49,14 @@ Setting up the Parliament(Figure \ref{fig:Parliament}), Apache Tomcat and Pubby 
 \section{Retrieving metadata from the Sensor Observation Service}
 The metadata is automatically retrieved from the \ac{sos}.
 
-A sequence of request are being made to retrieve all the desired data: observed properties, procedures, features of interest, locations of features of interest, procedures related to features of interest, observed properties related to procedures and metadata about the \ac{sos} (name, organisation, requests, filters and formats it supports).
+A sequence of request are being made to retrieve all the desired data: observed properties, procedures, features of interest, locations of features of interest, procedures related to features of interest, observed properties related to procedures and metadata about the \ac{sos} (name, organisation, requests, filters and formats it supports). A python class object is created for the \ac{sos}, which can store these different variables and has built in functions to automatically retrieve metadata. 
 
+First, the capabilities document is retrieved to collect information about the organisation, supported \ac{sos} versions, response formats, a list of the features of interest, offerings, observed properties and procedures. All procedures are stored in a python dictionary. Every procedure also contains a dictionary with a list of all offerings that use this procedure and the observed property. 
+
+Unfortunately, the capabilities document is not able to provide information about which procedure is being applied for which feature of interest and what their location is. Therefore, a \texttt{GetFeatureOfInterest} request retrieves all the locations of the features of interest. However, the GetFeatureOfInterest does not necessarily provide information about the procedures that are related to a feature of interest. 
+
+Therefore, small amounts of data are retrieved from each feature using \texttt{GetObservation} requests, when possible with a temporal filter to limit the data traffic. Every procedure can now be related to a set of features of interest with point geometries.  
+ 
 %problems: 
 %\begin{itemize}
 %	\item Observation are the central concept in a \ac{sos}. This makes it hard to retrieve the locations of the sensors from the capabilities document. A workaround is to retrieve small amounts of observations for each feature of interest.
@@ -52,13 +64,44 @@ A sequence of request are being made to retrieve all the desired data: observed 
 %\end{itemize}
 
 \section{Modelling with the om-lite and sam-lite ontologies}
-Using the ontologies to create a model that suits the purpose of this thesis.
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{UML/SensorLinks3.png}
+	\caption{\ac{uml} diagram showing sensor collections and their relation to the \ac{sos}}
+	\label{fig:UML}
+\end{figure}
+
+After the metadata has been retrieved from the \ac{sos} it has to be converted to linked data. For this the om-lite and sam-lite ontologies are being used in combination with the PROV and GeoSPARQL ontologies. A \ac{sos} is modelled as an agent with a specific name, that acts on behalf of a certain organisation. 
+% should still be extended with requests
+
+Every observed property in a \ac{sos} has a collection of sampling features for which this property is being observed. The sam-lite ontology defines a `Collection of sampling features' and om-lite defines the `observed property' predicate. The sam-lite `has members' predicate links individual features of interest to a collection. Every feature of interest is a sam-lite sampling point which has a geometry for which the GeoSPARQL `has geometry' predicate is being used. 
+
+A sensor is modelled as a PROV agent and a om-lite process which is part of a \ac{sos}. The om-lite ontology used to have a sensor agent class, but this has been merged into the process class. A process is now defined as an \enquote{Agent, device, sensor, software, protocol, computational method, algorithm or plan responsible for generating an observation result} \citep{SSW:Cox}. Sensors are linked to features of interest using the om-lite `feature of interest' predicate.
+
+The \ac{sos} procedures are modelled as a PROV activity and an om-lite process. The PROV `was associated with' predicate links procedures to sensors.     
+
 
 \section{Establishing inward links from DBPedia}
-Sending triples to DBPedia the project.
+Sending triples to DBPedia the project to be uploaded.
 
-\section{Setting up the Web Processing Services}
-Creating two \ac{wps} using PyWPS.
+Contains links from DBPedia page of `\acl{sos}' to the semantic definition of the input \ac{sos}, from the DBPedia page of `ozone', `particulate matter' and `nitrogen dioxide' to the corresponding collections of sampling features.
+
+Also, the data of administrative units, land cover features and \ac{eea} reference grid cells will be linked to from DBPedia.
 
 \section{Prototype implementation}
-Crawling the semantic web to find specific sensor data.
+The prototype implementation serves as a proof of concept. It looks on the semantic web for sensors that observe a certain property in a specific area. It collects the data for these sensors at their corresponding \acl{sos}. When multiple data sources are found the data is integrated. The sensor data is aggregated before it is returned to the user.
+
+The prototype takes names or identifiers of administrative units, landcover features or \ac{eea} reference grid cells as input. It creates a \ac{sparql} query to retrieve the geometries of these features. 
+
+With the found geometries a \ac{sparql} query is made to find a sensor collection that has a certain observed property. From this collection sensors can be selected that overlap the previously found geometries. Unfortunately \ac{sparql} queries are not allowed to exceed a certain number of lines. This creates problems when querying larger geometries (provinces and countries). Perhaps these spatial relations should be defined by a physical link? \\
+
+From these sensors data is collected. \\
+
+Data is integrated from multiple sources.\\
+
+Data is aggregated.
+
+\section{Setting up the Web Processing Services}
+Creating two \aclp{wps} using PyWPS.
+
+\section{Creating a QGIS plugin}
