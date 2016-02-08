@@ -168,10 +168,10 @@ if (__name__ == "__main__"):
 	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
 # Create linked data of municipalities
-	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
-	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-	# BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
-	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	# NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
+	# AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 
 # # Create linked data of landcover
   	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
