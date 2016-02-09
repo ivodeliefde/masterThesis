@@ -236,7 +236,7 @@ class SOS:
 	def printInformation(self):
 		# prints the variables of a SOS instance
 		if self.error == False:
-			results = "Information for {0}\n\tProvided by: {1}\n\tCosts: {2}\n\tAccess constraints: {3}\n\tData available since: {4}\n\tSupported version: {5}\n\tSupported response formats: {6}\n".format(self.name, self.organisation, self.costs, self.accesConstraints, self.minTime, self.version, self.responseFormat)
+			results = "Information for {0}\n\tProvided by: {1}\n\tCosts: {2}\n\tAccess constraints: {3}\n\tSupported version: {4}\n\tSupported response formats: {5}\n".format(self.name, self.organisation, self.costs, self.accesConstraints, self.version, self.responseFormat)
 			print results 
 		else:
 			print "I'm in a state of error!"
