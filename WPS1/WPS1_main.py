@@ -49,15 +49,15 @@ class Process(WPSProcess):
 #       Original input
         # url = self.textIn.getValue()
 #        test URL
-        # url = 'http://sos.irceline.be/sos?'
-        # sos = SOS(url)
-        # sos.store()
+        url = 'http://sos.irceline.be/sos?'
+        sos = SOS(url)
+        sos.store()
 
 #       Test input from pickle
-        sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
+        # sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 
-        # sos.printInformation()
-        print sos.featureofinterest
+        sos.printInformation()
+        # print sos.featureofinterest
         # make linked data from the data retrieved above
         capabilities(sos)
 
