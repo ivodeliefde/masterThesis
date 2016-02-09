@@ -71,6 +71,7 @@ class SOS:
 
 		# Print the request URL
 		self.log("Get request: {0}".format(GetCapabilities))
+		print GetCapabilities
 
 		# Store the retrieved document as an etree object
 		tree = etree.fromstring(r.content)
@@ -137,6 +138,8 @@ class SOS:
 				tree = etree.fromstring(r.content)
 				break
 
+		print GetFeatureOfInterest
+
 		self.log("Get request: {0}".format(GetFeatureOfInterest))
 
 		for featureMember in tree:
@@ -180,14 +183,13 @@ class SOS:
 
 				nsm = tree.nsmap
 
-
 				# Print the request URL
 				if temporalFilterUsed:
 					self.log("Get request: {0}".format(GetObservation+temporalFilter))
-					# print GetObservationWtempfilter
+					print GetObservationWtempfilter
 				else:
 					self.log("Get request: {0}".format(GetObservation))
-					# print GetObservation
+					print GetObservation
 
 				# print etree.tostring(tree, pretty_print=True)
 				
@@ -258,17 +260,17 @@ class SOS:
 
 if (__name__ == "__main__"):
 # # 	Requesting the Dutch SOS from RIVM
- 	# RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
- 	# RIVM_SOS.store()
- 	RIVM_SOS = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
+ 	RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
+ 	RIVM_SOS.store()
+ 	# RIVM_SOS = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
  	RIVM_SOS.printInformation()
  	print RIVM_SOS.procedure, "\n"
  	
 
 
 # # 	Requesting the Belgian SOS IRCELINE	
-	# IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
-	# IRCELINE_SOS.store()
-	IRCELINE_SOS = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
+	IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
+	IRCELINE_SOS.store()
+	# IRCELINE_SOS = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 	IRCELINE_SOS.printInformation()
 	print IRCELINE_SOS.procedure
