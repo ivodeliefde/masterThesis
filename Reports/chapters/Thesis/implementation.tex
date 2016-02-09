@@ -47,15 +47,23 @@ Setting it up on the university server
 
 
 \section{Retrieving metadata from the Sensor Observation Service}
-The metadata is automatically retrieved from the \ac{sos}.
+The metadata is automatically retrieved from the \ac{sos} according to Figure \ref{fig:SOS_UML}. A \ac{sos} is maintained by an organisation, of which the name, access constraints and fees are retrieved. Often the use of a \ac{sos} is free of charge and without access constraints. However, it is possible for an organisation to restrict the use of the \ac{sos} in these ways. 
 
-A sequence of request are being made to retrieve all the desired data: observed properties, procedures, features of interest, locations of features of interest, procedures related to features of interest, observed properties related to procedures and metadata about the \ac{sos} (name, organisation, requests, filters and formats it supports). A python class object is created for the \ac{sos}, which can store these different variables and has built in functions to automatically retrieve metadata. 
+In the \ac{swe} standards a sensor is modelled as two entities: a procedure and a feature of interest. The procedure is the method of sensing and the feature of interest is the feature of which it is sensing a certain property. Therefore, the observable property ties together the procedure and feature of interest. It should be noted that the geometry of a feature of interest is not necessarily always a point geometry. It can also be generalized into larger features (e.g. multiple sensors observing different parts of one lake). 
 
-First, the capabilities document is retrieved to collect information about the organisation, supported \ac{sos} versions, response formats, a list of the features of interest, offerings, observed properties and procedures. All procedures are stored in a python dictionary. Every procedure also contains a dictionary with a list of all offerings that use this procedure and the observed property. 
+An offering is a grouping of features of interest, which have a common procedure. The purpose of offerings is to allow users to query the observation data more efficiently. Features of interest that are often queried together are grouped into the same offering.      
+ 
 
-Unfortunately, the capabilities document is not able to provide information about which procedure is being applied for which feature of interest and what their location is. Therefore, a \texttt{GetFeatureOfInterest} request retrieves all the locations of the features of interest. However, the GetFeatureOfInterest does not necessarily provide information about the procedures that are related to a feature of interest. 
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{UML/SOS_UML.PNG}
+	\caption{Metadata automatically retrieved from a \ac{sos}}
+	\label{fig:SOS_UML}
+\end{figure}
 
-Therefore, small amounts of data are retrieved from each feature using \texttt{GetObservation} requests, when possible with a temporal filter to limit the data traffic. Every procedure can now be related to a set of features of interest with point geometries.  
+A Python class object is created for the \ac{sos} based on Figure \ref{fig:SOS_UML}. This class contains the different variables and has built in functions to automatically retrieve the metadata. To collect all the required metadata a number of request have to be made, which is done using the \texttt{SOSclass.request()} method which requires only the \ac{http} address of the \ac{sos} as input. First, the capabilities document is retrieved to collect information about the organisation, supported \ac{sos} versions and response formats. It also contains lists with identifiers for all features of interest, offerings, observable properties and procedures. In this document the offerings are linked to a certain procedure and to a certain observable property. 
+
+Unfortunately, the capabilities document is not able to provide information about which procedure is being applied for which feature of interest. Also, the features geometries cannot be retrieved from it. Therefore, a \texttt{GetFeatureOfInterest} request is made to retrieve the locations of each features of interest. However, the \texttt{GetFeatureOfInterest} document does not necessarily provide information about the procedures that are related to a certain feature of interest. When a \texttt{GetObservation} request is made for a certain offering, the returned observation data is grouped per feature of interest. Therefore, small amounts of data are retrieved from each offering using \texttt{GetObservation} requests, when possible with a temporal filter to limit the data traffic. Every procedure and offering can now be related to a set of features of interest with point geometries.  
  
 %problems: 
 %\begin{itemize}
@@ -64,12 +72,12 @@ Therefore, small amounts of data are retrieved from each feature using \texttt{G
 %\end{itemize}
 
 \section{Modelling with the om-lite and sam-lite ontologies}
-\begin{figure}
-	\centering
-	\includegraphics[width=1\linewidth]{UML/SensorLinks3.png}
-	\caption{\ac{uml} diagram showing sensor collections and their relation to the \ac{sos}}
-	\label{fig:UML}
-\end{figure}
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=1\linewidth]{UML/SensorLinks3.png}
+%	\caption{\ac{uml} diagram showing sensor collections and their relation to the \ac{sos}}
+%	\label{fig:UML}
+%\end{figure}
 
 After the metadata has been retrieved from the \ac{sos} it has to be converted to linked data. For this the om-lite and sam-lite ontologies are being used in combination with the PROV and GeoSPARQL ontologies. A \ac{sos} is modelled as an agent with a specific name, that acts on behalf of a certain organisation. 
 % should still be extended with requests
