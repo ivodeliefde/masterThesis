@@ -89,7 +89,7 @@ class SOS:
 		self.name = tree.find('.//ows:Title', nsm).text
 		self.accesConstraints = tree.find('.//ows:AccessConstraints', nsm).text
 		self.organisation = tree.find('.//ows:ProviderName', nsm).text	
-		self.minTime = tree.find(".//ows:Parameter[@name='temporalFilter']/ows:AllowedValues/ows:Range/ows:MinimumValue", nsm).text
+		# self.minTime = tree.find(".//ows:Parameter[@name='temporalFilter']/ows:AllowedValues/ows:Range/ows:MinimumValue", nsm).text
 		
 		versions = tree.findall('.//ows:ServiceTypeVersion', nsm)
 		for version in versions:
