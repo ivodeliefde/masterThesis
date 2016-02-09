@@ -18,11 +18,12 @@ def capabilities(SOS):
 	owl = rdflib.Namespace('http://www.w3.org/2002/07/owl#')
 	dc = rdflib.Namespace('http://purl.org/dc/terms/')
 	owl = rdflib.Namespace('https://www.w3.org/2002/07/owl#')
+	dbpedia = rdflib.Namespace("http://dbpedia.com.com/ontology/")
 
 	g = Graph()
 
 	try:
-		g.parse("sos.ttl", format="turtle")
+		g.parse("observedPropertyMapping.ttl", format="turtle")
 	except:
 		pass
 
@@ -31,6 +32,13 @@ def capabilities(SOS):
 	g.add( ( uriSOS, RDF.type, prov.Agent) )
 	g.add( ( uriSOS, FOAF.name, Literal(SOS.name) ) )
 	g.add( ( uriSOS, prov.ActedOnBehalfOf,  URIRef("{0}/{1}".format(baseURI, SOS.organisation.replace(' ', '') ) ) ) )
+	g.add( ( uriSOS, dc.accessRights, Literal(SOS.accessConstraints) ) )
+	g.add( ( uriSOS, dbpedia.cost , Literal(SOS.accessConstraints) ) )
+
+	for version in SOS.version:
+		g.add( ( uriSOS, dc.hasVersion, Literal(version) ) )
+	for fomat in SOS.responseFormat:
+		g.add( ( uriSOS, dc.hasFormat, Literal(version) ) )
 
 
 	# procedure a prov:Activity, omlite:procedure;
@@ -69,13 +77,13 @@ def capabilities(SOS):
 		g.add( ( uriProcedure, RDF.type, prov.Activity) )
 		g.add( ( uriProcedure, RDF.type, om_lite.process) )
 		g.add( ( uriProcedure, FOAF.name, Literal(proc) ) )
-		g.add( ( uriSOS, om_lite.observedProperty, Literal(SOS.procedure[proc]['obsProperty']) ) )
+		g.add( ( uriProcedure, om_lite.observedProperty, Literal(SOS.procedure[proc]['obsProperty']) ) )
 
 		for i, feature in enumerate(SOS.procedure[proc]['FOI']):
 			sensor = URIRef("{0}/{1}/PROC/{2}/SENSOR/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1) )
 			g.add( ( sensor, RDF.type, prov.Agent ) )
 			g.add( ( sensor, RDF.type, om_lite.process ) ) 
-			g.add( ( sensor, om_lite.procedure, Literal(proc) ) )
+			g.add( ( sensor, om_lite.procedure, uriProcedure ) )
 			g.add( ( uriProcedure, prov.wasAssociatedWith, sensor ) )
 			g.add( ( sensor, dc.isPartOf, uriSOS) )
 
@@ -89,7 +97,7 @@ def capabilities(SOS):
 			g.add( ( FOI, RDF.type, prov.Entity ) )
 			g.add( ( FOI, RDF.type, sam_lite.SamplingPoint ) ) 
 			g.add( ( FOI, geo.hasGeometry, Literal("<{0}>POINT({1})".format(geometry['coords'][1], geometry['coords'][0]), datatype=geo.wktLiteral ) ) )
-			g.add( ( FOI, om_lite.observedProperty, obsProperty) )
+			g.add( ( FOI, om_lite.observedProperty, StandardObsProperty) )
 			g.add( ( StandardCollection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
 
@@ -99,6 +107,7 @@ def capabilities(SOS):
 			g.add( ( offering, RDF.type, prov.Entity ) )
 			g.add( ( offering, prov.specializationOf, StandardCollection ) )
 			g.add( ( offering, FOAF.name, offeringName ) )
+			g.add( ( offering, sam_lite.member, FOI ) )
 			g.add( ( offering, om_lite.procedure, Literal(proc) ) )
 
 		count += 1
