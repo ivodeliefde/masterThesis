@@ -99,7 +99,7 @@ The prototype implementation serves as a proof of concept. It looks on the seman
 
 The prototype takes names or identifiers of administrative units, landcover features or \ac{eea} reference grid cells as input. It creates a \ac{sparql} query to retrieve the geometries of these features. 
 
-With the found geometries a \ac{sparql} query is made to find a sensor collection that has a certain observed property. From this collection sensors can be selected that overlap the previously found geometries. Unfortunately \ac{sparql} queries are not allowed to exceed a certain number of lines. This creates problems when querying larger geometries (provinces and countries). Perhaps these spatial relations should be defined by a physical link? \\
+With the found geometries a \ac{sparql} query is made to find a sensor collection that has a certain observed property. From this collection sensors can be selected that overlap the previously found geometries. Unfortunately \ac{sparql} queries are not allowed to exceed a certain number of lines. This creates problems when querying larger geometries (provinces and countries). Perhaps these spatial relations should be defined by a physical link? Link via grid cells to administrative units perhaps. \\
 
 From these sensors data is collected. \\
 
