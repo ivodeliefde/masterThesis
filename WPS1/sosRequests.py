@@ -20,7 +20,7 @@ class SOS:
 		self.version = version
 		self.responseFormat = responseFormat 
 		self.procedure = {} # contains dictionary instances with structure 'ID': {'offerings': [], 'obsProperty': '...' ,'FOI': set() }
-		self.featureofinterest = {} # contains dictionary instance with structure 'ID': {'coords': [], 'CRS': '...' }
+		self.featureofinterest = {} # contains dictionary instance with structure 'ID': {'coords': [coords, crs], 'offerings': [] }
 
 		
 		# Check if the user input URL is correct
@@ -55,8 +55,6 @@ class SOS:
 
 
 	def Request(self):
-		# observableProperty = {}  --> each item should be dictionary as well, containing 'procedure', 'offerings' and 'FOI'
-
 		featureofinterest = {} # contains all the features of interest and their location
 	
 		#-------------------------------------------------------------------------------#
@@ -153,6 +151,7 @@ class SOS:
 							CRS = attributes[0][0].attrib['srsName']
 
 					self.featureofinterest[currentFOI]['coords'] = [coords, CRS]
+					self.featureofinterest[currentFOI]['offerings'] = []
 				# else:
 				# 	print info.tag
 
@@ -200,6 +199,7 @@ class SOS:
 							for attribute, value in feature.attrib.iteritems():
 								if value in self.featureofinterest:
 									self.procedure[procedure]['FOI'].add(value)
+									self.featureofinterest[value]['offerings'].append(offering)
 									continue
 	
 						except:
@@ -213,6 +213,7 @@ class SOS:
 						if len(value) > 0:
 							for each in value:
 								self.procedure[procedure]['FOI'].add(each.text)
+								self.featureofinterest[each.text]['offerings'].append(offering)
 								# print "new: ", self.procedure[procedure]['FOI']
 						# else:
 							# print "no observations available"
