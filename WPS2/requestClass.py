@@ -161,12 +161,30 @@ class Request(inputParameters):
 				else:
 					self.sos[sensorSOS] = [sensor]
 
-
-	return
+		return
 
 	def getObservations(self):
 		for sos, sensors in self.sos.iteritems():
 			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
-			GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
+			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
+			
+			pass
+		return
 
-	return
+
+	def integrateSources(self):
+		pass
+
+		return
+
+
+	def aggregateCheck(self):
+		pass
+
+		return
+
+
+	def aggregate(self):
+		pass
+
+		return

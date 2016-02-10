@@ -53,13 +53,13 @@ class Process(WPSProcess):
         dataRequest.getObservations()
 
         # integrate the sensor data
-
+        dataRequest.integrateSources()
 
         # Check if aggregation method is valid
-
+        dataRequest.aggregateCheck()
 
         # Aggregate sensor data
-
+        dataRequest.aggregate()
 
         # Output aggregated sensor data
         self.textOut.setValue( 'The WPS has finished' ) # have to be replaced with sensor data output
