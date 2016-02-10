@@ -162,6 +162,8 @@ class SOS:
 		# GetObservation --> retrieve small amounts of data to link a procedure to a FOI
 		#-------------------------------------------------------------------------------#
 			
+		# HAVE TO CHANGE THIS TO DESCRIBESENSOR REQUESTS!
+
 		yesterday = (datetime.now() - timedelta(days=1)).isoformat()
 		temporalFilter = '&temporalFilter=om:resultTime,after,{0}'.format(yesterday)
 
