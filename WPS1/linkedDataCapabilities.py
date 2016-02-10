@@ -44,12 +44,12 @@ def capabilities(SOS):
 		if (proc[:4].lower() == 'http'):
 			uriProcedure = URIRef(proc)
 		else:
-			uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, proc) ) 
+			uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, count) ) 
 
 		if (value['obsProperty'][:4] == 'http'):
 			obsProperty = URIRef(value['obsProperty'])
 		else:
-			obsProperty = URIRef("{0}/OBSERVED/{1}".format(baseURI, value['obsProperty'].replace(' ','')) ) 
+			obsProperty = URIRef("{0}/OBSERVED/{1}".format(baseURI, count) ) 
 		
 		# check the mapping between observed properties from SOS and as defined by DBPedia 
 		# the collections of samplign features are based on the DBPedia definitions
