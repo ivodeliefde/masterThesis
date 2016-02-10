@@ -57,7 +57,7 @@ def capabilities(SOS):
 			SELECT ?observedProperty
 			WHERE {{
 			  ?observedProperty <http://www.w3.org/2002/07/owl#sameAs> <{0}> .
-			}}""".format("{0}/OBSERVED/{1}".format(baseURI, value['obsProperty'].replace(' ','')))
+			}}""".format(obs)
 
 		r = requests.post(endpoint, data={'query': query}) 
 		tree = etree.fromstring(r.content)
