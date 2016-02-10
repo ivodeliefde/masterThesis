@@ -120,19 +120,24 @@ class Request(inputParameters):
 			# Retrieve sensors that are linked to the collection of sampling features
 			self.sensors[obsProperty] = {}
 			query = r"""
-			SELECT DISTINCT 
-			  ?sensor ?sos ?procedure
-			WHERE {{ 
-			  ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
-			  ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
-			  ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
-			  ?obsProperty <http://www.w3.org/2002/07/owl#sameAs> <{0}>
-			  ?FOI <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . 
-			  ?sensor <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/om-lite#process>
-			  ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
-			  ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
-			  ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
-			  ?procedure <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/om-lite#process> .
+				SELECT DISTINCT 
+				  ?sensor ?geom ?FOIname ?procName ?sos
+							
+				WHERE {{
+
+				   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
+				   ?obsProperty <http://xmlns.com/foaf/0.1/name> {0} .
+				   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
+
+				   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
+				 
+
+				   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
+				   ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname .
+				   ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
+				   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
+				   
+				   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
 			  {1}
 			}}""".format(obsProperty, spatialFilter) 
 			
@@ -145,16 +150,24 @@ class Request(inputParameters):
 			tag = '{{{0}}}result'.format(nsm[None])
 			for result in tree.findall('.//{0}'.format(tag)):
 				sensor = ''
+				sensorFOI = ''
 				sensorSOS = ''
-				sensorGEOM = ''
+				sensorOffering = ''
+				sensorProcedure = ''
+				sensorGeom = ''
 				for each in result.getchildren():
 					if each.attrib['name'] == 'sensor':
 						sensor = each[0].text
+					elif each.attrib['name'] == 'FOIname':
+						sensorFOI = each[0].text
 					elif each.attrib['name'] == 'sos':
 						sensorSOS = each[0].text
 					elif each.attrib['name'] == 'geom':
 						sensorGEOM = each[0].text
-				self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'offerings':[], 'observations': []}
+					elif each.attrib['name'] == 'procName':
+						sensorProcedure = each[0].text
+			    if self.sensors[obsProperty][sensor] in self.sensors[obsProperty]:
+					self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'FOI': sensorFOI, 'procedure': sensorProcedure, 'offerings':[], 'observations': []}
 
 				if sensorSOS in self.sos:
 					self.sos[sensorSOS].append(sensor)
