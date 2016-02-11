@@ -8,8 +8,10 @@ import time
 import os
 import unicodedata
 import requests
+from shapely import *
+from shapely.wkt import loads
 
-BaseURI = "http://localhost:3030/masterThesis/"
+BaseURI = "http://localhost:3030/masterThesis/" # SHOULD BE REPLACED WITH PURL ADDRESS!
 endpoint = 'http://localhost:8089/parliament/sparql?' 
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
@@ -33,11 +35,21 @@ def getData(dbms_name, table, user, password, AdmUnit=True):
 
 # dminUnitTable2RDF takes a table with administrative units which all have a name and a geometry as input and stores it in an RDF file
 def AdminUnitTable2RDF(table, country, AdmUnitType):
+	if AdmUnitType == 'municipality':
+		if country == 'Netherlands':
+			global NL_provinces
+			provinces = NL_provinces
+		elif country == 'Belgium':
+			global BE_provinces
+			provinces = BE_provinces
+
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
 	dbpedia = rdflib.Namespace("http://dbpedia.com.com/resource/")
-	
+	# Dublin core
+	dc = rdflib.Namespace('http://purl.org/dc/terms/')
+
 	# Create a graph
 	g = Graph()
 	
@@ -75,6 +87,14 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			
 			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral ) ) )
 		
+			if AdmUnitType == 'municipality':
+				parentProvince = geomInGeoms(geometry, provinces)
+				if len(parentProvince) > 1:
+					'Municipality {0} is in multiple provinces: {1}'.format(row[0], parentProvince)
+				else:
+					parent = URIRef('{0}{1}/{2}'.format( BaseURI, 'province', parentProvince[0].replace(' ', '_') ) )
+					g.add( ( thing, dc.isPartOf, parent ) )
+
 			# send data to enpoint
 			triples = ""
 			for s,p,o in g.triples((None, None, None)):
@@ -94,6 +114,20 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			bar.update(i)
 	
 	return
+
+def geomInGeoms(geomWKT, geoms):
+	# print geomWKT
+	theGeom = loads(geomWKT)
+	# print theGeom
+	parents = []
+
+	for row in geoms:
+		name, GeomWKT = row[0], row[1]
+		aGeom = loads(GeomWKT)
+		if aGeom.contains(theGeom) or aGeom.intersects(theGeom):
+			parents.append(name)
+
+	return parents
 
 # LandcoverTable2RDF takes a table with landcover data which all have a name and a geometry as input and stores it in an RDF file
 def LandcoverTable2RDF(table):
@@ -162,18 +196,24 @@ def LandcoverTable2RDF(table):
 if (__name__ == "__main__"):
 
 # Create linked data of provinces
-	# NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "")
-	# AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
-	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "")
+	NL = getData("Masterthesis", "nl_country", "postgres", "gps")
+	AdminUnitTable2RDF(NL, 'Netherlands', 'country')
+	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "postgres")
+	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+
+# Create linked data of provinces
+	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "postgres")
 	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 
 # Create linked data of municipalities
-	# NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "")
-	# AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "")
-	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	# BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "postgres")
+	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 
 # # Create linked data of landcover
-  	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "", False)
+  	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "postgres", False)
   	# LandcoverTable2RDF(Landcover)
 
