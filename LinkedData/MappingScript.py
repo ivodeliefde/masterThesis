@@ -42,6 +42,13 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 		elif country == 'Belgium':
 			global BE_provinces
 			provinces = BE_provinces
+	elif AdmUnitType == 'province':
+		if country == 'Netherlands':
+			global NL_country
+			inCountry = NL_country
+		elif country == 'Belgium':
+			global BE_country
+			inCountry = BE_country
 
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
@@ -92,27 +99,58 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				if len(parentProvince) > 1:
 					'Municipality {0} is in multiple provinces: {1}'.format(row[0], parentProvince)
 				else:
+					p = Graph()
 					parent = URIRef('{0}{1}/{2}'.format( BaseURI, 'province', parentProvince[0].replace(' ', '_') ) )
+					Paddress = str(parent).replace(BaseURI,'')
+
+					p.parse(Paddress, format='turtle')
+					
+					p.add( ( parent, dc.hasPart, thing ) )
+
+					p.serialize(Paddress, format='turtle')
+					
 					g.add( ( thing, dc.isPartOf, parent ) )
 
-			# send data to enpoint
-			triples = ""
-			for s,p,o in g.triples((None, None, None)):
-				triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
-			query = "INSERT DATA { " + triples + "}"
-			r = requests.post(endpoint, data={'update': query}) 
+				# send data to enpoint for municipalities only (provinces/countries have geometries too large to send this way)
+				triples = ""
+
+				for s,p,o in g.triples((None, None, None)):
+					triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
+				query = "INSERT DATA { " + triples + "}"
+				r = requests.post(endpoint, data={'update': query}) 
+				if str(r) == '<Response [500]>':
+					print u"".format(r), u"".format(thing)
+						
 					
+			elif AdmUnitType == 'province':
+				# print 'checking out parent country' 
+				p = Graph()
+				parent = URIRef('{0}{1}/{2}'.format( BaseURI, 'country', inCountry[0][0] ) )
+				Paddress = str(parent).replace(BaseURI,'')
+
+				p.parse(Paddress, format='turtle')
+					
+				p.add( ( parent, dc.hasPart, thing ) )
+
+				p.serialize(Paddress, format='turtle')
+				
+				g.add( ( parent, dc.hasPart, thing ) )
+
+			
 			# Write the graph to a RDF file in the turtle format
 			try:
 				unicode(name)
 			except:
 				name = name.decode('utf-8')
-				
+			
 			g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
 			g = Graph()
 
 			bar.update(i)
-	
+
+		# g.serialize('AdmUnits.ttl', format='turtle')	
+			
+
 	return
 
 def geomInGeoms(geomWKT, geoms):
@@ -185,7 +223,7 @@ def LandcoverTable2RDF(table):
 			r = requests.post(endpoint, data={'update': query}) 
 
 			# Write the graph to a RDF file in the turtle format
-			g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
+			# g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
 			g = Graph()
 
 			if i % 500 == 0:
@@ -195,11 +233,11 @@ def LandcoverTable2RDF(table):
 
 if (__name__ == "__main__"):
 
-# Create linked data of provinces
-	NL = getData("Masterthesis", "nl_country", "postgres", "gps")
-	AdminUnitTable2RDF(NL, 'Netherlands', 'country')
-	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "postgres")
-	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+# Create linked data of countries
+	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+	# BE_country = getData("Masterthesis", "be_country", "postgres", "postgres")
+	# AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
 # Create linked data of provinces
 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
@@ -216,4 +254,7 @@ if (__name__ == "__main__"):
 # # Create linked data of landcover
   	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "postgres", False)
   	# LandcoverTable2RDF(Landcover)
+
+# Create linked data of EEA reference grid cells
+
 
