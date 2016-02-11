@@ -8,7 +8,8 @@ from lxml import etree
 logging.basicConfig()
 
 baseURI = "http://localhost:3030"
-endpoint = 'http://localhost:8089/parliament/sparql?' 
+# endpoint = 'http://localhost:8089/parliament/sparql?' 
+endpoint = "http://localhost:8090/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 
 def capabilities(SOS):
 	global baseURI

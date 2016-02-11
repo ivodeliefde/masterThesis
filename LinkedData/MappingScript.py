@@ -12,7 +12,8 @@ from shapely import *
 from shapely.wkt import loads
 
 BaseURI = "http://localhost:3030/masterThesis/" # SHOULD BE REPLACED WITH PURL ADDRESS!
-endpoint = 'http://localhost:8089/parliament/sparql?' 
+# endpoint = 'http://localhost:8089/parliament/sparql?' 
+endpoint = "http://localhost:8090/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
@@ -111,15 +112,6 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 					
 					g.add( ( thing, dc.isPartOf, parent ) )
 
-				# send data to enpoint for municipalities only (provinces/countries have geometries too large to send this way)
-				triples = ""
-
-				for s,p,o in g.triples((None, None, None)):
-					triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
-				query = "INSERT DATA { " + triples + "}"
-				r = requests.post(endpoint, data={'update': query}) 
-				if str(r) == '<Response [500]>':
-					print u"".format(r), u"".format(thing)
 						
 					
 			elif AdmUnitType == 'province':
@@ -136,6 +128,18 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				
 				g.add( ( parent, dc.hasPart, thing ) )
 
+
+
+			# send data to enpoint for municipalities only (provinces/countries have geometries too large to send this way)
+			triples = ""
+
+			for s,p,o in g.triples((None, None, None)):
+				triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
+			query = "INSERT DATA { " + triples + "}"
+			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
+			# print r
+			if str(r) != '<Response [200]>':
+				print "Response: {0}".format(r), "{0}".format(thing)
 			
 			# Write the graph to a RDF file in the turtle format
 			try:
@@ -256,5 +260,11 @@ if (__name__ == "__main__"):
   	# LandcoverTable2RDF(Landcover)
 
 # Create linked data of EEA reference grid cells
+
+# # test request
+# 	query = 'Select * { ?s ?p ?o . } Limit 10'
+# 	endpoint = 'http://test.strabon.di.uoa.gr/NOA/Query'
+# 	r = requests.post(endpoint, data={ })
+# 	print r
 
 

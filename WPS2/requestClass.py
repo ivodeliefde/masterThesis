@@ -86,7 +86,7 @@ class Request(inputParameters):
 		}}""".format(self.featureCategory.title(), featureNamesFilter)
 
 		# print query 
-		r = requests.post(myEndpoint, data={'query': query}) 
+		r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
 		tree = etree.fromstring(r.content)
 		nsm = tree.nsmap
 
@@ -142,7 +142,7 @@ class Request(inputParameters):
 			}}""".format(obsProperty, spatialFilter) 
 			
 			print query
-			r = requests.post(myEndpoint, data={'query': query}) 
+			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
 			print r.content
 			tree = etree.fromstring(r.content)
 			nsm = tree.nsmap
