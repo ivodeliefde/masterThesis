@@ -176,7 +176,39 @@ class Request(inputParameters):
 
 		return
 
-	def getObservations(self):
+	def getObservationsVector(self):
+		if self.featureCategory.lower() == 'raster':
+			print 'Vector function cannot be applied for a raster request'
+			return
+		else:
+			print 'Request data for vector geometry'
+
+		for sos, sensors in self.sos.iteritems():
+			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
+			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
+			
+			pass
+		return
+
+	def getObservationsBBOX(self):
+		if self.featureCategory.lower() == 'raster':
+			print 'Create bounding box around grid cells'
+		else:
+			print 'Create bounding box around vector geometry'
+
+		for sos, sensors in self.sos.iteritems():
+			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
+			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
+			
+			pass
+		return
+
+	def getObservationsRaster(self):
+		if self.featureCategory.lower() == 'raster':
+			print 'Request data for raster cells'
+		else:
+			print 'Find raster cells intersecting the vector geometry'
+
 		for sos, sensors in self.sos.iteritems():
 			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
 			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
