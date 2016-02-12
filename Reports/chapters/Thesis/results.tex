@@ -8,5 +8,13 @@ The metadata in \aclp{sos} does not necessarily contain semantics. This is an is
 
 
 \section{Spatial queries with GeoSPARQL}
-GeoSPARQL allows spatial queries in which a geometry can be inserted in the query. The implementation uses this functionality to test for spatial relations between geometries. For example between the point geometry of a sensor and the polygon geometry of an administrative unit. However, when geometries become more complicated their \ac{wkt} definition becomes more verbose. This results in the \ac{sparql} endpoint to reject the query based on its number of characters.  
+\label{par:spQueries}
+For retrieving data about a vector feature three methods for spatial querying have been implemented. First of all, spatial queries in which the server side receives the complete geometry of a feature and checks which point geometries it contains. Second of all, spatial queries in which the server side receives the bounding box of the complete geometry and check which points are within it. Third of all, spatial queries in which the server side receives the \ac{eea} reference grid cell that overlap the geometry and checks which points each cell contains. With the first method the client does not have to perform any spatial queries anymore. The second and third method will also return points that are not inside the geometry of the vector feature. These points could be filtered out by the client. 
 
+\subsection{Vector queries}
+GeoSPARQL allows spatial queries in which a geometry can be inserted in the query. The implementation uses this functionality to test for spatial relations between geometries. For example between the point geometry of a sensor and the polygon geometry of an administrative unit. However, when geometries become more complicated their \ac{wkt} definition becomes more verbose. This leads to query being rejected based on its number of characters by the Parliament endpoint. The Strabon endpoint does not reject it, but it indicates that vector queries with complex geometries are not very efficient to include in a \ac{sparql} query.     
+
+\subsection{Bounding box queries}
+
+
+\subsection{Raster conversion}
