@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 from rdflib import URIRef, BNode, Literal, Graph
 from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
@@ -82,7 +82,10 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			except:
 				print 'error:',row[0]
 			
-			thing = URIRef('{0}{1}/{2}'.format( BaseURI, AdmUnitType.lower(), name ) )
+			if name == 'limburg':
+				thing = URIRef('{0}{1}/{2}({3})'.format( BaseURI, AdmUnitType.lower(), name, country ) )
+			else:
+				thing = URIRef('{0}{1}/{2}'.format( BaseURI, AdmUnitType.lower(), name ) )
 
 			if AdmUnitType.lower() == "country":
 				g.add( (thing, RDF.type, dbpedia.Country) )
@@ -100,17 +103,19 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				if len(parentProvince) > 1:
 					'Municipality {0} is in multiple provinces: {1}'.format(row[0], parentProvince)
 				else:
+					parentName = parentProvince[0].decode('utf-8').lower()
+					if '"' in parentName:
+						parentName = parentName('"', '')
+					parentName = parentName.replace(' ', '_')
 					p = Graph()
-					parent = URIRef('{0}{1}/{2}'.format( BaseURI, 'province', parentProvince[0].replace(' ', '_') ) )
-					Paddress = str(parent).replace(BaseURI,'')
-
-					p.parse(Paddress, format='turtle')
+					# print parentName
 					
-					p.add( ( parent, dc.hasPart, thing ) )
+					parent = URIRef(u'{0}province/{1}'.format( BaseURI, parentName ) )
 
-					p.serialize(Paddress, format='turtle')
-					
+					g.add( ( parent, dc.hasPart, thing ) )
+
 					g.add( ( thing, dc.isPartOf, parent ) )
+
 
 						
 					
@@ -124,7 +129,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 					
 				p.add( ( parent, dc.hasPart, thing ) )
 
-				p.serialize(Paddress, format='turtle')
+				p.serialize(u'{0}'.format(Paddress), format='turtle')
 				
 				g.add( ( parent, dc.hasPart, thing ) )
 
@@ -134,9 +139,15 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			triples = ""
 
 			for s,p,o in g.triples((None, None, None)):
-				triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
+				if str(type(o)) == "<class 'rdflib.term.Literal'>":
+					triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
+				else:
+					# print type(o)
+					triples += u'<{0}> <{1}> <{2}> .'.format(s,p,o)
+
+
 			query = "INSERT DATA { " + triples + "}"
-			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
+			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
 			# print r
 			if str(r) != '<Response [200]>':
 				print "Response: {0}".format(r), "{0}".format(thing)
@@ -173,6 +184,11 @@ def geomInGeoms(geomWKT, geoms):
 
 # LandcoverTable2RDF takes a table with landcover data which all have a name and a geometry as input and stores it in an RDF file
 def LandcoverTable2RDF(table):
+	global NL_provinces
+	global BE_provinces
+	global NL_country
+	global BE_country
+
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
@@ -198,7 +214,7 @@ def LandcoverTable2RDF(table):
 		os.makedirs('landcover/legend/')
 
 	i = 0
-	with progressbar.ProgressBar(max_value=len(table)) as bar:
+	with progressbar.ProgressBar(max_value=len(CLC_legend)) as bar:
 		for key, value in CLC_legend.iteritems():
 			# Linking URI as subclass of Landcover definition on DBPedia
 			g.add( ( URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, key) ), RDFS.subClassOf , dbpedia.Land_cover ) )
@@ -219,12 +235,40 @@ def LandcoverTable2RDF(table):
 			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
 			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258> {0}^^geo:wktLiteral".format(geometry) ) ) )
 
+			overlaps = [geomInGeoms(geometry, NL_provinces), geomInGeoms(geometry, BE_provinces), geomInGeoms(geometry, NL_municipalities), geomInGeoms(geometry, BE_municipalities)]
+			for j, featureList in enumerate(overlaps):
+				for feature in featureList:
+					parentName = feature.decode('utf-8').lower()
+					
+					if '"' in parentName:
+						parentName = parentName('"', '')
+					parentName = parentName.replace(' ', '_')
+
+					if j < 3:
+						featureURI = URIRef('{0}{1}/{2}'.format( BaseURI, 'province', parentName ) )
+					else:
+						featureURI = URIRef('{0}{1}/{2}'.format( BaseURI, 'municipality', parentName ) )
+					
+
+					g.add( ( thing, geom.intersects, featureURI) )
+
+
+			triples = ''
 			# send data to enpoint
-			triples = ""
 			for s,p,o in g.triples((None, None, None)):
-				triples += '<{0}> <{1}> "{2}" .'.format(s,p,o)
+				# print s,p,o
+				if str(type(o)) == "<class 'rdflib.term.Literal'>":
+					triples += u'<{0}> <{1}> "{2}" . '.format(s,p,o)
+				elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
+					triples += u'<{0}> <{1}> <{2}> . '.format(s,p,o)
+				else:
+					print type(o)
+			
 			query = "INSERT DATA { " + triples + "}"
-			r = requests.post(endpoint, data={'update': query}) 
+			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+			print r
+			if str(r) != '<Response [200]>':
+				print "Response: {0}".format(r), "{0}".format(thing)
 
 			# Write the graph to a RDF file in the turtle format
 			# g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
@@ -240,31 +284,25 @@ if (__name__ == "__main__"):
 # Create linked data of countries
 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-	# BE_country = getData("Masterthesis", "be_country", "postgres", "postgres")
-	# AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
 # Create linked data of provinces
+	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
-	# BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "postgres")
-	# AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+
 
 # Create linked data of municipalities
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-	# BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "postgres")
-	# AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+
 
 # # Create linked data of landcover
-  	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "postgres", False)
-  	# LandcoverTable2RDF(Landcover)
+  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+  	LandcoverTable2RDF(Landcover)
 
 # Create linked data of EEA reference grid cells
-
-# # test request
-# 	query = 'Select * { ?s ?p ?o . } Limit 10'
-# 	endpoint = 'http://test.strabon.di.uoa.gr/NOA/Query'
-# 	r = requests.post(endpoint, data={ })
-# 	print r
-
-

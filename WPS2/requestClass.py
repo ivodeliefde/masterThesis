@@ -71,6 +71,9 @@ class Request(inputParameters):
 				featureNamesDict = ''
 			else:
 				featureNamesFilter = "FILTER( {0} )".format(" || ".join(featureNamesDict))
+		elif (self.featureCategory == 'raster'): 
+			print 'raster data not yet implemented'
+			return
 		else: 
 			print "wrong featureCategory input"
 			return
