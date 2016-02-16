@@ -13,7 +13,7 @@ from shapely.wkt import loads
 
 BaseURI = "http://localhost:3030/masterThesis/" # SHOULD BE REPLACED WITH PURL ADDRESS!
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
-endpoint = "http://localhost:8090/strabon-endpoint-3.3.2-SNAPSHOT/Query"
+endpoint = "http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
@@ -146,27 +146,27 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 
 
-			# send data to enpoint for municipalities only (provinces/countries have geometries too large to send this way)
-			triples = ""
+				# send data to enpoint for municipalities only (provinces/countries have geometries too large to send this way)
+				triples = u""
 
-			for s,p,o in g.triples((None, None, None)):
-				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
-				else:
-					# print type(o)
-					triples += u'<{0}> <{1}> <{2}> .'.format(s,p,o)
+				for s,p,o in g.triples((None, None, None)):
+					if str(type(o)) == "<class 'rdflib.term.Literal'>":
+						triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
+					else:
+						# print type(o)
+						triples += u'<{0}> <{1}> <{2}> .'.format(s,p,o)
 
 
-			query = "INSERT DATA { " + triples + "}"
-			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-			# print r
-			if str(r) != '<Response [200]>':
-				print "Response: {0}".format(r), "{0}".format(thing)
-			
-			# Write the graph to a RDF file in the turtle format
-			
-			g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
-			g = Graph()
+				query = u"INSERT DATA { " + triples + "}"
+				r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+				# print r
+				if str(r) != '<Response [200]>':
+					print "Response: {0}".format(r)
+				
+				# Write the graph to a RDF file in the turtle format
+				
+				g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
+				g = Graph()
 
 			bar.update(i)
 
@@ -321,7 +321,7 @@ def EEA2RDF(table, resolution):
 			g.add( ( cellURI, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral )  ) )
 			bar.update(i)
 
-		triples = ''
+		triples = u''
 		# send data to enpoint
 		for s,p,o in g.triples((None, None, None)):
 			# print s,p,o
@@ -331,11 +331,11 @@ def EEA2RDF(table, resolution):
 				triples += u'<{0}> <{1}> <{2}> . '.format(s,p,o)
 			else:
 				print type(o)
-		query = "INSERT DATA { " + triples + "}"
+		query = u"INSERT DATA { " + triples + "}"
 		r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
 		# print r
 		if str(r) != '<Response [200]>':
-			print "Response: {0}".format(r), "{0}".format(thing)
+			print "Response: {0}".format(r)
 		
 		# Write the graph to a RDF file in the turtle format
 		try:
@@ -354,32 +354,33 @@ def EEA2RDF(table, resolution):
 
 if (__name__ == "__main__"):
 
-# # Create linked data of countries
-# 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-# 	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
-
-# # Create linked data of provinces
-# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
-
-
-# # Create linked data of municipalities
-# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-
-
-# # # Create linked data of landcover
-#   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
-#   	LandcoverTable2RDF(Landcover)
-
 # Create linked data of EEA reference grid cells
 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
 	EEA2RDF(Grid100, '100km')
 	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
 	EEA2RDF(Grid10, '10km')
+
+# Create linked data of countries
+	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+
+# Create linked data of provinces
+	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+
+
+# Create linked data of municipalities
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+
+
+# # Create linked data of landcover
+  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+  	LandcoverTable2RDF(Landcover)
+
