@@ -288,10 +288,10 @@ def LandcoverTable2RDF(table):
 	return
 
 def EEA2RDF(table, resolution):
-	global NL_provinces
-	global BE_provinces
-	global NL_country
-	global BE_country
+	# global NL_provinces
+	# global BE_provinces
+	# global NL_country
+	# global BE_country
 
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
@@ -312,6 +312,7 @@ def EEA2RDF(table, resolution):
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
 		raster = URIRef('{0}raster/{1}'.format(BaseURI, resolution))
 		g.add( ( raster, RDF.type, dbpedia.Raster ) )
+		CreatePurls([(raster, 'raster', resolution)])
 
 		for i, row in enumerate(table):
 			name, geometry = row
@@ -319,6 +320,7 @@ def EEA2RDF(table, resolution):
 			g.add( ( cellURI, FOAF.name, Literal(name) ) )
 			g.add( ( cellURI, dc.isPartOf , raster ) )
 			g.add( ( cellURI, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral )  ) )
+			CreatePurls([(cellURI, 'raster',name)])
 			bar.update(i)
 
 		triples = u''
@@ -350,37 +352,48 @@ def EEA2RDF(table, resolution):
 
 	return 
 
+def CreatePurls(UriList):
+	# print 'purl!'
+	purls = ''
+	for each in UriList:
+		URI, domain, name = each
+		purls += '<purl id="/{0}/{1}" type="302"> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target url="{2}"/> </purl> '.format(domain, name, URI)
+	with open('purlBatch.xml','a') as f:
+		f.write(purls)
+
+	return
 
 
 if (__name__ == "__main__"):
-
+	with open('purlBatch.xml','w') as f:
+		f.write('<?xml version="1.0" encoding="ISO-8859-1"?> <purls> ')
 # Create linked data of EEA reference grid cells
 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
 	EEA2RDF(Grid100, '100km')
 	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
 	EEA2RDF(Grid10, '10km')
 
-# Create linked data of countries
-	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+# # Create linked data of countries
+# 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+# 	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
-# Create linked data of provinces
-	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+# # Create linked data of provinces
+# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 
-
-# Create linked data of municipalities
-	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
-
+# # Create linked data of municipalities
+# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
 # # Create linked data of landcover
-  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
-  	LandcoverTable2RDF(Landcover)
+  	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+  	# LandcoverTable2RDF(Landcover)
 
+	with open('purlBatch.xml','a') as f:
+		f.write('</purls>')
