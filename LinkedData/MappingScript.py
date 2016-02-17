@@ -323,21 +323,23 @@ def EEA2RDF(table, resolution):
 			CreatePurls([(cellURI, 'raster',name)])
 			bar.update(i)
 
-		triples = u''
-		# send data to enpoint
-		for s,p,o in g.triples((None, None, None)):
-			# print s,p,o
-			if str(type(o)) == "<class 'rdflib.term.Literal'>":
-				triples += u'<{0}> <{1}> "{2}" . '.format(s,p,o)
-			elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
-				triples += u'<{0}> <{1}> <{2}> . '.format(s,p,o)
-			else:
-				print type(o)
-		query = u"INSERT DATA { " + triples + "}"
-		r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-		# print r
-		if str(r) != '<Response [200]>':
-			print "Response: {0}".format(r)
+			triples = u''
+			# send data to enpoint
+			for s,p,o in g.triples((None, None, None)):
+				# print s,p,o
+				if str(type(o)) == "<class 'rdflib.term.Literal'>":
+					triples += u'<{0}> <{1}> "{2}" . '.format(s,p,o)
+				elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
+					triples += u'<{0}> <{1}> <{2}> . '.format(s,p,o)
+				else:
+					print type(o)
+			query = u"INSERT DATA { " + triples + "}"
+			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+			# print r
+			if str(r) != '<Response [200]>':
+				print "Response: {0}".format(r)
+				print query
+				print r.text
 		
 		# Write the graph to a RDF file in the turtle format
 		try:
@@ -365,7 +367,7 @@ def CreatePurls(UriList):
 
 
 if (__name__ == "__main__"):
-	with open('purlBatch.xml','w') as f:
+	with open('D:\purlBatch.xml','w') as f:
 		f.write('<?xml version="1.0" encoding="ISO-8859-1"?> <purls> ')
 # Create linked data of EEA reference grid cells
 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
@@ -397,3 +399,9 @@ if (__name__ == "__main__"):
 
 	with open('purlBatch.xml','a') as f:
 		f.write('</purls>')
+
+	# query = u"DESCRIBE <http://localhost:3030/masterThesis/country/nederland>"
+	# r = requests.post(endpoint, data={'view':'Download', 'DescribeQuery': query, 'format':'RDF/XML', 'outputformat':'RDF/XML' , 'handle':'Download', 'submit':'query' }) 
+	# print r.text
+	# if str(r) != '<Response [200]>':
+	# 	print "Response: {0}".format(r)
