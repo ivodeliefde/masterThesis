@@ -11,6 +11,7 @@ import requests
 from shapely import *
 from shapely.wkt import loads
 from postPURLS import postPURLbatch
+import cgi
 
 BaseURI = "http://masterThesis." 
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
@@ -73,8 +74,8 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	print "Creating linked data from {0} {1} dataset".format(AdmUnitType, country)
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
 
-		if not os.path.exists('{0}/'.format( AdmUnitType.lower() ) ):
-			os.makedirs('{0}/'.format( AdmUnitType.lower() ))
+		# if not os.path.exists('{0}/'.format( AdmUnitType.lower() ) ):
+		# 	os.makedirs('{0}/'.format( AdmUnitType.lower() ))
 
 		for i, row in enumerate(table):
 			geometry = row[1]
@@ -115,13 +116,11 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				if len(parentProvince) > 1:
 					'Municipality {0} is in multiple provinces: {1}'.format(row[0], parentProvince)
 				else:
-					parentName = parentProvince[0].decode('utf-8').lower()
+					parentName = parentProvince[0].decode('utf-8')
 					parentName = unicodedata.normalize('NFC', unicode(parentName))
 					if '"' in parentName:
 						parentName = parentName('"', '')
 					parentName = parentName.replace(' ', '_')
-					p = Graph()
-					# print parentName
 					
 					parent = URIRef(u'{0}province/{1}'.format( BaseURI, parentName ) )
 
@@ -134,15 +133,15 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 					
 			elif AdmUnitType == 'province':
 				# print 'checking out parent country' 
-				p = Graph()
-				parent = URIRef('{0}{1}/{2}'.format( BaseURI, 'country', inCountry[0][0] ) )
-				Paddress = str(parent).replace(BaseURI,'')
+				
+				parentName =  inCountry[0][0].decode('utf-8')
+				parentName = unicodedata.normalize('NFC', unicode(parentName))
+				if '"' in parentName:
+					parentName = parentName('"', '')
 
-				p.parse(Paddress, format='turtle')
+				parent = URIRef('{0}{1}/{2}'.format( BaseURI, 'country', parentName ) )
 					
-				p.add( ( parent, dc.hasPart, thing ) )
-
-				p.serialize(u'{0}'.format(Paddress), format='turtle')
+				g.add( ( parent, dc.hasPart, thing ) )
 				
 				g.add( ( parent, dc.hasPart, thing ) )
 
@@ -167,7 +166,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				
 				# Write the graph to a RDF file in the turtle format
 				
-				g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
+				# g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
 				g = Graph()
 
 			bar.update(i)
@@ -219,8 +218,8 @@ def LandcoverTable2RDF(table):
 	global BaseURI
 
 	print "Creating linked data from CORINE 2012 Legend"
-	if not os.path.exists('landcover/legend/'):
-		os.makedirs('landcover/legend/')
+	# if not os.path.exists('landcover/legend/'):
+	# 	os.makedirs('landcover/legend/')
 
 	i = 0
 	with progressbar.ProgressBar(max_value=len(CLC_legend)) as bar:
@@ -228,7 +227,7 @@ def LandcoverTable2RDF(table):
 			# Linking URI as subclass of Landcover definition on DBPedia
 			g.add( ( URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, key) ), RDFS.subClassOf , dbpedia.Land_cover ) )
 			g.add( ( URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, key) ), FOAF.name , Literal(value) ) )
-			g.serialize("landcover/legend/CLC_{0}".format(key), format='turtle')
+			# g.serialize("landcover/legend/CLC_{0}".format(key), format='turtle')
 			g = Graph()
 			bar.update(i)
 			i += 1
@@ -308,13 +307,13 @@ def EEA2RDF(table, resolution):
 	global BaseURI
 
 	print "Creating linked data from EEA refernce GRID {0}".format(resolution)
-	if not os.path.exists('raster/'):
-		os.makedirs('raster/')
+	# if not os.path.exists('raster/'):
+	# 	os.makedirs('raster/')
 
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
 		raster = URIRef('{0}raster/{1}'.format(BaseURI, resolution))
 		g.add( ( raster, RDF.type, dbpedia.Raster ) )
-		CreatePurls([(raster, 'raster', resolution)])
+		CreatePurls([(raster, 'raster')])
 
 		for i, row in enumerate(table):
 			name, geometry = row
@@ -336,12 +335,12 @@ def EEA2RDF(table, resolution):
 				else:
 					print type(o)
 			query = u"INSERT DATA { " + triples + "}"
-			# r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-			# # print r
-			# if str(r) != '<Response [200]>':
-			# 	print "Response: {0}".format(r)
-			# 	print query
-			# 	print r.text
+			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+			# print r
+			if str(r) != '<Response [200]>':
+				print "Response: {0}".format(r)
+				print query
+				print r.text
 		
 		# Write the graph to a RDF file in the turtle format
 		try:
@@ -349,8 +348,8 @@ def EEA2RDF(table, resolution):
 		except:
 			name = name.decode('utf-8')
 
-		g.serialize(u'raster/{0}'.format(resolution), format='turtle')
-		g = Graph()
+		# g.serialize(u'raster/{0}'.format(resolution), format='turtle')
+		# g = Graph()
 
 		
 
@@ -361,15 +360,16 @@ def CreatePurls(UriList):
 
 	if UriList == 'open':
 		with open(purlBatch,'w') as f:
-			f.write('<purls>')
+			f.write('<purls>\n')
 	elif UriList == 'close':
 		with open(purlBatch,'a') as f:
-			f.write('<\purls>')
+			f.write('</purls>')
 	else:
 		purls = ''
 		for each in UriList:
 			URI, domain = each
-			purls += '<purl> <id>/{0}/{1}</id> <type>302</type> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target> <url>http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE%20<{1}></url> </target> </purl>\n'.format(domain, URI)
+			cleanURI = cgi.escape(URI)
+			purls += '\t<purl> <id>{0}</id> <type>302</type> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target> <url>http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Describe?view=HTML&amp;handle=download&amp;format=turtle&amp;submit=describe&amp;query=DESCRIBE%20&lt;{0}&gt;</url> </target> </purl>\n'.format(cleanURI)
 		with open(purlBatch,'a') as f:
 			f.write(purls)
 
@@ -383,30 +383,30 @@ if (__name__ == "__main__"):
 # Create linked data of EEA reference grid cells
 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
 	EEA2RDF(Grid100, '100km')
-	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
-	EEA2RDF(Grid10, '10km')
+	# Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
+	# EEA2RDF(Grid10, '10km')
 
-# Create linked data of countries
-	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+# # Create linked data of countries
+# 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+# 	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
-# Create linked data of provinces
-	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+# # Create linked data of provinces
+# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 
-# Create linked data of municipalities
-	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+# # Create linked data of municipalities
+# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
-# Create linked data of landcover
-  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
-  	LandcoverTable2RDF(Landcover)
+# # Create linked data of landcover
+#   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+#   	LandcoverTable2RDF(Landcover)
 
 # Close the purl batch
   	CreatePurls('close')
