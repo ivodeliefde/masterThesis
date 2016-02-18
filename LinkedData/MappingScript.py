@@ -12,7 +12,7 @@ from shapely import *
 from shapely.wkt import loads
 from postPURLS import postPURLbatch
 
-BaseURI = "http://localhost:3030/masterThesis/" # SHOULD BE REPLACED WITH PURL ADDRESS!
+BaseURI = "http://masterThesis." 
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
 endpoint = "http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 purlBatch = 'purlBatch.xml'
@@ -322,7 +322,7 @@ def EEA2RDF(table, resolution):
 			g.add( ( cellURI, FOAF.name, Literal(name) ) )
 			g.add( ( cellURI, dc.isPartOf , raster ) )
 			g.add( ( cellURI, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral )  ) )
-			CreatePurls([(cellURI, 'raster',name)])
+			CreatePurls([(cellURI, 'raster')])
 			bar.update(i)
 
 			triples = u''
@@ -368,8 +368,8 @@ def CreatePurls(UriList):
 	else:
 		purls = ''
 		for each in UriList:
-			URI, domain, name = each
-			purls += '<purl> <id>/{0}/{1}</id> <type>302</type> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target> <url>{2}</url> </target> </purl>\n'.format(domain, name, URI)
+			URI, domain = each
+			purls += '<purl> <id>/{0}/{1}</id> <type>302</type> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target> <url>http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE%20<{1}></url> </target> </purl>\n'.format(domain, URI)
 		with open(purlBatch,'a') as f:
 			f.write(purls)
 
