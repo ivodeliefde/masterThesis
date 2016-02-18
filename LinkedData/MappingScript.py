@@ -10,10 +10,12 @@ import unicodedata
 import requests
 from shapely import *
 from shapely.wkt import loads
+from postPURLS import postPURLbatch
 
 BaseURI = "http://localhost:3030/masterThesis/" # SHOULD BE REPLACED WITH PURL ADDRESS!
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
 endpoint = "http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query"
+purlBatch = 'purlBatch.xml'
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
@@ -334,12 +336,12 @@ def EEA2RDF(table, resolution):
 				else:
 					print type(o)
 			query = u"INSERT DATA { " + triples + "}"
-			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-			# print r
-			if str(r) != '<Response [200]>':
-				print "Response: {0}".format(r)
-				print query
-				print r.text
+			# r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+			# # print r
+			# if str(r) != '<Response [200]>':
+			# 	print "Response: {0}".format(r)
+			# 	print query
+			# 	print r.text
 		
 		# Write the graph to a RDF file in the turtle format
 		try:
@@ -355,53 +357,59 @@ def EEA2RDF(table, resolution):
 	return 
 
 def CreatePurls(UriList):
-	# print 'purl!'
-	purls = ''
-	for each in UriList:
-		URI, domain, name = each
-		purls += '<purl id="/{0}/{1}" type="302"> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target url="{2}"/> </purl> '.format(domain, name, URI)
-	with open('purlBatch.xml','a') as f:
-		f.write(purls)
+	global purlBatch
+
+	if UriList == 'open':
+		with open(purlBatch,'w') as f:
+			f.write('<purls>')
+	elif UriList == 'close':
+		with open(purlBatch,'a') as f:
+			f.write('<\purls>')
+	else:
+		purls = ''
+		for each in UriList:
+			URI, domain, name = each
+			purls += '<purl> <id>/{0}/{1}</id> <type>302</type> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target> <url>{2}</url> </target> </purl>\n'.format(domain, name, URI)
+		with open(purlBatch,'a') as f:
+			f.write(purls)
 
 	return
 
 
 if (__name__ == "__main__"):
-	with open('D:\purlBatch.xml','w') as f:
-		f.write('<?xml version="1.0" encoding="ISO-8859-1"?> <purls> ')
+# Open the purl batch
+	CreatePurls('open')
+
 # Create linked data of EEA reference grid cells
 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
 	EEA2RDF(Grid100, '100km')
 	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
 	EEA2RDF(Grid10, '10km')
 
-# # Create linked data of countries
-# 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-# 	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+# Create linked data of countries
+	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
-# # Create linked data of provinces
-# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+# Create linked data of provinces
+	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 
-# # Create linked data of municipalities
-# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+# Create linked data of municipalities
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
-# # Create linked data of landcover
-  	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
-  	# LandcoverTable2RDF(Landcover)
+# Create linked data of landcover
+  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+  	LandcoverTable2RDF(Landcover)
 
-	with open('purlBatch.xml','a') as f:
-		f.write('</purls>')
+# Close the purl batch
+  	CreatePurls('close')
 
-	# query = u"DESCRIBE <http://localhost:3030/masterThesis/country/nederland>"
-	# r = requests.post(endpoint, data={'view':'Download', 'DescribeQuery': query, 'format':'RDF/XML', 'outputformat':'RDF/XML' , 'handle':'Download', 'submit':'query' }) 
-	# print r.text
-	# if str(r) != '<Response [200]>':
-	# 	print "Response: {0}".format(r)
+# send PURLS to PURLZ server
+	postPURLbatch(purlBatch,'admin', 'password')
