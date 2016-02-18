@@ -78,7 +78,15 @@ There are a number of different notations for writing down these triples (serial
 \end{figure} 
 
 \subsection{Persistent Uniform Resource Locators}
-To prevent broken links \ac{purl} are being used. 
+\acp{url} are an essential part of the web. However, if an \ac{url} changes the existing links towards this \ac{url} are broken. To prevent this \acp{purl} are being used. A \acl{purl} is a \enquote{naming and resolution service for general Internet resources} \citep{LD:PURL}. This allows organisations to change the location of their data without changing the \ac{url} to which can be linked. A \ac{purl} server receives the \ac{url} and redirects the client to the current location of the resource. If the location of the resource 
+changes, the server can be informed. It will then redirect clients to the new location (Figure \ref{fig:PURL}).  
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\linewidth]{figs/purl.png}
+	\caption{Persistent Uniform Resource Locator (PURL) resolves to the current resource location \citep{LD:PURL}}
+	\label{fig:PURL}
+\end{figure} 
 
 \section{GeoSPARQL}
 
