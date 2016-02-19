@@ -29,7 +29,26 @@ The Strabon and Parliament endpoint have been tested since they both handle GeoS
 
 Pubby software in combination with Apache Tomcat allows for a user interface that is easier to navigate through for humans. The links stored in \ac{rdf} triples are represented as hyperlinks which can be used to navigate between pages about different concepts. \\
 
-For creating \aclp{purl} the Callimachus software (\url{http://callimachusproject.org/}) is being used.  \\
+For creating \aclp{purl} the Purlz software (\url{http://www.purlz.org/}) has been used. All \acp{uri} that are created get a \ac{purl} assigned to it. The \ac{purl} resolves the \ac{uri} to a \texttt{DESCRIBE} query at the endpoint. This query is structured as a get request: \texttt{\seqsplit{http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Describe?submit=describe\&view=HTML\&handle=download\&format=turtle\&query=DESCRIBE < an\_URI >}}. The request has `\texttt{/Describe?submit=describe}' to call the script that deals with describe queries and to tell it that the request is also submitting this kind of query. The parameters `\texttt{view=HTML\&handle=download}' indicate that the endpoint's website is requested, but the returned data should be a download file instead of an HTML page. The parameter `\texttt{\&format=turtle}' sets the \ac{rdf} notation of the download file to Turtle and `\texttt{\&query=DESCRIBE <an\_URI>}' is the \ac{sparql} query that contains the \ac{uri} between brackets. 
+
+Every \ac{uri} is written to an \ac{xml} file with the parameters: ID, \ac{purl} type, and target address. Optionally, information about the person or organisation maintaining the \ac{purl} can be added. The ID is the original \ac{uri} that is being resolved to the target address. The \ac{purl} type is set to 303, which means that it refers the client to the target address. Alternative types can be found in Table \ref{tbl:HTTP}. After all \acp{uri} have been added to the so called \ac{xml} `batch' file \citep{LD:PURL2}, the file can be posted to the Purlz server. \\
+
+\begin{table}[]
+	\centering
+	\caption{Types of PURLs \citep{LD:PURL}}
+	\label{tbl:HTTP}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lll}
+		PURL Type & Meaning                                         & HTTP Shorthand     \\
+		301       & Moved permanently to a target \ac{url}          & Moved Permanently  \\
+		302       & Simple redirection to a target \ac{url}         & Found              \\
+		303       & See other \acp{url} (use for Semantic Web resources) & See Other     \\
+		307       & Temporary redirect to a target \ac{url}         & Temporary Redirect \\
+		404       & Temporarily gone                                & Not Found          \\
+		410       & Permanently gone                                & Gone              
+	\end{tabular}
+}
+\end{table}
 
 Setting it up on the university server
 
