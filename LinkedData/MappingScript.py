@@ -26,6 +26,7 @@ def getData(dbms_name, table, user, password, AdmUnit=True):
 	conn = psycopg2.connect(host="localhost", port='5433', database=dbms_name, user=user, password=password) 
 	cur = conn.cursor()
 	# print conn.encoding
+
 	conn.set_client_encoding('UTF-8')
 
 	if AdmUnit == True:
@@ -40,6 +41,7 @@ def getData(dbms_name, table, user, password, AdmUnit=True):
 	data = cur.fetchall()
 
 	conn.commit()
+
 	cur.close()
 	conn.close()
 	
@@ -81,7 +83,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 		# if not os.path.exists('{0}/'.format( AdmUnitType.lower() ) ):
 		# 	os.makedirs('{0}/'.format( AdmUnitType.lower() ))
-
+		triples = u""
 		for i, row in enumerate(table):
 			geometry = row[1]
 			# print row
@@ -134,9 +136,6 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 					g.add( ( parent, dc.hasPart, thing ) )
 
 					g.add( ( thing, dc.isPartOf, parent ) )
-
-
-						
 					
 			elif AdmUnitType == 'province':
 				# print 'checking out parent country' 
@@ -153,33 +152,28 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				g.add( ( thing, dc.isPartOf, parent ) )
 
 
-
-				# send data to enpoint for municipalities only (provinces/countries have geometries too large to send this way)
-				triples = u""
-
-				for s,p,o in g.triples((None, None, None)):
-					if str(type(o)) == "<class 'rdflib.term.Literal'>":
-						triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
-					else:
-						# print type(o)
-						triples += u'<{0}> <{1}> <{2}> .'.format(s,p,o)
+			for s,p,o in g.triples((None, None, None)):
+				if str(type(o)) == "<class 'rdflib.term.Literal'>":
+					triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
+				else:
+					# print type(o)
+					triples += u'<{0}> <{1}> <{2}> .'.format(s,p,o)
+			g = Graph()
 
 
-				query = u"INSERT DATA { " + triples + "}"
-				r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-				# print r
-				if str(r) != '<Response [200]>':
-					print "Response: {0}".format(r)
-				
+			if len(triples) > 2000:
+				sendTriplesToEndpoint(triples)
+				triples = u''
+			
+			bar.update(i+1)
 				# Write the graph to a RDF file in the turtle format
 				
 				# g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
-				g = Graph()
-
-			bar.update(i)
-
-		# g.serialize('AdmUnits.ttl', format='turtle')	
-			
+				
+		if len(triples) > 0:
+			sendTriplesToEndpoint(triples)
+		bar.update(i+1)	
+		# g.serialize('AdmUnits.ttl', format='turtle')			
 
 	return
 
@@ -246,11 +240,9 @@ def LandcoverTable2RDF(table):
 
 	print "Creating linked data from CORINE 2012 dataset"
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
-		print 'start loop'
 		triples = ''
 		for i, row in enumerate(table):
 			
-
 			ID, Landcover, geometry = row
 
 			thing = URIRef("{0}landcover/{1}".format( BaseURI, ID ) )
@@ -294,25 +286,15 @@ def LandcoverTable2RDF(table):
 			# g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
 			
 
-			if i % 500 == 0:
-				bar.update(i)
-				# print i
-			elif (i % 20 == 0) and (i > 0):
-				query = "INSERT DATA { " + triples + "}"
-				r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-				# print r
-				if str(r) != '<Response [200]>':
-					print "Response: {0}".format(r), "{0}".format(thing)
+			if len(triples) > 2000:
+				sendTriplesToEndpoint(triples)
 				triples = ''
+			bar.update(i+1)
 
 		if len(triples) > 0:
-			query = "INSERT DATA { " + triples + "}"
-			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-			# print r
-			if str(r) != '<Response [200]>':
-				print "Response: {0}".format(r), "{0}".format(thing)
+			sendTriplesToEndpoint(triples)
 
-		bar.update(i)
+		bar.update(i+1)
 
 			
 			
@@ -346,7 +328,8 @@ def EEA2RDF(table, resolution):
 		raster = URIRef('{0}raster/{1}'.format(BaseURI, resolution))
 		g.add( ( raster, RDF.type, dbpedia.Raster ) )
 		CreatePurls([raster],purlBatch)
-
+		
+		triples = u''
 		for i, row in enumerate(table):
 			name, geometry = row
 			cellURI = URIRef('{0}raster/{1}'.format(BaseURI, name))
@@ -354,9 +337,9 @@ def EEA2RDF(table, resolution):
 			g.add( ( cellURI, dc.isPartOf , raster ) )
 			g.add( ( cellURI, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral )  ) )
 			CreatePurls([cellURI],purlBatch)
-			bar.update(i)
+			
 
-			triples = u''
+			
 			# send data to enpoint
 			for s,p,o in g.triples((None, None, None)):
 				# print s,p,o
@@ -366,14 +349,13 @@ def EEA2RDF(table, resolution):
 					triples += u'<{0}> <{1}> <{2}> . '.format(s,p,o)
 				else:
 					print type(o)
-			query = u"INSERT DATA { " + triples + "}"
-			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-			# print r
-			if str(r) != '<Response [200]>':
-				print "Response: {0}".format(r)
-				print query
-				print r.text
-		
+			
+			g = Graph()
+
+			if i % 20 == 0:
+				sendTriplesToEndpoint(triples)
+				triples = u''
+			bar.update(i+1)
 		# Write the graph to a RDF file in the turtle format
 		# try:
 		# 	unicode(name)
@@ -382,11 +364,22 @@ def EEA2RDF(table, resolution):
 
 		# g.serialize(u'raster/{0}'.format(resolution), format='turtle')
 		# g = Graph()
+		if len(triples) > 0:
+			sendTriplesToEndpoint(triples)
 
+		bar.update(i+1)
+		
 	return 
 
-
-
+def sendTriplesToEndpoint(triples):
+	query = u"INSERT DATA { " + triples + "}"
+	r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+	# print r
+	if str(r) != '<Response [200]>':
+		print "Response: {0}".format(r)
+		# print query
+		print r.text
+	return
 
 if (__name__ == "__main__"):
 	try:
@@ -424,8 +417,8 @@ if (__name__ == "__main__"):
 	# send PURLS to PURLZ server
 		postPURLbatch(purlBatch,'admin', 'password')
 	
-	except IOError as (errno, strerror):
+	except:# IOError as (errno, strerror):
 		engine.say('Program ended unexpectedly')
 		engine.runAndWait()
-		print errno, strerror
+		#print errno, strerror
 
