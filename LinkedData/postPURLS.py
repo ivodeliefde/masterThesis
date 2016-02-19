@@ -41,7 +41,7 @@ def CreatePurls(UriList, purlBatch):
 		for each in UriList:
 			each = unicodedata.normalize('NFKD', each).encode('ascii', 'ignore')
 			cleanURI = cgi.escape(each)
-			purls += u'<purl> <id>{0}</id> <type>302</type> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target> <url>{1}Describe?view=HTML&amp;handle=download&amp;format=turtle&amp;submit=describe&amp;query=DESCRIBE%20&lt;{0}&gt;</url> </target> </purl>\n'.format(cleanURI, endpoint)
+			purls += u'<purl> <id>{0}</id> <type>303</type> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target> <url>{1}Describe?view=HTML&amp;handle=download&amp;format=turtle&amp;submit=describe&amp;query=DESCRIBE%20&lt;{0}&gt;</url> </target> </purl>\n'.format(cleanURI, endpoint)
 		with open(purlBatch,'a') as f:
 			f.write(purls)
 
