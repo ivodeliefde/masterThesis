@@ -123,7 +123,7 @@ def capabilities(SOS):
 
 		count += 1
 
-	endpoint = 'http://localhost:8089/parliament/sparql?' 
+	# endpoint = 'http://localhost:8089/parliament/sparql?' 
 	
 	count = 0
 	triples = ""
@@ -136,7 +136,12 @@ def capabilities(SOS):
 			# send data to enpoint
 			query = "INSERT DATA { " + triples + "}"
 			# print query
-			r = requests.post(endpoint, data={'update': query}) 
+			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+			# print r
+			if str(r) != '<Response [200]>':
+				print "Response: {0}".format(r)
+				# print query
+				print r.text
 			
 			triples = ""
 			count += 1
@@ -144,6 +149,10 @@ def capabilities(SOS):
 			count += 1
 	# Storing the remaining triples
 	query = "INSERT DATA { " + triples + "}"
-	r = requests.post(endpoint, data={'update': query}) 
-	# print query
+	r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+	# print r
+	if str(r) != '<Response [200]>':
+		print "Response: {0}".format(r)
+		# print query
+		print r.text
 
