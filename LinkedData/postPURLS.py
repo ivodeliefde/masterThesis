@@ -27,6 +27,7 @@ def postPURLbatch(fileName, username, password):
 			r = session.post(url, data=data, headers=headers)
 			# print r
 			# print r.text
+	print 'Finished posting PURLS' 
 	return
 
 
