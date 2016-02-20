@@ -161,7 +161,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			g = Graph()
 
 
-			if len(triples) > 2000:
+			if len(triples) > 50000:
 				sendTriplesToEndpoint(triples)
 				triples = u''
 			
@@ -250,23 +250,23 @@ def LandcoverTable2RDF(table):
 			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
 			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral ) ) )
 
-			overlaps = [geomInGeoms(geometry, NL_provinces), geomInGeoms(geometry, BE_provinces), geomInGeoms(geometry, NL_municipalities), geomInGeoms(geometry, BE_municipalities)]
-			for j, featureList in enumerate(overlaps):
-				for feature in featureList:
-					parentName = feature[0].decode('utf-8').lower()
-					parentName = unicodedata.normalize('NFC', unicode(parentName))
+			# overlaps = [geomInGeoms(geometry, NL_provinces), geomInGeoms(geometry, BE_provinces), geomInGeoms(geometry, NL_municipalities), geomInGeoms(geometry, BE_municipalities)]
+			# for j, featureList in enumerate(overlaps):
+			# 	for feature in featureList:
+			# 		parentName = feature[0].decode('utf-8').lower()
+			# 		parentName = unicodedata.normalize('NFC', unicode(parentName))
 					
-					if '"' in parentName:
-						parentName = parentName('"', '')
-					parentName = parentName.replace(' ', '_')
+			# 		if '"' in parentName:
+			# 			parentName = parentName('"', '')
+			# 		parentName = parentName.replace(' ', '_')
 
-					if j < 3:
-						parentURI = URIRef(u'{0}{1}/{2}'.format( BaseURI, 'province', parentName ) )
-					else:
-						parentURI = URIRef(u'{0}{1}/{2}'.format( BaseURI, 'municipality', parentName ) )
+			# 		if j < 3:
+			# 			parentURI = URIRef(u'{0}{1}/{2}'.format( BaseURI, 'province', parentName ) )
+			# 		else:
+			# 			parentURI = URIRef(u'{0}{1}/{2}'.format( BaseURI, 'municipality', parentName ) )
 					
 
-					g.add( ( thing, geom.intersects, parentURI) )
+			# 		g.add( ( thing, geom.intersects, parentURI) )
 
 
 			
@@ -285,8 +285,7 @@ def LandcoverTable2RDF(table):
 			# Write the graph to a RDF file in the turtle format
 			# g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
 			
-
-			if len(triples) > 2000:
+			if len(triples) > 50000:
 				sendTriplesToEndpoint(triples)
 				triples = ''
 			bar.update(i+1)
@@ -320,7 +319,7 @@ def EEA2RDF(table, resolution):
 	global BaseURI
 	global purlBatch
 
-	print "Creating linked data from EEA refernce GRID {0}".format(resolution)
+	print "Creating linked data from EEA reference GRID {0}".format(resolution)
 	# if not os.path.exists('raster/'):
 	# 	os.makedirs('raster/')
 
@@ -376,49 +375,50 @@ def sendTriplesToEndpoint(triples):
 	r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
 	# print r
 	if str(r) != '<Response [200]>':
-		print "Response: {0}".format(r)
-		# print query
-		print r.text
-	return
+		# print "Response: {0}".format(r)
+		# print r.text
+		with open('D:/manualTriples.ttl', 'a') as f:
+			f.write(triples)
+	return 
 
 if (__name__ == "__main__"):
-	try:
+	# try:
 	# Open the purl batch
-		CreatePurls('open', purlBatch)
+	CreatePurls('open', purlBatch)
 
-	# Create linked data of EEA reference grid cells
-		Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
-		EEA2RDF(Grid100, '100km')
-		Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
-		EEA2RDF(Grid10, '10km')
+# Create linked data of EEA reference grid cells
+	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
+	EEA2RDF(Grid100, '100km')
+	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
+	EEA2RDF(Grid10, '10km')
 
-	# Create linked data of countries
-		NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-		AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-		BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-		AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+# Create linked data of countries
+	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
-	# Create linked data of provinces
-		BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-		AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-		NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-		AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+# Create linked data of provinces
+	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 
-	# Create linked data of municipalities
-		BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-		AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-		NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-		AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+# Create linked data of municipalities
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
-	# Create linked data of landcover
-	  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
-	  	LandcoverTable2RDF(Landcover)
+# Create linked data of landcover
+  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+  	LandcoverTable2RDF(Landcover)
 
-	# send PURLS to PURLZ server
-		postPURLbatch(purlBatch,'admin', 'password')
+# send PURLS to PURLZ server
+	postPURLbatch(purlBatch,'admin', 'password')
 	
-	except:# IOError as (errno, strerror):
-		engine.say('Program ended unexpectedly')
-		engine.runAndWait()
-		#print errno, strerror
+	# except:# IOError as (errno, strerror):
+	# 	engine.say('Program ended unexpectedly')
+	# 	engine.runAndWait()
+	# 	#print errno, strerror
 
