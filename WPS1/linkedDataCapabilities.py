@@ -4,18 +4,22 @@ from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
 import requests
 from lxml import etree
+from postPURLS import CreatePurls
 
 logging.basicConfig()
 
-baseURI = "http://localhost:3030"
+baseURI = "http://localhost:8099/masterThesis_tudelft" 
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
-endpoint = "http://localhost:8090/strabon-endpoint-3.3.2-SNAPSHOT/Query"
-purlBatch = 'D:/purlBatches/purlBatch/SOS'
+endpoint = "http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query"
+purlBatch = 'D:/purlBatches/SOS/SOSbatch'
 
 def capabilities(SOS):
 	global baseURI
 	global endpoint
 	global purlBatch
+
+	# Create PURL batch file to store PURLs 
+	CreatePurls('open', purlBatch)
 
 	prov = rdflib.Namespace('http://www.w3.org/ns/prov#')
 	om_lite = rdflib.Namespace('http://def.seegrid.csiro.au/ontology/om/om-lite#')
@@ -57,7 +61,7 @@ def capabilities(SOS):
 		if (value['obsProperty'][:4] == 'http'):
 			obsProperty = URIRef(value['obsProperty'])
 		else:
-			obsProperty = URIRef("{0}/OBSERVED/{1}".format(baseURI, count) ) 
+			obsProperty = URIRef("{0}/OBSERVED/{1}".format(baseURI, value['obsProperty'].replace(' ','')) ) 
 			# Create a PURL for every observed property URI 
 			CreatePurls([obsProperty], purlBatch)
 		
@@ -67,9 +71,11 @@ def capabilities(SOS):
 			SELECT ?observedProperty
 			WHERE {{
 			  ?observedProperty <http://www.w3.org/2002/07/owl#sameAs> <{0}> .
-			}}""".format(obs)
+			}}""".format(obsProperty)
 
-		r = requests.post(endpoint, data={'query': query}) 
+		r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML' , 'handle':'download', 'submit':'Query' })
+		# print r
+		# print r.text 
 		tree = etree.fromstring(r.content)
 		nsm = tree.nsmap
 
