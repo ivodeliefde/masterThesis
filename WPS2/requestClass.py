@@ -2,7 +2,7 @@ import requests
 from lxml import etree
 
 DBPedia = 'http://dbpedia.org/sparql'
-myEndpoint = 'http://localhost:8089/parliament/sparql?' 
+myEndpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query' 
 
 
 class Request(inputParameters):
@@ -117,65 +117,67 @@ class Request(inputParameters):
 		#----------------------------------------------------------------------#
 	    # Find relevant sensors 
 	    #----------------------------------------------------------------------#
-		for obsProperty in self.observedProperties:
-			# Check out DBPedia to find the observed property and see to which collection of sampling features it links  
 
-			# Retrieve sensors that are linked to the collection of sampling features
-			self.sensors[obsProperty] = {}
-			query = r"""
-				SELECT DISTINCT 
-				  ?sensor ?geom ?FOIname ?procName ?sos
+
+		# for obsProperty in self.observedProperties:
+		# 	# Check out DBPedia to find the observed property and see to which collection of sampling features it links  
+
+		# 	# Retrieve sensors that are linked to the collection of sampling features
+		# 	self.sensors[obsProperty] = {}
+		# 	query = r"""
+		# 		SELECT DISTINCT 
+		# 		  ?sensor ?geom ?FOIname ?procName ?sos
 							
-				WHERE {{
+		# 		WHERE {{
 
-				   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
-				   ?obsProperty <http://xmlns.com/foaf/0.1/name> {0} .
-				   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
+		# 		   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
+		# 		   ?obsProperty <http://xmlns.com/foaf/0.1/name> {0} .
+		# 		   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
 
-				   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
+		# 		   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
 				 
 
-				   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
-				   ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname .
-				   ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
-				   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
+		# 		   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
+		# 		   ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname .
+		# 		   ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
+		# 		   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
 				   
-				   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
-			  {1}
-			}}""".format(obsProperty, spatialFilter) 
+		# 		   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
+		# 	  {1}
+		# 	}}""".format(obsProperty, spatialFilter) 
 			
-			print query
-			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
-			print r.content
-			tree = etree.fromstring(r.content)
-			nsm = tree.nsmap
+		# 	print query
+		# 	r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
+		# 	print r.content
+		# 	tree = etree.fromstring(r.content)
+		# 	nsm = tree.nsmap
 
-			tag = '{{{0}}}result'.format(nsm[None])
-			for result in tree.findall('.//{0}'.format(tag)):
-				sensor = ''
-				sensorFOI = ''
-				sensorSOS = ''
-				sensorOffering = ''
-				sensorProcedure = ''
-				sensorGeom = ''
-				for each in result.getchildren():
-					if each.attrib['name'] == 'sensor':
-						sensor = each[0].text
-					elif each.attrib['name'] == 'FOIname':
-						sensorFOI = each[0].text
-					elif each.attrib['name'] == 'sos':
-						sensorSOS = each[0].text
-					elif each.attrib['name'] == 'geom':
-						sensorGEOM = each[0].text
-					elif each.attrib['name'] == 'procName':
-						sensorProcedure = each[0].text
-			    if self.sensors[obsProperty][sensor] in self.sensors[obsProperty]:
-					self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'FOI': sensorFOI, 'procedure': sensorProcedure, 'offerings':[], 'observations': []}
+		# 	tag = '{{{0}}}result'.format(nsm[None])
+		# 	for result in tree.findall('.//{0}'.format(tag)):
+		# 		sensor = ''
+		# 		sensorFOI = ''
+		# 		sensorSOS = ''
+		# 		sensorOffering = ''
+		# 		sensorProcedure = ''
+		# 		sensorGeom = ''
+		# 		for each in result.getchildren():
+		# 			if each.attrib['name'] == 'sensor':
+		# 				sensor = each[0].text
+		# 			elif each.attrib['name'] == 'FOIname':
+		# 				sensorFOI = each[0].text
+		# 			elif each.attrib['name'] == 'sos':
+		# 				sensorSOS = each[0].text
+		# 			elif each.attrib['name'] == 'geom':
+		# 				sensorGEOM = each[0].text
+		# 			elif each.attrib['name'] == 'procName':
+		# 				sensorProcedure = each[0].text
+		# 	    if self.sensors[obsProperty][sensor] in self.sensors[obsProperty]:
+		# 			self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'FOI': sensorFOI, 'procedure': sensorProcedure, 'offerings':[], 'observations': []}
 
-				if sensorSOS in self.sos:
-					self.sos[sensorSOS].append(sensor)
-				else:
-					self.sos[sensorSOS] = [sensor]
+		# 		if sensorSOS in self.sos:
+		# 			self.sos[sensorSOS].append(sensor)
+		# 		else:
+		# 			self.sos[sensorSOS] = [sensor]
 
 		return
 
