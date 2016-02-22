@@ -55,32 +55,27 @@ class Request():
 		#----------------------------------------------------------------------#
 		# Retrieve geometries from own endpoint
 		#----------------------------------------------------------------------#
-		if (self.featureCategory == 'province') or (self.featureCategory == 'municipality'):
-			featureNamesDict = {}
-			for i, feature in enumerate(self.featureNames):
-				featureNamesDict[i] = r'?name = "{0}"'.format(feature.title())
-			if len(featureNamesDict) == 0:
-				featureNamesFilter = ''
-			else:
-				filterFeatures = " || ".join([value for key, value in featureNamesDict.iteritems()])
-				featureNamesFilter = "FILTER( {0} )".format(filterFeatures)
-		elif (self.featureCategory == 'raster'): 
-			print 'raster data not yet implemented'
-			return
-		else: 
-			print "wrong featureCategory input"
-			return
+
+		featureNamesDict = {}
+		for i, feature in enumerate(self.featureNames):
+			featureNamesDict[i] = r'?name = "{0}"'.format(feature)
+		if len(featureNamesDict) == 0:
+			featureNamesFilter = ''
+		else:
+			filterFeatures = " || ".join([value for key, value in featureNamesDict.iteritems()])
+			featureNamesFilter = "FILTER( {0} )".format(filterFeatures)
+
 
 		query = r"""
 		SELECT 
 		  ?feature ?geom 
 		WHERE {{ 
-		  ?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.com.com/resource/{0}> . 
+		  ?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/{0}> . 
 		  ?feature <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . 
 		  ?feature <http://xmlns.com/foaf/0.1/name> ?name . 
 		  {1}
 		}}""".format(self.featureCategory.title(), featureNamesFilter)
-
+		print 'QUERY:', query
 		# print query 
 		r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
 		tree = etree.fromstring(r.content)

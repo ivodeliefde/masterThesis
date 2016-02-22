@@ -48,8 +48,8 @@ class Process(WPSProcess):
         # Test data
         #----------------------------------------------------------------------------#
         observedProperties = ['http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5']
-        featureCategory = 'municipality'
-        featureNames = ['Amsterdam', 'Utrecht']
+        featureCategory = 'raster'
+        featureNames = ['100kmE40N30']
         tempRange = ['2016-01-04T09:42:47.151000', '2016-02-04T09:42:47.151000']
         aggregation = ['average']
         #----------------------------------------------------------------------------#
