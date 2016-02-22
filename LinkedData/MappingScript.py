@@ -15,18 +15,20 @@ from postPURLS import postPURLbatch, CreatePurls
 import pyttsx
 engine = pyttsx.init()
 
-BaseURI = "http://masterThesis.tudelft/" 
+BaseURI = "http://localhost:8099/masterThesis_tudelft/" 
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
 endpoint = "http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 
-purlBatch = 'D:/purlBatch.xml'
+purlBatch = 'D:/purlBatches/purlBatch'
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
 	conn = psycopg2.connect(host="localhost", port='5433', database=dbms_name, user=user, password=password) 
-	cur = conn.cursor()
-	# print conn.encoding
+	conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 
+	cur = conn.cursor()
+
+	# print conn.encoding
 	conn.set_client_encoding('UTF-8')
 
 	if AdmUnit == True:
@@ -40,7 +42,7 @@ def getData(dbms_name, table, user, password, AdmUnit=True):
 	cur.execute(query)
 	data = cur.fetchall()
 
-	conn.commit()
+	# conn.commit()
 
 	cur.close()
 	conn.close()
@@ -154,14 +156,14 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 			for s,p,o in g.triples((None, None, None)):
 				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					triples += u'<{0}> <{1}> "{2}" .'.format(s,p,o)
+					triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
 				else:
 					# print type(o)
-					triples += u'<{0}> <{1}> <{2}> .'.format(s,p,o)
+					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
 			g = Graph()
 
 
-			if len(triples) > 50000:
+			if i % 10 == 0:
 				sendTriplesToEndpoint(triples)
 				triples = u''
 			
@@ -224,7 +226,7 @@ def LandcoverTable2RDF(table):
 	# if not os.path.exists('landcover/legend/'):
 	# 	os.makedirs('landcover/legend/')
 
-	i = 0
+	j = 0
 	with progressbar.ProgressBar(max_value=len(CLC_legend)) as bar:
 		for key, value in CLC_legend.iteritems():
 			# Linking URI as subclass of Landcover definition on DBPedia
@@ -235,7 +237,7 @@ def LandcoverTable2RDF(table):
 			CreatePurls([legendType],purlBatch)
 			g = Graph()
 			bar.update(i)
-			i += 1
+			j += 1
 
 
 	print "Creating linked data from CORINE 2012 dataset"
@@ -274,9 +276,9 @@ def LandcoverTable2RDF(table):
 			for s,p,o in g.triples((None, None, None)):
 				# print s,p,o
 				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					triples += u'<{0}> <{1}> "{2}" . '.format(s,p,o)
+					triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
 				elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
-					triples += u'<{0}> <{1}> <{2}> . '.format(s,p,o)
+					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
 				else:
 					print type(o)
 			g = Graph()
@@ -285,15 +287,15 @@ def LandcoverTable2RDF(table):
 			# Write the graph to a RDF file in the turtle format
 			# g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
 			
-			if len(triples) > 50000:
+			if i % 200 == 0:
 				sendTriplesToEndpoint(triples)
 				triples = ''
-			bar.update(i+1)
+				bar.update(i+1)
 
 		if len(triples) > 0:
 			sendTriplesToEndpoint(triples)
 
-		bar.update(i+1)
+			bar.update(i+1)
 
 			
 			
@@ -343,9 +345,9 @@ def EEA2RDF(table, resolution):
 			for s,p,o in g.triples((None, None, None)):
 				# print s,p,o
 				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					triples += u'<{0}> <{1}> "{2}" . '.format(s,p,o)
+					triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
 				elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
-					triples += u'<{0}> <{1}> <{2}> . '.format(s,p,o)
+					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
 				else:
 					print type(o)
 			
@@ -381,6 +383,15 @@ def sendTriplesToEndpoint(triples):
 			f.write(triples)
 	return 
 
+def sendFailedTriples(fileName):
+	
+	with open(fileName, 'r') as f:
+		# try sending rejected triples to endpoint one by one
+		for line in f:
+			sendTriplesToEndpoint(line)
+
+
+
 if (__name__ == "__main__"):
 	# try:
 	# Open the purl batch
@@ -414,6 +425,7 @@ if (__name__ == "__main__"):
   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
   	LandcoverTable2RDF(Landcover)
 
+  	sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
 	postPURLbatch(purlBatch,'admin', 'password')
 	

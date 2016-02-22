@@ -5,46 +5,83 @@ import cgi
 import unicodedata
 
 endpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/'
-
+lineCount = 0
+fileCount = 0
 
 def postPURLbatch(fileName, username, password):
+	global fileCount
+
 	payload = {'id': username, 'passwd': password}
 	session = requests.Session()
 	r = session.post('http://localhost:8099/admin/login/login-submit.bsh', data=payload)
 
-	with open(fileName,'r') as f:
-		for line in f:
-			XML = line.replace('\n','')
-			tree = etree.fromstring(XML)
-			nsm = tree.nsmap
+	for i in range(fileCount+1):
+		with open('{0}{1}.xml'.format(fileName, i),'r') as f:
+			print 'open', i
+			# for line in f:
+				# XML = line.replace('\n','')
+				# tree = etree.fromstring(XML)
+				# nsm = tree.nsmap
 
-			data = u'type={0}&target={1}&maintainers='.format(tree[1].text, tree[3][0].text)
-			url = u'http://localhost:8099/admin/purl{}'.format(tree[0].text)
-			# print url
-			# print data
-			headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'content-length':'{0}'.format(len(XML)), }
+				# data = u'type={0}&target={1}&maintainers='.format(tree[1].text, tree[3][0].text)
+				# url = u'http://localhost:8099/admin/purl{}'.format(tree[0].text)
+				# print url
+				# print data
+			data = f.read()
+			url = 'http://localhost:8099/admin/purls'
+			headers = {'Content-Type': 'application/XML; charset=UTF-8' }
 
 			r = session.post(url, data=data, headers=headers)
-			# print r
-			# print r.text
+			print r
+			print r.text
 	print 'Finished posting PURLS' 
 	return
 
 
 def CreatePurls(UriList, purlBatch):
 	global endpoint
+	global lineCount 
+	global fileCount
 
 	if UriList == 'open':
-		with open(purlBatch,'w') as f:
-			f.write('')
+		root = etree.Element("purls")
+		string = etree.tostring(root, pretty_print=True)
+		with open( '{0}{1}.xml'.format(purlBatch,fileCount), 'w' ) as f:
+			f.write(string)
+
 	else:
-		purls = ''
+		tree = etree.parse('{0}{1}.xml'.format(purlBatch,fileCount))
+		root = tree.getroot()
+
 		for each in UriList:
-			each = unicodedata.normalize('NFKD', each).encode('ascii', 'ignore')
-			cleanURI = cgi.escape(each)
-			purls += u'<purl> <id>{0}</id> <type>303</type> <maintainers> <uid>IdeLiefde</uid> </maintainers> <target> <url>{1}Describe?view=HTML&amp;handle=download&amp;format=turtle&amp;submit=describe&amp;query=DESCRIBE%20&lt;{0}&gt;</url> </target> </purl>\n'.format(cleanURI, endpoint)
-		with open(purlBatch,'a') as f:
-			f.write(purls)
+			# each = unicodedata.normalize('NFKD', each).encode('ascii', 'ignore')
+
+			purl = etree.Element( 'purl' ) 
+			purl.attrib['id'] = each.replace('http://localhost:8099','')
+			purl.attrib['type'] = '303'
+			maint = etree.SubElement(purl, 'maintainers')
+			etree.SubElement(maint, 'uid').text = 'admin'
+			etree.SubElement(purl, 'target').attrib['url'] = "{0}Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE <{1}>".format(endpoint, each)
+			root.append( purl )
+
+			# purls += u'<purl id="{0}" type="303"> <maintainers><uid>admin</uid></maintainers> <target url="{1}Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE <{2}>"/> </purl>'.format(ID, endpoint, each)
+			lineCount += 1
+		if lineCount > 100:
+			string = etree.tostring(root, pretty_print=True)
+			with open( '{0}{1}.xml'.format(purlBatch,fileCount), 'w' ) as f:
+				f.write(string)
+
+			fileCount += 1
+			newRoot = etree.Element("purls")
+			string = etree.tostring(newRoot, pretty_print=True)
+			with open( '{0}{1}.xml'.format(purlBatch,fileCount), 'w' ) as f:
+				f.write(string)
+			lineCount = 0
+		else:
+			string = etree.tostring(root, pretty_print=True)
+			with open( '{0}{1}.xml'.format(purlBatch,fileCount), 'w' ) as f:
+				f.write(string)
+
 
 	return
 
