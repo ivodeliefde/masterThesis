@@ -69,7 +69,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
-	dbpedia = rdflib.Namespace("http://dbpedia.com.com/resource/")
+	dbpedia = rdflib.Namespace("http://dbpedia.org/resource/")
 	# Dublin core
 	dc = rdflib.Namespace('http://purl.org/dc/terms/')
 
@@ -203,7 +203,7 @@ def LandcoverTable2RDF(table):
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
-	dbpedia = rdflib.Namespace("http://dbpedia.com/resource/")
+	dbpedia = rdflib.Namespace("http://dbpedia.org/resource/")
 
 	# Read the CORINE Land cover legend file and store it in a Python dictionary
 	CLC_legend = {}
@@ -334,7 +334,7 @@ def EEA2RDF(table, resolution):
 		for i, row in enumerate(table):
 			name, geometry = row
 			cellURI = URIRef('{0}raster/{1}'.format(BaseURI, name))
-			g.add( ( raster, RDF.type, dbpedia.Raster ) )
+			g.add( ( cellURI, RDF.type, dbpedia.Raster ) )
 			g.add( ( cellURI, FOAF.name, Literal(name) ) )
 			g.add( ( cellURI, dc.isPartOf , raster ) )
 			g.add( ( cellURI, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral )  ) )
