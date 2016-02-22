@@ -10,10 +10,12 @@ logging.basicConfig()
 baseURI = "http://localhost:3030"
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
 endpoint = "http://localhost:8090/strabon-endpoint-3.3.2-SNAPSHOT/Query"
+purlBatch = 'D:/purlBatches/purlBatch/SOS'
 
 def capabilities(SOS):
 	global baseURI
 	global endpoint
+	global purlBatch
 
 	prov = rdflib.Namespace('http://www.w3.org/ns/prov#')
 	om_lite = rdflib.Namespace('http://def.seegrid.csiro.au/ontology/om/om-lite#')
@@ -39,6 +41,9 @@ def capabilities(SOS):
 	for fomat in SOS.responseFormat:
 		g.add( ( uriSOS, dc.hasFormat, Literal(version) ) )
 
+	# Create a PURL for every SOS URI 
+	CreatePurls([uriSOS], purlBatch)
+
 	# procedure a prov:Activity, omlite:procedure;
 	count = 1
 	for proc, value in SOS.procedure.iteritems():  
@@ -46,11 +51,15 @@ def capabilities(SOS):
 			uriProcedure = URIRef(proc)
 		else:
 			uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, count) ) 
+			# Create a PURL for every procedure URI 
+			CreatePurls([uriProcedure], purlBatch)
 
 		if (value['obsProperty'][:4] == 'http'):
 			obsProperty = URIRef(value['obsProperty'])
 		else:
 			obsProperty = URIRef("{0}/OBSERVED/{1}".format(baseURI, count) ) 
+			# Create a PURL for every observed property URI 
+			CreatePurls([obsProperty], purlBatch)
 		
 		# check the mapping between observed properties from SOS and as defined by DBPedia 
 		# the collections of samplign features are based on the DBPedia definitions
@@ -90,6 +99,9 @@ def capabilities(SOS):
 		g.add( ( uriProcedure, om_lite.observedProperty, obsProperty ) )
 		g.add( ( obsProperty, FOAF.name, Literal(SOS.procedure[proc]['obsProperty']) ))
 
+		# Create a PURL for every collection URI 
+		CreatePurls([StandardCollection], purlBatch)
+
 		for i, feature in enumerate(SOS.procedure[proc]['FOI']):
 			sensor = URIRef("{0}/{1}/PROC/{2}/SENSOR/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1) )
 			g.add( ( sensor, RDF.type, prov.Agent ) )
@@ -112,14 +124,21 @@ def capabilities(SOS):
 			g.add( ( StandardCollection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
 
+			# Create a PURL for every FOI and sensor URI 
+			CreatePurls([FOI, sensor], purlBatch)
+
 			for i, offeringName in enumerate(SOS.featureofinterest[feature]['offerings']):
 				offering = URIRef("{0}/{1}/PROC/{2}/OFFERING/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1 ) )
+				# Create a PURL for every offering URI 
+				CreatePurls([offering], purlBatch)
 				
 				g.add( ( offering, RDF.type, prov.Entity ) )
 				g.add( ( offering, prov.specializationOf, StandardCollection ) )
 				g.add( ( offering, FOAF.name, Literal(offeringName) ) )
 				g.add( ( offering, sam_lite.member, FOI ) )
 				g.add( ( offering, om_lite.procedure, Literal(proc) ) )
+
+		
 
 		count += 1
 
