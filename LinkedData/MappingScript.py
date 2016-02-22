@@ -387,8 +387,10 @@ def sendFailedTriples(fileName):
 	
 	with open(fileName, 'r') as f:
 		# try sending rejected triples to endpoint one by one
-		for line in f:
-			sendTriplesToEndpoint(line)
+		with progressbar.ProgressBar(max_value=len(table)) as bar:
+			for i, line in enumerate(f):
+				sendTriplesToEndpoint(line)
+				bar.update(i+1)
 
 
 
@@ -421,9 +423,9 @@ if (__name__ == "__main__"):
 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
-# Create linked data of landcover
-  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
-  	LandcoverTable2RDF(Landcover)
+# # Create linked data of landcover
+#   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+#   	LandcoverTable2RDF(Landcover)
 
   	sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
