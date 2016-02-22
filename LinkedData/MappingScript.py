@@ -311,7 +311,7 @@ def EEA2RDF(table, resolution):
 	# GeoSPARQL vocabulary
 	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
 	# DBPedia
-	dbpedia = rdflib.Namespace("http://dbpedia.com/resource/")
+	dbpedia = rdflib.Namespace("http://dbpedia.org/resource/")
 	# Dublin core
 	dc = rdflib.Namespace('http://purl.org/dc/terms/')
 
