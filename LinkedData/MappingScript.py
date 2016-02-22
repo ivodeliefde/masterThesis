@@ -334,6 +334,7 @@ def EEA2RDF(table, resolution):
 		for i, row in enumerate(table):
 			name, geometry = row
 			cellURI = URIRef('{0}raster/{1}'.format(BaseURI, name))
+			g.add( ( raster, RDF.type, dbpedia.Raster ) )
 			g.add( ( cellURI, FOAF.name, Literal(name) ) )
 			g.add( ( cellURI, dc.isPartOf , raster ) )
 			g.add( ( cellURI, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral )  ) )
