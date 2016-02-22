@@ -5,17 +5,9 @@ DBPedia = 'http://dbpedia.org/sparql'
 myEndpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query' 
 
 
-class Request(inputParameters):
+class Request():
 	def __init__(self, observedProperties, featureCategory, featureNames, tempRange, aggregation):
-		#----------------------------------------------------------------------------#
-		# Test data
-		#----------------------------------------------------------------------------#
-		observedProperties = ['http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5']
-        featureCategory = 'municipality'
-        featureNames = ['Amsterdam']
-        tempRange = ['2016-01-04T09:42:47.151000', '2016-02-04T09:42:47.151000']
-        aggregation = ['average']
-        #----------------------------------------------------------------------------#
+
 
 		self.observedProperties = observedProperties
 		self.featureCategory = featureCategory
@@ -27,12 +19,12 @@ class Request(inputParameters):
 		self.sos = {}
 		self.results = {} # the features with their aggregated sensor data: {feature1: {obsProperty1: value, obsProperty2: value}, feature2: {obsProperty1: value, obsProperty2: value} }
 
-	def sparqlQuery(observedProperties, featureCategory, featureNames, tempRange, aggregation, countries=['the Netherlands', 'Belgium']):
+	def getGeometries(self, countries=['the Netherlands', 'Belgium']):
 		global myEndpoint
 		global DBPedia
 		#----------------------------------------------------------------------#
-	    # Retrieve geometries from DBPedia
-	    #----------------------------------------------------------------------#
+		# Retrieve geometries from DBPedia
+		#----------------------------------------------------------------------#
 		# if (featureCategory[0] == 'provinces'):
 		# 	featureCategory[0] = featureCategory[0].title()
 		# 	for i, feature in enumerate(featureNames):
@@ -61,16 +53,17 @@ class Request(inputParameters):
 		# 	print result.text
 
 		#----------------------------------------------------------------------#
-	    # Retrieve geometries from own endpoint
-	    #----------------------------------------------------------------------#
+		# Retrieve geometries from own endpoint
+		#----------------------------------------------------------------------#
 		if (self.featureCategory == 'province') or (self.featureCategory == 'municipality'):
 			featureNamesDict = {}
 			for i, feature in enumerate(self.featureNames):
-				featureNamesDict[i] = r'?name = "{0}"'.format(self.feature.title())
+				featureNamesDict[i] = r'?name = "{0}"'.format(feature.title())
 			if len(featureNamesDict) == 0:
-				featureNamesDict = ''
+				featureNamesFilter = ''
 			else:
-				featureNamesFilter = "FILTER( {0} )".format(" || ".join(featureNamesDict))
+				filterFeatures = " || ".join([value for key, value in featureNamesDict.iteritems()])
+				featureNamesFilter = "FILTER( {0} )".format(filterFeatures)
 		elif (self.featureCategory == 'raster'): 
 			print 'raster data not yet implemented'
 			return
@@ -89,7 +82,9 @@ class Request(inputParameters):
 		}}""".format(self.featureCategory.title(), featureNamesFilter)
 
 		# print query 
-		r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
+		r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
+		print r
+		print r.content
 		tree = etree.fromstring(r.content)
 		nsm = tree.nsmap
 
@@ -109,98 +104,104 @@ class Request(inputParameters):
 			except:
 				print "could not find feature with geometry!"
 
-		spatialFilter = []
-		for key, value in self.featureDict.iteritems():
-			spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>(?geom,"{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>'.format(value))
-		spatialFilter = 'FILTER ( {0} ) )'.format(' || '.join(spatialFilter))
-
-		#----------------------------------------------------------------------#
-	    # Find relevant sensors 
-	    #----------------------------------------------------------------------#
-
-
-		# for obsProperty in self.observedProperties:
-		# 	# Check out DBPedia to find the observed property and see to which collection of sampling features it links  
-
-		# 	# Retrieve sensors that are linked to the collection of sampling features
-		# 	self.sensors[obsProperty] = {}
-		# 	query = r"""
-		# 		SELECT DISTINCT 
-		# 		  ?sensor ?geom ?FOIname ?procName ?sos
-							
-		# 		WHERE {{
-
-		# 		   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
-		# 		   ?obsProperty <http://xmlns.com/foaf/0.1/name> {0} .
-		# 		   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
-
-		# 		   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
-				 
-
-		# 		   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
-		# 		   ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname .
-		# 		   ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
-		# 		   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
-				   
-		# 		   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
-		# 	  {1}
-		# 	}}""".format(obsProperty, spatialFilter) 
-			
-		# 	print query
-		# 	r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
-		# 	print r.content
-		# 	tree = etree.fromstring(r.content)
-		# 	nsm = tree.nsmap
-
-		# 	tag = '{{{0}}}result'.format(nsm[None])
-		# 	for result in tree.findall('.//{0}'.format(tag)):
-		# 		sensor = ''
-		# 		sensorFOI = ''
-		# 		sensorSOS = ''
-		# 		sensorOffering = ''
-		# 		sensorProcedure = ''
-		# 		sensorGeom = ''
-		# 		for each in result.getchildren():
-		# 			if each.attrib['name'] == 'sensor':
-		# 				sensor = each[0].text
-		# 			elif each.attrib['name'] == 'FOIname':
-		# 				sensorFOI = each[0].text
-		# 			elif each.attrib['name'] == 'sos':
-		# 				sensorSOS = each[0].text
-		# 			elif each.attrib['name'] == 'geom':
-		# 				sensorGEOM = each[0].text
-		# 			elif each.attrib['name'] == 'procName':
-		# 				sensorProcedure = each[0].text
-		# 	    if self.sensors[obsProperty][sensor] in self.sensors[obsProperty]:
-		# 			self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'FOI': sensorFOI, 'procedure': sensorProcedure, 'offerings':[], 'observations': []}
-
-		# 		if sensorSOS in self.sos:
-		# 			self.sos[sensorSOS].append(sensor)
-		# 		else:
-		# 			self.sos[sensorSOS] = [sensor]
-
 		return
 
-	def getObservationsVector(self):
+		#----------------------------------------------------------------------#
+		# Find relevant sensors 
+		#----------------------------------------------------------------------#
+
+		
+		return
+
+	def getSensorsVector(self):
 		if self.featureCategory.lower() == 'raster':
 			print 'Vector function cannot be applied for a raster request'
 			return
 		else:
 			print 'Request data for vector geometry'
 
-		for sos, sensors in self.sos.iteritems():
-			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
-			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
+		spatialFilter = []
+		for key, value in self.featureDict.iteritems():
+			spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>(?geom,"{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>'.format(value))
+		spatialFilter = 'FILTER ( {0} ) )'.format(' || '.join(spatialFilter))
+
+		for obsProperty in self.observedProperties:
+			# Check out DBPedia to find the observed property and see to which collection of sampling features it links  
+
+			# Retrieve sensors that are linked to the collection of sampling features
+			self.sensors[obsProperty] = {}
+			query = r"""
+				SELECT DISTINCT 
+				  ?sensor ?geom ?FOIname ?procName ?sos
+							
+				WHERE {{
+
+				   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
+				   ?obsProperty <http://xmlns.com/foaf/0.1/name> {0} .
+				   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
+
+				   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
+				 
+
+				   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
+				   ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname .
+				   ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
+				   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
+				   
+				   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
+			  {1}
+			}}""".format(obsProperty, spatialFilter) 
 			
-			pass
+			print query
+			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
+			print r.content
+			tree = etree.fromstring(r.content)
+			nsm = tree.nsmap
+
+			tag = '{{{0}}}result'.format(nsm[None])
+			for result in tree.findall('.//{0}'.format(tag)):
+				sensor = ''
+				sensorFOI = ''
+				sensorSOS = ''
+				sensorOffering = ''
+				sensorProcedure = ''
+				sensorGeom = ''
+				for each in result.getchildren():
+					if each.attrib['name'] == 'sensor':
+						sensor = each[0].text
+					elif each.attrib['name'] == 'FOIname':
+						sensorFOI = each[0].text
+					elif each.attrib['name'] == 'sos':
+						sensorSOS = each[0].text
+					elif each.attrib['name'] == 'geom':
+						sensorGEOM = each[0].text
+					elif each.attrib['name'] == 'procName':
+						sensorProcedure = each[0].text
+				if self.sensors[obsProperty][sensor] in self.sensors[obsProperty]:
+					self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'FOI': sensorFOI, 'procedure': sensorProcedure, 'offerings':[], 'observations': []}
+
+				if sensorSOS in self.sos:
+					self.sos[sensorSOS].append(sensor)
+				else:
+					self.sos[sensorSOS] = [sensor]
+
+		
 		return
 
-	def getObservationsBBOX(self):
+	def getSensorsBBOX(self):
 		if self.featureCategory.lower() == 'raster':
 			print 'Create bounding box around grid cells'
 		else:
 			print 'Create bounding box around vector geometry'
 
+		return
+
+	def getSensorsRaster(self):
+		if self.featureCategory.lower() == 'raster':
+			print 'Request data for raster cells'
+		else:
+			print 'Find raster cells intersecting the vector geometry'
+
 		for sos, sensors in self.sos.iteritems():
 			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
 			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
@@ -208,12 +209,7 @@ class Request(inputParameters):
 			pass
 		return
 
-	def getObservationsRaster(self):
-		if self.featureCategory.lower() == 'raster':
-			print 'Request data for raster cells'
-		else:
-			print 'Find raster cells intersecting the vector geometry'
-
+	def getObservationData(self):
 		for sos, sensors in self.sos.iteritems():
 			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
 			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])

@@ -1,6 +1,6 @@
 from pywps.Process import WPSProcess
 from datetime import datetime
-import requestClass
+from requestClass import *
 
 class Process(WPSProcess):
 
@@ -43,26 +43,41 @@ class Process(WPSProcess):
         # receive the Request parameters
         inputString = self.textIn.getValue() # should be replaced with request input parameters
         
-        # Test input data
-        dataRequest = Request(inputString)
 
-        # Make SPARQL queries that find the relevant sensors via: observed properties -> collections of features of interest (with locations) -> sensors (with SOS HTTP addresses)
-        dataRequest.sparqlQuery()
+        #----------------------------------------------------------------------------#
+        # Test data
+        #----------------------------------------------------------------------------#
+        observedProperties = ['http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5']
+        featureCategory = 'municipality'
+        featureNames = ['Amsterdam', 'Utrecht']
+        tempRange = ['2016-01-04T09:42:47.151000', '2016-02-04T09:42:47.151000']
+        aggregation = ['average']
+        #----------------------------------------------------------------------------#
+        # Create Request instance
+        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, aggregation)
 
-        # Make SOS queries for every found data source to retrieve data for all found sensors
-        dataRequest.getObservations()
+        # Make SPARQL queries that find the relevant feature geometries
+        dataRequest.getGeometries()
 
-        # integrate the sensor data
-        dataRequest.integrateSources()
+        # Make SPARQL queries that find the sensors that are within the feature geometries with one of the three methods
+        # getSensorsVector()
+        # getSensorsBBOX()
+        # getSensorsRaster()
 
-        # Check if aggregation method is valid
-        dataRequest.aggregateCheck()
+        # # Make SOS queries for every found data source to retrieve data for all found sensors
+        # dataRequest.getObservations()
 
-        # Aggregate sensor data
-        dataRequest.aggregate()
+        # # integrate the sensor data
+        # dataRequest.integrateSources()
 
-        # Output aggregated sensor data
-        self.textOut.setValue( 'The WPS has finished' ) # have to be replaced with sensor data output
+        # # Check if aggregation method is valid
+        # dataRequest.aggregateCheck()
+
+        # # Aggregate sensor data
+        # dataRequest.aggregate()
+
+        # # Output aggregated sensor data
+        # self.textOut.setValue( 'The WPS has finished' ) # have to be replaced with sensor data output
 
         return
 
