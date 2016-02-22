@@ -83,8 +83,6 @@ class Request():
 
 		# print query 
 		r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
-		print r
-		print r.content
 		tree = etree.fromstring(r.content)
 		nsm = tree.nsmap
 
@@ -104,6 +102,8 @@ class Request():
 			except:
 				print "could not find feature with geometry!"
 
+		for key, value in self.featureDict.iteritems():
+			print key, value
 		return
 
 		#----------------------------------------------------------------------#
