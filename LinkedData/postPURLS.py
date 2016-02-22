@@ -54,7 +54,7 @@ def CreatePurls(UriList, purlBatch):
 		root = tree.getroot()
 
 		for each in UriList:
-			# each = unicodedata.normalize('NFKD', each).encode('ascii', 'ignore')
+			each = unicodedata.normalize('NFKD', each).encode('ascii', 'ignore')
 
 			purl = etree.Element( 'purl' ) 
 			purl.attrib['id'] = each.replace('http://localhost:8099','')
@@ -64,7 +64,6 @@ def CreatePurls(UriList, purlBatch):
 			etree.SubElement(purl, 'target').attrib['url'] = "{0}Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE <{1}>".format(endpoint, each)
 			root.append( purl )
 
-			# purls += u'<purl id="{0}" type="303"> <maintainers><uid>admin</uid></maintainers> <target url="{1}Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE <{2}>"/> </purl>'.format(ID, endpoint, each)
 			lineCount += 1
 		if lineCount > 100:
 			string = etree.tostring(root, pretty_print=True)
