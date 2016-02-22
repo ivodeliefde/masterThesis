@@ -388,7 +388,7 @@ def sendFailedTriples(fileName):
 	
 	with open(fileName, 'r') as f:
 		# try sending rejected triples to endpoint one by one
-		with progressbar.ProgressBar(max_value=len(table)) as bar:
+		with progressbar.ProgressBar(max_value=len(f.readlines())) as bar:
 			for i, line in enumerate(f):
 				sendTriplesToEndpoint(line)
 				bar.update(i+1)
