@@ -51,10 +51,12 @@ class Process(WPSProcess):
         featureCategory = 'raster'
         featureNames = ['100kmE40N30']
         tempRange = ['2016-01-04T09:42:47.151000', '2016-02-04T09:42:47.151000']
-        aggregation = ['average']
+        # tempGranularity = 
+        spatialAggregation = ['average']
+        tempAggregation = ['average']
         #----------------------------------------------------------------------------#
         # Create Request instance
-        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, aggregation)
+        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, spatialAggregation, tempAggregation)
 
         # Make SPARQL queries that find the relevant feature geometries
         dataRequest.getGeometries()
@@ -62,7 +64,7 @@ class Process(WPSProcess):
         # Make SPARQL queries that find the sensors that are within the feature geometries with one of the three methods
         # getSensorsVector()
         # getSensorsBBOX()
-        # getSensorsRaster()
+        dataRequest.getSensorsRaster()
 
         # # Make SOS queries for every found data source to retrieve data for all found sensors
         # dataRequest.getObservations()

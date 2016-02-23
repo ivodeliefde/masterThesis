@@ -6,7 +6,7 @@ myEndpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query'
 
 
 class Request():
-	def __init__(self, observedProperties, featureCategory, featureNames, tempRange, aggregation):
+	def __init__(self, observedProperties, featureCategory, featureNames, tempRange, spatialAggregation, tempAggregation):
 
 
 		self.observedProperties = observedProperties
@@ -14,7 +14,8 @@ class Request():
 		self.featureNames = featureNames # list with names of input features
 		self.featureDict = {} # dictionary with names and corresponding geometries
 		self.tempRange = tempRange
-		self.aggregation = aggregation
+		self.spatialAggregation = spatialAggregation
+		self.tempAggregation = tempAggregation
 		self.sensors = {} # the sensors with their measurements: {obsProperty1: {sensor1: {'location': location, 'sos': sos, 'observations': values}, sensor2: {'location': location, 'sos': sos, 'observations': values} }, obsProperty2: {sensor3: {'location': location, 'sos': sos, 'observations': values} } }
 		self.sos = {}
 		self.results = {} # the features with their aggregated sensor data: {feature1: {obsProperty1: value, obsProperty2: value}, feature2: {obsProperty1: value, obsProperty2: value} }
@@ -97,8 +98,7 @@ class Request():
 			except:
 				print "could not find feature with geometry!"
 
-		for key, value in self.featureDict.iteritems():
-			print key, value
+		
 		return
 
 		#----------------------------------------------------------------------#
@@ -194,14 +194,30 @@ class Request():
 	def getSensorsRaster(self):
 		if self.featureCategory.lower() == 'raster':
 			print 'Request data for raster cells'
+
+			spatialFilter = []
+			for key, value in self.featureDict.iteritems():
+				spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>(?geom,"{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>'.format(value))
+			spatialFilter = 'FILTER ( {0} ) )'.format(' || '.join(spatialFilter))
+			print spatialFilter
 		else:
 			print 'Find raster cells intersecting the vector geometry'
 
-		for sos, sensors in self.sos.iteritems():
-			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
-			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
-			
-			pass
+		for obsProperty in self.observedProperties:
+			query = r"""SELECT ?sensor
+					WHERE {
+					   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
+					   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> {0} .
+					   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
+					   ?FOI <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom .
+					   {0} <#sameAs> ?obsProperty .
+					   ?procedure <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty .
+					   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI .
+					   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#procedure> ?procedure .
+					   {1}
+					}""".format(obsProperty, spatialFilter)
+
+		
 		return
 
 	def getObservationData(self):
