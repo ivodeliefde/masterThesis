@@ -171,16 +171,6 @@ class SOS:
 
 		for procedure in self.procedure:
 
-
-			# describeSensor = '{0}service=SOS&version=2.0.0&request=DescribeSensor&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(self.url, procedure, offering, self.procedure[procedure]['obsProperty'])
-			r = requests.get(describeSensor)
-			print r
-			print r.text	
-
-
-
-
-
 			for offering in self.procedure[procedure]['offerings']:
 				
 				GetObservation = '{0}service=SOS\&version=2.0.0\&request=DescribeSensor\&procedure={1}\&proceduredescriptionformat=http://www.opengis.net/sensorML/2.0'.format(self.url, procedure)
