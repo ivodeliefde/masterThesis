@@ -3,9 +3,11 @@
 \chapter{Results}
 \label{chap:results}
 
+\section{Implementation differences between Sensor Observation Services}
+Even though both \aclp{sos} use the \ac{swe} standards they are not exactly the same. They have different approaches for making identifiers and have slightly different content in their capabilities and describe sensor documents. This has caused the implemented to be more complex than expected. Especially providing a describe sensor document with as much information as possible (containing related features of interest, observed property and offerings) is important for making sense of the metadata. This should also be done using the appropriate \ac{sensorml} tags, instead of the more general `swe:keywords' for example. 
+
 \section{Semantics in Sensor Observation Services}
 The metadata in \aclp{sos} does not necessarily contain semantics. This is an issue when automatically retrieving metadata from different services. In the implementation this has caused a problem with identifying which observable properties in a \ac{sos} are the same as observable properties found in another \ac{sos}. 
-
 
 \section{Spatial queries with GeoSPARQL}
 \label{par:spQueries}
