@@ -119,7 +119,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 			g.add( (thing, FOAF.name, Literal(row[0])) )
 			
-			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral ) ) )
+			g.add( (thing, geom.hasGeometry, Literal("{0};<http://www.opengis.net/def/crs/EPSG/0/4258>".format(geometry), datatype=geom.WKT ) ) )
 			
 			CreatePurls([thing],purlBatch)
 
@@ -157,7 +157,10 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 
 			for s,p,o in g.triples((None, None, None)):
 				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
+					if o.datatype != None:
+						triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+					else:
+						triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
 				else:
 					# print type(o)
 					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
@@ -252,7 +255,7 @@ def LandcoverTable2RDF(table):
 			thing = URIRef("{0}landcover/{1}".format( BaseURI, ID ) )
 			CreatePurls([thing],purlBatch)
 			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
-			g.add( (thing, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral ) ) )
+			g.add( (thing, geom.hasGeometry, Literal("{0};<http://www.opengis.net/def/crs/EPSG/0/4258>".format(geometry), datatype=geom.WKT ) ) )
 
 			# overlaps = [geomInGeoms(geometry, NL_provinces), geomInGeoms(geometry, BE_provinces), geomInGeoms(geometry, NL_municipalities), geomInGeoms(geometry, BE_municipalities)]
 			# for j, featureList in enumerate(overlaps):
@@ -278,7 +281,10 @@ def LandcoverTable2RDF(table):
 			for s,p,o in g.triples((None, None, None)):
 				# print s,p,o
 				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
+					if o.datatype != None:
+						triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+					else:
+						triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
 				elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
 					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
 				else:
@@ -341,7 +347,7 @@ def EEA2RDF(table, resolution):
 			g.add( ( cellURI, RDF.type, dbpedia.Raster ) )
 			g.add( ( cellURI, FOAF.name, Literal(name) ) )
 			g.add( ( cellURI, dc.isPartOf , raster ) )
-			g.add( ( cellURI, geom.hasGeometry, Literal("<http://www.opengis.net/def/crs/EPSG/0/4258>{0}".format(geometry), datatype=geom.wktLiteral )  ) )
+			g.add( ( cellURI, geom.hasGeometry, Literal("{0};<http://www.opengis.net/def/crs/EPSG/0/4258>".format(geometry), datatype=geom.WKT )  ) )
 			CreatePurls([cellURI],purlBatch)
 			
 
@@ -350,9 +356,15 @@ def EEA2RDF(table, resolution):
 			for s,p,o in g.triples((None, None, None)):
 				# print s,p,o
 				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
+					if o.datatype != None:
+						triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+						# print u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+					else:
+						triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
+					# print u'<{0}> <{1}> "{2}"^^{3} . \n'.format(s,p,o,o.datatype)
 				elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
 					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
+					# pass
 				else:
 					print type(o)
 			
@@ -389,7 +401,7 @@ def sendTriplesToEndpoint(triples):
 	return 
 
 def sendFailedTriples(fileName):
-	
+	print "Sending large triples to endpoint individually"
 	with open(fileName, 'r') as f:
 		# try sending rejected triples to endpoint one by one
 		with progressbar.ProgressBar(max_value=len(f.readlines())) as bar:
@@ -402,37 +414,37 @@ def sendFailedTriples(fileName):
 if (__name__ == "__main__"):
 	# try:
 	# Open the purl batch
-	CreatePurls('open', purlBatch)
+	# CreatePurls('open', purlBatch)
 
 # Create linked data of EEA reference grid cells
 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
 	EEA2RDF(Grid100, '100km')
-	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
-	EEA2RDF(Grid10, '10km')
+	# Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
+	# EEA2RDF(Grid10, '10km')
 
-# Create linked data of countries
-	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+# # Create linked data of countries
+# 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+# 	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
-# Create linked data of provinces
-	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+# # Create linked data of provinces
+# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 
-# Create linked data of municipalities
-	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+# # Create linked data of municipalities
+# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
 # # Create linked data of landcover
 #   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
 #   	LandcoverTable2RDF(Landcover)
 
-  	sendFailedTriples(u'D:/manualTriples.ttl')
+  	# sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
 	# postPURLbatch(purlBatch,'admin', 'password')
 	
