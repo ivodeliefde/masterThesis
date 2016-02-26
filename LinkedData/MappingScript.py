@@ -412,44 +412,38 @@ def sendFailedTriples(fileName):
 
 
 if (__name__ == "__main__"):
-	# try:
-	# Open the purl batch
-	# CreatePurls('open', purlBatch)
+# Open the purl batch
+	CreatePurls('open', purlBatch)
 
 # Create linked data of EEA reference grid cells
 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
 	EEA2RDF(Grid100, '100km')
-	# Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
-	# EEA2RDF(Grid10, '10km')
+	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
+	EEA2RDF(Grid10, '10km')
 
 # # Create linked data of countries
-# 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-# 	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
 # # Create linked data of provinces
-# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 
 # # Create linked data of municipalities
-# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
 # # Create linked data of landcover
 #   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
 #   	LandcoverTable2RDF(Landcover)
 
-  	# sendFailedTriples(u'D:/manualTriples.ttl')
+  	sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
 	# postPURLbatch(purlBatch,'admin', 'password')
-	
-	# except:# IOError as (errno, strerror):
-	# 	engine.say('Program ended unexpectedly')
-	# 	engine.runAndWait()
-	# 	#print errno, strerror
 
