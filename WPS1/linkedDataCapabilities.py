@@ -24,10 +24,9 @@ def capabilities(SOS):
 	prov = rdflib.Namespace('http://www.w3.org/ns/prov#')
 	om_lite = rdflib.Namespace('http://def.seegrid.csiro.au/ontology/om/om-lite#')
 	sam_lite = rdflib.Namespace('http://def.seegrid.csiro.au/ontology/om/sam-lite#')
-	geo = rdflib.Namespace('http://www.opengis.net/ont/geosparql#')
+	geo = rdflib.Namespace('http://strdf.di.uoa.gr/ontology#')
 	owl = rdflib.Namespace('http://www.w3.org/2002/07/owl#')
 	dc = rdflib.Namespace('http://purl.org/dc/terms/')
-	owl = rdflib.Namespace('https://www.w3.org/2002/07/owl#')
 	dbpedia = rdflib.Namespace("http://dbpedia.com.com/ontology/")
 
 	g = Graph()
@@ -125,7 +124,7 @@ def capabilities(SOS):
 			geometry = SOS.featureofinterest[feature]
 			g.add( ( FOI, RDF.type, prov.Entity ) )
 			g.add( ( FOI, RDF.type, sam_lite.SamplingPoint ) ) 
-			g.add( ( FOI, geo.hasGeometry, Literal("POINT({1});<{0}>".format(geometry['coords'][1], geometry['coords'][0]), datatype=geo.wktLiteral ) ) )
+			g.add( ( FOI, geo.hasGeometry, Literal("POINT({1});<{0}>".format(geometry['coords'][1], geometry['coords'][0]), datatype=geo.WKT ) ) )
 			g.add( ( FOI, om_lite.observedProperty, StandardObsProperty) )
 			g.add( ( StandardCollection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
@@ -148,17 +147,17 @@ def capabilities(SOS):
 
 		count += 1
 	
-	count = 0
+	countTriples = 0
 	triples = ""
 	for s,p,o in g.triples((None, None, None)):
-		if o[:4].lower() == 'http':
+		if str(type(o)) == "<class 'rdflib.term.Literal'>":
 			if o.datatype != None:
 				triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
 			else:
 				triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
-		else:
-			triples += '<{0}> <{1}> "{2}" .'.format(s,p,o)
-		if (count % 50 == 0) and (count > 0):
+		elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
+			triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
+		if (countTriples % 100 == 0) and (countTriples > 0):
 			# send data to enpoint
 			query = "INSERT DATA { " + triples + "}"
 			# print query
@@ -170,9 +169,9 @@ def capabilities(SOS):
 				print r.text
 			
 			triples = ""
-			count += 1
+			countTriples += 1
 		else:
-			count += 1
+			countTriples += 1
 	# Storing the remaining triples
 	query = "INSERT DATA { " + triples + "}"
 	r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
