@@ -72,7 +72,7 @@ class Request():
 		  ?feature ?geom 
 		WHERE {{ 
 		  ?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/{0}> . 
-		  ?feature <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . 
+		  ?feature <http://strdf.di.uoa.gr/ontology#hasGeometry> ?geom . 
 		  ?feature <http://xmlns.com/foaf/0.1/name> ?name . 
 		  {1}
 		}}""".format(self.featureCategory.title(), featureNamesFilter)
@@ -197,26 +197,27 @@ class Request():
 
 			spatialFilter = []
 			for key, value in self.featureDict.iteritems():
-				spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>(?geom,"{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>'.format(value))
-			spatialFilter = 'FILTER ( {0} ) )'.format(' || '.join(spatialFilter))
+				spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>(?geom,"{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>'.format(value))
+			spatialFilter = "FILTER ( {0} ) )".format(' || '.join(spatialFilter))
 			print spatialFilter
 		else:
 			print 'Find raster cells intersecting the vector geometry'
 
 		for obsProperty in self.observedProperties:
-			query = r"""SELECT ?sensor
+			print obsProperty
+			query = u"""SELECT ?sensor
 					WHERE {
 					   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
 					   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> {0} .
 					   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
 					   ?FOI <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom .
-					   {0} <#sameAs> ?obsProperty .
+					   {0} <http://www.w3.org/2002/07/owl#sameAs> ?obsProperty .
 					   ?procedure <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty .
 					   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI .
 					   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#procedure> ?procedure .
 					   {1}
 					}""".format(obsProperty, spatialFilter)
-
+			print query
 		
 		return
 
