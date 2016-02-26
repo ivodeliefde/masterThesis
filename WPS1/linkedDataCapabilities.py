@@ -125,7 +125,7 @@ def capabilities(SOS):
 			geometry = SOS.featureofinterest[feature]
 			g.add( ( FOI, RDF.type, prov.Entity ) )
 			g.add( ( FOI, RDF.type, sam_lite.SamplingPoint ) ) 
-			g.add( ( FOI, geo.hasGeometry, Literal("<{0}>POINT({1})".format(geometry['coords'][1], geometry['coords'][0]), datatype=geo.wktLiteral ) ) )
+			g.add( ( FOI, geo.hasGeometry, Literal("POINT({1});<{0}>".format(geometry['coords'][1], geometry['coords'][0]), datatype=geo.wktLiteral ) ) )
 			g.add( ( FOI, om_lite.observedProperty, StandardObsProperty) )
 			g.add( ( StandardCollection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
@@ -147,14 +147,15 @@ def capabilities(SOS):
 		
 
 		count += 1
-
-	# endpoint = 'http://localhost:8089/parliament/sparql?' 
 	
 	count = 0
 	triples = ""
 	for s,p,o in g.triples((None, None, None)):
 		if o[:4].lower() == 'http':
-			triples += '<{0}> <{1}> <{2}> .'.format(s,p,o)
+			if o.datatype != None:
+				triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+			else:
+				triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
 		else:
 			triples += '<{0}> <{1}> "{2}" .'.format(s,p,o)
 		if (count % 50 == 0) and (count > 0):
