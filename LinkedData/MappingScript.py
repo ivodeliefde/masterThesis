@@ -67,7 +67,8 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			inCountry = BE_country
 
 	# GeoSPARQL vocabulary
-	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
+	# geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
+	geom = rdflib.Namespace("http://strdf.di.uoa.gr/ontology#")
 	# DBPedia
 	dbpedia = rdflib.Namespace("http://dbpedia.org/resource/")
 	# Dublin core
@@ -201,7 +202,8 @@ def LandcoverTable2RDF(table):
 	global BE_country
 
 	# GeoSPARQL vocabulary
-	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
+	# geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
+	geom = rdflib.Namespace("http://strdf.di.uoa.gr/ontology#")
 	# DBPedia
 	dbpedia = rdflib.Namespace("http://dbpedia.org/resource/")
 
@@ -309,7 +311,9 @@ def EEA2RDF(table, resolution):
 	# global BE_country
 
 	# GeoSPARQL vocabulary
-	geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
+	# geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
+	geom = rdflib.Namespace("http://strdf.di.uoa.gr/ontology#")
+
 	# DBPedia
 	dbpedia = rdflib.Namespace("http://dbpedia.org/resource/")
 	# Dublin core
@@ -430,7 +434,7 @@ if (__name__ == "__main__"):
 
   	sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
-	postPURLbatch(purlBatch,'admin', 'password')
+	# postPURLbatch(purlBatch,'admin', 'password')
 	
 	# except:# IOError as (errno, strerror):
 	# 	engine.say('Program ended unexpectedly')
