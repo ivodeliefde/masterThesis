@@ -197,7 +197,7 @@ class Request():
 
 			spatialFilter = []
 			for key, value in self.featureDict.iteritems():
-				spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>(?geom,"{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>'.format(value))
+				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>(?geom,"{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>'.format(value))
 			spatialFilter = "FILTER ( {0} ) )".format(' || '.join(spatialFilter))
 			print spatialFilter
 		else:
@@ -205,18 +205,18 @@ class Request():
 
 		for obsProperty in self.observedProperties:
 			print obsProperty
-			query = u"""SELECT ?sensor
-					WHERE {
+			query = r"""SELECT ?sensor
+					WHERE {{
 					   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
-					   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> {0} .
+					   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> <{0}> .
 					   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
-					   ?FOI <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom .
-					   {0} <http://www.w3.org/2002/07/owl#sameAs> ?obsProperty .
+					   ?FOI <http://strdf.di.uoa.gr/ontology#hasGeometry> ?geom .
+					   <{0}> <http://www.w3.org/2002/07/owl#sameAs> ?obsProperty .
 					   ?procedure <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty .
 					   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI .
 					   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#procedure> ?procedure .
 					   {1}
-					}""".format(obsProperty, spatialFilter)
+					}}""".format(obsProperty, spatialFilter)
 			print query
 		
 		return
