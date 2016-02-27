@@ -199,10 +199,10 @@ def geomInGeoms(geomWKT, geoms):
 
 # LandcoverTable2RDF takes a table with landcover data which all have a name and a geometry as input and stores it in an RDF file
 def LandcoverTable2RDF(table):
-	global NL_provinces
-	global BE_provinces
-	global NL_country
-	global BE_country
+	# global NL_provinces
+	# global BE_provinces
+	# global NL_country
+	# global BE_country
 
 	# GeoSPARQL vocabulary
 	# geom = rdflib.Namespace("http://www.opengis.net/ont/geosparql#")
@@ -244,6 +244,9 @@ def LandcoverTable2RDF(table):
 			bar.update(i)
 			j += 1
 
+	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
+	session = requests.Session()
+	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
 
 	print "Creating linked data from CORINE 2012 dataset"
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
@@ -278,30 +281,42 @@ def LandcoverTable2RDF(table):
 
 			
 			# send data to enpoint
-			for s,p,o in g.triples((None, None, None)):
-				# print s,p,o
-				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					if o.datatype != None:
-						triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
-					else:
-						triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
-				elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
-					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
-				else:
-					print type(o)
-			g = Graph()
+			# for s,p,o in g.triples((None, None, None)):
+			# 	print s,p,o
+			# 	if str(type(o)) == "<class 'rdflib.term.Literal'>":
+			# 		if o.datatype != None:
+			# 			triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+			# 		else:
+			# 			triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
+			# 	elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
+			# 		triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
+			# 	else:
+			# 		print type(o)
+
 			
 
 			# Write the graph to a RDF file in the turtle format
 			# g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
 			
-			if i % 200 == 0:
-				sendTriplesToEndpoint(triples)
-				triples = ''
+			if i % 5000 == 0 and i > 0:
+				with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+					f.write(g.serialize(format="turtle"))
+				g = Graph()
+				r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+				# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+				# os.system(cmdParameters)
+				# sendTriplesToEndpoint(triples)
+				# triples = ''
 				bar.update(i+1)
 
-		if len(triples) > 0:
-			sendTriplesToEndpoint(triples)
+		# if len(triples) > 0:
+		if len(g) > 0:	
+			with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+				f.write(g.serialize(format="turtle"))
+			r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+			# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+			# os.system(cmdParameters)
+			# sendTriplesToEndpoint(triples)
 
 			bar.update(i+1)
 
@@ -415,33 +430,33 @@ if (__name__ == "__main__"):
 # Open the purl batch
 	CreatePurls('open', purlBatch)
 
-# Create linked data of EEA reference grid cells
-	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
-	EEA2RDF(Grid100, '100km')
-	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
-	EEA2RDF(Grid10, '10km')
+# # Create linked data of EEA reference grid cells
+# 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
+# 	EEA2RDF(Grid100, '100km')
+# 	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
+# 	EEA2RDF(Grid10, '10km')
 
-# # Create linked data of countries
-	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+# # # Create linked data of countries
+# 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+# 	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
-# # Create linked data of provinces
-	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+# # # Create linked data of provinces
+# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 
-# # Create linked data of municipalities
-	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+# # # Create linked data of municipalities
+# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
-# # Create linked data of landcover
-#   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
-#   	LandcoverTable2RDF(Landcover)
+# Create linked data of landcover
+  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+  	LandcoverTable2RDF(Landcover)
 
   	sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
