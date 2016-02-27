@@ -240,13 +240,18 @@ def LandcoverTable2RDF(table):
 			g.add( ( legendType, FOAF.name , Literal(value) ) )
 			# g.serialize("landcover/legend/CLC_{0}".format(key), format='turtle')
 			CreatePurls([legendType],purlBatch)
-			g = Graph()
+			# g = Graph()
 			bar.update(i)
 			j += 1
 
 	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
 	session = requests.Session()
 	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
+
+	with open('D:/tempCorine/legend.ttl', "w") as f:
+			f.write(g.serialize(format="turtle"))
+		g = Graph()
+		r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/legend.ttl', 'fromurl':'Store from URI' }) 
 
 	print "Creating linked data from CORINE 2012 dataset"
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
