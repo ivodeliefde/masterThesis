@@ -249,9 +249,9 @@ def LandcoverTable2RDF(table):
 	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
 
 	with open('D:/tempCorine/legend.ttl', "w") as f:
-			f.write(g.serialize(format="turtle"))
-		g = Graph()
-		r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/legend.ttl', 'fromurl':'Store from URI' }) 
+		f.write(g.serialize(format="turtle"))
+	g = Graph()
+	r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/legend.ttl', 'fromurl':'Store from URI' }) 
 
 	print "Creating linked data from CORINE 2012 dataset"
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
