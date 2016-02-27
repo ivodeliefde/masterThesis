@@ -5,6 +5,7 @@ import rdflib
 import requests
 from lxml import etree
 from postPURLS import CreatePurls
+import  progressbar
 
 logging.basicConfig()
 
@@ -43,8 +44,6 @@ def capabilities(SOS):
 		g.add( ( uriSOS, dc.hasVersion, Literal(version) ) )
 	for fomat in SOS.responseFormat:
 		g.add( ( uriSOS, dc.hasFormat, Literal(version) ) )
-
-	numberOfTriples = 6
 
 	# Create a PURL for every SOS URI 
 	CreatePurls([uriSOS], purlBatch)
@@ -93,10 +92,10 @@ def capabilities(SOS):
 			continue
 
 		if StandardObsProperty == '':
-			print "I have no clue what {0} is...".format(obsProperty)
+			# print "I have no clue what {0} is...".format(obsProperty)
 			continue
-		else: 
-			print obsProperty, "==", StandardObsProperty
+		# else: 
+		# 	print obsProperty, "==", StandardObsProperty
 
 		StandardCollection = URIRef("{0}/FOI_Collection/{1}".format(baseURI, StandardObsProperty) )
 		if StandardCollection in definedCollections:
@@ -109,13 +108,13 @@ def capabilities(SOS):
 			# add collection to list with defined collections
 			definedCollections.append(StandardCollection)
 
+
 		g.add( ( uriProcedure, RDF.type, prov.Activity) )
 		g.add( ( uriProcedure, RDF.type, om_lite.process) )
 		g.add( ( uriProcedure, FOAF.name, Literal(proc) ) )
 		g.add( ( uriProcedure, om_lite.observedProperty, obsProperty ) )
 		g.add( ( obsProperty, FOAF.name, Literal(SOS.procedure[proc]['obsProperty']) ))
 
-		numberOfTriples += 7
 		
 		# Create a PURL for every collection URI 
 		CreatePurls([StandardCollection], purlBatch)
@@ -142,7 +141,6 @@ def capabilities(SOS):
 			g.add( ( StandardCollection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
 
-			numberOfTriples += 11
 
 			# Create a PURL for every FOI and sensor URI 
 			CreatePurls([FOI, sensor], purlBatch)
@@ -158,12 +156,11 @@ def capabilities(SOS):
 				g.add( ( offering, sam_lite.member, FOI ) )
 				g.add( ( offering, om_lite.procedure, Literal(proc) ) )
 
-				numberOfTriples += 5
 
 		count += 1
-	
+
 	print "Sending triples to endpoint"
-	with progressbar.ProgressBar(max_value=numberOfTriples) as bar:
+	with progressbar.ProgressBar(max_value=len(g)) as bar:
 		countTriples = 0
 		triples = ""
 		for s,p,o in g.triples((None, None, None)):
