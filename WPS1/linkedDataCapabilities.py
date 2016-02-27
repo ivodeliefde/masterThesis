@@ -44,8 +44,12 @@ def capabilities(SOS):
 	for fomat in SOS.responseFormat:
 		g.add( ( uriSOS, dc.hasFormat, Literal(version) ) )
 
+	numberOfTriples = 6
+
 	# Create a PURL for every SOS URI 
 	CreatePurls([uriSOS], purlBatch)
+
+	definedCollections = []
 
 	# procedure a prov:Activity, omlite:procedure;
 	count = 1
@@ -95,15 +99,24 @@ def capabilities(SOS):
 			print obsProperty, "==", StandardObsProperty
 
 		StandardCollection = URIRef("{0}/FOI_Collection/{1}".format(baseURI, StandardObsProperty) )
-		
-		g.add( ( StandardCollection, RDF.type, sam_lite.SamplingCollection ) ) 
-		g.add( ( StandardCollection, om_lite.observedProperty, StandardObsProperty) )
+		if StandardCollection in definedCollections:
+			# the collection is already defined 
+			pass
+		else:
+			# the collection has not yet been defined
+			g.add( ( StandardCollection, RDF.type, sam_lite.SamplingCollection ) ) 
+			g.add( ( StandardCollection, om_lite.observedProperty, StandardObsProperty) )
+			# add collection to list with defined collections
+			definedCollections.append(StandardCollection)
+
 		g.add( ( uriProcedure, RDF.type, prov.Activity) )
 		g.add( ( uriProcedure, RDF.type, om_lite.process) )
 		g.add( ( uriProcedure, FOAF.name, Literal(proc) ) )
 		g.add( ( uriProcedure, om_lite.observedProperty, obsProperty ) )
 		g.add( ( obsProperty, FOAF.name, Literal(SOS.procedure[proc]['obsProperty']) ))
 
+		numberOfTriples += 7
+		
 		# Create a PURL for every collection URI 
 		CreatePurls([StandardCollection], purlBatch)
 
@@ -129,6 +142,8 @@ def capabilities(SOS):
 			g.add( ( StandardCollection, sam_lite.member, FOI ) )
 			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
 
+			numberOfTriples += 11
+
 			# Create a PURL for every FOI and sensor URI 
 			CreatePurls([FOI, sensor], purlBatch)
 
@@ -143,35 +158,38 @@ def capabilities(SOS):
 				g.add( ( offering, sam_lite.member, FOI ) )
 				g.add( ( offering, om_lite.procedure, Literal(proc) ) )
 
-		
+				numberOfTriples += 5
 
 		count += 1
 	
-	countTriples = 0
-	triples = ""
-	for s,p,o in g.triples((None, None, None)):
-		if str(type(o)) == "<class 'rdflib.term.Literal'>":
-			if o.datatype != None:
-				triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
-			else:
-				triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
-		elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
-			triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
-		if (countTriples % 100 == 0) and (countTriples > 0):
-			# send data to enpoint
-			query = "INSERT DATA { " + triples + "}"
-			# print query
-			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
-			# print r
-			if str(r) != '<Response [200]>':
-				print "Response: {0}".format(r)
+	print "Sending triples to endpoint"
+	with progressbar.ProgressBar(max_value=numberOfTriples) as bar:
+		countTriples = 0
+		triples = ""
+		for s,p,o in g.triples((None, None, None)):
+			if str(type(o)) == "<class 'rdflib.term.Literal'>":
+				if o.datatype != None:
+					triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+				else:
+					triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
+			elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
+				triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
+			if (countTriples % 100 == 0) and (countTriples > 0):
+				# send data to enpoint
+				query = "INSERT DATA { " + triples + "}"
 				# print query
-				print r.text
-			
-			triples = ""
-			countTriples += 1
-		else:
-			countTriples += 1
+				r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
+				# print r
+				if str(r) != '<Response [200]>':
+					print "Response: {0}".format(r)
+					# print query
+					print r.text
+				
+				triples = ""
+				countTriples += 1
+			else:
+				countTriples += 1
+			bar.update(countTriples)
 	# Storing the remaining triples
 	query = "INSERT DATA { " + triples + "}"
 	r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'outputformat':'SPARQL/XML' , 'handle':'plain', 'submit':'Update' }) 
