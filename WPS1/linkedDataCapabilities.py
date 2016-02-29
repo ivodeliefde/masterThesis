@@ -51,113 +51,118 @@ def capabilities(SOS):
 	definedCollections = []
 
 	# procedure a prov:Activity, omlite:procedure;
-	count = 1
-	for proc, value in SOS.procedure.iteritems():  
-		if (proc[:4].lower() == 'http'):
-			uriProcedure = URIRef(proc)
-		else:
-			uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, count) ) 
-			# Create a PURL for every procedure URI 
-			CreatePurls([uriProcedure], purlBatch)
+	count = 0
+	print "Creating linked data from sensor data"
+	with progressbar.ProgressBar(max_value=len(SOS.procedure)) as bar:
+		for proc, value in SOS.procedure.iteritems():  
+			count += 1
+			bar.update(count)
 
-		if (value['obsProperty'][:4] == 'http'):
-			obsProperty = URIRef(value['obsProperty'])
-		else:
-			obsProperty = URIRef("{0}/OBSERVED/{1}".format(baseURI, value['obsProperty'].replace(' ','')) ) 
-			# Create a PURL for every observed property URI 
-			CreatePurls([obsProperty], purlBatch)
-		
-		# check the mapping between observed properties from SOS and as defined by DBPedia 
-		# the collections of samplign features are based on the DBPedia definitions
-		query = """
-			SELECT ?observedProperty
-			WHERE {{
-			  ?observedProperty <http://www.w3.org/2002/07/owl#sameAs> <{0}> .
-			}}""".format(obsProperty)
+			if (proc[:4].lower() == 'http'):
+				uriProcedure = URIRef(proc)
+			else:
+				uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, count) ) 
+				# Create a PURL for every procedure URI 
+				CreatePurls([uriProcedure], purlBatch)
 
-		r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML' , 'handle':'download', 'submit':'Query' })
-		# print r
-		# print r.text 
-		tree = etree.fromstring(r.content)
-		nsm = tree.nsmap
+			if (value['obsProperty'][:4] == 'http'):
+				obsProperty = URIRef(value['obsProperty'])
+			else:
+				obsProperty = URIRef("{0}/OBSERVED/{1}".format(baseURI, value['obsProperty'].replace(' ','')) ) 
+				# Create a PURL for every observed property URI 
+				CreatePurls([obsProperty], purlBatch)
+			
+			# check the mapping between observed properties from SOS and as defined by DBPedia 
+			# the collections of samplign features are based on the DBPedia definitions
+			query = """
+				SELECT ?observedProperty
+				WHERE {{
+				  ?observedProperty <http://www.w3.org/2002/07/owl#sameAs> <{0}> .
+				}}""".format(obsProperty)
 
-		StandardObsProperty = ''
-		try:
-			tag = '{{{0}}}result'.format(nsm[None])
-			for result in tree.findall('.//{0}'.format(tag)):
-				for each in result.getchildren():
-					if each.attrib['name'] == 'observedProperty':
-						StandardObsProperty = URIRef(each[0].text)
-		except:
-			continue
+			r = requests.post(endpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML' , 'handle':'download', 'submit':'Query' })
+			# print r
+			# print r.text 
+			tree = etree.fromstring(r.content)
+			nsm = tree.nsmap
 
-		if StandardObsProperty == '':
-			# print "I have no clue what {0} is...".format(obsProperty)
-			continue
-		# else: 
-		# 	print obsProperty, "==", StandardObsProperty
+			StandardObsProperty = ''
+			try:
+				tag = '{{{0}}}result'.format(nsm[None])
+				for result in tree.findall('.//{0}'.format(tag)):
+					for each in result.getchildren():
+						if each.attrib['name'] == 'observedProperty':
+							StandardObsProperty = URIRef(each[0].text)
+			except:
+				continue
 
-		StandardCollection = URIRef("{0}/FOI_Collection/{1}".format(baseURI, StandardObsProperty) )
-		if StandardCollection in definedCollections:
-			# the collection is already defined 
-			pass
-		else:
-			# the collection has not yet been defined
-			g.add( ( StandardCollection, RDF.type, sam_lite.SamplingCollection ) ) 
-			g.add( ( StandardCollection, om_lite.observedProperty, StandardObsProperty) )
-			# add collection to list with defined collections
-			definedCollections.append(StandardCollection)
+			if StandardObsProperty == '':
+				# print "I have no clue what {0} is...".format(obsProperty)
+				continue
+			# else: 
+			# 	print obsProperty, "==", StandardObsProperty
 
-
-		g.add( ( uriProcedure, RDF.type, prov.Activity) )
-		g.add( ( uriProcedure, RDF.type, om_lite.process) )
-		g.add( ( uriProcedure, FOAF.name, Literal(proc) ) )
-		g.add( ( uriProcedure, om_lite.observedProperty, obsProperty ) )
-		g.add( ( obsProperty, FOAF.name, Literal(SOS.procedure[proc]['obsProperty']) ))
-
-		
-		# Create a PURL for every collection URI 
-		CreatePurls([StandardCollection], purlBatch)
-
-		for i, feature in enumerate(SOS.procedure[proc]['FOI']):
-			sensor = URIRef("{0}/{1}/PROC/{2}/SENSOR/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1) )
-			g.add( ( sensor, RDF.type, prov.Agent ) )
-			g.add( ( sensor, RDF.type, om_lite.process ) ) 
-			g.add( ( sensor, om_lite.procedure, uriProcedure ) )
-			g.add( ( uriProcedure, prov.wasAssociatedWith, sensor ) )
-			g.add( ( sensor, dc.isPartOf, uriSOS) )
-
-			FOI = URIRef("{0}/{1}/FOI/{2}".format(baseURI, SOS.organisation.replace(' ', ''), feature) )
-			if (feature[:4].lower() == 'http'):
-				FOI = URIRef(feature)
-				
-			g.add( ( FOI, FOAF.name, Literal(feature) ) )
-
-			geometry = SOS.featureofinterest[feature]
-			g.add( ( FOI, RDF.type, prov.Entity ) )
-			g.add( ( FOI, RDF.type, sam_lite.SamplingPoint ) ) 
-			g.add( ( FOI, geo.hasGeometry, Literal("POINT({1});<{0}>".format(geometry['coords'][1], geometry['coords'][0]), datatype=geo.WKT ) ) )
-			g.add( ( FOI, om_lite.observedProperty, StandardObsProperty) )
-			g.add( ( StandardCollection, sam_lite.member, FOI ) )
-			g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
+			StandardCollection = URIRef("{0}/FOI_Collection/{1}".format(baseURI, StandardObsProperty) )
+			if StandardCollection in definedCollections:
+				# the collection is already defined 
+				pass
+			else:
+				# the collection has not yet been defined
+				g.add( ( StandardCollection, RDF.type, sam_lite.SamplingCollection ) ) 
+				g.add( ( StandardCollection, om_lite.observedProperty, StandardObsProperty) )
+				# add collection to list with defined collections
+				definedCollections.append(StandardCollection)
 
 
-			# Create a PURL for every FOI and sensor URI 
-			CreatePurls([FOI, sensor], purlBatch)
+			g.add( ( uriProcedure, RDF.type, prov.Activity) )
+			g.add( ( uriProcedure, RDF.type, om_lite.process) )
+			g.add( ( uriProcedure, FOAF.name, Literal(proc) ) )
+			g.add( ( uriProcedure, om_lite.observedProperty, obsProperty ) )
+			g.add( ( obsProperty, FOAF.name, Literal(SOS.procedure[proc]['obsProperty']) ))
 
-			for i, offeringName in enumerate(SOS.featureofinterest[feature]['offerings']):
-				offering = URIRef("{0}/{1}/PROC/{2}/OFFERING/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1 ) )
-				# Create a PURL for every offering URI 
-				CreatePurls([offering], purlBatch)
-				
-				g.add( ( offering, RDF.type, prov.Entity ) )
-				g.add( ( offering, prov.specializationOf, StandardCollection ) )
-				g.add( ( offering, FOAF.name, Literal(offeringName) ) )
-				g.add( ( offering, sam_lite.member, FOI ) )
-				g.add( ( offering, om_lite.procedure, Literal(proc) ) )
+			
+			# Create a PURL for every collection URI 
+			CreatePurls([StandardCollection], purlBatch)
+
+			for i, feature in enumerate(SOS.procedure[proc]['FOI']):
+				sensor = URIRef("{0}/{1}/PROC/{2}/SENSOR/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1) )
+				g.add( ( sensor, RDF.type, prov.Agent ) )
+				g.add( ( sensor, RDF.type, om_lite.process ) ) 
+				g.add( ( sensor, om_lite.procedure, uriProcedure ) )
+				g.add( ( uriProcedure, prov.wasAssociatedWith, sensor ) )
+				g.add( ( sensor, dc.isPartOf, uriSOS) )
+
+				if (feature[:4].lower() == 'http'):
+					FOI = URIRef(feature)
+				else:
+					FOI = URIRef("{0}/{1}/FOI/{2}".format(baseURI, SOS.organisation.replace(' ', ''), feature) )
+
+				g.add( ( FOI, FOAF.name, Literal(feature) ) )
+
+				geometry = SOS.featureofinterest[feature]
+				g.add( ( FOI, RDF.type, prov.Entity ) )
+				g.add( ( FOI, RDF.type, sam_lite.SamplingPoint ) ) 
+				g.add( ( FOI, geo.hasGeometry, Literal("POINT({0});<{1}>".format(geometry['coords'][0], geometry['coords'][1]), datatype=geo.WKT ) ) )
+				g.add( ( FOI, om_lite.observedProperty, StandardObsProperty) )
+				g.add( ( StandardCollection, sam_lite.member, FOI ) )
+				g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
+					
+
+				# Create a PURL for every FOI and sensor URI 
+				CreatePurls([FOI, sensor], purlBatch)
+
+				for i, offeringName in enumerate(SOS.featureofinterest[feature]['offerings']):
+					offering = URIRef("{0}/{1}/PROC/{2}/OFFERING/{3}".format(baseURI, SOS.organisation.replace(' ', ''), count, i+1 ) )
+					# Create a PURL for every offering URI 
+					CreatePurls([offering], purlBatch)
+					
+					g.add( ( offering, RDF.type, prov.Entity ) )
+					g.add( ( offering, prov.specializationOf, StandardCollection ) )
+					g.add( ( offering, FOAF.name, Literal(offeringName) ) )
+					g.add( ( offering, sam_lite.member, FOI ) )
+					g.add( ( offering, om_lite.procedure, Literal(proc) ) )
 
 
-		count += 1
 
 	print "Sending triples to endpoint"
 	with progressbar.ProgressBar(max_value=len(g)) as bar:
@@ -195,4 +200,8 @@ def capabilities(SOS):
 		print "Response: {0}".format(r)
 		# print query
 		print r.text
+
+	bar.update(countTriples)
+
+	return
 
