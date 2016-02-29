@@ -76,8 +76,8 @@ class Request():
 		  ?feature <http://xmlns.com/foaf/0.1/name> ?name . 
 		  {1}
 		}}""".format(self.featureCategory.title(), featureNamesFilter)
-		print 'QUERY:', query
-		# print query 
+		# print 'QUERY:', query
+
 		r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
 		tree = etree.fromstring(r.content)
 		nsm = tree.nsmap
@@ -117,7 +117,7 @@ class Request():
 
 		spatialFilter = []
 		for key, value in self.featureDict.iteritems():
-			spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>(?geom,"{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>'.format(value))
+			spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>("{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>, ?geom)'.format(value))
 		spatialFilter = 'FILTER ( {0} ) )'.format(' || '.join(spatialFilter))
 
 		for obsProperty in self.observedProperties:
@@ -147,9 +147,9 @@ class Request():
 			  {1}
 			}}""".format(obsProperty, spatialFilter) 
 			
-			print query
-			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'HTML', 'handle':'plain', 'submit':'Update' }) 
-			print r.content
+			# print query
+			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' })  
+			# print r.content
 			tree = etree.fromstring(r.content)
 			nsm = tree.nsmap
 
@@ -197,27 +197,40 @@ class Request():
 
 			spatialFilter = []
 			for key, value in self.featureDict.iteritems():
-				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>(?geom,"{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>'.format(value))
+				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom'.format(value))
 			spatialFilter = "FILTER ( {0} ) )".format(' || '.join(spatialFilter))
-			print spatialFilter
+			# print spatialFilter
 		else:
 			print 'Find raster cells intersecting the vector geometry'
 
 		for obsProperty in self.observedProperties:
-			print obsProperty
-			query = r"""SELECT ?sensor
-					WHERE {{
-					   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
-					   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> <{0}> .
-					   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
-					   ?FOI <http://strdf.di.uoa.gr/ontology#hasGeometry> ?geom .
-					   <{0}> <http://www.w3.org/2002/07/owl#sameAs> ?obsProperty .
-					   ?procedure <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty .
-					   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI .
-					   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#procedure> ?procedure .
-					   {1}
-					}}""".format(obsProperty, spatialFilter)
+			# print obsProperty
+			query = r"""SELECT 
+						   ?sensor ?geom ?FOIname ?sos
+                        WHERE {{
+                           ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
+                           ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> <{0}> .
+                           ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
+                           ?FOI <http://strdf.di.uoa.gr/ontology#hasGeometry> ?geom . 
+                           ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname  .
+
+                           ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI .
+                           
+                           ?sensor <http://purl.org/dc/terms/isPartOf> ?sos .
+
+						   
+						   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI .
+						   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#procedure> ?procedure .
+						   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos .
+
+					       ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
+					        
+						   {1} }}
+					""".format(obsProperty, spatialFilter)
 			print query
+			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
+			print r
+			print r.content
 		
 		return
 
