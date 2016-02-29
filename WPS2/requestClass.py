@@ -206,11 +206,15 @@ class Request():
 		for obsProperty in self.observedProperties:
 			# print obsProperty
 			query = r"""SELECT 
-						   ?sensor ?geom ?FOIname ?sos
+						   ?sensor ?FOIname ?procName ?offering ?sos
                         WHERE {{
                            ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
                            ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> <{0}> .
                            ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
+
+                           ?offering <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
+						   ?offering <http://www.w3.org/ns/prov#specializationOf> ?collection . 
+
                            ?FOI <http://strdf.di.uoa.gr/ontology#hasGeometry> ?geom . 
                            ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname  .
 
@@ -227,11 +231,47 @@ class Request():
 					        
 						   {1} }}
 					""".format(obsProperty, spatialFilter)
-			print query
+			
 			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
-			print r
-			print r.content
+			# print r
+			# print r.content
+
+			tree = etree.fromstring(r.content)
+			nsm = tree.nsmap
+
+			self.sensors[obsProperty] = {}
+			tag = '{{{0}}}result'.format(nsm[None])
+			for result in tree.findall('.//{0}'.format(tag)):
+				for each in result.getchildren():
+					if each.attrib['name'] == 'sensor':
+						sensor = each[0].text
+						self.sensors[obsProperty][sensor] = {}
+					elif each.attrib['name'] == 'FOIname':
+						self.sensors[obsProperty][sensor]['FOI'] = each[0].text
+					elif each.attrib['name'] == 'procName':
+						self.sensors[obsProperty][sensor]['procedure'] = each[0].text
+					elif each.attrib['name'] == 'offering':
+						self.sensors[obsProperty][sensor]['offering'] = each[0].text
+					elif each.attrib['name'] == 'sos':
+						sos = each[0].text
+						self.sensors[obsProperty][sensor]['sos'] = sos
+						if sos in self.sos:
+							pass
+						else:
+							self.sos[sos] = {}
+							# retrieve the formats to be used in the GetObservation requests
+
+							# Has to be extended after adding ProcedureDescriptionFormat to WPS1 
+
+							# query = r""" 
+							# SELECT 
+
+							# """
+
 		
+		
+
+		print self.sensors
 		return
 
 	def getObservationData(self):
