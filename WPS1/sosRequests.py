@@ -9,7 +9,7 @@ except:
 
 class SOS:
 
-	def __init__(self, url, name="", organisation="", costs="", accessConstraints="", version=set(), responseFormat=set()):
+	def __init__(self, url, name="", organisation="", costs="", accessConstraints="", version=set(), resourceDescriptionFormat=set(), responseFormat=set()):
 		self.error = False
 
 		# Information that needs to be retrieved from the SOS
@@ -18,6 +18,7 @@ class SOS:
 		self.costs = costs 
 		self.accessConstraints = accessConstraints
 		self.version = version
+		self.resourceDescriptionFormat = resourceDescriptionFormat
 		self.responseFormat = responseFormat 
 		self.procedure = {} # contains dictionary instances with structure 'ID': {'offerings': [], 'obsProperty': '...' ,'FOI': set() }
 		self.featureofinterest = {} # contains dictionary instance with structure 'ID': {'coords': [coords, crs], 'offerings': [] }
@@ -95,6 +96,10 @@ class SOS:
 		versions = tree.findall('.//ows:ServiceTypeVersion', nsm)
 		for version in versions:
 			self.version.add(version.text)
+
+		resourceDescriptionFormats = tree.findall('.//ows:Parameter[@name="procedureDescriptionFormat"]', nsm)
+		for format in resourceDescriptionFormats:
+			self.resourceDescriptionFormat.add(format.text)
 
 		FOI = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='featureOfInterest']/ows:AllowedValues", nsm)
 		for feature in FOI:
