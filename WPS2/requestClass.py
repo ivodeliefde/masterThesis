@@ -1,5 +1,9 @@
 import requests
 from lxml import etree
+from rdflib import URIRef, BNode, Literal, Graph
+import logging
+
+logging.basicConfig()
 
 DBPedia = 'http://dbpedia.org/sparql'
 myEndpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query' 
@@ -258,20 +262,19 @@ class Request():
 						if sos in self.sos:
 							pass
 						else:
-							self.sos[sos] = {}
+							self.sos[sos] = {'resourceDescriptionFormat':[], 'responseformat': []}
 							# retrieve the formats to be used in the GetObservation requests
+							
+							g = Graph()
+							g.parse(sos)
+							print g.serialize(format='turtle')
 
-							# Has to be extended after adding ProcedureDescriptionFormat to WPS1 
 
-							# query = r""" 
-							# SELECT 
-
-							# """
-
+							
 		
 		
 
-		print self.sensors
+		# print self.sensors
 		return
 
 	def getObservationData(self):
