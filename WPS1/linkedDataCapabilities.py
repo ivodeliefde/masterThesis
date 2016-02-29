@@ -33,7 +33,7 @@ def capabilities(SOS):
 	g = Graph()
 
 	# Define observation service
-	uriSOS = URIRef(SOS.url)
+	uriSOS = URIRef("{0}/{1}".format(baseURI, SOS.url))
 	g.add( ( uriSOS, RDF.type, prov.Agent) )
 	g.add( ( uriSOS, FOAF.name, Literal(SOS.name) ) )
 	g.add( ( uriSOS, prov.ActedOnBehalfOf,  URIRef("{0}/{1}".format(baseURI, SOS.organisation.replace(' ', '') ) ) ) )
@@ -42,8 +42,15 @@ def capabilities(SOS):
 
 	for version in SOS.version:
 		g.add( ( uriSOS, dc.hasVersion, Literal(version) ) )
-	for fomat in SOS.responseFormat:
-		g.add( ( uriSOS, dc.hasFormat, Literal(version) ) )
+	for format in SOS.responseFormat:
+		uriFormat = URIRef(format)
+		g.add( ( uriSOS, dc.hasFormat, uriFormat ) )
+		g.add( ( uriFormat, RDFS.label, Literal('responseFormat') ) )
+	for format in SOS.resourceDescriptionFormat:
+		uriFormat = URIRef(format)
+		g.add( ( uriSOS, dc.hasFormat, uriFormat ) )
+		g.add( ( uriFormat, RDFS.label, Literal('resourceDescriptionFormat') ) )
+
 
 	# Create a PURL for every SOS URI 
 	CreatePurls([uriSOS], purlBatch)
