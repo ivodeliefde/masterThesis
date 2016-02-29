@@ -88,11 +88,11 @@ changes, the server can be informed. It will then redirect clients to the new lo
 	\label{fig:PURL}
 \end{figure} 
 
-\section{GeoSPARQL}
+\section{GeoSPARQL \& stSPARQL}
 
-GeoSPARQL \enquote{defines a vocabulary for representing geospatial data in RDF, and it defines an extension to the SPARQL query language for processing geospatial data} \cite[p. xvi]{LD:OGC}. It allows for defining geometric data in \ac{rdf} and performing spatial queries. The \ac{DE9IM} \citep{GIS:9IM} has been implemented to find topological relations between two geometries. GeoSPARQL has been implemented in the `Parliament' \ac{sparql} endpoint \citep{LD:GeoSPARQL}. 
+GeoSPARQL \enquote{defines a vocabulary for representing geospatial data in RDF, and it defines an extension to the SPARQL query language for processing geospatial data} \cite[p. xvi]{LD:OGC}. It allows for defining geometric data in \ac{rdf} and performing spatial queries. The \ac{DE9IM} \citep{GIS:9IM} has been implemented to find topological relations between two geometries. GeoSPARQL has been implemented in the `Parliament' \ac{sparql} endpoint \citep{LD:GeoSPARQL}. The Strabon endpoint uses stRDF, which is \enquote{a constraint data model that extends RDF with the ability to represent spatial and temporal data} \cite[p. 425]{SSW:Koubarakis}. The stRDF model can be queried using stSPARQL, which syntax is similar to GeoSPARQL (listing \ref{lst:GeoSPARQL} \& \ref{lst:stSPARQL}). Both extensions of \ac{sparql} use filter expressions to perform spatial operations. The definition of geometries and the syntax of the filter expression differ slightly.
 
-\begin{lstlisting}[caption={A GeoSPARQL query to find the name of features that contain a point geometry}, label={lst:GeoSPARQL}]
+\begin{lstlisting}[caption={A GeoSPARQL query to find the names of features that contain a point geometry}, label={lst:GeoSPARQL}]
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
@@ -103,6 +103,19 @@ WHERE {
 ?feature geo:hasGeometry ?geom .
 ?feature foaf:name ?name.
 FILTER (geof:sfContains(?geom,"<http://www.opengis.net/def/crs/EPSG/0/4258> POINT(4.289244 52.027337)"^^geo:wktLiteral))
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={A stSPARQL query to find the names of features that contain a point geometry}, label={lst:stSPARQL}]
+PREFIX strdf: <ttp://strdf.di.uoa.gr/ontology#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+
+SELECT 
+?name
+WHERE {
+?feature strdf:hasGeometry ?geom .
+?feature foaf:name ?name.
+FILTER (?geom contains "POINT(4.289244 52.027337);<http://www.opengis.net/def/crs/EPSG/0/4258>"^^strdf:WKT)
 }
 \end{lstlisting}
 
