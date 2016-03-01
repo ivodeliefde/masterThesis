@@ -6,6 +6,8 @@ chapter{Results}
 \section{Implementation differences between Sensor Observation Services}
 Even though both \aclp{sos} use the \ac{swe} standards they are not exactly the same. They have different approaches for making identifiers and have slightly different content in their capabilities and describe sensor documents. This has caused the implemented to be more complex than expected. Especially providing a describe sensor document with as much information as possible (containing related features of interest, observed property and offerings) is important for making sense of the metadata. This should also be done using the appropriate \ac{sensorml} tags, instead of the more general `swe:keywords' for example. 
 
+One of the \ac{sos} implementations allowed multiple observed properties to be related to an observation procedure. This was an unexpected finding, because a procedure is defined as a \enquote{method, algorithm or instrument, or system of these which may be used in making an observation} \cite[p. 4]{SW:ISO}. When a procedure has different observed properties it is rather a combination of procedures. It is unlikely that the same procedure can observe one property at a certain time and a completely other property at another time. The original implementation of the \ac{wps} had to be adjusted to deal with this.  
+
 \section{Semantics in Sensor Observation Services}
 The metadata in \aclp{sos} does not necessarily contain semantics. This is an issue when automatically retrieving metadata from different services. In the implementation this has caused a problem with identifying which observable properties in a \ac{sos} are the same as observable properties found in another \ac{sos}. 
 
