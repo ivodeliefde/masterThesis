@@ -1,6 +1,8 @@
 import requests
 from lxml import etree
 from rdflib import URIRef, BNode, Literal, Graph
+from rdflib.namespace import RDF, RDFS, FOAF
+import rdflib
 import logging
 
 logging.basicConfig()
@@ -73,7 +75,7 @@ class Request():
 
 		query = r"""
 		SELECT 
-		  ?feature ?geom 
+		  ?feature ?geom ?name
 		WHERE {{ 
 		  ?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/{0}> . 
 		  ?feature <http://strdf.di.uoa.gr/ontology#hasGeometry> ?geom . 
@@ -93,12 +95,14 @@ class Request():
 			name = '' 
 			geom = ''
 			for each in result.getchildren():
-				if each.attrib['name'] == 'feature':
-					name = each[0].text
+				if each.attrib['name'] == 'uri':
+					uri = each[0].text
 				elif each.attrib['name'] == 'geom':
-					geom = each[0].text 
+					geom = each[0].text
+				elif each.attrib['name'] == 'name':
+					name = each[0].text 
 			try:
-				self.featureDict[name] = geom
+				self.featureDict[name] = uri, geom
 			except:
 				print "could not find feature with geometry!"
 
@@ -113,76 +117,76 @@ class Request():
 		return
 
 	def getSensorsVector(self):
-		if self.featureCategory.lower() == 'raster':
-			print 'Vector function cannot be applied for a raster request'
-			return
-		else:
-			print 'Request data for vector geometry'
+		# if self.featureCategory.lower() == 'raster':
+		# 	print 'Vector function cannot be applied for a raster request'
+		# 	return
+		# else:
+		# 	print 'Request data for vector geometry'
 
-		spatialFilter = []
-		for key, value in self.featureDict.iteritems():
-			spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>("{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>, ?geom)'.format(value))
-		spatialFilter = 'FILTER ( {0} ) )'.format(' || '.join(spatialFilter))
+		# spatialFilter = []
+		# for key, value in self.featureDict.iteritems():
+		# 	spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>("{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>, ?geom)'.format(value))
+		# spatialFilter = 'FILTER ( {0} ) )'.format(' || '.join(spatialFilter))
 
-		for obsProperty in self.observedProperties:
-			# Check out DBPedia to find the observed property and see to which collection of sampling features it links  
+		# for obsProperty in self.observedProperties:
+		# 	# Check out DBPedia to find the observed property and see to which collection of sampling features it links  
 
-			# Retrieve sensors that are linked to the collection of sampling features
-			self.sensors[obsProperty] = {}
-			query = r"""
-				SELECT DISTINCT 
-				  ?sensor ?geom ?FOIname ?procName ?sos
+		# 	# Retrieve sensors that are linked to the collection of sampling features
+		# 	self.sensors[obsProperty] = {}
+		# 	query = r"""
+		# 		SELECT DISTINCT 
+		# 		  ?sensor ?geom ?FOIname ?procName ?sos
 							
-				WHERE {{
+		# 		WHERE {{
 
-				   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
-				   ?obsProperty <http://xmlns.com/foaf/0.1/name> {0} .
-				   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
+		# 		   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
+		# 		   ?obsProperty <http://xmlns.com/foaf/0.1/name> {0} .
+		# 		   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
 
-				   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
+		# 		   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
 				 
 
-				   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
-				   ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname .
-				   ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
-				   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
+		# 		   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
+		# 		   ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname .
+		# 		   ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
+		# 		   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
 				   
-				   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
-			  {1}
-			}}""".format(obsProperty, spatialFilter) 
+		# 		   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
+		# 	  {1}
+		# 	}}""".format(obsProperty, spatialFilter) 
 			
-			# print query
-			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' })  
-			# print r.content
-			tree = etree.fromstring(r.content)
-			nsm = tree.nsmap
+		# 	# print query
+		# 	r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' })  
+		# 	# print r.content
+		# 	tree = etree.fromstring(r.content)
+		# 	nsm = tree.nsmap
 
-			tag = '{{{0}}}result'.format(nsm[None])
-			for result in tree.findall('.//{0}'.format(tag)):
-				sensor = ''
-				sensorFOI = ''
-				sensorSOS = ''
-				sensorOffering = ''
-				sensorProcedure = ''
-				sensorGeom = ''
-				for each in result.getchildren():
-					if each.attrib['name'] == 'sensor':
-						sensor = each[0].text
-					elif each.attrib['name'] == 'FOIname':
-						sensorFOI = each[0].text
-					elif each.attrib['name'] == 'sos':
-						sensorSOS = each[0].text
-					elif each.attrib['name'] == 'geom':
-						sensorGEOM = each[0].text
-					elif each.attrib['name'] == 'procName':
-						sensorProcedure = each[0].text
-				if self.sensors[obsProperty][sensor] in self.sensors[obsProperty]:
-					self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'FOI': sensorFOI, 'procedure': sensorProcedure, 'offerings':[], 'observations': []}
+		# 	tag = '{{{0}}}result'.format(nsm[None])
+		# 	for result in tree.findall('.//{0}'.format(tag)):
+		# 		sensor = ''
+		# 		sensorFOI = ''
+		# 		sensorSOS = ''
+		# 		sensorOffering = ''
+		# 		sensorProcedure = ''
+		# 		sensorGeom = ''
+		# 		for each in result.getchildren():
+		# 			if each.attrib['name'] == 'sensor':
+		# 				sensor = each[0].text
+		# 			elif each.attrib['name'] == 'FOIname':
+		# 				sensorFOI = each[0].text
+		# 			elif each.attrib['name'] == 'sos':
+		# 				sensorSOS = each[0].text
+		# 			elif each.attrib['name'] == 'geom':
+		# 				sensorGEOM = each[0].text
+		# 			elif each.attrib['name'] == 'procName':
+		# 				sensorProcedure = each[0].text
+		# 		if self.sensors[obsProperty][sensor] in self.sensors[obsProperty]:
+		# 			self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'FOI': sensorFOI, 'procedure': sensorProcedure, 'offerings':[], 'observations': []}
 
-				if sensorSOS in self.sos:
-					self.sos[sensorSOS].append(sensor)
-				else:
-					self.sos[sensorSOS] = [sensor]
+		# 		if sensorSOS in self.sos:
+		# 			self.sos[sensorSOS].append(sensor)
+		# 		else:
+		# 			self.sos[sensorSOS] = [sensor]
 
 		
 		return
@@ -201,16 +205,47 @@ class Request():
 
 			spatialFilter = []
 			for key, value in self.featureDict.iteritems():
-				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom'.format(value))
+				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom'.format(value[1]))
 			spatialFilter = "FILTER ( {0} ) )".format(' || '.join(spatialFilter))
 			# print spatialFilter
 		else:
 			print 'Find raster cells intersecting the vector geometry'
+			for key, value in self.featureDict.iteritems():
+				featureFilter.append('?name = {0}'.format(value[1]))
+			featureFilter = "FILTER ( {0} ) )".format(' || '.join(featureFilter))
+			query = r"""SELECT 
+						   ?cellGeom
+                        WHERE {{
+                        	?cell <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.com/resource/Raster> .
+                        	?cell <http://strdf.di.uoa.gr/ontology#hasGeometry> ?cellGeom . 
+                        	?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.com/resource/{0}> .
+                        	?feature <http://strdf.di.uoa.gr/ontology#hasGeometry> ?featureGeom .
+                        	?feature <http://xmlns.com/foaf/0.1/name> ?name . 
+                        	
+                        	{1}
+                        	FILTER(<http://strdf.di.uoa.gr/ontology#intersects>(?featureGeom, ?cellGeom ) )
+                        }}
+                    """.format(self.featureCategory.replace(' ','_').title(), featureFilter)
+            r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' }) 
+			tree = etree.fromstring(r.content)
+			nsm = tree.nsmap
+			tag = '{{{0}}}result'.format(nsm[None])
+			cellList = []
+			for result in tree.findall('.//{0}'.format(tag)):
+				for each in result.getchildren():
+					if each.attrib['name'] == 'cellGeom':
+						cellList.append(each[0].text)
+
+			spatialFilter = []
+			for value in cellList:
+				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom'.format(value[1]))
+			spatialFilter = "FILTER ( {0} ) )".format(' || '.join(spatialFilter))
+
 
 		for obsProperty in self.observedProperties:
 			# print obsProperty
 			query = r"""SELECT 
-						   ?sensor ?FOIname ?procName ?offering ?sos
+						   ?sensor ?geom ?FOIname ?procName ?offering ?sos
                         WHERE {{
                            ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
                            ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> <{0}> .
@@ -235,8 +270,8 @@ class Request():
 					        
 						   {1} }}
 					""".format(obsProperty, spatialFilter)
-			
-			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
+			# print query
+			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' }) 
 			# print r
 			# print r.content
 
@@ -250,6 +285,8 @@ class Request():
 					if each.attrib['name'] == 'sensor':
 						sensor = each[0].text
 						self.sensors[obsProperty][sensor] = {}
+					elif each.attrib['name'] == 'geom':
+						self.sensors[obsProperty][sensor]['location'] = each[0].text
 					elif each.attrib['name'] == 'FOIname':
 						self.sensors[obsProperty][sensor]['FOI'] = each[0].text
 					elif each.attrib['name'] == 'procName':
@@ -259,22 +296,35 @@ class Request():
 					elif each.attrib['name'] == 'sos':
 						sos = each[0].text
 						self.sensors[obsProperty][sensor]['sos'] = sos
-						if sos in self.sos:
-							pass
-						else:
-							self.sos[sos] = {'resourceDescriptionFormat':[], 'responseformat': []}
-							# retrieve the formats to be used in the GetObservation requests
-							
-							g = Graph()
-							g.parse(sos)
-							print g.serialize(format='turtle')
-
-
-							
+						if sos not in self.sos:
+							self.parseSOS(sos)
 		
-		
-
 		# print self.sensors
+
+		if self.featureCategory.lower() != 'raster':
+			print 'filter out redundant results'
+		return
+
+	def parseSOS(sosURI):
+		self.sos[sosURI] = {'resourceDescriptionFormat': set(), 'responseFormat': set()}
+		# retrieve the formats to be used in the GetObservation requests
+			
+		g = Graph()
+		# retrieve RDF document from SOS URI (which is a PURL that resolves to a describe URI request at the endpoint)
+		g.parse(sosURI)
+
+		print g.serialize(format='turtle')
+		dc = rdflib.Namespace('http://purl.org/dc/terms/')
+
+		# Loop through RDF graph to find data about SOS 
+		for s,p,o in g.triples( (None, dc.hasFormat, None) ):
+			# print s,p,o
+			for s2,p2, label in g.triples( (o, RDFS.label, None ) ):
+				if label == "responseFormat":
+					self.sos[sosURI]['responseFormat'].add(label)
+				elif label == "resourceDescriptionFormat":
+					self.sos[sosURI]['resourceDescriptionFormat'].add(label)
+
 		return
 
 	def getObservationData(self):
