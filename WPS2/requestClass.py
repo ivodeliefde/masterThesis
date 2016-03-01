@@ -338,26 +338,36 @@ class Request():
 		for obsProperty in self.sensors:
 			for sensor in self.sensors[obsProperty]:
 				GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'])
+				
 				temporalFilterUsed = True
 				GetObservationWtempfilter = GetObservation + temporalFilter
 				print GetObservationWtempfilter
-				# try:
-				# 	r = requests.get(GetObservationWtempfilter)
-				# 	tree = etree.fromstring(r.content)
-				# except:
-				# 	r = requests.get(GetObservation)
-				# 	tree = etree.fromstring(r.content)
-				# 	temporalFilterUsed = False
-			# offerings are required in the get observation request. Therefore, the offerings need to be part of the semantic description of the sos
-			# GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(sos, procedure, offering, self.procedure[procedure]['obsProperty'])
-			
-			pass
-		return
 
+				try:
+					r = requests.get(GetObservationWtempfilter)
+					tree = etree.fromstring(r.content)
+					nsm = tree.nsmap
+				except:
+					r = requests.get(GetObservation)
+					tree = etree.fromstring(r.content)
+					nsm = tree.nsmap
+					temporalFilterUsed = False
 
-	def integrateSources(self):
-		pass
+				if len(tree.findall('.//ows:Exception',nsm)) > 0 and temporalFilterUsed == True:
+					r = requests.get(GetObservation)
+					tree = etree.fromstring(r.content)
+					nsm = tree.nsmap
+					temporalFilterUsed = False
 
+				# retrieve the sensor data from the request response 
+				print r
+				print r.content
+				
+
+			if temporalFilterUsed == False:
+				# manually filter the sensor data outside the temporal range
+				pass
+	
 		return
 
 
