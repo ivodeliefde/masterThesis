@@ -39,6 +39,7 @@ def capabilities(SOS):
 	g.add( ( uriSOS, prov.ActedOnBehalfOf,  URIRef("{0}/{1}".format(baseURI, SOS.organisation.replace(' ', '') ) ) ) )
 	g.add( ( uriSOS, dc.accessRights, Literal(SOS.accessConstraints) ) )
 	g.add( ( uriSOS, dbpedia.cost , Literal(SOS.accessConstraints) ) )
+	g.add( ( uriSOS, owl.sameAs, URIRef(SOS.url) ) )
 
 	for version in SOS.version:
 		g.add( ( uriSOS, dc.hasVersion, Literal(version) ) )
@@ -211,7 +212,7 @@ def capabilities(SOS):
 
 	bar.update(countTriples)
 
-	postPURLbatch(purlBatch,'admin', 'password')
+	# postPURLbatch(purlBatch,'admin', 'password')
 
 	return
 
