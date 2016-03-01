@@ -262,6 +262,7 @@ def LandcoverTable2RDF(table):
 
 			thing = URIRef("{0}landcover/{1}".format( BaseURI, ID ) )
 			CreatePurls([thing],purlBatch)
+			g.add( ( thing, RDF.type, dbpedia.Land_cover ) )
 			g.add( (thing, RDF.type, URIRef("{0}landcover/legend/CLC_{1}".format(BaseURI, Landcover) ) ) )
 			g.add( (thing, geom.hasGeometry, Literal("{0};<http://www.opengis.net/def/crs/EPSG/0/4258>".format(geometry), datatype=geom.WKT ) ) )
 
@@ -435,29 +436,29 @@ if (__name__ == "__main__"):
 # Open the purl batch
 	CreatePurls('open', purlBatch)
 
-# # Create linked data of EEA reference grid cells
-# 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
-# 	EEA2RDF(Grid100, '100km')
-# 	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
-# 	EEA2RDF(Grid10, '10km')
+# Create linked data of EEA reference grid cells
+	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
+	EEA2RDF(Grid100, '100km')
+	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
+	EEA2RDF(Grid10, '10km')
 
-# # # Create linked data of countries
-# 	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
-# 	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
+# # Create linked data of countries
+	NL_country = getData("Masterthesis", "nl_country", "postgres", "gps")
+	AdminUnitTable2RDF(NL_country, 'Netherlands', 'country')
+	BE_country = getData("Masterthesis", "be_country", "postgres", "gps")
+	AdminUnitTable2RDF(BE_country, 'Belgium', 'country')
 
-# # # Create linked data of provinces
-# 	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
-# 	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
+# # Create linked data of provinces
+	BE_provinces = getData("Masterthesis", "be_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(BE_provinces, 'Belgium', 'province')
+	NL_provinces = getData("Masterthesis", "nl_provinces", "postgres", "gps")
+	AdminUnitTable2RDF(NL_provinces, 'Netherlands', 'province')
 
-# # # Create linked data of municipalities
-# 	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
-# 	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
-# 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
-# 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
+# # Create linked data of municipalities
+	BE_municipalities = getData("Masterthesis", "be_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(BE_municipalities, 'Belgium', 'municipality')
+	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
+	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
 # Create linked data of landcover
   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
