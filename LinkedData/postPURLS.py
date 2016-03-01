@@ -58,7 +58,7 @@ def CreatePurls(UriList, purlBatch):
 
 			purl = etree.Element( 'purl' ) 
 			purl.attrib['id'] = each.replace('http://localhost:8099','')
-			purl.attrib['type'] = '303'
+			purl.attrib['type'] = '302'
 			maint = etree.SubElement(purl, 'maintainers')
 			etree.SubElement(maint, 'uid').text = 'admin'
 			etree.SubElement(purl, 'target').attrib['url'] = "{0}Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE <{1}>".format(endpoint, each)

@@ -3,6 +3,7 @@ import requests
 from lxml import etree
 import cgi
 import unicodedata
+import os, shutil
 
 endpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/'
 lineCount = 0
@@ -32,9 +33,23 @@ def postPURLbatch(fileName, username, password):
 			headers = {'Content-Type': 'application/XML; charset=UTF-8' }
 
 			r = session.post(url, data=data, headers=headers)
-			print r
-			print r.text
+			if str(r) != '<Response [200]>':
+				print "Response: {0}".format(r)
+				# print r.text
 	print 'Finished posting PURLS' 
+	
+	folder = '/'.join(fileName.split('/')[:-1])
+	print 'Deleting temporary batch files in {0}'.format(folder)
+	for the_file in os.listdir(folder):
+	    file_path = os.path.join(folder, the_file)
+	    try:
+	        if os.path.isfile(file_path):
+	            os.unlink(file_path)
+	        #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+	    except Exception, e:
+	        print e
+
+	fileCount = 0
 	return
 
 
@@ -58,7 +73,7 @@ def CreatePurls(UriList, purlBatch):
 
 			purl = etree.Element( 'purl' ) 
 			purl.attrib['id'] = each.replace('http://localhost:8099','')
-			purl.attrib['type'] = '303'
+			purl.attrib['type'] = '302'
 			maint = etree.SubElement(purl, 'maintainers')
 			etree.SubElement(maint, 'uid').text = 'admin'
 			etree.SubElement(purl, 'target').attrib['url'] = "{0}Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE <{1}>".format(endpoint, each)
