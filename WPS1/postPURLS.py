@@ -18,7 +18,7 @@ def postPURLbatch(fileName, username, password):
 
 	for i in range(fileCount+1):
 		with open('{0}{1}.xml'.format(fileName, i),'r') as f:
-			print 'open', i
+			# print 'open', i
 			# for line in f:
 				# XML = line.replace('\n','')
 				# tree = etree.fromstring(XML)
