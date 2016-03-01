@@ -33,7 +33,7 @@ def capabilities(SOS):
 	g = Graph()
 
 	# Define observation service
-	uriSOS = URIRef("{0}/{1}".format(baseURI, SOS.url))
+	uriSOS = URIRef("{0}/{1}".format(baseURI, SOS.name.replace(' ','')))
 	g.add( ( uriSOS, RDF.type, prov.Agent) )
 	g.add( ( uriSOS, FOAF.name, Literal(SOS.name) ) )
 	g.add( ( uriSOS, prov.ActedOnBehalfOf,  URIRef("{0}/{1}".format(baseURI, SOS.organisation.replace(' ', '') ) ) ) )
@@ -210,5 +210,7 @@ def capabilities(SOS):
 
 	bar.update(countTriples)
 
+	postPURLbatch(purlBatch,'admin', 'password')
+	
 	return
 

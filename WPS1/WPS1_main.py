@@ -54,7 +54,22 @@ class Process(WPSProcess):
         # sos.store()
 
 #       Test input from pickle
-        sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
+        # sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
+
+        # sos.printInformation()
+        # # print sos.featureofinterest
+        # # make linked data from the data retrieved above
+        # capabilities(sos)
+
+
+
+
+        url = 'http://inspire.rivm.nl/sos/eaq/service?'
+        sos = SOS(url)
+        sos.store()
+
+#       Test input from pickle
+        # sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 
         sos.printInformation()
         # print sos.featureofinterest
