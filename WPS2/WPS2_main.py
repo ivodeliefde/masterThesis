@@ -67,10 +67,7 @@ class Process(WPSProcess):
         dataRequest.getSensorsRaster()
 
         # # Make SOS queries for every found data source to retrieve data for all found sensors
-        # dataRequest.getObservations()
-
-        # # integrate the sensor data
-        # dataRequest.integrateSources()
+        dataRequest.getObservationData()
 
         # # Check if aggregation method is valid
         # dataRequest.aggregateCheck()
