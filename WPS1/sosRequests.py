@@ -20,8 +20,8 @@ class SOS:
 		self.version = version
 		self.resourceDescriptionFormat = resourceDescriptionFormat
 		self.responseFormat = responseFormat 
-		self.procedure = {} # contains dictionary instances with structure 'ID': {'offerings': [], 'obsProperty': '...' ,'FOI': set() }
-		self.featureofinterest = {} # contains dictionary instance with structure 'ID': {'coords': [coords, crs], 'offerings': [] }
+		self.procedure = {} # contains dictionary instances with structure 'ID1': {'obsProperty1': {'offerings': [],  '...' ,'FOI': set() }, 'obsProperty2': {'offerings': [],  '...' ,'FOI': set() }  }
+		self.featureofinterest = {} # contains dictionary instance with structure 'ID1': {'coords': [coords, crs], 'offerings': [] }
 
 		
 		# Check if the user input URL is correct
@@ -110,7 +110,7 @@ class SOS:
 		
 		procedures = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='procedure']/ows:AllowedValues", nsm)
 		for procedure in procedures:
-			self.procedure[procedure.text] = {'offerings': [], 'obsProperty': '', 'FOI': set()}
+			self.procedure[procedure.text] = {}
 
 		responseformat = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='responseFormat']/ows:AllowedValues", nsm)
 		for format in responseformat:
@@ -122,9 +122,16 @@ class SOS:
 			obsProperty = offering.find('.//swes:observableProperty', nsm).text
 			procedure = offering.find('.//swes:procedure', nsm).text
 
-			self.procedure[procedure]['offerings'].append(currentOffering)		
-			if len(self.procedure[procedure]['obsProperty']) == 0: 
-				self.procedure[procedure]['obsProperty'] = obsProperty	
+					
+			if obsProperty not in self.procedure[procedure]:
+				self.procedure[procedure][obsProperty] = {'offerings': [], 'FOI': set()}
+				# print 'Already:', self.procedure[procedure]['obsProperty']
+				# print 'New:',obsProperty
+				# print procedure
+			self.procedure[procedure][obsProperty]['offerings'].append(currentOffering)
+		# for each in self.procedure:
+		# 	print each, self.procedure[each]
+		# return
 
 		#-------------------------------------------------------------------------------#
 		# GetFeatureOfInterest --> retrieve the features-of-interest per procedure
@@ -168,70 +175,71 @@ class SOS:
 		#-------------------------------------------------------------------------------#
 		
 
-		yesterday = (datetime.now() - timedelta(days=1)).isoformat()
+		yesterday = (datetime.now() - timedelta(days=7)).isoformat()
 		temporalFilter = '&temporalFilter=om:resultTime,after,{0}'.format(yesterday)
 
 
 		for procedure in self.procedure:
+			for obsProperty in self.procedure[procedure]:
+				for offering in self.procedure[procedure][obsProperty]['offerings']:
+					
+					GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(self.url, procedure, offering, obsProperty)
+					temporalFilterUsed = True
+					GetObservationWtempfilter = GetObservation + temporalFilter
+					try:
+						r = requests.get(GetObservationWtempfilter)
+						tree = etree.fromstring(r.content)
+					except:
+						self.log("Could not send the request with temporal filter: {0}".format(GetObservationWtempfilter))
+						r = requests.get(GetObservation)
+						tree = etree.fromstring(r.content)
+						temporalFilterUsed = False
 
-			for offering in self.procedure[procedure]['offerings']:
-				
-				GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(self.url, procedure, offering, self.procedure[procedure]['obsProperty'])
-				temporalFilterUsed = True
-				GetObservationWtempfilter = GetObservation + temporalFilter
-				try:
-					r = requests.get(GetObservationWtempfilter)
-					tree = etree.fromstring(r.content)
-				except:
-					self.log("Could not send the request with temporal filter: {0}".format(GetObservationWtempfilter))
-					r = requests.get(GetObservation)
-					tree = etree.fromstring(r.content)
-					temporalFilterUsed = False
+					nsm = tree.nsmap
 
-				nsm = tree.nsmap
+					# Print the request URL
+					if temporalFilterUsed:
+						self.log("Get request: {0}".format(GetObservation+temporalFilter))
+						print GetObservationWtempfilter
+					else:
+						self.log("Get request: {0}".format(GetObservation))
+						print GetObservation
 
-				# Print the request URL
-				if temporalFilterUsed:
-					self.log("Get request: {0}".format(GetObservation+temporalFilter))
-					print GetObservationWtempfilter
-				else:
-					self.log("Get request: {0}".format(GetObservation))
-					print GetObservation
+					# print etree.tostring(tree, pretty_print=True)
+					
+					try:
+						FOI = tree.findall(".//om:featureOfInterest", nsm)
+						# print "no. om:featureofinterest",len(FOI), FOI
+						for feature in FOI:
+							try:
+								# in case FOI is in attributes:
+								for attribute, value in feature.attrib.iteritems():
+									if value in self.featureofinterest:
+										self.procedure[procedure][obsProperty]['FOI'].add(value)
+										self.featureofinterest[value]['offerings'].append(offering)
+										continue
+		
+							except:
+								pass
+							
+							self.log("featureofinterest not in attributes")
+							# print "featureofinterest not in attributes"
+							# in case FOI is not in attributes:
+							value = tree.findall(".//om:featureOfInterest/sams:SF_SpatialSamplingFeature/gml:identifier", nsm)
+							# print "no. gml:identifier", len(value)
+							if len(value) > 0:
+								for each in value:
+									self.procedure[procedure][obsProperty]['FOI'].add(each.text)
+									self.featureofinterest[each.text]['offerings'].append(offering)
+									# print "new: ", self.procedure[procedure]['FOI']
+							# else:
+								# print "no observations available"
 
-				# print etree.tostring(tree, pretty_print=True)
-				
-				try:
-					FOI = tree.findall(".//om:featureOfInterest", nsm)
-					# print "no. om:featureofinterest",len(FOI), FOI
-					for feature in FOI:
-						try:
-							for attribute, value in feature.attrib.iteritems():
-								if value in self.featureofinterest:
-									self.procedure[procedure]['FOI'].add(value)
-									self.featureofinterest[value]['offerings'].append(offering)
-									continue
-	
-						except:
-							pass
-						
-						self.log("featureofinterest not in attributes")
-						# print "featureofinterest not in attributes"
+					except:
+						self.log("no observations available")
+						# print "not an observations available"
 
-						value = tree.findall(".//om:featureOfInterest/sams:SF_SpatialSamplingFeature/gml:identifier", nsm)
-						# print "no. gml:identifier", len(value)
-						if len(value) > 0:
-							for each in value:
-								self.procedure[procedure]['FOI'].add(each.text)
-								self.featureofinterest[each.text]['offerings'].append(offering)
-								# print "new: ", self.procedure[procedure]['FOI']
-						# else:
-							# print "no observations available"
-
-				except:
-					self.log("no observations available")
-					# print "not an observations available"
-
-
+		print self.procedure		
 		return
 
 	def printInformation(self):
