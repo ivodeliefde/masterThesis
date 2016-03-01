@@ -28,7 +28,7 @@ def capabilities(SOS):
 	geo = rdflib.Namespace('http://strdf.di.uoa.gr/ontology#')
 	owl = rdflib.Namespace('http://www.w3.org/2002/07/owl#')
 	dc = rdflib.Namespace('http://purl.org/dc/terms/')
-	dbpedia = rdflib.Namespace("http://dbpedia.com.com/ontology/")
+	dbpedia = rdflib.Namespace("http://dbpedia.com/ontology/")
 
 	g = Graph()
 
