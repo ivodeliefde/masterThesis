@@ -13,7 +13,7 @@ def postPURLbatch(fileName, username, password):
 
 	payload = {'id': username, 'passwd': password}
 	session = requests.Session()
-	r = session.post('http://localhost:8099/admin/login/login-submit.bsh', data=payload)
+	rPURL = session.post('http://localhost:8099/admin/login/login-submit.bsh', data=payload)
 
 	for i in range(fileCount+1):
 		with open('{0}{1}.xml'.format(fileName, i),'r') as f:
@@ -31,9 +31,9 @@ def postPURLbatch(fileName, username, password):
 			url = 'http://localhost:8099/admin/purls'
 			headers = {'Content-Type': 'application/XML; charset=UTF-8' }
 
-			r = session.post(url, data=data, headers=headers)
-			print r
-			print r.text
+			rPURL = session.post(url, data=data, headers=headers)
+			print rPURL
+			print rPURL.text
 	print 'Finished posting PURLS' 
 	return
 
