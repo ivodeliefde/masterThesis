@@ -51,6 +51,10 @@ def getData(dbms_name, table, user, password, AdmUnit=True):
 
 # dminUnitTable2RDF takes a table with administrative units which all have a name and a geometry as input and stores it in an RDF file
 def AdminUnitTable2RDF(table, country, AdmUnitType):
+	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
+	session = requests.Session()
+	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
+
 	if AdmUnitType == 'municipality':
 		if country == 'Netherlands':
 			global NL_provinces
@@ -155,16 +159,16 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 				g.add( ( thing, dc.isPartOf, parent ) )
 
 
-			for s,p,o in g.triples((None, None, None)):
-				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					if o.datatype != None:
-						triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
-					else:
-						triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
-				else:
-					# print type(o)
-					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
-			g = Graph()
+			# for s,p,o in g.triples((None, None, None)):
+			# 	if str(type(o)) == "<class 'rdflib.term.Literal'>":
+			# 		if o.datatype != None:
+			# 			triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+			# 		else:
+			# 			triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
+			# 	else:
+			# 		# print type(o)
+			# 		triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
+			# g = Graph()
 
 
 		# 	if i % 10 == 0:
@@ -180,25 +184,27 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 		# 	sendTriplesToEndpoint(triples)
 		# bar.update(i+1)	
 		# # g.serialize('AdmUnits.ttl', format='turtle')			
+			# print g.serialize(format="turtle")
 
-
-		if i % 5000 == 0 and i > 0:
-			with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
-				f.write(g.serialize(format="turtle"))
-			g = Graph()
-			r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
-			# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
-			# os.system(cmdParameters)
-			# sendTriplesToEndpoint(triples)
-			# triples = ''
+			if i % 5000 == 0 and i > 0:
+				# print "send data to endpoint"
+				with open('D:/tempFiles/{0}{1}.ttl'.format(AdmUnitType, i), "w") as f:
+					f.write(g.serialize(format="turtle"))
+				g = Graph()
+				r = session.post(endpoint[:-5]+'Store', data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempFiles/{0}{1}.ttl'.format(AdmUnitType, i), 'fromurl':'Store from URI' }) 
+				# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempFiles/{0}.ttl turtle".format(i)
+				# os.system(cmdParameters)
+				# sendTriplesToEndpoint(triples)
+				# triples = ''
 			bar.update(i+1)
 
-	# if len(triples) > 0:
-	if len(g) > 0:	
-		with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+		
+		# print "send data to endpoint"
+		with open('D:/tempFiles/{0}{1}.ttl'.format(AdmUnitType, i), "w") as f:
 			f.write(g.serialize(format="turtle"))
-		r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
-		# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+		# print endpoint[:-5]+'Store'
+		r = session.post(endpoint[:-5]+'Store', data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempFiles/{0}{1}.ttl'.format(AdmUnitType, i), 'fromurl':'Store from URI' }) 
+		# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempFiles/{0}.ttl turtle".format(i)
 		# os.system(cmdParameters)
 		# sendTriplesToEndpoint(triples)
 
@@ -264,17 +270,17 @@ def LandcoverTable2RDF(table):
 			# g.serialize("landcover/legend/CLC_{0}".format(key), format='turtle')
 			CreatePurls([legendType],purlBatch)
 			# g = Graph()
-			bar.update(i)
+		bar.update(i)
 			j += 1
 
 	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
 	session = requests.Session()
 	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
 
-	with open('D:/tempCorine/legend.ttl', "w") as f:
+	with open('D:/tempFiles/legend.ttl', "w") as f:
 		f.write(g.serialize(format="turtle"))
 	g = Graph()
-	r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/legend.ttl', 'fromurl':'Store from URI' }) 
+	r = session.post(endpoint[:-5]+'Store', data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempFiles/legend.ttl', 'fromurl':'Store from URI' }) 
 
 	print "Creating linked data from CORINE 2012 dataset"
 	with progressbar.ProgressBar(max_value=len(table)) as bar:
@@ -328,26 +334,27 @@ def LandcoverTable2RDF(table):
 			# g.serialize("{0}.ttl".format('landcover/{0}'.format(ID)), format='turtle')
 			
 			if i % 5000 == 0 and i > 0:
-				with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+				# print "send data to endpoint"
+				with open('D:/tempFiles/raster{0}.ttl'.format(i), "w") as f:
 					f.write(g.serialize(format="turtle"))
 				g = Graph()
-				r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
-				# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+				r = session.post(endpoint[:-5]+'Store', data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempFiles/raster{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+				# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempFiles/{0}.ttl turtle".format(i)
 				# os.system(cmdParameters)
 				# sendTriplesToEndpoint(triples)
 				# triples = ''
-				bar.update(i+1)
-
-		# if len(triples) > 0:
-		if len(g) > 0:	
-			with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
-				f.write(g.serialize(format="turtle"))
-			r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
-			# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
-			# os.system(cmdParameters)
-			# sendTriplesToEndpoint(triples)
-
 			bar.update(i+1)
+
+		# print "send data to endpoint"
+		with open('D:/tempFiles/raster{0}.ttl'.format(i), "w") as f:
+			f.write(g.serialize(format="turtle"))
+
+		r = session.post(endpoint[:-5]+'Store', data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempFiles/raster{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+		# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempFiles/{0}.ttl turtle".format(i)
+		# os.system(cmdParameters)
+		# sendTriplesToEndpoint(triples)
+
+		bar.update(i+1)
 
 			
 			
@@ -355,6 +362,10 @@ def LandcoverTable2RDF(table):
 	return
 
 def EEA2RDF(table, resolution):
+	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
+	session = requests.Session()
+	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
+
 	# global NL_provinces
 	# global BE_provinces
 	# global NL_country
@@ -432,26 +443,26 @@ def EEA2RDF(table, resolution):
 		# bar.update(i+1)
 
 		if i % 5000 == 0 and i > 0:
-			with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+			# print "send data to endpoint"
+			with open('D:/tempFiles/corine{0}.ttl'.format(i), "w") as f:
 				f.write(g.serialize(format="turtle"))
 			g = Graph()
-			r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
-			# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+			r = session.post(endpoint[:-5]+'Store', data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempFiles/corine{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+			# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempFiles/{0}.ttl turtle".format(i)
 			# os.system(cmdParameters)
 			# sendTriplesToEndpoint(triples)
 			# triples = ''
-			bar.update(i+1)
-
-	# if len(triples) > 0:
-	if len(g) > 0:	
-		with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
-			f.write(g.serialize(format="turtle"))
-		r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
-		# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
-		# os.system(cmdParameters)
-		# sendTriplesToEndpoint(triples)
-
 		bar.update(i+1)
+
+	# print "send data to endpoint"
+	with open('D:/tempFiles/corine{0}.ttl'.format(i), "w") as f:
+		f.write(g.serialize(format="turtle"))
+	r = session.post(endpoint[:-5]+'Store', data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempFiles/corine{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+	# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempFiles/{0}.ttl turtle".format(i)
+	# os.system(cmdParameters)
+	# sendTriplesToEndpoint(triples)
+
+	bar.update(i+1)
 		
 	return 
 
@@ -481,7 +492,7 @@ if (__name__ == "__main__"):
 # Open the purl batch
 	CreatePurls('open', purlBatch)
 
-# Create linked data of EEA reference grid cells
+# # Create linked data of EEA reference grid cells
 	Grid100 = getData("Masterthesis", "raster100km_4258", "postgres", "gps")
 	EEA2RDF(Grid100, '100km')
 	Grid10 = getData("Masterthesis", "raster10km_4258", "postgres", "gps")
@@ -505,11 +516,11 @@ if (__name__ == "__main__"):
 	NL_municipalities = getData("Masterthesis", "nl_municipalities", "postgres", "gps")
 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
-# Create linked data of landcover
+# # Create linked data of landcover
   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
   	LandcoverTable2RDF(Landcover)
 
   	# sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
-	postPURLbatch(purlBatch,'admin', 'password')
+	# postPURLbatch(purlBatch,'admin', 'password')
 
