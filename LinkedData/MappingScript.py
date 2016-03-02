@@ -21,6 +21,10 @@ endpoint = "http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 
 purlBatch = 'D:/purlBatches/purlBatch'
 
+payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
+session = requests.Session()
+r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
+
 def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
 	conn = psycopg2.connect(host="localhost", port='5433', database=dbms_name, user=user, password=password) 
@@ -51,9 +55,6 @@ def getData(dbms_name, table, user, password, AdmUnit=True):
 
 # dminUnitTable2RDF takes a table with administrative units which all have a name and a geometry as input and stores it in an RDF file
 def AdminUnitTable2RDF(table, country, AdmUnitType):
-	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
-	session = requests.Session()
-	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
 
 	if AdmUnitType == 'municipality':
 		if country == 'Netherlands':
@@ -83,6 +84,7 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 	
 	global endpoint
 	global BaseURI
+	global session	
 
 	# Add administrative units with links to the graph
 	print "Creating linked data from {0} {1} dataset".format(AdmUnitType, country)
@@ -255,6 +257,7 @@ def LandcoverTable2RDF(table):
 	global BaseURI
 	global endpoint
 	global purlBatch
+	global session	
 
 	print "Creating linked data from CORINE 2012 Legend"
 	# if not os.path.exists('landcover/legend/'):
@@ -273,10 +276,7 @@ def LandcoverTable2RDF(table):
 		bar.update(i)
 			j += 1
 
-	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
-	session = requests.Session()
-	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
-
+	
 	with open('D:/tempFiles/legend.ttl', "w") as f:
 		f.write(g.serialize(format="turtle"))
 	g = Graph()
@@ -362,10 +362,7 @@ def LandcoverTable2RDF(table):
 	return
 
 def EEA2RDF(table, resolution):
-	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
-	session = requests.Session()
-	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
-
+	
 	# global NL_provinces
 	# global BE_provinces
 	# global NL_country
@@ -385,6 +382,7 @@ def EEA2RDF(table, resolution):
 	global outputFile
 	global BaseURI
 	global purlBatch
+	global session	
 
 	print "Creating linked data from EEA reference GRID {0}".format(resolution)
 	# if not os.path.exists('raster/'):
@@ -522,5 +520,5 @@ if (__name__ == "__main__"):
 
   	# sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
-	# postPURLbatch(purlBatch,'admin', 'password')
+	postPURLbatch(purlBatch,'admin', 'password')
 
