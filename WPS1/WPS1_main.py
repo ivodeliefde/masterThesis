@@ -49,12 +49,12 @@ class Process(WPSProcess):
 #       Original input
         # url = self.textIn.getValue()
 #        test URL
-        # url = 'http://sos.irceline.be/sos?'
-        # sos = SOS(url)
-        # sos.store()
+        url = 'http://sos.irceline.be/sos?'
+        sos = SOS(url)
+        sos.store()
 
 #       Test input from pickle
-        sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
+        # sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 
         sos.printInformation()
         # print sos.featureofinterest
@@ -64,12 +64,12 @@ class Process(WPSProcess):
 
 
 
-        # url = 'http://inspire.rivm.nl/sos/eaq/service?'
-        # sos = SOS(url)
-        # sos.store()
+        url = 'http://inspire.rivm.nl/sos/eaq/service?'
+        sos = SOS(url)
+        sos.store()
 
 #       Test input from pickle
-        sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
+        # sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
 
         sos.printInformation()
         # print sos.featureofinterest

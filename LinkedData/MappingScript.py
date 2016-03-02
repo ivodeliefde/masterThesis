@@ -466,5 +466,5 @@ if (__name__ == "__main__"):
 
   	sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
-	# postPURLbatch(purlBatch,'admin', 'password')
+	postPURLbatch(purlBatch,'admin', 'password')
 
