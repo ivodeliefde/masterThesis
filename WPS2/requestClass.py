@@ -207,15 +207,18 @@ class Request():
 			# print spatialFilter
 		else:
 			print 'Find raster cells intersecting the vector geometry'
+			featureFilter = []
 			for key, value in self.featureDict.iteritems():
-				featureFilter.append('?name = {0}'.format(value[1]))
-			featureFilter = "FILTER ( {0} ) )".format(' || '.join(featureFilter))
+				featureFilter.append('?name = "{0}"'.format(key))
+			featureFilter = "FILTER ( {0} )".format(' || '.join(featureFilter))
 			query = r"""SELECT 
 					   ?cellGeom
 					WHERE {{
-						?cell <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.com/resource/Raster> .
+						?cell <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/Raster> .
 						?cell <http://strdf.di.uoa.gr/ontology#hasGeometry> ?cellGeom . 
-						?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.com/resource/{0}> .
+						?cell <http://purl.org/dc/terms/isPartOf> <http://localhost:8099/masterThesis_tudelft/raster/10km> .
+						
+						?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/{0}> .
 						?feature <http://strdf.di.uoa.gr/ontology#hasGeometry> ?featureGeom .
 						?feature <http://xmlns.com/foaf/0.1/name> ?name . 
 						
@@ -223,8 +226,10 @@ class Request():
 						FILTER(<http://strdf.di.uoa.gr/ontology#intersects>(?featureGeom, ?cellGeom ) )
 					}}
 					""".format(self.featureCategory.replace(' ','_').title(), featureFilter)
-					
+			print query	
 			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' })
+			print r.content
+			return
 			tree = etree.fromstring(r.content)
 			nsm = tree.nsmap
 			tag = '{{{0}}}result'.format(nsm[None])
@@ -272,7 +277,7 @@ class Request():
 							
 						   {1} }}
 					""".format(obsProperty, spatialFilter)
-			print query
+			# print query
 			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' }) 
 			# print r
 			# print r.content
@@ -341,7 +346,6 @@ class Request():
 				
 				temporalFilterUsed = True
 				GetObservationWtempfilter = GetObservation + temporalFilter
-				print GetObservationWtempfilter
 
 				try:
 					r = requests.get(GetObservationWtempfilter)
@@ -359,9 +363,11 @@ class Request():
 					nsm = tree.nsmap
 					temporalFilterUsed = False
 
+				print GetObservation
 				# retrieve the sensor data from the request response 
-				print r
-				print r.content
+				# print r
+				# print r.content
+			return
 				
 
 			if temporalFilterUsed == False:
