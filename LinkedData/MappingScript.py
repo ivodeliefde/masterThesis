@@ -167,19 +167,42 @@ def AdminUnitTable2RDF(table, country, AdmUnitType):
 			g = Graph()
 
 
-			if i % 10 == 0:
-				sendTriplesToEndpoint(triples)
-				triples = u''
+		# 	if i % 10 == 0:
+		# 		sendTriplesToEndpoint(triples)
+		# 		triples = u''
 			
+		# 	bar.update(i+1)
+		# 		# Write the graph to a RDF file in the turtle format
+				
+		# 		# g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
+				
+		# if len(triples) > 0:
+		# 	sendTriplesToEndpoint(triples)
+		# bar.update(i+1)	
+		# # g.serialize('AdmUnits.ttl', format='turtle')			
+
+
+		if i % 5000 == 0 and i > 0:
+			with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+				f.write(g.serialize(format="turtle"))
+			g = Graph()
+			r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+			# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+			# os.system(cmdParameters)
+			# sendTriplesToEndpoint(triples)
+			# triples = ''
 			bar.update(i+1)
-				# Write the graph to a RDF file in the turtle format
-				
-				# g.serialize(u'{0}/{1}'.format( AdmUnitType.lower(), name ) , format='turtle')
-				
-		if len(triples) > 0:
-			sendTriplesToEndpoint(triples)
-		bar.update(i+1)	
-		# g.serialize('AdmUnits.ttl', format='turtle')			
+
+	# if len(triples) > 0:
+	if len(g) > 0:	
+		with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+			f.write(g.serialize(format="turtle"))
+		r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+		# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+		# os.system(cmdParameters)
+		# sendTriplesToEndpoint(triples)
+
+		bar.update(i+1)
 
 	return
 
@@ -373,38 +396,60 @@ def EEA2RDF(table, resolution):
 			
 
 			
-			# send data to enpoint
-			for s,p,o in g.triples((None, None, None)):
-				# print s,p,o
-				if str(type(o)) == "<class 'rdflib.term.Literal'>":
-					if o.datatype != None:
-						triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
-						# print u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
-					else:
-						triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
-					# print u'<{0}> <{1}> "{2}"^^{3} . \n'.format(s,p,o,o.datatype)
-				elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
-					triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
-					# pass
-				else:
-					print type(o)
+		# 	# send data to enpoint
+		# 	for s,p,o in g.triples((None, None, None)):
+		# 		# print s,p,o
+		# 		if str(type(o)) == "<class 'rdflib.term.Literal'>":
+		# 			if o.datatype != None:
+		# 				triples += u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+		# 				# print u'<{0}> <{1}> "{2}"^^<{3}> . \n'.format(s,p,o,o.datatype)
+		# 			else:
+		# 				triples += u'<{0}> <{1}> "{2}" . \n'.format(s,p,o)
+		# 			# print u'<{0}> <{1}> "{2}"^^{3} . \n'.format(s,p,o,o.datatype)
+		# 		elif str(type(o)) == "<class 'rdflib.term.URIRef'>":
+		# 			triples += u'<{0}> <{1}> <{2}> . \n'.format(s,p,o)
+		# 			# pass
+		# 		else:
+		# 			print type(o)
 			
+		# 	g = Graph()
+
+		# 	if i % 20 == 0:
+		# 		sendTriplesToEndpoint(triples)
+		# 		triples = u''
+		# 	bar.update(i+1)
+		# # Write the graph to a RDF file in the turtle format
+		# # try:
+		# # 	unicode(name)
+		# # except:
+		# # 	name = name.decode('utf-8')
+
+		# # g.serialize(u'raster/{0}'.format(resolution), format='turtle')
+		# # g = Graph()
+		# if len(triples) > 0:
+		# 	sendTriplesToEndpoint(triples)
+
+		# bar.update(i+1)
+
+		if i % 5000 == 0 and i > 0:
+			with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+				f.write(g.serialize(format="turtle"))
 			g = Graph()
-
-			if i % 20 == 0:
-				sendTriplesToEndpoint(triples)
-				triples = u''
+			r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+			# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+			# os.system(cmdParameters)
+			# sendTriplesToEndpoint(triples)
+			# triples = ''
 			bar.update(i+1)
-		# Write the graph to a RDF file in the turtle format
-		# try:
-		# 	unicode(name)
-		# except:
-		# 	name = name.decode('utf-8')
 
-		# g.serialize(u'raster/{0}'.format(resolution), format='turtle')
-		# g = Graph()
-		if len(triples) > 0:
-			sendTriplesToEndpoint(triples)
+	# if len(triples) > 0:
+	if len(g) > 0:	
+		with open('D:/tempCorine/{0}.ttl'.format(i), "w") as f:
+			f.write(g.serialize(format="turtle"))
+		r = requests.post(endpoint, data={'view':'HTML', 'format':'Turtle', 'url':'file:///D:/tempCorine/{0}.ttl'.format(i), 'fromurl':'Store from URI' }) 
+		# cmdParameters = "eu.earthobservatory.runtime.postgis.StoreOp localhost 5432 endpoint Ivo gps D:/tempCorine/{0}.ttl turtle".format(i)
+		# os.system(cmdParameters)
+		# sendTriplesToEndpoint(triples)
 
 		bar.update(i+1)
 		
@@ -464,7 +509,7 @@ if (__name__ == "__main__"):
   	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
   	LandcoverTable2RDF(Landcover)
 
-  	sendFailedTriples(u'D:/manualTriples.ttl')
+  	# sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
 	postPURLbatch(purlBatch,'admin', 'password')
 
