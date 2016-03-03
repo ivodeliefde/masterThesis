@@ -520,10 +520,10 @@ if (__name__ == "__main__"):
 	AdminUnitTable2RDF(NL_municipalities, 'Netherlands', 'municipality')
 
 # # Create linked data of landcover
-  	Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
-  	LandcoverTable2RDF(Landcover)
+  	# Landcover = getData("Masterthesis", "corine_nl_be", "postgres", "gps", False)
+  	# LandcoverTable2RDF(Landcover)
 
   	# sendFailedTriples(u'D:/manualTriples.ttl')
 # send PURLS to PURLZ server
-	postPURLbatch(purlBatch,'admin', 'password')
+	# postPURLbatch(purlBatch,'admin', 'password')
 
