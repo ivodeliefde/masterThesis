@@ -163,6 +163,10 @@ class SOS:
 							currentFOI = attributes.text
 						elif 'shape' in attributes.tag.lower():
 							coords = attributes[0][0].text
+							coordsList = coords.split()
+							# remove the third coordinate, beause stSPARQL can't perform spatial operations in 3D
+							if len(coordsList) > 2:
+								coords = ' '.join(coordsList[:2])
 							CRS = attributes[0][0].attrib['srsName']
 
 					self.featureofinterest[currentFOI]['coords'] = [coords, CRS]
@@ -223,7 +227,6 @@ class SOS:
 								pass
 							
 							self.log("featureofinterest not in attributes")
-							# print "featureofinterest not in attributes"
 							# in case FOI is not in attributes:
 							value = tree.findall(".//om:featureOfInterest/sams:SF_SpatialSamplingFeature/gml:identifier", nsm)
 							# print "no. gml:identifier", len(value)
@@ -239,7 +242,7 @@ class SOS:
 						self.log("no observations available")
 						# print "not an observations available"
 
-		print self.procedure		
+		# print self.procedure		
 		return
 
 	def printInformation(self):
