@@ -487,6 +487,10 @@ def sendFailedTriples(fileName):
 
 
 if (__name__ == "__main__"):
+# Create directory for temporary files 
+if not os.path.exists('D:/tempFiles/'):
+    os.makedirs('D:/tempFiles/')
+
 # Open the purl batch
 	CreatePurls('open', purlBatch)
 
