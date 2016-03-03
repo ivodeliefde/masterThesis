@@ -273,8 +273,9 @@ def LandcoverTable2RDF(table):
 			# g.serialize("landcover/legend/CLC_{0}".format(key), format='turtle')
 			CreatePurls([legendType],purlBatch)
 			# g = Graph()
-		bar.update(i)
+		
 			j += 1
+		bar.update(i)
 
 	
 	with open('D:/tempFiles/legend.ttl', "w") as f:
@@ -488,8 +489,8 @@ def sendFailedTriples(fileName):
 
 if (__name__ == "__main__"):
 # Create directory for temporary files 
-if not os.path.exists('D:/tempFiles/'):
-    os.makedirs('D:/tempFiles/')
+	if not os.path.exists('D:/tempFiles/'):
+	    os.makedirs('D:/tempFiles/')
 
 # Open the purl batch
 	CreatePurls('open', purlBatch)
