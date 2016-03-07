@@ -149,6 +149,7 @@ class SOS:
 				GetFeatureOfInterest += '&featureOfInterest=allFeatures'
 				r = requests.get(GetFeatureOfInterest)
 				tree = etree.fromstring(r.content)
+				nsm = tree.nsmap
 				break
 
 		print GetFeatureOfInterest
@@ -168,19 +169,29 @@ class SOS:
 							# if len(coordsList) > 2:
 							# 	coords = ' '.join(coordsList[:2])
 							CRS = attributes[0][0].attrib['srsName']
+					# else:
+					# 	print info.tag
 
-					self.featureofinterest[currentFOI]['coords'] = [coords, CRS]
-					self.featureofinterest[currentFOI]['offerings'] = []
-				# else:
-				# 	print info.tag
+			# Check if the coordinate order is lat,lon or lon,lat
+			SampledFeature = featureMember.find(".//sf:sampledFeature", nsm)
+			if "http://www.opengis.net/" in SampledFeature.attrib['xlink:href']:
+				coordsList = coords.split()
+				coords = " ".join(coordsList[1], coordsList[0], coordsList[2])
+			elif "urn:ogc:def" in SampledFeature.attrib['xlink:href']:
+				pass
+			else:
+				print "order unknown" 
 
+			self.featureofinterest[currentFOI]['coords'] = [coords, CRS]
+			self.featureofinterest[currentFOI]['offerings'] = []
+				
 		#-------------------------------------------------------------------------------#
 		# GetObservation --> retrieve small amounts of data to link a procedure to a FOI
 		#-------------------------------------------------------------------------------#
 		
 
-		yesterday = (datetime.now() - timedelta(days=7)).isoformat()
-		temporalFilter = '&temporalFilter=om:resultTime,after,{0}'.format(yesterday)
+		someTimeAgo = (datetime.now() - timedelta(days=7)).isoformat()
+		temporalFilter = '&temporalFilter=om:resultTime,after,{0}'.format(someTimeAgo)
 
 
 		for procedure in self.procedure:
