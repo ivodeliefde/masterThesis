@@ -1,0 +1,2388 @@
+@prefix ns1: <http://www.w3.org/ns/prov#> .
+@prefix ns2: <http://def.seegrid.csiro.au/ontology/om/sam-lite#> .
+@prefix ns3: <http://xmlns.com/foaf/0.1/> .
+@prefix ns4: <http://strdf.di.uoa.gr/ontology#> .
+@prefix ns5: <http://purl.org/dc/terms/> .
+@prefix ns6: <http://def.seegrid.csiro.au/ontology/om/om-lite#> .
+@prefix ns7: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/2> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/8> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_chemi_thermo42i" .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/21> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/5> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_BETA_BAM1020" .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/27> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/8> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_chemi_API200" .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/6> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/7> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49c" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/OFFERING/NL_RIVM_AQ/STA-NL00240/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_D9038" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00240_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00240/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/OFFERING/NL_RIVM_AQ/STA-NL00446/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_D9038" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00446/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/OFFERING/NL_RIVM_AQ/STA-NL00643/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_D9038" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00643_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00643/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00107/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00107_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00107/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00131/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00131/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00133/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00133/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00136/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00136_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00136/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00230/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00230/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00235/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00235/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00236/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00236/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00237/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00237_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00237/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00241/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00241/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00246/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00246_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00246/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00247/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00247/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00301/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00301_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00301/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00318/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00318/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00404/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00404/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00418/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00418/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00433/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00433/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00437/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00437/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00442/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00442/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00444/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00444/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00445/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00445_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00445/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00538/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00538/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00547/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00547_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00547/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00549/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00549_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00549/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00631/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00008_111_113> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00631/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00633/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00633_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00633/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00636/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00636_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00636/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00639/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00639/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00641/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00641/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00644/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00008_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00644/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00722/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00722/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00738/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00738/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00741/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00741_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00741/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00742/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00742_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00742/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00807/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00807_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00807/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00818/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00818/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00918/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00008_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00918/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00929/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00929/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00934/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00008_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00934/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00937/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00937_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00937/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/OFFERING/NL_RIVM_AQ/STA-NL00938/8> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00938_00008_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00938/8" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00131/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00131/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00133/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00133/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00136/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00136_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00136/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00138/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00138_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00138/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00230/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00230/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00235/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00235/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00236/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00236/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00237/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00237_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00237/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00240/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00240_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00240/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00241/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00241/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00246/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00246_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00246/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00247/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00247/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00318/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00318/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00404/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00404/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00418/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00418/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00433/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00433/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00437/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00437/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00442/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00442/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00444/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00444/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00445/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00445_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00445/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00446/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00446/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00538/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00538/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00545/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00545_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00545/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00631/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00631/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00636/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00636_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00636/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00639/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00639/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00641/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00005_101_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00641/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00644/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00644/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00722/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00722/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00738/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00005_101_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00738/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00741/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00741_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00741/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00818/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00818/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00918/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00918/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00929/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00929/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00934/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00934/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/OFFERING/NL_RIVM_AQ/STA-NL00937/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00937_00005_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00937/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/26/OFFERING/NL_RIVM_AQ/STA-NL00547/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_D9041" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00547_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00547/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/26/OFFERING/NL_RIVM_AQ/STA-NL00549/5> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_BETA_D9041" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00549_00005_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00549/5" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/28/OFFERING/NL_RIVM_AQ/STA-NL00446/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_D9039" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00007_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00446/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00107/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00107_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00107/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00131/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00131/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00133/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00133/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00230/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00230/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00235/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00235/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00236/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00236/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00241/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00007_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00241/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00247/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00007_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00247/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00301/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00301_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00301/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00318/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00318/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00404/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00404/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00418/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00007_120_121> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00418/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00433/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00433/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00437/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00437/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00442/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00007_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00442/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00444/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00007_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00444/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00538/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00538/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00631/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00631/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00633/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00633_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00633/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00639/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00639/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00641/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00007_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00641/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00643/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00643_00007_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00643/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00722/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00722/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00738/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00007_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00738/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00742/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00742_00007_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00742/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00807/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00807_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00807/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00818/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00007_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00818/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00918/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00007_101_102> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00918/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00929/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00007_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00929/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00934/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00007_111_112> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00934/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/OFFERING/NL_RIVM_AQ/STA-NL00938/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00938_00007_100_101> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00938/7" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/9/OFFERING/NL_RIVM_AQ/STA-NL00644/7> a ns1:Entity ;
+    ns6:procedure "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49w" ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00007_100_100> ;
+    ns1:specializationOf <http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> ;
+    ns3:name "NL.RIVM.AQ/STA-NL00644/7" .
+
+<http://localhost:8099/masterThesis_tudelft/0> rdfs:label "responseFormat" ;
+    ns3:name "http://dd.eionet.europa.eu/schemaset/id2011850eu-1.0" .
+
+<http://localhost:8099/masterThesis_tudelft/1> rdfs:label "responseFormat" ;
+    ns3:name "http://www.opengis.net/waterml/2.0" .
+
+<http://localhost:8099/masterThesis_tudelft/2> rdfs:label "responseFormat" ;
+    ns3:name "application/json" .
+
+<http://localhost:8099/masterThesis_tudelft/3> rdfs:label "responseFormat" ;
+    ns3:name "http://www.opengis.net/om/2.0" .
+
+<http://localhost:8099/masterThesis_tudelft/4> rdfs:label "responseFormat" ;
+    ns3:name "http://www.opengis.net/waterml-dr/2.0" .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/28> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/7> ;
+    ns1:wasAssociatedWith <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/28/SENSOR/1> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_UV-P_D9039" .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/9> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/7> ;
+    ns1:wasAssociatedWith <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/9/SENSOR/1> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49w" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/SENSOR/1> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00240_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/1> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/SENSOR/2> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/1> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/SENSOR/3> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00643_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/1> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/1> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/10> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00301_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/11> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/12> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/13> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/14> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/15> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/16> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00246_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/17> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00742_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/18> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00107_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/19> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00741_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/2> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00136_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/20> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/21> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/22> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00547_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/23> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/24> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/25> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/26> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/27> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00937_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/28> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/29> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/3> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/30> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00008_111_113> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/31> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/32> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00807_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/33> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/34> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/35> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00633_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/36> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00636_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/37> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00938_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/38> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00549_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/39> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/4> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00445_00008_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/40> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/5> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00008_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/6> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/7> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00237_00008_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/8> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/9> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00008_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/10> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/1> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/10> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/11> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/12> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/13> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/14> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/15> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00005_101_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/16> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/17> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00636_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/18> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00237_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/19> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00138_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/2> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/20> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00937_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/21> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00445_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/22> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/23> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/24> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/25> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/26> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/27> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/28> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/29> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/3> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/30> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00136_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/31> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/32> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00246_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/33> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00005_101_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/34> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/35> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/36> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/4> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/5> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/6> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/7> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00545_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/8> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00741_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/9> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00240_00005_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/16> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/26/SENSOR/1> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00549_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/26> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/26/SENSOR/2> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00547_00005_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/26> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/28/SENSOR/1> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00007_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/28> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/1> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/10> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00007_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/11> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00007_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/12> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/13> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/14> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/15> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00107_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/16> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00742_00007_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/17> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00007_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/18> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/19> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/2> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00007_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/20> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00007_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/21> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/22> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00301_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/23> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/24> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00643_00007_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/25> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/26> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00807_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/27> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00007_120_121> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/28> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/29> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00007_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/3> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/30> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00633_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/31> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/4> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/5> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00007_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/6> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00007_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/7> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00007_101_102> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/8> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00938_00007_100_101> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/9> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00007_111_112> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/7> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/PROC/9/SENSOR/1> a ns6:process,
+        ns1:Agent ;
+    ns6:featureOfInterest <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00007_100_100> ;
+    ns6:procedure <http://localhost:8099/masterThesis_tudelft/PROC/9> ;
+    ns5:isPartOf <http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/26> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/5> ;
+    ns1:wasAssociatedWith <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/26/SENSOR/1>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/26/SENSOR/2> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_BETA_D9041" .
+
+<http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/5> ns3:name "http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5" .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/1> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/8> ;
+    ns1:wasAssociatedWith <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/SENSOR/1>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/SENSOR/2>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/1/SENSOR/3> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_chemi_D9038" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00107_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(6.0423990000000005 51.11919403820476); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00107_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00107_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(6.0423990000000005 51.11919403820476); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00107_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.853069999999999 51.540520037824535); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00131_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.853069999999999 51.540520037824535); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00131_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.853069999999999 51.540520037824535); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00131_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.881748000000001 50.902281038391635); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00133_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.881748000000001 50.902281038391635); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00133_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.881748000000001 50.902281038391635); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00133_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00136_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.970496 50.88795903840375); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00136_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00136_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.970496 50.88795903840375); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00136_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00138_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.986853 50.90031703839329); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00138_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.1484499999999995 51.518440037845004); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00230_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.1484499999999995 51.518440037845004); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00230_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.1484499999999995 51.518440037845004); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00230_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.359835 51.43444303792239); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00235_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.359835 51.43444303792239); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00235_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.359835 51.43444303792239); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00235_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.47235 51.46866203789098); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00236_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.47235 51.46866203789098); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00236_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.47235 51.46866203789098); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00236_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00237_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.444833000000001 51.44415703791349); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00237_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00237_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.444833000000001 51.44415703791349); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00237_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00240_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.824944 51.5935330377751); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00240_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00240_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.824944 51.5935330377751); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00240_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.781016000000001 51.60308003776617); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00241_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00007_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.781016000000001 51.60308003776617); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00241_00007_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.781016000000001 51.60308003776617); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00241_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00246_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.515271 51.65372903771855); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00246_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00246_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.515271 51.65372903771855); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00246_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.3933279999999995 51.40736503794714); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00247_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00007_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.3933279999999995 51.40736503794714); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00247_00007_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.3933279999999995 51.40736503794714); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00247_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00301_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(3.9166229999999995 51.634706037736464); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00301_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00301_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(3.9166229999999995 51.634706037736464); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00301_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(3.749483999999999 51.294498038049305); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00318_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(3.749483999999999 51.294498038049305); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00318_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(3.749483999999999 51.294498038049305); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00318_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.289185000000001 52.07714803730809); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00404_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.289185000000001 52.07714803730809); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00404_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.289185000000001 52.07714803730809); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00404_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.479923 51.914233037468634); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00418_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00007_120_121> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.479923 51.914233037468634); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00418_00007_120_121" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.479923 51.914233037468634); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00418_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.326303 51.910474037472305); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00433_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.326303 51.910474037472305); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00433_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.326303 51.910474037472305); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00433_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.450529000000001 51.78657903759214); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00437_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.450529000000001 51.78657903759214); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00437_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.450529000000001 51.78657903759214); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00437_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.708238999999999 51.80065803757861); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00442_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00007_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.708238999999999 51.80065803757861); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00442_00007_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.708238999999999 51.80065803757861); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00442_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.510817 52.2965560370868); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00444_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00007_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.510817 52.2965560370868); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00444_00007_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.510817 52.2965560370868); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00444_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00445_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.315872 52.075071037310146); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00445_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00445_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.315872 52.075071037310146); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00445_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.359376000000001 52.03902303734593); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00446_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00007_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.359376000000001 52.03902303734593); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00446_00007_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.359376000000001 52.03902303734593); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00446_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.050509 52.803657036553524); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00538_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.050509 52.803657036553524); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00538_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.050509 52.803657036553524); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00538_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00545_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.84102249 52.339496647042814); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00545_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00547_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.181552 52.23508303714937); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00547_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00547_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.181552 52.23508303714937); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00547_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00549_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.235903 52.257356037126755); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00549_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00549_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.235903 52.257356037126755); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00549_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.619210000000001 52.448710036929945); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00631_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.619210000000001 52.448710036929945); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00631_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00008_111_113> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.619210000000001 52.448710036929945); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00631_00008_111_113" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00633_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.83819 52.13795003724734); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00633_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00633_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.83819 52.13795003724734); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00633_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00636_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.124464 52.105031037280284); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00636_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00636_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.124464 52.105031037280284); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00636_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.120507000000001 52.06774803731743); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00639_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.120507000000001 52.06774803731743); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00639_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.120507000000001 52.06774803731743); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00639_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00005_101_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.987444000000001 52.20153003718333); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00641_00005_101_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00007_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.987444000000001 52.20153003718333); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00641_00007_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.987444000000001 52.20153003718333); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00641_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00643_00007_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.128183 52.101308037284014); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00643_00007_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00643_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.128183 52.101308037284014); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00643_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(4.923301 51.97448903740961); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00644_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00007_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(4.923301 51.97448903740961); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00644_00007_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00008_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(4.923301 51.97448903740961); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00644_00008_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(6.605367 52.09180103729347); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00722_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(6.605367 52.09180103729347); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00722_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(6.605367 52.09180103729347); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00722_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00005_101_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.708418999999999 52.111621037273686); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00738_00005_101_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00007_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.708418999999999 52.111621037273686); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00738_00007_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.708418999999999 52.111621037273686); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00738_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00741_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.857777 51.841372037539365); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00741_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00741_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.857777 51.841372037539365); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00741_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00742_00007_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.856938 51.83822103754241); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00742_00007_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00742_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.856938 51.83822103754241); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00742_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00807_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(6.402933000000001 52.388272036992596); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00807_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00807_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(6.402933000000001 52.388272036992596); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00807_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(6.017571 52.65414403671388); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00818_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00007_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(6.017571 52.65414403671388); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00818_00007_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(6.017571 52.65414403671388); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00818_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(5.573491569999999 52.91691592643034); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00918_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00007_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(5.573491569999999 52.91691592643034); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00918_00007_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00008_101_102> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(5.573491569999999 52.91691592643034); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00918_00008_101_102" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(6.932432000000001 52.87572503647533); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00929_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00007_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(6.932432000000001 52.87572503647533); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00929_00007_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(6.932432000000001 52.87572503647533); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00929_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00005_100_100> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(6.276815 53.330425035968325); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00934_00005_100_100" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00007_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(6.276815 53.330425035968325); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00934_00007_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00008_111_112> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(6.276815 53.330425035968325); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00934_00008_111_112" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00937_00005_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns4:hasGeometry "POINT(6.578900999999999 53.217796036096054); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00937_00005_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00937_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(6.578900999999999 53.217796036096054); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00937_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00938_00007_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns4:hasGeometry "POINT(6.608937 53.2465350360636); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00938_00007_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00938_00008_100_101> a ns2:SamplingPoint,
+        ns1:Entity ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns4:hasGeometry "POINT(6.608937 53.2465350360636); <http://www.opengis.net/def/crs/EPSG/0/4326>"^^ns4:WKT ;
+    ns3:name "NL.RIVM.AQ/SPO_F-NL00938_00008_100_101" .
+
+<http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/7> ns3:name "http://dd.eionet.europa.eu/vocabulary/aq/pollutant/7" .
+
+<http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/8> ns3:name "http://dd.eionet.europa.eu/vocabulary/aq/pollutant/8" .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/7> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/7> ;
+    ns1:wasAssociatedWith <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/1>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/10>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/11>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/12>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/13>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/14>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/15>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/16>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/17>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/18>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/19>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/2>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/20>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/21>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/22>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/23>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/24>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/25>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/26>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/27>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/28>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/29>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/3>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/30>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/31>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/4>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/5>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/6>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/7>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/8>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/7/SENSOR/9> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_UV-P_thermo49i" .
+
+<http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Ozone> a ns2:SamplingCollection ;
+    ns6:observedProperty <http://dbpedia.org/resource/Ozone> ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00107_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00007_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00007_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00301_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00007_120_121>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00007_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00007_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00007_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00633_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00007_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00643_00007_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00007_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00007_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00742_00007_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00807_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00007_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00007_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00007_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00007_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00938_00007_100_101> .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/16> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/5> ;
+    ns1:wasAssociatedWith <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/1>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/10>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/11>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/12>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/13>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/14>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/15>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/16>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/17>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/18>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/19>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/2>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/20>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/21>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/22>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/23>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/24>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/25>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/26>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/27>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/28>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/29>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/3>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/30>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/31>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/32>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/33>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/34>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/35>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/36>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/4>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/5>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/6>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/7>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/8>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/16/SENSOR/9> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_BETA_andersenFH62IR" .
+
+<http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Particulates> a ns2:SamplingCollection ;
+    ns6:observedProperty <http://dbpedia.org/resource/Particulates> ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00136_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00138_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00237_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00240_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00246_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00445_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00545_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00547_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00549_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00636_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00005_101_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00005_101_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00741_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00005_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00005_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00937_00005_100_101> .
+
+<http://localhost:8099/masterThesis_tudelft/PROC/10> a ns6:process,
+        ns1:Activity ;
+    ns6:observedProperty <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/8> ;
+    ns1:wasAssociatedWith <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/1>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/10>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/11>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/12>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/13>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/14>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/15>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/16>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/17>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/18>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/19>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/2>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/20>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/21>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/22>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/23>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/24>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/25>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/26>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/27>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/28>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/29>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/3>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/30>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/31>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/32>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/33>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/34>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/35>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/36>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/37>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/38>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/39>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/4>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/40>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/5>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/6>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/7>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/8>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/PROC/10/SENSOR/9> ;
+    ns3:name "NL.RIVM.AQ/SPP-NL_A_chemi_API200E" .
+
+<http://localhost:8099/masterThesis_tudelft/FOI_Collection/http://dbpedia.org/resource/Nitrogen_dioxide> a ns2:SamplingCollection ;
+    ns6:observedProperty <http://dbpedia.org/resource/Nitrogen_dioxide> ;
+    ns2:member <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00107_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00131_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00133_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00136_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00230_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00235_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00236_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00237_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00240_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00241_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00246_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00247_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00301_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00318_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00404_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00418_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00433_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00437_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00442_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00444_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00445_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00446_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00538_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00547_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00549_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00631_00008_111_113>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00633_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00636_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00639_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00641_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00643_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00644_00008_100_100>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00722_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00738_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00741_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00742_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00807_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00818_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00918_00008_101_102>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00929_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00934_00008_111_112>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00937_00008_100_101>,
+        <http://localhost:8099/masterThesis_tudelft/RIVM/FOI/NL_RIVM_AQ/SPO_F-NL00938_00008_100_101> .
+
+<http://localhost:8099/masterThesis_tudelft/RIVMSOSServiceAirQuality> a ns1:Agent ;
+    ns5:hasFormat <http://localhost:8099/masterThesis_tudelft/0>,
+        <http://localhost:8099/masterThesis_tudelft/1>,
+        <http://localhost:8099/masterThesis_tudelft/2>,
+        <http://localhost:8099/masterThesis_tudelft/3>,
+        <http://localhost:8099/masterThesis_tudelft/4> ;
+    ns5:hasVersion "1.0.0" ;
+    ns7:sameAs <http://inspire.rivm.nl/sos/eaq/service?> ;
+    ns1:ActedOnBehalfOf <http://localhost:8099/masterThesis_tudelft/RIVM> ;
+    ns3:name "RIVM SOS Service Air Quality" .
+
