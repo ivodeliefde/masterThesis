@@ -158,7 +158,7 @@ def capabilities(SOS):
 					geometry = SOS.featureofinterest[feature]
 					g.add( ( FOI, RDF.type, prov.Entity ) )
 					g.add( ( FOI, RDF.type, sam_lite.SamplingPoint ) ) 
-					g.add( ( FOI, geo.hasGeometry, Literal("POINT({0} {1}); <{2}>".format(geometry['coords'][0].split()[1], geometry['coords'][0].split()[0], URIRef(geometry['coords'][1])), datatype=geo.WKT ) ) )
+					g.add( ( FOI, geo.hasGeometry, Literal("POINT({0}); <{1}>".format(geometry['coords'][0], geometry['coords'][1]), datatype=geo.WKT ) ) )
 					g.add( ( FOI, om_lite.observedProperty, StandardObsProperty) )
 					g.add( ( StandardCollection, sam_lite.member, FOI ) )
 					g.add( ( sensor, om_lite.featureOfInterest, FOI ) )
