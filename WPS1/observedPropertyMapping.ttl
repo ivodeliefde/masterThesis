@@ -1,4 +1,4 @@
-@prefix owl: <http://www.w3.org/2002/07/owl#> 
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 
 <http://dbpedia.org/resource/Ozone> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/7> .
 <http://dbpedia.org/resource/Particulates> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/5> .
