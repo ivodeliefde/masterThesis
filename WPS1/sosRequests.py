@@ -165,7 +165,6 @@ class SOS:
 						elif 'shape' in attributes.tag.lower():
 							coords = attributes[0][0].text
 							# coordsList = coords.split()
-							# # remove the third coordinate, beause stSPARQL can't perform spatial operations in 3D
 							# if len(coordsList) > 2:
 							# 	coords = ' '.join(coordsList[:2])
 							CRS = attributes[0][0].attrib['srsName']
