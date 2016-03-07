@@ -149,8 +149,10 @@ class SOS:
 				GetFeatureOfInterest += '&featureOfInterest=allFeatures'
 				r = requests.get(GetFeatureOfInterest)
 				tree = etree.fromstring(r.content)
-				nsm = tree.nsmap
 				break
+
+		nsm = tree.nsmap
+			
 
 		print GetFeatureOfInterest
 
@@ -174,10 +176,12 @@ class SOS:
 
 			# Check if the coordinate order is lat,lon or lon,lat
 			SampledFeature = featureMember.find(".//sf:sampledFeature", nsm)
-			if "http://www.opengis.net/" in SampledFeature.attrib['xlink:href']:
+			# print SampledFeature.attrib['{http://www.w3.org/1999/xlink}href']
+			# return
+			if "http://www.opengis.net/" in SampledFeature.attrib['{http://www.w3.org/1999/xlink}href']:
 				coordsList = coords.split()
-				coords = " ".join(coordsList[1], coordsList[0], coordsList[2])
-			elif "urn:ogc:def" in SampledFeature.attrib['xlink:href']:
+				coords = " ".join([coordsList[1], coordsList[0], coordsList[2]])
+			elif "urn:ogc:def" in SampledFeature.attrib['{http://www.w3.org/1999/xlink}href']:
 				pass
 			else:
 				print "order unknown" 
