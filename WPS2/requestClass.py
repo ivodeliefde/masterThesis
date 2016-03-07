@@ -14,7 +14,6 @@ myEndpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query'
 class Request():
 	def __init__(self, observedProperties, featureCategory, featureNames, tempRange, spatialAggregation, tempAggregation):
 
-
 		self.observedProperties = observedProperties
 		self.featureCategory = featureCategory
 		self.featureNames = featureNames # list with names of input features
@@ -24,7 +23,7 @@ class Request():
 		self.tempAggregation = tempAggregation
 		self.sensors = {} # the sensors with their measurements: {obsProperty1: {sensor1: {'location': location, 'sos': sos, 'observations': values}, sensor2: {'location': location, 'sos': sos, 'observations': values} }, obsProperty2: {sensor3: {'location': location, 'sos': sos, 'observations': values} } }
 		self.sos = {}
-		self.results = {} # the features with their aggregated sensor data: {feature1: {obsProperty1: value, obsProperty2: value}, feature2: {obsProperty1: value, obsProperty2: value} }
+		self.results = {} # the features with their aggregated sensor data: {obsProperty1: { sensor1: [values], sensor2: [values], sensor3: [values] } }
 
 	def getGeometries(self, countries=['the Netherlands', 'Belgium']):
 		global myEndpoint
@@ -202,8 +201,8 @@ class Request():
 
 			spatialFilter = []
 			for key, value in self.featureDict.iteritems():
-				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom'.format(value[1]))
-			spatialFilter = "FILTER ( {0} ) )".format(' || '.join(spatialFilter))
+				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom)'.format(value[1]))
+			spatialFilter = "FILTER ( {0} )".format(' || '.join(spatialFilter))
 			# print spatialFilter
 		else:
 			print 'Find raster cells intersecting the vector geometry'
@@ -212,11 +211,12 @@ class Request():
 				featureFilter.append('?name = "{0}"'.format(key))
 			featureFilter = "FILTER ( {0} )".format(' || '.join(featureFilter))
 			query = r"""SELECT 
-					   ?cellGeom
+					   ?cellGeom ?cellName
 					WHERE {{
 						?cell <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/Raster> .
 						?cell <http://strdf.di.uoa.gr/ontology#hasGeometry> ?cellGeom . 
 						?cell <http://purl.org/dc/terms/isPartOf> <http://localhost:8099/masterThesis_tudelft/raster/10km> .
+						?cell <http://xmlns.com/foaf/0.1/name> ?cellName . 
 						
 						?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/{0}> .
 						?feature <http://strdf.di.uoa.gr/ontology#hasGeometry> ?featureGeom .
@@ -226,10 +226,11 @@ class Request():
 						FILTER(<http://strdf.di.uoa.gr/ontology#intersects>(?featureGeom, ?cellGeom ) )
 					}}
 					""".format(self.featureCategory.replace(' ','_').title(), featureFilter)
-			print query	
+			# print query
+			# return	
 			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' })
-			print r.content
-			return
+			# print r.content
+			
 			tree = etree.fromstring(r.content)
 			nsm = tree.nsmap
 			tag = '{{{0}}}result'.format(nsm[None])
@@ -237,12 +238,16 @@ class Request():
 			for result in tree.findall('.//{0}'.format(tag)):
 				for each in result.getchildren():
 					if each.attrib['name'] == 'cellGeom':
-						cellList.append(each[0].text)
+						value = each[0].text
+					elif each.attrib['name'] == 'cellName':
+						name = each[0].text
+				cellList.append( (value,name) )
 
 			spatialFilter = []
-			for value in cellList:
-				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom'.format(value[1]))
-			spatialFilter = "FILTER ( {0} ) )".format(' || '.join(spatialFilter))
+			for value, name in cellList:
+				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom)'.format(value))
+			spatialFilter = "FILTER ( {0} )".format(' || '.join(spatialFilter))
+
 
 
 		for obsProperty in self.observedProperties:
@@ -277,10 +282,11 @@ class Request():
 							
 						   {1} }}
 					""".format(obsProperty, spatialFilter)
-			# print query
+			print query
 			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' }) 
 			# print r
 			# print r.content
+			# return
 
 			tree = etree.fromstring(r.content)
 			nsm = tree.nsmap
@@ -310,8 +316,8 @@ class Request():
 		
 		# print self.sensors
 
-		if self.featureCategory.lower() != 'raster':
-			print 'filter out redundant results'
+		# if self.featureCategory.lower() != 'raster':
+		# 	print 'filter out redundant sensors'
 
 		return
 
@@ -339,6 +345,8 @@ class Request():
 		return
 
 	def getObservationData(self):
+		print "Get Observation Data"
+		print self.sensors
 		temporalFilter = '&temporalFilter=om:resultTime,after,{0}&temporalFilter=om:resultTime,before,{1}'.format(self.tempRange[0], self.tempRange[1])
 		for obsProperty in self.sensors:
 			for sensor in self.sensors[obsProperty]:
@@ -346,33 +354,39 @@ class Request():
 				
 				temporalFilterUsed = True
 				GetObservationWtempfilter = GetObservation + temporalFilter
+				# print 'With Filter:', GetObservationWtempfilter
 
 				try:
 					r = requests.get(GetObservationWtempfilter)
 					tree = etree.fromstring(r.content)
-					nsm = tree.nsmap
 				except:
 					r = requests.get(GetObservation)
 					tree = etree.fromstring(r.content)
-					nsm = tree.nsmap
 					temporalFilterUsed = False
+
+				nsm = tree.nsmap
 
 				if len(tree.findall('.//ows:Exception',nsm)) > 0 and temporalFilterUsed == True:
 					r = requests.get(GetObservation)
 					tree = etree.fromstring(r.content)
 					nsm = tree.nsmap
 					temporalFilterUsed = False
-
-				print GetObservation
+				
+				print r.content
+				# print 'Without Filter', GetObservation
 				# retrieve the sensor data from the request response 
-				# print r
-				# print r.content
-			return
+				# tag = '{{{0}}}result'.format(nsm[None])
+				# for result in tree.findall('.//{0}'.format(tag)):
+				# 	for each in result.getchildren():
+				# 		print each
 				
 
-			if temporalFilterUsed == False:
-				# manually filter the sensor data outside the temporal range
-				pass
+				return
+				
+
+			# if temporalFilterUsed == False:
+			# 	# manually filter the sensor data outside the temporal range
+			# 	pass
 	
 		return
 

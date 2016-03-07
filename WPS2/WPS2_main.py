@@ -48,8 +48,8 @@ class Process(WPSProcess):
         # Test data
         #----------------------------------------------------------------------------#
         observedProperties = ['http://dbpedia.org/resource/Nitrogen_dioxide']
-        featureCategory = 'municipality'
-        featureNames = ['Delft']
+        featureCategory = 'raster'
+        featureNames = ['100kmE40N30']
         tempRange = ['2016-01-04T09:42:47.151000', '2016-02-04T09:42:47.151000']
         # tempGranularity = 
         spatialAggregation = ['average']
