@@ -85,7 +85,7 @@ An offering is a grouping of features of interest, which have a common procedure
 A Python class object is created for the \ac{sos} based on Figure \ref{fig:SOS_UML}. This class contains the different variables and has built in functions to automatically retrieve the metadata. To collect all the required metadata a number of request have to be made, which is done using the \texttt{SOSclass.request()} method which requires only the \ac{http} address of the \ac{sos} as input. First, the capabilities document is retrieved to collect information about the organisation, supported \ac{sos} versions and response formats. It also contains lists with identifiers for all features of interest, offerings, observable properties and procedures. In this document the offerings are linked to a certain procedure and to a certain observable property. 
 
 Unfortunately, the capabilities document is not able to provide information about which procedure is being applied for which feature of interest. Also, the features' geometries cannot be retrieved from it. Therefore, a \texttt{GetFeatureOfInterest} request is made to retrieve the location of each features of interest. However, the \texttt{GetFeatureOfInterest} document does not necessarily provide information about the procedures that are related to a certain feature of interest. When a \texttt{GetObservation} request is made for an offering, the returned observation data is grouped per feature of interest. 
-Therefore, small amounts of data are retrieved from each offering using \texttt{GetObservation} requests, when possible with a temporal filter to limit the data traffic. % should be changed to describesensor requests
+Therefore, small amounts of data are retrieved from each offering using \texttt{GetObservation} requests, when possible with a temporal filter to limit the data traffic. 
 Every procedure and offering can now be related to a set of features of interest with point geometries.  
  
 
@@ -137,4 +137,4 @@ Data is aggregated.
 \section{Setting up the Web Processing Services}
 Creating two \aclp{wps} using PyWPS.
 
-\section{Creating a QGIS plugin}
+\section{Creating an online dashboard}

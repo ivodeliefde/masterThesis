@@ -1,6 +1,6 @@
 % !TeX root = ../../thesis.tex
 
-chapter{Results}
+\chapter{Results}
 \label{chap:results}
 
 \section{Implementation differences between Sensor Observation Services}
@@ -11,14 +11,15 @@ One of the \ac{sos} implementations allowed multiple observed properties to be r
 \section{Semantics in Sensor Observation Services}
 The metadata in \aclp{sos} does not necessarily contain semantics. This is an issue when automatically retrieving metadata from different services. In the implementation this has caused a problem with identifying which observable properties in a \ac{sos} are the same as observable properties found in another \ac{sos}. 
 
-\section{Spatial queries with GeoSPARQL}
+\section{Spatial queries with stSPARQL}
 \label{par:spQueries}
 For retrieving data about a vector feature three methods for spatial querying have been implemented. First of all, spatial queries in which the server side receives the complete geometry of a feature and checks which point geometries it contains. Second of all, spatial queries in which the server side receives the bounding box of the complete geometry and check which points are within it. Third of all, spatial queries in which the server side receives the \ac{eea} reference grid cell that overlap the geometry and checks which points each cell contains. With the first method the client does not have to perform any spatial queries anymore. The second and third method will also return points that are not inside the geometry of the vector feature. These points could be filtered out by the client. 
 
 \subsection{Vector queries}
 GeoSPARQL allows spatial queries in which a geometry can be inserted in the query. The implementation uses this functionality to test for spatial relations between geometries. For example between the point geometry of a sensor and the polygon geometry of an administrative unit. However, when geometries become more complicated their \ac{wkt} definition becomes more verbose. This leads to the query being rejected based on its number of characters by the endpoint. This indicates that vector queries with complex geometries are not very efficient to include in a \ac{sparql} query.     
 
-\subsection{Bounding box queries}
+\subsection{Raster queries}
+All raster cells are retrieved that overlap with the vector geometry. For these raster cell sensors are retrieved and later the excess ones are filtered out. 
 
-
-\subsection{Raster conversion}
+\subsection{Latitude and longitude order}
+During the implementation a problem has come up regarding the order in which latitude and longitude are being presented in the \ac{sos}. The \ac{sos} of the \ac{rivm} provides point geometries in WGS84 as longitude, latitude and height. However, the Strabon endpoint expects the order to be latitude, longitude and height. This results false outcomes of spatial queries.    
