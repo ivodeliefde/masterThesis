@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import requests
 from lxml import etree
 from datetime import datetime, timedelta
@@ -163,10 +164,10 @@ class SOS:
 							currentFOI = attributes.text
 						elif 'shape' in attributes.tag.lower():
 							coords = attributes[0][0].text
-							coordsList = coords.split()
-							# remove the third coordinate, beause stSPARQL can't perform spatial operations in 3D
-							if len(coordsList) > 2:
-								coords = ' '.join(coordsList[:2])
+							# coordsList = coords.split()
+							# # remove the third coordinate, beause stSPARQL can't perform spatial operations in 3D
+							# if len(coordsList) > 2:
+							# 	coords = ' '.join(coordsList[:2])
 							CRS = attributes[0][0].attrib['srsName']
 
 					self.featureofinterest[currentFOI]['coords'] = [coords, CRS]
@@ -272,17 +273,17 @@ class SOS:
 
 if (__name__ == "__main__"):
 # # 	Requesting the Dutch SOS from RIVM
- 	RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
- 	RIVM_SOS.store()
- 	# RIVM_SOS = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
+ 	# RIVM_SOS = SOS('http://inspire.rivm.nl/sos/eaq/service?')
+ 	# RIVM_SOS.store()
+ 	RIVM_SOS = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
  	RIVM_SOS.printInformation()
- 	print RIVM_SOS.procedure, "\n"
+ 	print RIVM_SOS.featureofinterest, "\n"
  	
 
 
 # # 	Requesting the Belgian SOS IRCELINE	
-	IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
-	IRCELINE_SOS.store()
-	# IRCELINE_SOS = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
+	# IRCELINE_SOS = SOS('http://sos.irceline.be/sos?')
+	# IRCELINE_SOS.store()
+	IRCELINE_SOS = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 	IRCELINE_SOS.printInformation()
-	print IRCELINE_SOS.procedure
+	print IRCELINE_SOS.featureofinterest
