@@ -4,6 +4,7 @@ from rdflib import URIRef, BNode, Literal, Graph
 from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
 import logging
+from shapely.wkt import loads
 
 logging.basicConfig()
 
@@ -269,20 +270,16 @@ class Request():
 						   ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname  .
 
 						   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI .
-						   
-						   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos .
-
-						   
-						   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI .
 						   ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#procedure> ?procedure .
 						   ?sensor <http://purl.org/dc/terms/isPartOf> ?sos .
 						   ?sos <http://www.w3.org/2002/07/owl#sameAs> ?sosAddress .
 
+						   ?procedure <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty .
 						   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
 							
 						   {1} }}
 					""".format(obsProperty, spatialFilter)
-			print query
+			# print query
 			r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' }) 
 			# print r
 			# print r.content
@@ -316,8 +313,32 @@ class Request():
 		
 		# print self.sensors
 
-		# if self.featureCategory.lower() != 'raster':
-		# 	print 'filter out redundant sensors'
+		if self.featureCategory.lower() != 'raster':
+			print 'filter out redundant sensors'
+			
+			featureList = []
+			for each in self.featureDict:
+				featureList.append(loads(self.featureDict[each][1]))
+
+			# print len(str(self.sensors))
+			for obsProperty in self.observedProperties:
+				excessSensors = []
+				for sensor in self.sensors[obsProperty]:
+					theGeom = loads(self.sensors[obsProperty][sensor]['location'])
+					
+					excess = True
+					for feature in featureList:
+						if feature.contains(theGeom) :
+							excess = False
+					
+					if excess == True:
+						excessSensors.append( (obsProperty,sensor) )
+
+			for each in excessSensors:
+				obsProperty, sensor = each
+				del self.sensors[obsProperty][sensor]
+
+		# print len(str(self.sensors))
 
 		return
 
