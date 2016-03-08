@@ -278,6 +278,7 @@ class Request():
 
 						   ?procedure <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty .
 						   ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
+						   ?offering <http://def.seegrid.csiro.au/ontology/om/om-lite#procedure> ?procName .
 							
 						   {1} }}
 					""".format(obsProperty, spatialFilter)
@@ -300,7 +301,13 @@ class Request():
 					elif each.attrib['name'] == 'geom':
 						# transform all geometries to WGS84
 						WKTdata = each[0].text
-						geom, CRS = WKTdata.split(';')
+						if len(WKTdata.split(';')) == 2:
+							geom, CRS = WKTdata.split(';')
+						else:
+							geom = each[0].text
+							CRS = 'http://www.opengis.net/def/crs/EPSG/0/4326'
+							WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(geom)
+
 						CRSlist = CRS.split('/')
 						if CRSlist[-1:] != '4326':
 							point = loads(geom)
@@ -311,12 +318,13 @@ class Request():
 							newPoint = transform(project, point)
 							# print newPoint, list(newPoint.coords)[0]
 							if len(list(newPoint.coords)[0]) == 2:
-								newPointWKT = 'POINT( {0} {1} )'.format(newPoint.y, newPoint.x)
+								newPointWKT = 'POINT( {0} {1} )'.format(newPoint.x, newPoint.y)
 							else:
-								newPointWKT = 'POINT( {0} {1} {2} )'.format(newPoint.y, newPoint.x, newPoint.z)
+								newPointWKT = 'POINT( {0} {1} {2} )'.format(newPoint.x, newPoint.y, newPoint.z)
 							# print newPointWKT
 							# return
 							WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(newPointWKT)
+							# print WKTdata
 
 						self.sensors[obsProperty][sensor]['location'] = WKTdata
 					elif each.attrib['name'] == 'FOIname':
@@ -340,7 +348,14 @@ class Request():
 			
 			featureList = []
 			for each in self.featureDict:
-				featureList.append(loads(self.featureDict[each][1]))
+				feature = loads(self.featureDict[each][1])
+				# project = partial(
+				# 			    pyproj.transform,
+				# 			    pyproj.Proj(init='epsg:4258'),
+				# 			    pyproj.Proj(init='epsg:4326'))
+				# newFeature = transform(project, feature)
+				# featureList.append(newFeature)
+				featureList.append(feature)
 
 			# print len(str(self.sensors))
 			for obsProperty in self.observedProperties:
@@ -350,18 +365,29 @@ class Request():
 					
 					excess = True
 					for feature in featureList:
+						# print feature
 						if feature.contains(theGeom) :
 							excess = False
-					
+					# print theGeom
+					# return
 					if excess == True:
+						# print theGeom
 						excessSensors.append( (obsProperty,sensor) )
+					else:
+						# Reversing the point coordinates from lat,lon to lon,lat which will be useful for visualizing on webmaps
+						if len(list(theGeom.coords)[0]) == 2:
+							point = 'POINT( {0} {1} )'.format(theGeom.y, theGeom.x)
+						else:
+							point = 'POINT( {0} {1} {2} )'.format(theGeom.y, theGeom.x, theGeom.z)
+						WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(point)
+						self.sensors[obsProperty][sensor]['location'] = WKTdata
 
 			for each in excessSensors:
 				obsProperty, sensor = each
 				del self.sensors[obsProperty][sensor]
 
-		print len(str(self.sensors))
-
+		# print len(str(self.sensors))
+		# print self.sensors
 		return
 
 	def parseSOS(sosURI):
@@ -392,6 +418,7 @@ class Request():
 		# print self.sensors
 		temporalFilter = '&temporalFilter=om:resultTime,after,{0}&temporalFilter=om:resultTime,before,{1}'.format(self.tempRange[0], self.tempRange[1])
 		for obsProperty in self.sensors:
+			self.results[obsProperty] = {}
 			for sensor in self.sensors[obsProperty]:
 				GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0&featureOfInterest={4}'.format(self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'],self.sensors[obsProperty][sensor]['FOI'])
 				
@@ -418,21 +445,42 @@ class Request():
 				else:
 					print GetObservationWtempfilter
 				
-				# print r.content
-				# print 'Without Filter', GetObservation
-				# retrieve the sensor data from the request response 
-				# tag = '{{{0}}}result'.format(nsm[None])
-				# for result in tree.findall('.//{0}'.format(tag)):
-				# 	for each in result.getchildren():
-				# 		print each
-				
-				print "Done"
-				return
+				sensorLocation = self.sensors[obsProperty][sensor]['location']
+				for observation in tree.findall('.//sos:observationData', nsm):
+					dataType = tree.find('.//om:type', nsm).attrib['{http://www.w3.org/1999/xlink}href']
+					if dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement':
+						print 'OM measurement data'
+						uom = tree.find('.//om:result',nsm).attrib['uom']
+
+					elif dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEObservation':
+						if tree.find('.//om:result', nsm).attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] == 'swe:DataArrayPropertyType':
+							print 'SWE Data Array'
+							uom = tree.find(".//swe:Quantity[@definition='{0}']/swe:uom".format(self.sensors[obsProperty][sensor]['obsPropertyName']), nsm).attrib['code']
+
+							try:
+								csvData = tree.find('.//swe:values', nsm).text
+								# print data
+								# return 
+							except:
+								continue
+
+					
+					if sensorLocation in self.results[obsProperty]:
+						self.results[obsProperty][sensorLocation][uom].append(csvData)
+					else:
+						self.results[obsProperty][sensorLocation] = { str(uom): [csvData] }
+					
+					return
+
+
+		if temporalFilterUsed == False:
+			# manually filter the sensor data outside the temporal range
+			print 'filter out data outside the temporal range'
+			pass
+
 				
 
-			# if temporalFilterUsed == False:
-			# 	# manually filter the sensor data outside the temporal range
-			# 	pass
+
 	
 		return
 
