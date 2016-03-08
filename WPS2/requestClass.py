@@ -450,7 +450,12 @@ class Request():
 					dataType = tree.find('.//om:type', nsm).attrib['{http://www.w3.org/1999/xlink}href']
 					if dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement':
 						print 'OM measurement data'
-						uom = tree.find('.//om:result',nsm).attrib['uom']
+						resultTime = tree.find('.//om:resultTime/gml:TimeInstant/gml:timePosition',nsm).text
+						result = tree.find('.//om:result',nsm)
+						uom = result.attrib['uom']
+						value = result.text
+						csvData = '{0},{1}'.format(resultTime, value)
+
 
 					elif dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEObservation':
 						if tree.find('.//om:result', nsm).attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] == 'swe:DataArrayPropertyType':
@@ -466,11 +471,12 @@ class Request():
 
 					
 					if sensorLocation in self.results[obsProperty]:
-						self.results[obsProperty][sensorLocation][uom].append(csvData)
+						self.results[obsProperty][sensorLocation][uom] += '{0};'.format(csvData)
 					else:
-						self.results[obsProperty][sensorLocation] = { str(uom): [csvData] }
-					
-					return
+						self.results[obsProperty][sensorLocation] = { uom: '{0};'.format(csvData) }
+
+				print self.results[obsProperty][sensorLocation]
+				return 
 
 
 		if temporalFilterUsed == False:
