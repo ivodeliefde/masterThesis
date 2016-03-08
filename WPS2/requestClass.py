@@ -5,6 +5,10 @@ from rdflib.namespace import RDF, RDFS, FOAF
 import rdflib
 import logging
 from shapely.wkt import loads
+from shapely.geometry import Point
+from functools import partial
+import pyproj
+from shapely.ops import transform
 
 logging.basicConfig()
 
@@ -198,8 +202,6 @@ class Request():
 
 	def getSensorsRaster(self):
 		if self.featureCategory.lower() == 'raster':
-			print 'Request data for raster cells'
-
 			spatialFilter = []
 			for key, value in self.featureDict.iteritems():
 				spatialFilter.append('<http://strdf.di.uoa.gr/ontology#contains>("{0}"^^<http://strdf.di.uoa.gr/ontology#WKT>, ?geom)'.format(value[1]))
@@ -250,7 +252,7 @@ class Request():
 			spatialFilter = "FILTER ( {0} )".format(' || '.join(spatialFilter))
 
 
-
+		print 'Retrieve sensors inside raster cells'
 		for obsProperty in self.observedProperties:
 			# print obsProperty
 			query = r"""SELECT 
@@ -296,7 +298,27 @@ class Request():
 						sensor = each[0].text
 						self.sensors[obsProperty][sensor] = {}
 					elif each.attrib['name'] == 'geom':
-						self.sensors[obsProperty][sensor]['location'] = each[0].text
+						# transform all geometries to WGS84
+						WKTdata = each[0].text
+						geom, CRS = WKTdata.split(';')
+						CRSlist = CRS.split('/')
+						if CRSlist[-1:] != '4326':
+							point = loads(geom)
+							project = partial(
+							    pyproj.transform,
+							    pyproj.Proj(init='epsg:{0}'.format(CRSlist[-1:][0])),
+							    pyproj.Proj(init='epsg:4326'))
+							newPoint = transform(project, point)
+							# print newPoint, list(newPoint.coords)[0]
+							if len(list(newPoint.coords)[0]) == 2:
+								newPointWKT = 'POINT( {0} {1} )'.format(newPoint.y, newPoint.x)
+							else:
+								newPointWKT = 'POINT( {0} {1} {2} )'.format(newPoint.y, newPoint.x, newPoint.z)
+							# print newPointWKT
+							# return
+							WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(newPointWKT)
+
+						self.sensors[obsProperty][sensor]['location'] = WKTdata
 					elif each.attrib['name'] == 'FOIname':
 						self.sensors[obsProperty][sensor]['FOI'] = each[0].text
 					elif each.attrib['name'] == 'procName':
@@ -338,7 +360,7 @@ class Request():
 				obsProperty, sensor = each
 				del self.sensors[obsProperty][sensor]
 
-		# print len(str(self.sensors))
+		print len(str(self.sensors))
 
 		return
 
@@ -367,11 +389,11 @@ class Request():
 
 	def getObservationData(self):
 		print "Get Observation Data"
-		print self.sensors
+		# print self.sensors
 		temporalFilter = '&temporalFilter=om:resultTime,after,{0}&temporalFilter=om:resultTime,before,{1}'.format(self.tempRange[0], self.tempRange[1])
 		for obsProperty in self.sensors:
 			for sensor in self.sensors[obsProperty]:
-				GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0'.format(self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'])
+				GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0&featureOfInterest={4}'.format(self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'],self.sensors[obsProperty][sensor]['FOI'])
 				
 				temporalFilterUsed = True
 				GetObservationWtempfilter = GetObservation + temporalFilter
@@ -387,13 +409,16 @@ class Request():
 
 				nsm = tree.nsmap
 
-				if len(tree.findall('.//ows:Exception',nsm)) > 0 and temporalFilterUsed == True:
+				if len(tree.findall('.//{http://www.opengis.net/ows/1.1}Exception')) > 0 and temporalFilterUsed == True:
 					r = requests.get(GetObservation)
 					tree = etree.fromstring(r.content)
 					nsm = tree.nsmap
 					temporalFilterUsed = False
+					print GetObservation
+				else:
+					print GetObservationWtempfilter
 				
-				print r.content
+				# print r.content
 				# print 'Without Filter', GetObservation
 				# retrieve the sensor data from the request response 
 				# tag = '{{{0}}}result'.format(nsm[None])
@@ -401,7 +426,7 @@ class Request():
 				# 	for each in result.getchildren():
 				# 		print each
 				
-
+				print "Done"
 				return
 				
 
