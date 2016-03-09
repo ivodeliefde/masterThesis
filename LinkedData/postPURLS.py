@@ -4,7 +4,7 @@ from lxml import etree
 import cgi
 import unicodedata
 
-endpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/'
+endpoint = 'http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/'
 lineCount = 0
 fileCount = 0
 

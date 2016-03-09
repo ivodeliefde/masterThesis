@@ -17,13 +17,13 @@ engine = pyttsx.init()
 
 BaseURI = "http://localhost:8099/masterThesis_tudelft/" 
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
-endpoint = "http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query"
+endpoint = "http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 
 purlBatch = 'D:/purlBatches/purlBatch'
 
 payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
 session = requests.Session()
-r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
+r = session.post('http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
 
 def getData(dbms_name, table, user, password, AdmUnit=True):
 	# Connect to the Postgres database
