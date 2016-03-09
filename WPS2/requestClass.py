@@ -9,6 +9,12 @@ from shapely.geometry import Point
 from functools import partial
 import pyproj
 from shapely.ops import transform
+import csv
+import dateutil.parser
+import pytz
+from datetime import datetime, timedelta
+import numpy
+
 
 logging.basicConfig()
 
@@ -17,13 +23,14 @@ myEndpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query'
 
 
 class Request():
-	def __init__(self, observedProperties, featureCategory, featureNames, tempRange, spatialAggregation, tempAggregation):
+	def __init__(self, observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation):
 
 		self.observedProperties = observedProperties
 		self.featureCategory = featureCategory
 		self.featureNames = featureNames # list with names of input features
 		self.featureDict = {} # dictionary with names and corresponding geometries
 		self.tempRange = tempRange
+		self.tempGranularity = tempGranularity
 		self.spatialAggregation = spatialAggregation
 		self.tempAggregation = tempAggregation
 		self.sensors = {} # the sensors with their measurements: {obsProperty1: {sensor1: {'location': location, 'sos': sos, 'observations': values}, sensor2: {'location': location, 'sos': sos, 'observations': values} }, obsProperty2: {sensor3: {'location': location, 'sos': sos, 'observations': values} } }
@@ -261,7 +268,7 @@ class Request():
 						   ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
 						   ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> <{0}> .
 						   <http://dbpedia.org/resource/Nitrogen_dioxide> <http://www.w3.org/2002/07/owl#sameAs> ?obsProperty .
-                           ?obsProperty <http://xmlns.com/foaf/0.1/name> ?obsPropertyName .
+						   ?obsProperty <http://xmlns.com/foaf/0.1/name> ?obsPropertyName .
 						   ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
 
 						   ?offering <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
@@ -312,9 +319,9 @@ class Request():
 						if CRSlist[-1:] != '4326':
 							point = loads(geom)
 							project = partial(
-							    pyproj.transform,
-							    pyproj.Proj(init='epsg:{0}'.format(CRSlist[-1:][0])),
-							    pyproj.Proj(init='epsg:4326'))
+								pyproj.transform,
+								pyproj.Proj(init='epsg:{0}'.format(CRSlist[-1:][0])),
+								pyproj.Proj(init='epsg:4326'))
 							newPoint = transform(project, point)
 							# print newPoint, list(newPoint.coords)[0]
 							if len(list(newPoint.coords)[0]) == 2:
@@ -416,7 +423,7 @@ class Request():
 	def getObservationData(self):
 		print "Get Observation Data"
 		# print self.sensors
-		temporalFilter = '&temporalFilter=om:resultTime,after,{0}&temporalFilter=om:resultTime,before,{1}'.format(self.tempRange[0], self.tempRange[1])
+		temporalFilter = '&temporalFilter=om:resultTime,{0}/{1}'.format(self.tempRange[0], self.tempRange[1])
 		for obsProperty in self.sensors:
 			self.results[obsProperty] = {}
 			for sensor in self.sensors[obsProperty]:
@@ -445,13 +452,22 @@ class Request():
 				else:
 					print GetObservationWtempfilter
 				
+				# prevResultTime = ""
+
 				sensorLocation = self.sensors[obsProperty][sensor]['location']
 				for observation in tree.findall('.//sos:observationData', nsm):
 					dataType = tree.find('.//om:type', nsm).attrib['{http://www.w3.org/1999/xlink}href']
 					if dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement':
-						print 'OM measurement data'
-						resultTime = tree.find('.//om:resultTime/gml:TimeInstant/gml:timePosition',nsm).text
-						result = tree.find('.//om:result',nsm)
+						# print 'OM measurement data'
+						resultTime = observation.find('.//om:resultTime/gml:TimeInstant/gml:timePosition',nsm).text
+
+						# if resultTime == prevResultTime:
+						# 	pass
+						# else:
+						# 	print resultTime
+						# 	prevResultTime = resultTime
+
+						result = observation.find('.//om:result',nsm)
 						uom = result.attrib['uom']
 						value = result.text
 						csvData = '{0},{1}'.format(resultTime, value)
@@ -459,7 +475,7 @@ class Request():
 
 					elif dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEObservation':
 						if tree.find('.//om:result', nsm).attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] == 'swe:DataArrayPropertyType':
-							print 'SWE Data Array'
+							# print 'SWE Data Array'
 							uom = tree.find(".//swe:Quantity[@definition='{0}']/swe:uom".format(self.sensors[obsProperty][sensor]['obsPropertyName']), nsm).attrib['code']
 
 							try:
@@ -468,36 +484,141 @@ class Request():
 								# return 
 							except:
 								continue
-
 					
 					if sensorLocation in self.results[obsProperty]:
-						self.results[obsProperty][sensorLocation][uom] += '{0};'.format(csvData)
+						self.results[obsProperty][sensorLocation][uom]['raw'] += '{0};'.format(csvData)
 					else:
-						self.results[obsProperty][sensorLocation] = { uom: '{0};'.format(csvData) }
+						self.results[obsProperty][sensorLocation] = { uom: { 'raw': '{0};'.format(csvData) } }
 
-				print self.results[obsProperty][sensorLocation]
-				return 
+				if temporalFilterUsed == False:
+					# manually filter the sensor data outside the temporal range
+					print 'filter out data outside the temporal range'
+					utc = pytz.UTC
+					startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
+					endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
+					for obsProperty in self.results:
+						for sensorLocation in self.results[obsProperty]:
+							for uom in self.results[obsProperty][sensorLocation]:
+								data = self.results[obsProperty][sensorLocation][uom]['raw']
+								if data[-1:] == ';':
+									data = data[:-1]
+								dataList = data.split(';')
+								for each in dataList:
+									print each
+									print each.split(',')
+									# return
+									# try:
+									resultTimeString, value = each.split(',')
+									resultTime = dateutil.parser.parse(resultTimeString).replace(tzinfo=utc)
+									if resultTime < startTime or resultTime > endTime:
+										# The resultTime is outside the temporal range
+										# print "Remove:", resultTime, "Not in range:",startTime, endTime
+										# print 'Before:', len(dataList), resultTime
+										dataList.remove(each)
+										# if each in dataList:
+										# 	print each
+										# print 'After:', len(dataList)
+								self.results[obsProperty][sensorLocation][uom]['raw'] = ';'.join(dataList)
 
-
-		if temporalFilterUsed == False:
-			# manually filter the sensor data outside the temporal range
-			print 'filter out data outside the temporal range'
-			pass
-
-				
-
-
-	
+		# print self.results
 		return
 
 
-	def aggregateCheck(self):
-		pass
+	# def aggregateCheck(self):
+	# 	pass
 
-		return
+	# 	return
 
 
-	def aggregate(self):
-		pass
+	def aggregateTemporal(self):
+		print "Perform temporal aggregation: {0}".format(self.tempAggregation)
+
+		# Convert the input parameter tempGranularity to a timedelta object.
+		tempGranularityList = self.tempGranularity.split(' ')
+		if 'minute' in self.tempGranularity.lower():
+			tempGranularity = timedelta(minutes = int(tempGranularityList[0]))
+			# print tempGranularity
+		elif 'hour' in self.tempGranularity.lower():
+			tempGranularity = timedelta(hours = int(tempGranularityList[0]))
+			# print tempGranularity
+		elif 'day' in self.tempGranularity.lower():
+			tempGranularity = timedelta(days = int(tempGranularityList[0]))
+			# print tempGranularity
+		elif 'week' in self.tempGranularity.lower():
+			tempGranularity = timedelta(weeks = int(tempGranularityList[0]))
+			# print tempGranularity
+		elif 'month' in self.tempGranularity.lower():
+			tempGranularity = timedelta(months = int(tempGranularityList[0]))
+			# print tempGranularity
+		elif 'year' in self.tempGranularity.lower():
+			tempGranularity = timedelta(years = int(tempGranularityList[0]))
+		
+		print "Temporal granularity:", tempGranularity
+		# return
+
+		aggregatedDataList = []
+		utc = pytz.UTC
+		startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
+		endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
+		print "Temporal range:", endTime - startTime
+
+		# Sort the data into lists based on the temporal granularity 
+		for obsProperty in self.results:
+			for sensorLocation in self.results[obsProperty]:
+				for uom in self.results[obsProperty][sensorLocation]:
+					data = self.results[obsProperty][sensorLocation][uom]['raw']
+					self.results[obsProperty][sensorLocation][uom]['tempOrdered'] = dict()
+					if data[-1:] == ';':
+						data = data[:-1]
+					dataList = data.split(';')
+					for each in dataList:
+						resultTimeString, value = each.split(',')
+						resultTime = dateutil.parser.parse(resultTimeString).replace(tzinfo=utc)
+
+						# double check that the result time is in between start and end time
+						if resultTime < startTime or resultTime > endTime:
+							print "Result time is outside temporal range"
+							continue
+						
+						difference = resultTime - startTime
+						# Calculate the remainder after the temporal granularity fits as many times as possible
+						remainderDifference = timedelta(seconds = (difference.total_seconds() % tempGranularity.total_seconds() ) )
+						# Calculate how many times the temporal granularity fits in the difference after the remainder is removed
+						division = int( (difference - remainderDifference).total_seconds() / tempGranularity.total_seconds() )
+
+						if str(startTime + tempGranularity * division) in self.results[obsProperty][sensorLocation][uom]['tempOrdered']:
+							self.results[obsProperty][sensorLocation][uom]['tempOrdered'][str(startTime + tempGranularity * division)].append(each)
+						else:
+							# print startTime, tempGranularity, division
+							# print str(startTime + tempGranularity * division)
+							self.results[obsProperty][sensorLocation][uom]['tempOrdered'][str(startTime + tempGranularity * division)] = [each]
+
+
+
+		# Aggregate the data inside each list to a single value
+		for obsProperty in self.results:
+			for sensorLocation in self.results[obsProperty]:
+				for uom in self.results[obsProperty][sensorLocation]:
+					self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())] = {}
+					for timeRange, values in self.results[obsProperty][sensorLocation][uom]['tempOrdered'].iteritems():
+					
+						# check the type of temporal aggregation
+						if self.tempAggregation.lower() == 'average':
+							averagedData = (sum([float(x.split(',')[1]) for x in values]) ) / float(len(values))
+						elif self.tempAggregation.lower() == 'minimum':
+							averagedData = min([float(x.split(',')[1]) for x in values])
+						elif self.tempAggregation.lower() == 'maximum':
+							averagedData = max([float(x.split(',')[1]) for x in values])
+						elif self.tempAggregation.lower() == 'sum':
+							averagedData = sum([float(x.split(',')[1]) for x in values])
+						elif self.tempAggregation.lower() == 'median':
+							averagedData = numpy.median(numpy.array([float(x.split(',')[1]) for x in values]))
+
+
+
+						self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange] = averagedData
+
+
+		print self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())] 
 
 		return
