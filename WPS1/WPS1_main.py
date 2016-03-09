@@ -62,8 +62,6 @@ class Process(WPSProcess):
         capabilities(sos)
 
 
-
-
         url = 'http://inspire.rivm.nl/sos/eaq/service?'
         sos = SOS(url)
         sos.store()

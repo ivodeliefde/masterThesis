@@ -13,7 +13,7 @@ import logging
 
 baseURI = "http://localhost:8099/masterThesis_tudelft" 
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
-endpoint = "http://localhost:80/strabon-endpoint-3.3.2-SNAPSHOT/Query"
+endpoint = "http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 purlBatch = 'D:/purlBatches/SOS/SOSbatch'
 
 def capabilities(SOS):
@@ -224,7 +224,7 @@ def capabilities(SOS):
 
 	payload = {'dbname': 'endpoint', 'username': 'Ivo', 'password':'gps', 'port':'5432', 'hostname':'localhost', 'dbengine':'postgis'}
 	session = requests.Session()
-	r = session.post('http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
+	r = session.post('http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/DBConnect', data=payload)
 	# with open('D:/tempFiles/sensors{0}.xml'.format(SOS.organisation.replace(' ', '')), "w") as f:
 	# 	# print type(g.serialize(format="turtle"))
 	# 	f.write(unicode(g.serialize(format="turtle")))
