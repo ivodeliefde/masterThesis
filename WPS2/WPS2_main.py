@@ -14,7 +14,7 @@ class Process(WPSProcess):
         WPSProcess.__init__(self,
             identifier = "GetSensorData",
             title="Automatically retrieves, integrates and aggregates heterogenous sensor data using the semantic web",
-            abstract="""This process takes a sensor data request and finds all relevant sensor data sources on the semantic web. These sources will be automatically integrated and aggregated.""",
+            abstract="""This process takes a sensor data request and finds all relevant sensor data sources on the semantic web. Data from these sources will be automatically retrieved, integrated and aggregated.""",
             version = "1.0",
             storeSupported = True,
             statusSupported = True)
@@ -24,8 +24,8 @@ class Process(WPSProcess):
         #----------------------------------------------------------------------#
 
         # have to add the input parameters here
-        self.textIn = self.addLiteralInput(identifier="text",
-                    title = "Input Key Value Pairs containing the spatial feature, the type of sensor data, the temporal range and the aggregation method")
+        self.data = self.addComplexInput(identifier = "data",
+                                            title = " An xml document with input parameters: observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation")
 
         #----------------------------------------------------------------------#
         # Adding process outputs
@@ -47,16 +47,18 @@ class Process(WPSProcess):
         #----------------------------------------------------------------------------#
         # Test data
         #----------------------------------------------------------------------------#
-        observedProperties = ['http://dbpedia.org/resource/Nitrogen_dioxide']
-        featureCategory = 'Province'
-        featureNames = ['Utrecht']
-        tempRange = ['2016-01-04T09:42:47.151000', '2016-02-04T09:42:47.151000']
-        # tempGranularity = 
-        spatialAggregation = ['average']
-        tempAggregation = ['average']
+        # observedProperties = ['http://dbpedia.org/resource/Nitrogen_dioxide']
+        # featureCategory = 'Province'
+        # featureNames = ["Antwerpen"]
+        # tempRange = ['2016-01-04T09:42:47.151000', '2016-01-05T09:42:47.151000']
+        # tempGranularity = '2 hours'
+        # spatialAggregation = 'average'
+        # tempAggregation = 'average'
         #----------------------------------------------------------------------------#
+        
         # Create Request instance
-        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, spatialAggregation, tempAggregation)
+        observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
+        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation)
 
         # Make SPARQL queries that find the relevant feature geometries
         dataRequest.getGeometries()
@@ -66,14 +68,14 @@ class Process(WPSProcess):
         # getSensorsBBOX()
         dataRequest.getSensorsRaster()
 
-        # # Make SOS queries for every found data source to retrieve data for all found sensors
+        # Make SOS queries for every found data source to retrieve data for all found sensors
         dataRequest.getObservationData()
 
         # # Check if aggregation method is valid
         # dataRequest.aggregateCheck()
 
         # # Aggregate sensor data
-        # dataRequest.aggregate()
+        # dataRequest.aggregateTemporal()
 
         # # Output aggregated sensor data
         # self.textOut.setValue( 'The WPS has finished' ) # have to be replaced with sensor data output

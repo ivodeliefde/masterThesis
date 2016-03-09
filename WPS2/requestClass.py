@@ -19,7 +19,7 @@ import numpy
 logging.basicConfig()
 
 DBPedia = 'http://dbpedia.org/sparql'
-myEndpoint = 'http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Query' 
+myEndpoint = 'http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/Query' 
 
 
 class Request():
