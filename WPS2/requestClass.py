@@ -23,7 +23,7 @@ myEndpoint = 'http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/Query'
 
 
 class Request():
-	def __init__(self, observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation):
+	def __init__(self, observedProperties, featureCategory, featureNames, tempRange=[(datetime.now() - timedelta(days=7)).isoformat(), datetime.now().isoformat()], tempGranularity='1 day', spatialAggregation='average', tempAggregation='average'):
 
 		self.observedProperties = observedProperties
 		self.featureCategory = featureCategory
