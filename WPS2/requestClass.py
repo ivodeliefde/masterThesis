@@ -14,6 +14,7 @@ import dateutil.parser
 import pytz
 from datetime import datetime, timedelta
 import numpy
+import StringIO
 
 
 logging.basicConfig()
@@ -615,6 +616,8 @@ class Request():
 		for obsProperty in self.results:
 			for sensorLocation in self.results[obsProperty]:
 				for uom in self.results[obsProperty][sensorLocation]:
+					# print self.results[obsProperty][sensorLocation][uom], 'temp{0}'.format(self.tempAggregation.title())
+					# return
 					self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())] = {}
 					for timeRange, values in self.results[obsProperty][sensorLocation][uom]['tempOrdered'].iteritems():
 					
@@ -708,7 +711,68 @@ class Request():
 						self.output[name][obsProperty][uom][timeRange] = aggregatedData 
 
 		# print self.results
-		print self.output
+		# print self.output
 
 		return
 
+
+	def createOutput(self):
+		if self.spatialAggregation.lower() == 'false':
+			# output points with temporally aggregated observation data
+
+			# self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange]
+			
+			root = etree.Element("{http://www.opengis.net/sos/2.0}observationData")
+			for obsProperty in self.results:	 
+				obsPropertyTag = etree.Element("{http://www.opengis.net/om/2.0}observedProperty")
+				obsPropertyTag.attrib["{http://www.w3.org/1999/xlink}href"] = obsProperty
+				for sensorLocation in self.results[obsProperty]:
+					FOI = etree.Element("{http://www.opengis.net/om/2.0}featureOfInterest")
+					samplingFeature = etree.SubElement(FOI, "{http://www.opengis.net/samplingSpatial/2.0}SF_SpatialSamplingFeature")
+					shape = etree.SubElement(samplingFeature, "{http://www.opengis.net/samplingSpatial/2.0}Shape")
+					CRSType = etree.SubElement(samplingFeature, "{http://www.opengis.net/samplingSpatial/2.0}sampledFeature").attrib["{http://www.w3.org/1999/xlink}href"] = "urn:ogc:def:nil:OGC:unknown"
+					point = etree.SubElement(shape, "{http://www.opengis.net/gml/3.2}Point")
+					coords = etree.SubElement(point, "pos")
+					geom, CRS = sensorLocation.split(';')
+					CRS = CRS.strip('<').strip('>')
+					coords.attrib["srsName"] = CRS
+					pointObj = loads(geom)
+					if len(list(pointObj.coords)[0]) == 2:
+						coords.text = "{0} {1}".format(pointObj.x, pointObj.y)
+					else:
+						coords.text = "{0} {1} {2}".format(pointObj.x, pointObj.y, pointObj.z)
+					for uom in self.results[obsProperty][sensorLocation]:
+						for timeRange, value in self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())].iteritems():
+							phenomenonTime = etree.Element("{http://www.opengis.net/om/2.0}phenomenonTime")
+							timePeriod = etree.SubElement(phenomenonTime, "{http://www.opengis.net/gml/3.2}TimePeriod")
+							begin = etree.SubElement(timePeriod, "{http://www.opengis.net/gml/3.2}beginPosition")
+							end = etree.SubElement(timePeriod, "{http://www.opengis.net/gml/3.2}endPosition")
+							timeRangeLst = timeRange.split(',')
+							begin.text = timeRangeLst[0]
+							end.text = timeRangeLst[1]
+
+							Observation = etree.SubElement(root,"{http://www.opengis.net/om/2.0}OM_Observation")
+							Observation.append(phenomenonTime)
+							Observation.append(obsPropertyTag)
+							Observation.append(FOI)
+							etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}type").attrib["{http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"
+							result = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}result")
+							result.attrib['uom'] = uom
+							result.attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] = "{http://www.opengis.net/gml/3.2}MeasureType"
+							result.text = str(value)
+							if type(value) == list:
+								print "More values;",value
+
+							
+
+
+
+
+			XML = etree.tostring(root, pretty_print=True)
+		else:
+			pass
+			# output feature names with temporally and spatially aggregated observation data
+			# self.output[name][obsProperty][uom][timeRange]
+
+		self.outputFile = StringIO.StringIO()
+ 		self.outputFile.write(XML)

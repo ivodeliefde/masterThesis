@@ -25,7 +25,7 @@ class Process(WPSProcess):
 
         self.InputFeatures = self.addLiteralInput(identifier = "feature_names",
                                             title = "Input feature name strings, seperated by comma's", 
-                                            default="Amsterdam,Utrecht",
+                                            default="Utrecht",
                                             type = "StringType")
 
         self.InputObsProperties = self.addLiteralInput(identifier = "observed_properties",
@@ -110,13 +110,14 @@ class Process(WPSProcess):
 
         # Aggregate sensor data
         dataRequest.aggregateTemporal()
+        
         if spatialAggregation.lower() != 'false':
             dataRequest.aggregateSpatial()
 
         # Output aggregated sensor data
         dataRequest.createOutput()
 
-        # self.textOut.setValue( 'The WPS has finished' ) # have to be replaced with sensor data output
+        self.dataOut.setValue( self.outputFile )
 
         return 
 
