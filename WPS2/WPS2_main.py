@@ -23,8 +23,40 @@ class Process(WPSProcess):
         # Adding process inputs
         #----------------------------------------------------------------------#
 
-        self.data = self.addComplexInput(identifier = "data",
-                                            title = " An xml document with input parameters: observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation")
+        self.InputFeatures = self.addLiteralInput(identifier = "feature_names",
+                                            title = "Input feature name strings, seperated by comma's", 
+                                            default="Amsterdam,Utrecht",
+                                            type = "StringType")
+
+        self.InputObsProperties = self.addLiteralInput(identifier = "observed_properties",
+                                            title = "Input DBPedia URIs of observed properties", 
+                                            default="http://dbpedia.org/resource/Nitrogen_dioxide",
+                                            type = "StringType")
+
+        self.InputTempRange = self.addLiteralInput(identifier = "temporal_range",
+                                            title = "Input start and end time in ISO format seperated by comma's", 
+                                            default='2016-01-04T09:42:47.151000,2016-01-05T09:42:47.151000',
+                                            type = "StringType")
+
+        self.InputFeatureCategory = self.addLiteralInput(identifier = "feature_category",
+                                            title = "Input feature category: municipality, province, raster or landcover", 
+                                            default='Municipality',
+                                            type = "StringType")
+
+        self.InputTempGranularity = self.addLiteralInput(identifier = "temporal_granularity",
+                                            title = "Input temporal granularity as an integer followed by a temporal unit: minute, hour, day or week", 
+                                            default='1 day',
+                                            type = "StringType")
+
+        self.InputTempAggregation = self.addLiteralInput(identifier = "temporal_aggregation",
+                                            title = "Input temporal aggregation method: average, median, maximum, minimum or sum", 
+                                            default='average',
+                                            type = "StringType")
+
+        self.InputSpatialAggregation = self.addLiteralInput(identifier = "spatial_aggregation",
+                                            title = "Input spatial aggregation method: average, median, maximum, minimum or sum", 
+                                            default='average',
+                                            type = "StringType")
 
         #----------------------------------------------------------------------#
         # Adding process outputs
@@ -42,16 +74,16 @@ class Process(WPSProcess):
         # inputString = self.textIn.getValue() # should be replaced with request input parameters
         
 
+       #----------------------------------------------------------------------------#
+        # Input data
         #----------------------------------------------------------------------------#
-        # Test data
-        #----------------------------------------------------------------------------#
-        observedProperties = ['http://dbpedia.org/resource/Nitrogen_dioxide']
-        featureCategory = 'Municipality'
-        featureNames = ["'s-Gravenhage"]
-        tempRange = ['2012-01-04T09:42:47.151000', '2016-01-04T09:42:47.151000']
-        tempGranularity = '52 weeks'
-        spatialAggregation = 'average'
-        tempAggregation = 'average'
+        observedProperties = self.InputObsProperties.getValue().split(',')
+        featureCategory = self.InputFeatureCategory.getValue()
+        featureNames = self.InputFeatures.getValue().split(',')
+        tempRange = self.InputTempRange.getValue().split(',')
+        tempGranularity = self.InputTempGranularity.getValue()
+        spatialAggregation = self.InputSpatialAggregation
+        tempAggregation = self.InputTempAggregation
         #----------------------------------------------------------------------------#
         
         # Create Request instance
