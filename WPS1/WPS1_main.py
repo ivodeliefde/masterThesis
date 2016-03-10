@@ -29,10 +29,10 @@ class Process(WPSProcess):
         #----------------------------------------------------------------------#
         # Adding process inputs
         #----------------------------------------------------------------------#
-
-        self.textIn = self.addLiteralInput(identifier="text",
-                    title = "Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'")
-
+        self.urlIn = self.addLiteralInput(identifier = "spatial_aggregation",
+                                            title = "Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'"
+                                            type = "StringType")
+                    
         #----------------------------------------------------------------------#
         # Adding process outputs
         #----------------------------------------------------------------------#
@@ -46,33 +46,33 @@ class Process(WPSProcess):
 
     def execute(self):
 
-#       Original input
-        # url = self.textIn.getValue()
-#        test URL
-        url = 'http://sos.irceline.be/sos?'
+
+        url = self.urlIn.getValue()
+       
+        # url = 'http://sos.irceline.be/sos?' # test URL
         sos = SOS(url)
-        sos.store()
+        # sos.store()
 
 #       Test input from pickle
         # sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
 
-        sos.printInformation()
+        # sos.printInformation()
         # print sos.featureofinterest
         # make linked data from the data retrieved above
         capabilities(sos)
 
 
-        url = 'http://inspire.rivm.nl/sos/eaq/service?'
-        sos = SOS(url)
-        sos.store()
+        # url = 'http://inspire.rivm.nl/sos/eaq/service?'
+        # sos = SOS(url)
+        # sos.store()
 
 #       Test input from pickle
         # sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
 
-        sos.printInformation()
+        # sos.printInformation()
         # print sos.featureofinterest
         # make linked data from the data retrieved above
-        capabilities(sos)
+        # capabilities(sos)
 
 
 
