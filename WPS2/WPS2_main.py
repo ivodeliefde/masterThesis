@@ -54,16 +54,17 @@ class Process(WPSProcess):
                                             type = "StringType")
 
         self.InputSpatialAggregation = self.addLiteralInput(identifier = "spatial_aggregation",
-                                            title = "Input spatial aggregation method: average, median, maximum, minimum or sum", 
-                                            default='average',
+                                            title = "Input spatial aggregation method: average, median, maximum, minimum or sum. Set it to False for no spatial aggregation.", 
+                                            default='False',
                                             type = "StringType")
 
         #----------------------------------------------------------------------#
         # Adding process outputs
         #----------------------------------------------------------------------#
 
-        self.textOut = self.addComplexOutput(identifier = "result",
-                title="Output processed sensor data")
+        self.dataOut = self.addComplexOutput(identifier="output",
+                title="Output sensor data",
+                formats =  [{'mimeType':'text/xml'}])
 
     #--------------------------------------------------------------------------#
     # Execution part of the process
@@ -82,8 +83,8 @@ class Process(WPSProcess):
         featureNames = self.InputFeatures.getValue().split(',')
         tempRange = self.InputTempRange.getValue().split(',')
         tempGranularity = self.InputTempGranularity.getValue()
-        spatialAggregation = self.InputSpatialAggregation
-        tempAggregation = self.InputTempAggregation
+        spatialAggregation = self.InputSpatialAggregation.getValue()
+        tempAggregation = self.InputTempAggregation.getValue()
         #----------------------------------------------------------------------------#
         
         # Create Request instance
@@ -109,10 +110,11 @@ class Process(WPSProcess):
 
         # Aggregate sensor data
         dataRequest.aggregateTemporal()
-        dataRequest.aggregateSpatial()
+        if spatialAggregation.lower() != 'false':
+            dataRequest.aggregateSpatial()
 
         # Output aggregated sensor data
-
+        dataRequest.createOutput()
 
         # self.textOut.setValue( 'The WPS has finished' ) # have to be replaced with sensor data output
 
