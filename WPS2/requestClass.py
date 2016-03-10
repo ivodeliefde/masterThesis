@@ -33,9 +33,10 @@ class Request():
 		self.tempGranularity = tempGranularity
 		self.spatialAggregation = spatialAggregation
 		self.tempAggregation = tempAggregation
-		self.sensors = {} # the sensors with their measurements: {obsProperty1: {sensor1: {'location': location, 'sos': sos, 'observations': values}, sensor2: {'location': location, 'sos': sos, 'observations': values} }, obsProperty2: {sensor3: {'location': location, 'sos': sos, 'observations': values} } }
+		self.sensors = {} 
 		self.sos = {}
-		self.results = {} # the features with their aggregated sensor data: {obsProperty1: { sensor1: [values], sensor2: [values], sensor3: [values] } }
+		self.results = {} 
+		self.output = {}
 
 	def getGeometries(self, countries=['the Netherlands', 'Belgium']):
 		global myEndpoint
@@ -443,14 +444,14 @@ class Request():
 
 				nsm = tree.nsmap
 
-				if len(tree.findall('.//{http://www.opengis.net/ows/1.1}Exception')) > 0 and temporalFilterUsed == True:
-					r = requests.get(GetObservation)
-					tree = etree.fromstring(r.content)
-					nsm = tree.nsmap
-					temporalFilterUsed = False
-					print GetObservation
-				else:
+				if temporalFilterUsed == True:
+					# r = requests.get(GetObservation)
+					# tree = etree.fromstring(r.content)
+					# nsm = tree.nsmap
+					# temporalFilterUsed = False
 					print GetObservationWtempfilter
+				else:
+					print GetObservation
 				
 				# prevResultTime = ""
 
@@ -497,27 +498,38 @@ class Request():
 					startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
 					endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
 					for obsProperty in self.results:
+						# print obsProperty
 						for sensorLocation in self.results[obsProperty]:
+							# print sensorLocation
 							for uom in self.results[obsProperty][sensorLocation]:
+								# print uom
 								data = self.results[obsProperty][sensorLocation][uom]['raw']
 								if data[-1:] == ';':
 									data = data[:-1]
 								dataList = data.split(';')
 								for each in dataList:
-									print each
-									print each.split(',')
+									# print each
 									# return
-									# try:
-									resultTimeString, value = each.split(',')
+									# print each.split(',')
+									# return
+									try:
+										resultTimeString, value = each.split(',')
+									except:
+										# print "remove:", each
+										# dataList.remove(each)
+										continue
 									resultTime = dateutil.parser.parse(resultTimeString).replace(tzinfo=utc)
 									if resultTime < startTime or resultTime > endTime:
 										# The resultTime is outside the temporal range
 										# print "Remove:", resultTime, "Not in range:",startTime, endTime
 										# print 'Before:', len(dataList), resultTime
 										dataList.remove(each)
+
 										# if each in dataList:
 										# 	print each
 										# print 'After:', len(dataList)
+										# return
+								# return
 								self.results[obsProperty][sensorLocation][uom]['raw'] = ';'.join(dataList)
 
 		# print self.results
@@ -545,13 +557,13 @@ class Request():
 			tempGranularity = timedelta(days = int(tempGranularityList[0]))
 			# print tempGranularity
 		elif 'week' in self.tempGranularity.lower():
-			tempGranularity = timedelta(weeks = int(tempGranularityList[0]))
+			tempGranularity = timedelta(days = 7*int(tempGranularityList[0]))
 			# print tempGranularity
-		elif 'month' in self.tempGranularity.lower():
-			tempGranularity = timedelta(months = int(tempGranularityList[0]))
-			# print tempGranularity
-		elif 'year' in self.tempGranularity.lower():
-			tempGranularity = timedelta(years = int(tempGranularityList[0]))
+		# elif 'month' in self.tempGranularity.lower():
+		# 	tempGranularity = timedelta(months = int(tempGranularityList[0]))
+		# 	# print tempGranularity
+		# elif 'year' in self.tempGranularity.lower():
+		# 	tempGranularity = timedelta(years = int(tempGranularityList[0]))
 		
 		print "Temporal granularity:", tempGranularity
 		# return
@@ -579,6 +591,10 @@ class Request():
 						if resultTime < startTime or resultTime > endTime:
 							print "Result time is outside temporal range"
 							continue
+
+							# return
+
+						
 						
 						difference = resultTime - startTime
 						# Calculate the remainder after the temporal granularity fits as many times as possible
@@ -587,11 +603,11 @@ class Request():
 						division = int( (difference - remainderDifference).total_seconds() / tempGranularity.total_seconds() )
 
 						if str(startTime + tempGranularity * division) in self.results[obsProperty][sensorLocation][uom]['tempOrdered']:
-							self.results[obsProperty][sensorLocation][uom]['tempOrdered'][str(startTime + tempGranularity * division)].append(each)
+							self.results[obsProperty][sensorLocation][uom]['tempOrdered']["{0},{1}".format(startTime + tempGranularity * division, startTime + tempGranularity * (division + 1) ) ].append(each)
 						else:
 							# print startTime, tempGranularity, division
 							# print str(startTime + tempGranularity * division)
-							self.results[obsProperty][sensorLocation][uom]['tempOrdered'][str(startTime + tempGranularity * division)] = [each]
+							self.results[obsProperty][sensorLocation][uom]['tempOrdered']["{0},{1}".format(startTime + tempGranularity * division, startTime + tempGranularity * (division + 1) ) ] = [each]
 
 
 
@@ -604,21 +620,95 @@ class Request():
 					
 						# check the type of temporal aggregation
 						if self.tempAggregation.lower() == 'average':
-							averagedData = (sum([float(x.split(',')[1]) for x in values]) ) / float(len(values))
+							aggregatedData = (sum([float(x.split(',')[1]) for x in values]) ) / float(len(values))
 						elif self.tempAggregation.lower() == 'minimum':
-							averagedData = min([float(x.split(',')[1]) for x in values])
+							aggregatedData = min([float(x.split(',')[1]) for x in values])
 						elif self.tempAggregation.lower() == 'maximum':
-							averagedData = max([float(x.split(',')[1]) for x in values])
+							aggregatedData = max([float(x.split(',')[1]) for x in values])
 						elif self.tempAggregation.lower() == 'sum':
-							averagedData = sum([float(x.split(',')[1]) for x in values])
+							aggregatedData = sum([float(x.split(',')[1]) for x in values])
 						elif self.tempAggregation.lower() == 'median':
-							averagedData = numpy.median(numpy.array([float(x.split(',')[1]) for x in values]))
+							aggregatedData = numpy.median(numpy.array([float(x.split(',')[1]) for x in values]))
 
 
 
-						self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange] = averagedData
+						self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange] = aggregatedData 
 
 
-		print self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())] 
+		
 
 		return
+
+	def aggregateSpatial(self):
+		print "Perform spatial aggregation"
+
+		featureList = []
+		for name, data in self.featureDict.iteritems():
+			uri, geom = data
+			self.output[name] = {}
+			# coords, CRS = geom.strip('>').split(';')
+			# CRSlist = CRS.split('/')
+			polygon = loads(geom)
+			# project = partial(
+			# 	pyproj.transform,
+			# 	pyproj.Proj(init='epsg:{0}'.format(CRSlist[-1:][0])),
+			# 	pyproj.Proj(init='epsg:4326'))
+			# newPolygon = transform(project, polygon)
+			# print newPolygon
+			# return
+			featureList.append( (name, polygon) )
+
+
+		# Order the observation data per feature
+		for obsProperty in self.results:
+			for sensorLocation in self.results[obsProperty]:
+				for name, polygon in featureList:
+					# Check if sensor location overlaps with feature
+					point = loads(sensorLocation)
+					# Since the Polygon geometries have lat/lon instead of lon/lat the point coordinates are reversed here (not a perfect solution)
+					reversedPoint = loads('POINT({0} {1})'.format(point.y, point.x))
+					if polygon.contains(reversedPoint):
+						if obsProperty not in self.output[name]:
+							self.output[name][obsProperty] = {}
+
+						# Append data to list per feature
+						for uom in self.results[obsProperty][sensorLocation]:
+							# print uom
+							# Check if unit of measurement is already defined for this feature
+							if uom not in self.output[name][obsProperty]:
+								self.output[name][obsProperty][uom] = {}
+								
+							# Loop through the observation data and add to feature 
+							for timeRange, data in self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())].iteritems():
+								# print timeRange
+								if timeRange not in self.output[name][obsProperty][uom]:
+									self.output[name][obsProperty][uom][timeRange] = []
+
+								self.output[name][obsProperty][uom][timeRange].append(data)
+
+		# Aggregate the order data to a single value per feature per timerange
+		for name in self.output:
+			for obsProperty in self.output[name]:
+				for uom in self.output[name][obsProperty]:
+					for timeRange, values in self.output[name][obsProperty][uom].iteritems():
+
+						# check the type of temporal aggregation
+						if self.tempAggregation.lower() == 'average':
+							aggregatedData = (sum([float(x) for x in values]) ) / float(len(values))
+						elif self.tempAggregation.lower() == 'minimum':
+							aggregatedData = min([float(x) for x in values])
+						elif self.tempAggregation.lower() == 'maximum':
+							aggregatedData = max([float(x) for x in values])
+						elif self.tempAggregation.lower() == 'sum':
+							aggregatedData = sum([float(x) for x in values])
+						elif self.tempAggregation.lower() == 'median':
+							aggregatedData = numpy.median(numpy.array([float(x) for x in values]))
+
+						# Replace list with single aggregated value
+						self.output[name][obsProperty][uom][timeRange] = aggregatedData 
+
+		# print self.results
+		print self.output
+
+		return
+
