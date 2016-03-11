@@ -788,13 +788,42 @@ class Request():
 					obsPropertyTag.attrib["{http://www.w3.org/1999/xlink}href"] = obsProperty
 					Observation.append(obsPropertyTag)
 					for uom in self.output[name][obsProperty]:
-						uom = 
-						for timeRange in self.output[name][obsProperty][uom]:
-							result = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}result") 
-							result.attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = "{http://www.opengis.net/swe/2.0}DataArrayPropertyType"
-							dataArray = etree.SubElement(result, "{http://www.opengis.net/swe/2.0}DataArray")
-							field = etree.SubElement(dataArray, "{http://www.opengis.net/swe/2.0}field")
-							quantity = etree.SubElement(field, "{http://www.opengis.net/swe/2.0}Quantity")
+						# uom = etree.Element()
+						encoding = etree.Element("{http://www.opengis.net/swe/2.0}Encoding")
+						textEncoding = etree.SubElement(encoding, "{http://www.opengis.net/swe/2.0}TextEncoding")
+						textEncoding.attrib["blockSeparator"] = ";"
+						textEncoding.attrib["decimalSeparator"] = "."
+						textEncoding.attrib["tokenSeparator"] = ","
+						sweType = etree.Element("{http://www.opengis.net/swe/2.0}elementType")
+						fixedRecords = etree.SubElement(sweType, "{http://www.opengis.net/swe/2.0}DataRecord")
+						time = etree.Element("{http://www.opengis.net/swe/2.0}Time")
+						time.attrib["definition"] = "http://www.opengis.net/def/property/OGC/0/SamplingTime"
+						timeEncoding = etree.SubElement(time, "{http://www.opengis.net/swe/2.0}uom")
+						timeEncoding.attrib["http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
+						field1 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
+						field1.attrib["nme"] = "StartTime"
+						field1.append(time)
+						field2 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
+						field2.attrib["nme"] = "EndTime"
+						field2.append(time)
+						field3 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
+						field.attrib["nme"] = "Value"
+						quantity = etree.SubElement(field, "{http://www.opengis.net/swe/2.0}Quantity")
+						uomTag = etree.SubElement(field, "{http://www.opengis.net/swe/2.0}uom")
+						uomTag.text = uom
+
+						result = etree.Element("{http://www.opengis.net/om/2.0}result") 
+						# result.append(sweType)
+						result.attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = "{http://www.opengis.net/swe/2.0}DataArrayPropertyType"
+						dataArray = etree.Element(result, "{http://www.opengis.net/swe/2.0}DataArray")
+						dataArray.append(sweType)
+						dataArray.append(encoding)
+						values = etree.SubElement(dataArray, "{http://www.opengis.net/swe/2.0}")
+						
+						valuesList = 
+						for timeRange, value in self.output[name][obsProperty][uom].iteritems():
+							valuesList.append "{0},{1}".format(timeRange, value)
+						values.text = ";".join(valuesList)	
 
 
 
