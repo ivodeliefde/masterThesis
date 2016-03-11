@@ -4,7 +4,7 @@ from lxml import etree
 import cgi
 import unicodedata
 
-endpoint = 'http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/'
+endpointBase = 'http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/'
 lineCount = 0
 fileCount = 0
 
@@ -39,7 +39,7 @@ def postPURLbatch(fileName, username, password):
 
 
 def CreatePurls(UriList, purlBatch):
-	global endpoint
+	global endpointBaseBase
 	global lineCount 
 	global fileCount
 
@@ -61,7 +61,7 @@ def CreatePurls(UriList, purlBatch):
 			purl.attrib['type'] = '302'
 			maint = etree.SubElement(purl, 'maintainers')
 			etree.SubElement(maint, 'uid').text = 'admin'
-			etree.SubElement(purl, 'target').attrib['url'] = "{0}Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE <{1}>".format(endpoint, each)
+			etree.SubElement(purl, 'target').attrib['url'] = "{0}Describe?view=HTML&handle=download&format=turtle&submit=describe&query=DESCRIBE <{1}>".format(endpointBase, each)
 			root.append( purl )
 
 			lineCount += 1
