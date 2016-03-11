@@ -829,8 +829,8 @@ class Request():
 						valuesList = [] 
 						for timeRange, value in self.output[name][obsProperty][uom].iteritems():
 							start, end = timeRange.split(",")
-							start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S")
-							end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S")
+							start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f+%z" )
+							end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f+%z" )
 							valuesList.append("{0},{1},{2}".format(start.isoformat(), end.isoformat(), value))
 						values.text = ";".join(valuesList)	
 
