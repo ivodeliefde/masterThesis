@@ -440,8 +440,12 @@ class Request():
 					tree = etree.fromstring(r.content)
 				except:
 					r = requests.get(GetObservation)
-					tree = etree.fromstring(r.content)
-					temporalFilterUsed = False
+					try:
+						tree = etree.fromstring(r.content)
+						temporalFilterUsed = False
+					except:
+						print r.content
+						return
 
 				nsm = tree.nsmap
 
@@ -722,6 +726,8 @@ class Request():
 
 
 	def createOutput(self):
+		self.outputFile = StringIO.StringIO()
+
 		if self.spatialAggregation.lower() == 'false':
 			# output points with temporally aggregated observation data
 
@@ -773,7 +779,7 @@ class Request():
 
 
 
-			XML = etree.tostring(root, pretty_print=True)
+			# XML = etree.tostring(root, pretty_print=True)
 		else:
 			# output feature names with temporally and spatially aggregated observation data
 			root = etree.Element("{http://www.opengis.net/sos/2.0}observationData")
@@ -799,33 +805,36 @@ class Request():
 						time = etree.Element("{http://www.opengis.net/swe/2.0}Time")
 						time.attrib["definition"] = "http://www.opengis.net/def/property/OGC/0/SamplingTime"
 						timeEncoding = etree.SubElement(time, "{http://www.opengis.net/swe/2.0}uom")
-						timeEncoding.attrib["http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
+						timeEncoding.attrib["{http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
 						field1 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
-						field1.attrib["nme"] = "StartTime"
+						field1.attrib["name"] = "StartTime"
 						field1.append(time)
 						field2 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
-						field2.attrib["nme"] = "EndTime"
+						field2.attrib["name"] = "EndTime"
 						field2.append(time)
 						field3 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
-						field.attrib["nme"] = "Value"
-						quantity = etree.SubElement(field, "{http://www.opengis.net/swe/2.0}Quantity")
-						uomTag = etree.SubElement(field, "{http://www.opengis.net/swe/2.0}uom")
+						field3.attrib["name"] = "Value"
+						quantity = etree.SubElement(field3, "{http://www.opengis.net/swe/2.0}Quantity")
+						uomTag = etree.SubElement(quantity, "{http://www.opengis.net/swe/2.0}uom")
 						uomTag.text = uom
 
-						result = etree.Element("{http://www.opengis.net/om/2.0}result") 
+						result = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}result") 
 						# result.append(sweType)
 						result.attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = "{http://www.opengis.net/swe/2.0}DataArrayPropertyType"
-						dataArray = etree.Element(result, "{http://www.opengis.net/swe/2.0}DataArray")
+						dataArray = etree.SubElement(result, "{http://www.opengis.net/swe/2.0}DataArray")
 						dataArray.append(sweType)
 						dataArray.append(encoding)
-						values = etree.SubElement(dataArray, "{http://www.opengis.net/swe/2.0}")
+						values = etree.SubElement(dataArray, "{http://www.opengis.net/swe/2.0}values")
 						
-						valuesList = 
+						valuesList = [] 
 						for timeRange, value in self.output[name][obsProperty][uom].iteritems():
-							valuesList.append "{0},{1}".format(timeRange, value)
+							start, end = timeRange.split(",")
+							start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S")
+							end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S")
+							valuesList.append("{0},{1},{2}".format(start.isoformat(), end.isoformat(), value))
 						values.text = ";".join(valuesList)	
 
-
-
-		self.outputFile = StringIO.StringIO()
+		XML = etree.tostring(root, pretty_print=True)
+		print XML
+		
  		self.outputFile.write(XML)

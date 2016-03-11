@@ -55,7 +55,7 @@ class Process(WPSProcess):
 
         self.InputSpatialAggregation = self.addLiteralInput(identifier = "spatial_aggregation",
                                             title = "Input spatial aggregation method: average, median, maximum, minimum or sum. Set it to False for no spatial aggregation.", 
-                                            default='False',
+                                            default='average',
                                             type = "StringType")
 
         #----------------------------------------------------------------------#
@@ -117,7 +117,7 @@ class Process(WPSProcess):
         # Create output XML file
         dataRequest.createOutput()
         # Output aggregated sensor data
-        self.dataOut.setValue( self.outputFile )
+        self.dataOut.setValue( dataRequest.outputFile )
 
         return 
 
