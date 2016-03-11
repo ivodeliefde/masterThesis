@@ -110,13 +110,13 @@ class Process(WPSProcess):
 
         # Aggregate sensor data
         dataRequest.aggregateTemporal()
-        
+
         if spatialAggregation.lower() != 'false':
             dataRequest.aggregateSpatial()
 
-        # Output aggregated sensor data
+        # Create output XML file
         dataRequest.createOutput()
-
+        # Output aggregated sensor data
         self.dataOut.setValue( self.outputFile )
 
         return 

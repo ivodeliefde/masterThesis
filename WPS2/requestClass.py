@@ -481,7 +481,12 @@ class Request():
 							uom = tree.find(".//swe:Quantity[@definition='{0}']/swe:uom".format(self.sensors[obsProperty][sensor]['obsPropertyName']), nsm).attrib['code']
 
 							try:
-								csvData = tree.find('.//swe:values', nsm).text
+								encoding = tree.find(".//swe:TextEncoding",nsm)
+								blockSeparator = encoding.attrib["blockSeparator"]
+								decimalSeparator = encoding.attrib["decimalSeparator"]
+								tokenSeparator = encoding.attrib["tokenSeparator"]
+								# make sure all csv data is using the same separators
+								csvData = tree.find('.//swe:values', nsm).text.replace(blockSeparator,";").replace(decimalSeparator, ".").replace(tokenSeparator, ",")
 								# print data
 								# return 
 							except:
@@ -761,7 +766,7 @@ class Request():
 							result.attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] = "{http://www.opengis.net/gml/3.2}MeasureType"
 							result.text = str(value)
 							if type(value) == list:
-								print "More values;",value
+								print "More values;", value
 
 							
 
@@ -770,9 +775,28 @@ class Request():
 
 			XML = etree.tostring(root, pretty_print=True)
 		else:
-			pass
 			# output feature names with temporally and spatially aggregated observation data
-			# self.output[name][obsProperty][uom][timeRange]
+			root = etree.Element("{http://www.opengis.net/sos/2.0}observationData")
+			for name in self.output:
+				Observation = etree.SubElement(root,"{http://www.opengis.net/om/2.0}OM_Observation")
+				FOI = etree.Element("{http://www.opengis.net/om/2.0}featureOfInterest")
+				FOI.attrib["{http://www.w3.org/1999/xlink}href"] = self.featureDict[name][0]
+				FOI.attrib["{http://www.w3.org/1999/xlink}title"] = name
+				Observation.append(FOI)
+				for obsProperty in self.output[name]:
+					obsPropertyTag = etree.Element("{http://www.opengis.net/om/2.0}observedProperty")
+					obsPropertyTag.attrib["{http://www.w3.org/1999/xlink}href"] = obsProperty
+					Observation.append(obsPropertyTag)
+					for uom in self.output[name][obsProperty]:
+						uom = 
+						for timeRange in self.output[name][obsProperty][uom]:
+							result = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}result") 
+							result.attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = "{http://www.opengis.net/swe/2.0}DataArrayPropertyType"
+							dataArray = etree.SubElement(result, "{http://www.opengis.net/swe/2.0}DataArray")
+							field = etree.SubElement(dataArray, "{http://www.opengis.net/swe/2.0}field")
+							quantity = etree.SubElement(field, "{http://www.opengis.net/swe/2.0}Quantity")
+
+
 
 		self.outputFile = StringIO.StringIO()
  		self.outputFile.write(XML)
