@@ -38,6 +38,7 @@ baseURI = "http://localhost:8099/masterThesis_tudelft"
 endpoint = "http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/Query"
 purlBatch = '/purlBatches/SOS/SOSbatch'
 
+
 def postPURLbatch(fileName, username, password):
     global fileCount
 
@@ -421,7 +422,7 @@ def capabilities(SOS):
         g.add( ( uriSOS, dc.hasVersion, Literal(version) ) )
     for i,format in enumerate(SOS.responseFormat):
         print format
-        uriFormat = URIRef("{0}/{1}".format(baseURI, i))
+        uriFormat = URIRef("{0}/responseFormat_{1}".format(baseURI, i))
         g.add( ( uriSOS, dc.hasFormat, uriFormat ) )
         g.add( ( uriFormat, RDFS.label, Literal('responseFormat') ) )
         g.add( ( uriFormat, FOAF.name, Literal(format.replace(' ','') ) ) ) 
@@ -450,7 +451,7 @@ def capabilities(SOS):
             # if (proc[:4].lower() == 'http'):
             #   uriProcedure = URIRef(proc)
             # else:
-            uriProcedure = URIRef("{0}/PROC/{1}".format(baseURI, count).replace(' ','') ) 
+            uriProcedure = URIRef("{0}/PROC_{1}".format(baseURI, count).replace(' ','') ) 
             # Create a PURL for every procedure URI 
             CreatePurls([uriProcedure], purlBatch)
 
@@ -458,7 +459,7 @@ def capabilities(SOS):
                 # if (observedProperty[:4] == 'http'):
                 #   obsProperty = URIRef(observedProperty)
                 # else:
-                obsProperty = URIRef("{0}/OBSERVED/{1}".format(baseURI, observedProperty.replace(' ','').replace('http://','').replace('.','_')) ) 
+                obsProperty = URIRef("{0}/OBSERVED_{1}".format(baseURI, observedProperty.replace(' ','').replace('http://','').replace('.','_').replace('/','_') ) ) 
                 # Create a PURL for every observed property URI 
                 CreatePurls([obsProperty], purlBatch)
                 
@@ -492,7 +493,7 @@ def capabilities(SOS):
                 # else: 
                 #   print obsProperty, "==", StandardObsProperty
 
-                StandardCollection = URIRef("{0}/FOI_Collection/{1}".format(baseURI, StandardObsProperty).replace(' ','') )
+                StandardCollection = URIRef("{0}/FOI_Collection_{1}".format(baseURI, StandardObsProperty).replace(' ','') )
                 if StandardCollection in definedCollections:
                     # the collection is already defined 
                     pass
@@ -515,7 +516,7 @@ def capabilities(SOS):
                 CreatePurls([StandardCollection], purlBatch)
 
                 for i, feature in enumerate(SOS.procedure[proc][observedProperty]['FOI']):
-                    sensor = URIRef("{0}/{1}/PROC/{2}/SENSOR/{3}".format(baseURI, SOS.organisation, count, i+1).replace(' ', '') )
+                    sensor = URIRef("{0}/{1}_PROC_{2}_SENSOR_{3}".format(baseURI, SOS.organisation, count, i+1).replace(' ', '') )
                     g.add( ( sensor, RDF.type, prov.Agent ) )
                     g.add( ( sensor, RDF.type, om_lite.process ) ) 
                     g.add( ( sensor, om_lite.procedure, uriProcedure ) )
@@ -525,7 +526,7 @@ def capabilities(SOS):
                     # if (feature[:4].lower() == 'http'):
                     #   FOI = URIRef(feature)
                     # else:
-                    FOI = URIRef("{0}/{1}/FOI/{2}".format(baseURI, SOS.organisation, feature.replace('http://','').replace('.','_')).replace(' ', '') )
+                    FOI = URIRef("{0}/{1}_FOI_{2}".format(baseURI, SOS.organisation, feature.replace('http://','').replace('.','_')).replace(' ', '') )
 
                     g.add( ( FOI, FOAF.name, Literal(feature) ) )
 
@@ -543,7 +544,7 @@ def capabilities(SOS):
 
                     for i, offeringName in enumerate(SOS.featureofinterest[feature]['offerings']):
                         # print count, offeringName
-                        offering = URIRef("{0}/{1}/PROC/{2}/OFFERING/{3}".format(baseURI, SOS.organisation, count, offeringName.replace('.','_') ).replace(' ', '') )
+                        offering = URIRef("{0}/{1}_PROC_{2}_OFFERING_{3}".format(baseURI, SOS.organisation, count, offeringName.replace('.','_') ).replace(' ', '') )
                         # Create a PURL for every offering URI 
                         CreatePurls([offering], purlBatch)
                         
