@@ -46,7 +46,7 @@ def capabilities(SOS):
     for version in SOS.version:
         g.add( ( uriSOS, dc.hasVersion, Literal(version) ) )
     for i,format in enumerate(SOS.responseFormat):
-        print format
+        # print format
         uriFormat = URIRef("{0}/responseFormat_{1}".format(baseURI, i))
         g.add( ( uriSOS, dc.hasFormat, uriFormat ) )
         g.add( ( uriFormat, RDFS.label, Literal('responseFormat') ) )
@@ -67,7 +67,7 @@ def capabilities(SOS):
 
     # procedure a prov:Activity, omlite:procedure;
     count = 0
-    print "Creating linked data from sensor data"
+    # print "Creating linked data from sensor data"
     with progressbar.ProgressBar(max_value=len(SOS.procedure)) as bar:
         for proc, value in SOS.procedure.iteritems():  
             count += 1
@@ -181,7 +181,7 @@ def capabilities(SOS):
 
 
 
-    print "Sending triples to endpoint"
+    # print "Sending triples to endpoint"
     # with progressbar.ProgressBar(max_value=len(g)) as bar:
         # print "send data to endpoint"
             # countTriples = 0
@@ -230,15 +230,15 @@ def capabilities(SOS):
     #   f.write(unicode(g.serialize(format="turtle")))
     g.serialize('sensors{0}.xml'.format(SOS.organisation.replace(' ', '')),format="turtle")
     g = Graph()
-    print 'file:///{0}/sensors{1}.xml'.format(os.getcwd(),SOS.organisation.replace(' ', ''))
+    # print 'file:///{0}/sensors{1}.xml'.format(os.getcwd(),SOS.organisation.replace(' ', ''))
     r = session.post(endpoint[:-5]+'Store', data={'view':'HTML', 'format':'Turtle', 'url':'file:///{0}/sensors{1}.xml'.format(os.getcwd(),SOS.organisation.replace(' ', '')), 'fromurl':'Store from URI' }) 
 
 
 
-    if str(r) != '<Response [200]>':
-        print "Response: {0}".format(r)
-        # print query
-        print r.text
+    # if str(r) != '<Response [200]>':
+    #     print "Response: {0}".format(r)
+    #     # print query
+    #     print r.text
 
     # bar.update(countTriples)
 
