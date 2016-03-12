@@ -72,7 +72,7 @@ class SOS:
 
         # Print the request URL
         self.log("Get request: {0}".format(GetCapabilities))
-        print GetCapabilities
+        # print GetCapabilities
 
         # Store the retrieved document as an etree object
         tree = etree.fromstring(r.content)
@@ -80,7 +80,7 @@ class SOS:
 
         # Check for errors
         if len(tree.findall('.//ows:Exception', nsm)) >= 1:
-            print 'The server responded with an error message'
+            # print 'The server responded with an error message'
             error = etree.tostring(tree, pretty_print=True)
             self.log('ERROR url: {0} \n response:\n{1}'.format(GetCapabilities, etree.tostring(tree, pretty_print=True)))
             self.error = True
@@ -104,7 +104,7 @@ class SOS:
         FOI = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='featureOfInterest']/ows:AllowedValues", nsm)
         for feature in FOI:
             if feature.text in featureofinterest:
-                print feature.text, 'already exists'
+                # print feature.text, 'already exists'
             else:
                 self.featureofinterest[feature.text] = {}
         
@@ -153,7 +153,7 @@ class SOS:
         nsm = tree.nsmap
             
 
-        print GetFeatureOfInterest
+        # print GetFeatureOfInterest
 
         self.log("Get request: {0}".format(GetFeatureOfInterest))
 
@@ -182,8 +182,8 @@ class SOS:
                 coords = " ".join([coordsList[1], coordsList[0], coordsList[2]])
             elif "urn:ogc:def" in SampledFeature.attrib['{http://www.w3.org/1999/xlink}href']:
                 pass
-            else:
-                print "order unknown" 
+            # else:
+            #     print "order unknown" 
 
             self.featureofinterest[currentFOI]['coords'] = [coords, CRS]
             self.featureofinterest[currentFOI]['offerings'] = []
@@ -218,10 +218,10 @@ class SOS:
                     # Print the request URL
                     if temporalFilterUsed:
                         self.log("Get request: {0}".format(GetObservation+temporalFilter))
-                        print GetObservationWtempfilter
+                        # print GetObservationWtempfilter
                     else:
                         self.log("Get request: {0}".format(GetObservation))
-                        print GetObservation
+                        # print GetObservation
 
                     # print etree.tostring(tree, pretty_print=True)
                     
@@ -263,9 +263,9 @@ class SOS:
         # prints the variables of a SOS instance
         if self.error == False:
             results = "Information for {0}\n\tProvided by: {1}\n\tCosts: {2}\n\tAccess constraints: {3}\n\tSupported version: {4}\n\tSupported response formats: {5}\n".format(self.name, self.organisation, self.costs, self.accesConstraints, self.version, self.responseFormat)
-            print results 
-        else:
-            print "I'm in a state of error!"
+            # print results 
+        # else:
+        #     print "I'm in a state of error!"
         
         return
 
