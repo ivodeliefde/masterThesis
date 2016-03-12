@@ -104,6 +104,7 @@ class SOS:
         FOI = tree.find(".//ows:Operation[@name='GetObservation']/ows:Parameter[@name='featureOfInterest']/ows:AllowedValues", nsm)
         for feature in FOI:
             if feature.text in featureofinterest:
+            	pass
                 # print feature.text, 'already exists'
             else:
                 self.featureofinterest[feature.text] = {}

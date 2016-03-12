@@ -1,7 +1,8 @@
 from pywps.Process import WPSProcess
 
+from observedPropertyMapping import *
 from sosRequests import *
-from linkDataCapabilities import *
+from linkedDataCapabilities import *
 
 
 class Process(WPSProcess):
@@ -25,8 +26,24 @@ class Process(WPSProcess):
         # Adding process inputs
         #----------------------------------------------------------------------#
         self.urlIn = self.addLiteralInput(identifier = "spatial_aggregation",
-                                            title = "Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'"
+                                            title = "Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'",
+                                            default = "http://sos.irceline.be/sos?",
                                             type = "StringType")
+
+        self.mappingIn = self.addComplexInput(identifier="input",
+                        title="Input file",
+                        abstract="Input RDF file, in turtle notation",
+                        # default = "H:\Ivo\Geomatics\Year 2\Thesis\Thesis Template\WPS1\observedPropertyMapping.ttl" 
+                        # formats = [ # Turtle
+                        #             {mimeType: 'text/turtle',
+                        #             encoding:'utf-8',
+                        #             schema: None } 
+                        #           ] 
+                        
+                                )
+                        
+                       
+                    
                     
         #----------------------------------------------------------------------#
         # Adding process outputs
@@ -43,9 +60,15 @@ class Process(WPSProcess):
 
 
         url = self.urlIn.getValue()
+        mappingscript = self.mappingIn.getValue()
+
+        # Test mappingScript file
+        # mappingscript = "file///H:\Ivo\Geomatics\Year 2\Thesis\Thesis Template\WPS1\observedPropertyMapping.ttl"
+
+        sendMappingScriptToEndpoint(mappingscript)
        
         # url = 'http://sos.irceline.be/sos?' # test URL
-        sos = SOS(url)
+        # sos = SOS(url)
         # sos.store()
 
 #       Test input from pickle
@@ -54,7 +77,7 @@ class Process(WPSProcess):
         # sos.printInformation()
         # print sos.featureofinterest
         # make linked data from the data retrieved above
-        capabilities(sos)
+        # capabilities(sos)
 
 
         # url = 'http://inspire.rivm.nl/sos/eaq/service?'
