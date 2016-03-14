@@ -127,86 +127,48 @@ class Request():
         #----------------------------------------------------------------------#
 
     def getSensorsVector(self):
-        # if self.featureCategory.lower() == 'raster':
-        #   print 'Vector function cannot be applied for a raster request'
-        #   return
-        # else:
-        #   print 'Request data for vector geometry'
+        if self.featureCategory.lower() == 'raster':
+          print 'Vector function cannot be applied for a raster request'
+          return
+        else:
+          print 'Request data for vector geometry'
 
-        # spatialFilter = []
-        # for key, value in self.featureDict.iteritems():
-        #   spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>("{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>, ?geom)'.format(value))
-        # spatialFilter = 'FILTER ( {0} ) )'.format(' || '.join(spatialFilter))
-
-        # for obsProperty in self.observedProperties:
-        #   # Check out DBPedia to find the observed property and see to which collection of sampling features it links  
-
-        #   # Retrieve sensors that are linked to the collection of sampling features
-        #   self.sensors[obsProperty] = {}
-        #   query = r"""
-        #       SELECT DISTINCT 
-        #         ?sensor ?geom ?FOIname ?procName ?sos
-                            
-        #       WHERE {{
-
-        #          ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> ?obsProperty . 
-        #          ?obsProperty <http://xmlns.com/foaf/0.1/name> {0} .
-        #          ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> . 
-
-        #          ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .  
-                 
-
-        #          ?sensor <http://def.seegrid.csiro.au/ontology/om/om-lite#featureOfInterest> ?FOI . 
-        #          ?FOI <http://xmlns.com/foaf/0.1/name> ?FOIname .
-        #          ?procedure <http://www.w3.org/ns/prov#wasAssociatedWith> ?sensor .
-        #          ?procedure <http://xmlns.com/foaf/0.1/name> ?procName .
-                   
-        #          ?sensor <http://purl.org/dc/terms/isPartOf> ?sos . 
-        #     {1}
-        #   }}""".format(obsProperty, spatialFilter) 
-            
-        #   # print query
-        #   r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' })  
-        #   # print r.content
-        #   tree = etree.fromstring(r.content)
-        #   nsm = tree.nsmap
-
-        #   tag = '{{{0}}}result'.format(nsm[None])
-        #   for result in tree.findall('.//{0}'.format(tag)):
-        #       sensor = ''
-        #       sensorFOI = ''
-        #       sensorSOS = ''
-        #       sensorOffering = ''
-        #       sensorProcedure = ''
-        #       sensorGeom = ''
-        #       for each in result.getchildren():
-        #           if each.attrib['name'] == 'sensor':
-        #               sensor = each[0].text
-        #           elif each.attrib['name'] == 'FOIname':
-        #               sensorFOI = each[0].text
-        #           elif each.attrib['name'] == 'sos':
-        #               sensorSOS = each[0].text
-        #           elif each.attrib['name'] == 'geom':
-        #               sensorGEOM = each[0].text
-        #           elif each.attrib['name'] == 'procName':
-        #               sensorProcedure = each[0].text
-        #       if self.sensors[obsProperty][sensor] in self.sensors[obsProperty]:
-        #           self.sensors[obsProperty][sensor] = {'location': sensorGEOM, 'sos': sensorSOS, 'FOI': sensorFOI, 'procedure': sensorProcedure, 'offerings':[], 'observations': []}
-
-        #       if sensorSOS in self.sos:
-        #           self.sos[sensorSOS].append(sensor)
-        #       else:
-        #           self.sos[sensorSOS] = [sensor]
-
+        spatialFilter = []
+        for key, value in self.featureDict.iteritems():
+          spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>("{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>, ?geom)'.format(value))
+        spatialFilter = 'FILTER ( {0} )'.format(' || '.join(spatialFilter))
+    
+        self.retrieveSensors(spatialFilter)
         
         return
 
     def getSensorsBBOX(self):
         if self.featureCategory.lower() == 'raster':
             print 'Create bounding box around grid cells'
+
+            coords = [{}]
+            for cell, WKT in self.featureDict.iteritems():
+                geom = loads(WKT)
+                for point in geom.coords:
+                    coords.add(point)
+
+            Xmin = min(coords, key=lambda x:x[0])
+            Xmax = max(coords, key=lambda x:x[0])
+            Ymin = min(coords, key=lambda y:y[1])
+            Ymax = max(coords, key=lambda y:y[1])
+
+            BBOX = "POLYGON ( {0} {1}, {2} {1}, {2} {3}, {0} {3}, {0} {1} )^^<http://strdf.di.uoa.gr/ontology#WKT>".format(Xmin, Ymin, Xmax, Ymax)
+            spatialFilter = "FILTER (<http://strdf.di.uoa.gr/ontology#contains>({0}, ?geom)".format(BBOX)
+
         else:
             print 'Create bounding box around vector geometry'
 
+
+
+        self.retrieveSensors(spatialFilter)
+
+
+        self.filterSensors()
         return
 
     def getSensorsRaster(self):
@@ -262,6 +224,63 @@ class Request():
 
 
         print 'Retrieve sensors inside raster cells'
+        self.retrieveSensors(spatialFilter)
+        
+        # print self.sensors
+
+        if self.featureCategory.lower() != 'raster':
+            print 'filter out redundant sensors'
+            self.filterSensors()
+            
+
+        # print len(str(self.sensors))
+        # print self.sensors
+        return
+
+    def filterSensors(self):
+        featureList = []
+            for each in self.featureDict:
+                feature = loads(self.featureDict[each][1])
+                # project = partial(
+                #               pyproj.transform,
+                #               pyproj.Proj(init='epsg:4258'),
+                #               pyproj.Proj(init='epsg:4326'))
+                # newFeature = transform(project, feature)
+                # featureList.append(newFeature)
+                featureList.append(feature)
+
+            # print len(str(self.sensors))
+            for obsProperty in self.observedProperties:
+                excessSensors = []
+                for sensor in self.sensors[obsProperty]:
+                    theGeom = loads(self.sensors[obsProperty][sensor]['location'])
+                    
+                    excess = True
+                    for feature in featureList:
+                        # print feature
+                        if feature.contains(theGeom) :
+                            excess = False
+                    # print theGeom
+                    # return
+                    if excess == True:
+                        # print theGeom
+                        excessSensors.append( (obsProperty,sensor) )
+                    else:
+                        # Reversing the point coordinates from lat,lon to lon,lat which will be useful for visualizing on webmaps
+                        if len(list(theGeom.coords)[0]) == 2:
+                            point = 'POINT( {0} {1} )'.format(theGeom.y, theGeom.x)
+                        else:
+                            point = 'POINT( {0} {1} {2} )'.format(theGeom.y, theGeom.x, theGeom.z)
+                        WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(point)
+                        self.sensors[obsProperty][sensor]['location'] = WKTdata
+
+            for each in excessSensors:
+                obsProperty, sensor = each
+                del self.sensors[obsProperty][sensor]
+
+        return
+
+    def retrieveSensors(self, spatialFilter):
         for obsProperty in self.observedProperties:
             # print obsProperty
             query = r"""SELECT 
@@ -349,55 +368,7 @@ class Request():
                         self.sensors[obsProperty][sensor]['sos'] = sos
                         # if sos not in self.sos:
                         #   self.parseSOS(sos)
-        
-        # print self.sensors
 
-        if self.featureCategory.lower() != 'raster':
-            print 'filter out redundant sensors'
-            
-            featureList = []
-            for each in self.featureDict:
-                feature = loads(self.featureDict[each][1])
-                # project = partial(
-                #               pyproj.transform,
-                #               pyproj.Proj(init='epsg:4258'),
-                #               pyproj.Proj(init='epsg:4326'))
-                # newFeature = transform(project, feature)
-                # featureList.append(newFeature)
-                featureList.append(feature)
-
-            # print len(str(self.sensors))
-            for obsProperty in self.observedProperties:
-                excessSensors = []
-                for sensor in self.sensors[obsProperty]:
-                    theGeom = loads(self.sensors[obsProperty][sensor]['location'])
-                    
-                    excess = True
-                    for feature in featureList:
-                        # print feature
-                        if feature.contains(theGeom) :
-                            excess = False
-                    # print theGeom
-                    # return
-                    if excess == True:
-                        # print theGeom
-                        excessSensors.append( (obsProperty,sensor) )
-                    else:
-                        # Reversing the point coordinates from lat,lon to lon,lat which will be useful for visualizing on webmaps
-                        if len(list(theGeom.coords)[0]) == 2:
-                            point = 'POINT( {0} {1} )'.format(theGeom.y, theGeom.x)
-                        else:
-                            point = 'POINT( {0} {1} {2} )'.format(theGeom.y, theGeom.x, theGeom.z)
-                        WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(point)
-                        self.sensors[obsProperty][sensor]['location'] = WKTdata
-
-            for each in excessSensors:
-                obsProperty, sensor = each
-                del self.sensors[obsProperty][sensor]
-
-        # print len(str(self.sensors))
-        # print self.sensors
-        return
 
     def parseSOS(sosURI):
         print "Retrieve data about", sosURI

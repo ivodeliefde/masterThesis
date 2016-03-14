@@ -68,7 +68,7 @@ class Process(WPSProcess):
         sendMappingScriptToEndpoint(mappingscript)
        
         # url = 'http://sos.irceline.be/sos?' # test URL
-        # sos = SOS(url)
+        sos = SOS(url)
         # sos.store()
 
 #       Test input from pickle
@@ -77,7 +77,7 @@ class Process(WPSProcess):
         # sos.printInformation()
         # print sos.featureofinterest
         # make linked data from the data retrieved above
-        # capabilities(sos)
+        capabilities(sos)
 
 
         # url = 'http://inspire.rivm.nl/sos/eaq/service?'
