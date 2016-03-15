@@ -1,9 +1,9 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
-<http://dbpedia.org/resource/Ozone> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/7> .
-<http://dbpedia.org/resource/Particulates> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/5> .
-<http://dbpedia.org/resource/Nitrogen_dioxide> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED/dd_eionet_europa_eu/vocabulary/aq/pollutant/8> .
+<http://dbpedia.org/resource/Ozone> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED_dd_eionet_europa_eu_vocabulary_aq_pollutant/7> .
+<http://dbpedia.org/resource/Particulates> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED_dd_eionet_europa_eu_vocabulary_aq_pollutant/5> .
+<http://dbpedia.org/resource/Nitrogen_dioxide> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED_dd_eionet_europa_eu_vocabulary_aq_pollutant_8> .
 
-<http://dbpedia.org/resource/Ozone> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED/44201-O3> .
-<http://dbpedia.org/resource/Particulates> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED/81102-PM10> .
-<http://dbpedia.org/resource/Nitrogen_dioxide> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED/42602-NO2> .
+<http://dbpedia.org/resource/Ozone> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED_44201-O3> .
+<http://dbpedia.org/resource/Particulates> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED_81102-PM10> .
+<http://dbpedia.org/resource/Nitrogen_dioxide> owl:sameAs <http://localhost:8099/masterThesis_tudelft/OBSERVED_42602-NO2> .
