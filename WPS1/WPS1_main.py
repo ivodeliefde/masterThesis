@@ -25,14 +25,13 @@ class Process(WPSProcess):
         #----------------------------------------------------------------------#
         # Adding process inputs
         #----------------------------------------------------------------------#
-        self.urlIn = self.addLiteralInput(identifier = "spatial_aggregation",
+        self.urlIn = self.addLiteralInput(identifier = "input_url",
                                             title = "Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'",
                                             default = "http://sos.irceline.be/sos?",
                                             type = "StringType")
 
         self.mappingIn = self.addComplexInput(identifier="input",
                         title="Input file",
-                        abstract="Input RDF file, in turtle notation",
                         # default = "H:\Ivo\Geomatics\Year 2\Thesis\Thesis Template\WPS1\observedPropertyMapping.ttl" 
                         # formats = [ # Turtle
                         #             {mimeType: 'text/turtle',
@@ -59,42 +58,38 @@ class Process(WPSProcess):
     def execute(self):
 
 
-        url = self.urlIn.getValue()
-        mappingscript = self.mappingIn.getValue()
+         url = self.urlIn.getValue()
+        # mappingscript = self.mappingIn.getValue()
 
-        # Test mappingScript file
-        # mappingscript = "file///H:\Ivo\Geomatics\Year 2\Thesis\Thesis Template\WPS1\observedPropertyMapping.ttl"
 
+        # ------------------------#
+        # Test mappingScript file #
+        # ------------------------#
+        # mappingscript = "file///H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS1\observedPropertyMapping.ttl"
+        # ------------------------#
+
+
+        # Create semantic mapping between observed properties used in SOS and semantic 
+        # definitions of observed properties
         sendMappingScriptToEndpoint(mappingscript)
        
-        # url = 'http://sos.irceline.be/sos?' # test URL
+        # Create SOS instance with the URL as input. This will automatically retrieve 
+        # the required information from the SOS service 
         sos = SOS(url)
+
+        # ------------------------#
+        # Test input from pickle  #
+        # ------------------------#
         # sos.store()
-
-#       Test input from pickle
         # sos = pickle.load(open( "SOS of IRCEL - CELINE.p", "rb") )
-
         # sos.printInformation()
-        # print sos.featureofinterest
-        # make linked data from the data retrieved above
+        # ------------------------#
+
+        # Make linked data from the data retrieved above
         capabilities(sos)
 
-
-        # url = 'http://inspire.rivm.nl/sos/eaq/service?'
-        # sos = SOS(url)
-        # sos.store()
-
-#       Test input from pickle
-        # sos = pickle.load(open( "RIVM SOS Service Air Quality.p", "rb") )
-
-        # sos.printInformation()
-        # print sos.featureofinterest
-        # make linked data from the data retrieved above
-        # capabilities(sos)
-
-
-
-        self.textOut.setValue( 'The WPS has finished' )
+        # Notify the client that the WPS has finished succesfully
+        self.textOut.setValue( 'The WPS has finished succesfully' )
 
         return
 
