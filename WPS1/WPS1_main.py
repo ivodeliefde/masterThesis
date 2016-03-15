@@ -58,7 +58,7 @@ class Process(WPSProcess):
     def execute(self):
 
 
-         url = self.urlIn.getValue()
+        url = self.urlIn.getValue()
         # mappingscript = self.mappingIn.getValue()
 
 
@@ -89,7 +89,7 @@ class Process(WPSProcess):
         capabilities(sos)
 
         # Notify the client that the WPS has finished succesfully
-        self.textOut.setValue( 'The WPS has finished succesfully' )
+        self.textOut.setValue( 'The WPS has finished succesfully for {0}'.format(url) )
 
         return
 
