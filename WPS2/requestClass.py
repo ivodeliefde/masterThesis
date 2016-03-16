@@ -126,7 +126,7 @@ class Request():
         # Find relevant sensors 
         #----------------------------------------------------------------------#
 
-    def getSensorsVector(self):
+    def getSensorDataVector(self):
         if self.featureCategory.lower() == 'raster':
           print 'Vector function cannot be applied for a raster request'
           return
@@ -135,43 +135,87 @@ class Request():
 
         spatialFilter = []
         for key, value in self.featureDict.iteritems():
-          spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>("{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>, ?geom)'.format(value))
+          spatialFilter.append('<http://www.opengis.net/def/function/geosparql/sfContains>("{0}"^^<http://www.opengis.net/ont/geosparql#wktLiteral>, ?geom)'.format(value[1]))
         spatialFilter = 'FILTER ( {0} )'.format(' || '.join(spatialFilter))
-    
+
+        # Retrieve sensors and their SOS source using the spatial filter created here
         self.retrieveSensors(spatialFilter)
         
+        # Make SOS queries for every found data source to retrieve data for all found sensors
+        self.getObservationData()
+
         return
 
-    def getSensorsBBOX(self):
-        if self.featureCategory.lower() == 'raster':
-            print 'Create bounding box around grid cells'
 
-            coords = [{}]
-            for cell, WKT in self.featureDict.iteritems():
-                geom = loads(WKT)
-                for point in geom.coords:
+    def getSensorDataBBOX(self):
+        coords = set()
+        for name, (uri, WKT) in self.featureDict.iteritems():
+            if len(WKT.split(';')) == 2:
+                geometry, CRS = WKT.split(';')
+            else:
+                # if no CRS is provided it is assumed that it is in WGS-84 (EPGS 4326)
+                CRS = 'http://www.opengis.net/def/crs/EPSG/0/4326'
+
+            EPSG = CRS.split('/')[-1].strip('>')
+            # print EPSG      
+
+            if EPSG != "4258":
+                project = partial(
+                              pyproj.transform,
+                              pyproj.Proj(init='epsg:{0}'.format(EPSG) ),
+                              pyproj.Proj(init='epsg:4258'))
+                newFeature = transform(project, feature)
+
+            geom = loads(WKT)
+            # print geom.geom_type
+            if geom.geom_type == "MultiPolygon":
+                for polygon in geom.geoms:
+                    for point in polygon.exterior.coords:
+                        coords.add(point)
+            elif geom.geom_type == "Polygon":
+                for point in geom.exterior.coords:
                     coords.add(point)
+            else:
+                print "It is not a Polygon or MultiPolygon, but a {0}".format(geom.geom_type)
 
-            Xmin = min(coords, key=lambda x:x[0])
-            Xmax = max(coords, key=lambda x:x[0])
-            Ymin = min(coords, key=lambda y:y[1])
-            Ymax = max(coords, key=lambda y:y[1])
+        Xmin = min(coords, key=lambda x:x[0])[0]
+        Xmax = max(coords, key=lambda x:x[0])[0]
+        Ymin = min(coords, key=lambda y:y[1])[1]
+        Ymax = max(coords, key=lambda y:y[1])[1]
 
-            BBOX = "POLYGON ( {0} {1}, {2} {1}, {2} {3}, {0} {3}, {0} {1} )^^<http://strdf.di.uoa.gr/ontology#WKT>".format(Xmin, Ymin, Xmax, Ymax)
-            spatialFilter = "FILTER (<http://strdf.di.uoa.gr/ontology#contains>({0}, ?geom)".format(BBOX)
+        BBOX = '"POLYGON (( {0} {1}, {2} {1}, {2} {3}, {0} {3}, {0} {1} ));<http://www.opengis.net/def/crs/EPSG/0/4258>"^^<http://strdf.di.uoa.gr/ontology#WKT>'.format(Xmin, Ymin, Xmax, Ymax)
+        spatialFilter = "FILTER (<http://strdf.di.uoa.gr/ontology#contains>({0}, ?geom) )".format(BBOX)
 
-        else:
-            print 'Create bounding box around vector geometry'
+        # print Xmin, Xmax
+        # print Ymin, Ymax
+        # print BBOX
+        # print spatialFilter
+        # return
 
-
-
+        # Retrieve sensors and their SOS source using the spatial filter created here
         self.retrieveSensors(spatialFilter)
 
-
+        # Filter out sensors that are outside the area of interest and outside the temporal range
         self.filterSensors()
+
+        # SOScollection = set()
+        # for obsProperty in self.sensors:
+        #     self.results[obsProperty] = {}
+        #     for sensor in self.sensors[obsProperty]:
+        #         SOScollection.add(self.sensors[obsProperty][sensor]['sos'])
+        # print SOScollection
+
+        spatialFilterSOS = "spatialFilter=featureOfInterest/*/shape,{0},{1},{2},{3},http://www.opengis.net/def/crs/EPSG/0/4258".format(Xmin, Ymin, Xmax, Ymax)
+        # print spatialFilterSOS
+
+        # for SOS in SOScollection:
+        self.getObservationData(spatialFilterSOS)
+
+
         return
 
-    def getSensorsRaster(self):
+
+    def getSensorDataRaster(self):
         if self.featureCategory.lower() == 'raster':
             spatialFilter = []
             for key, value in self.featureDict.iteritems():
@@ -224,55 +268,60 @@ class Request():
 
 
         print 'Retrieve sensors inside raster cells'
+        # Retrieve sensors and their SOS source using the spatial filter created here
         self.retrieveSensors(spatialFilter)
         
         # print self.sensors
 
         if self.featureCategory.lower() != 'raster':
             print 'filter out redundant sensors'
+            # Filter out sensors that are outside the area of interest and outside the temporal range
             self.filterSensors()
             
 
         # print len(str(self.sensors))
         # print self.sensors
+
+        # Make SOS queries for every found data source to retrieve data for all found sensors
+        self.getObservationData()
+
         return
 
     def filterSensors(self):
         featureList = []
-            for each in self.featureDict:
-                feature = loads(self.featureDict[each][1])
-                # project = partial(
-                #               pyproj.transform,
-                #               pyproj.Proj(init='epsg:4258'),
-                #               pyproj.Proj(init='epsg:4326'))
-                # newFeature = transform(project, feature)
-                # featureList.append(newFeature)
-                featureList.append(feature)
+        for each in self.featureDict:
+            feature = loads(self.featureDict[each][1])
+            # project = partial(
+            #               pyproj.transform,
+            #               pyproj.Proj(init='epsg:4258'),
+            #               pyproj.Proj(init='epsg:4326'))
+            # newFeature = transform(project, feature)
+            # featureList.append(newFeature)
+            featureList.append(feature)
 
-            # print len(str(self.sensors))
-            for obsProperty in self.observedProperties:
-                excessSensors = []
-                for sensor in self.sensors[obsProperty]:
-                    theGeom = loads(self.sensors[obsProperty][sensor]['location'])
-                    
-                    excess = True
-                    for feature in featureList:
-                        # print feature
-                        if feature.contains(theGeom) :
-                            excess = False
+        # print len(str(self.sensors))
+        for obsProperty in self.observedProperties:
+            excessSensors = []
+            for sensor in self.sensors[obsProperty]:
+                theGeom = loads(self.sensors[obsProperty][sensor]['location'])
+                
+                excess = True
+                for feature in featureList:
+                    # print feature
+                    if feature.contains(theGeom) :
+                        excess = False
+                # print theGeom
+                # return
+                if excess == True:
                     # print theGeom
-                    # return
-                    if excess == True:
-                        # print theGeom
-                        excessSensors.append( (obsProperty,sensor) )
+                    excessSensors.append( (obsProperty,sensor) )
+                else:
+                    if len(list(theGeom.coords)[0]) == 2:
+                        point = 'POINT( {0} {1} )'.format(theGeom.x, theGeom.y)
                     else:
-                        # Reversing the point coordinates from lat,lon to lon,lat which will be useful for visualizing on webmaps
-                        if len(list(theGeom.coords)[0]) == 2:
-                            point = 'POINT( {0} {1} )'.format(theGeom.y, theGeom.x)
-                        else:
-                            point = 'POINT( {0} {1} {2} )'.format(theGeom.y, theGeom.x, theGeom.z)
-                        WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(point)
-                        self.sensors[obsProperty][sensor]['location'] = WKTdata
+                        point = 'POINT( {0} {1} {2} )'.format(theGeom.x, theGeom.y, theGeom.z)
+                    WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(point)
+                    self.sensors[obsProperty][sensor]['location'] = WKTdata
 
             for each in excessSensors:
                 obsProperty, sensor = each
@@ -312,7 +361,8 @@ class Request():
                     """.format(obsProperty, spatialFilter)
             # print query
             r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' }) 
-            # print r
+            # if r != 
+            print r
             # print r.content
             # return
 
@@ -332,6 +382,7 @@ class Request():
                         if len(WKTdata.split(';')) == 2:
                             geom, CRS = WKTdata.split(';')
                         else:
+                            # if no CRS is provided it is assumed that it is in WGS-84 (EPGS 4326)
                             geom = each[0].text
                             CRS = 'http://www.opengis.net/def/crs/EPSG/0/4326'
                             WKTdata = '{0};<http://www.opengis.net/def/crs/EPSG/0/4326>'.format(geom)
@@ -370,38 +421,41 @@ class Request():
                         #   self.parseSOS(sos)
 
 
-    def parseSOS(sosURI):
-        print "Retrieve data about", sosURI
-        self.sos[sosURI] = {'resourceDescriptionFormat': set(), 'responseFormat': set()}
-        # retrieve the formats to be used in the GetObservation requests
+    # def parseSOS(sosURI):
+    #     print "Retrieve data about", sosURI
+    #     self.sos[sosURI] = {'resourceDescriptionFormat': set(), 'responseFormat': set()}
+    #     # retrieve the formats to be used in the GetObservation requests
             
-        g = Graph()
-        # retrieve RDF document from SOS URI (which is a PURL that resolves to a describe URI request at the endpoint)
-        g.parse(sosURI)
+    #     g = Graph()
+    #     # retrieve RDF document from SOS URI (which is a PURL that resolves to a describe URI request at the endpoint)
+    #     g.parse(sosURI)
 
-        print g.serialize(format='turtle')
-        dc = rdflib.Namespace('http://purl.org/dc/terms/')
+    #     print g.serialize(format='turtle')
+    #     dc = rdflib.Namespace('http://purl.org/dc/terms/')
 
-        # Loop through RDF graph to find data about formats accepted by SOS 
-        for s,p,o in g.triples( (None, dc.hasFormat, None) ):
-            # print s,p,o
-            for s2,p2, label in g.triples( (o, RDFS.label, None ) ):
-                if label == "responseFormat":
-                    self.sos[sosURI]['responseFormat'].add(label)
-                elif label == "resourceDescriptionFormat":
-                    self.sos[sosURI]['resourceDescriptionFormat'].add(label)
+    #     # Loop through RDF graph to find data about formats accepted by SOS 
+    #     for s,p,o in g.triples( (None, dc.hasFormat, None) ):
+    #         # print s,p,o
+    #         for s2,p2, label in g.triples( (o, RDFS.label, None ) ):
+    #             if label == "responseFormat":
+    #                 self.sos[sosURI]['responseFormat'].add(label)
+    #             elif label == "resourceDescriptionFormat":
+    #                 self.sos[sosURI]['resourceDescriptionFormat'].add(label)
 
-        return
+    #     return
 
-    def getObservationData(self):
+    def getObservationData(self, spatialFilter=''):
         print "Get Observation Data"
         # print self.sensors
         temporalFilter = '&temporalFilter=om:resultTime,{0}/{1}'.format(self.tempRange[0], self.tempRange[1])
         for obsProperty in self.sensors:
             self.results[obsProperty] = {}
             for sensor in self.sensors[obsProperty]:
-                GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0&featureOfInterest={4}'.format(self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'],self.sensors[obsProperty][sensor]['FOI'])
-                
+                if spatialFilter == '':
+                    GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0&featureOfInterest={4}'.format(self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'],self.sensors[obsProperty][sensor]['FOI'])
+                else:
+                    GetObservation = '{0}service=SOS&version=2.0.0&request=GetObservation&procedure={1}&offering={2}&observedproperty={3}&responseformat=http://www.opengis.net/om/2.0&{4}'.format(self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'], spatialFilter)
+
                 temporalFilterUsed = True
                 GetObservationWtempfilter = GetObservation + temporalFilter
                 # print 'With Filter:', GetObservationWtempfilter
@@ -430,7 +484,7 @@ class Request():
                     print GetObservation
                 
                 # prevResultTime = ""
-
+                # print r.content
                 sensorLocation = self.sensors[obsProperty][sensor]['location']
                 for observation in tree.findall('.//sos:observationData', nsm):
                     dataType = tree.find('.//om:type', nsm).attrib['{http://www.w3.org/1999/xlink}href']
@@ -448,7 +502,7 @@ class Request():
                         uom = result.attrib['uom']
                         value = result.text
                         csvData = '{0},{1}'.format(resultTime, value)
-
+                        # print csvData
 
                     elif dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEObservation':
                         if tree.find('.//om:result', nsm).attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] == 'swe:DataArrayPropertyType':
@@ -471,6 +525,7 @@ class Request():
                         self.results[obsProperty][sensorLocation][uom]['raw'] += '{0};'.format(csvData)
                     else:
                         self.results[obsProperty][sensorLocation] = { uom: { 'raw': '{0};'.format(csvData) } }
+                    # print self.results[obsProperty][sensorLocation][uom]['raw']
 
                 if temporalFilterUsed == False:
                     # manually filter the sensor data outside the temporal range
@@ -489,7 +544,7 @@ class Request():
                                     data = data[:-1]
                                 dataList = data.split(';')
                                 for each in dataList:
-                                    # print each
+                                    print each
                                     # return
                                     # print each.split(',')
                                     # return
@@ -560,17 +615,19 @@ class Request():
             for sensorLocation in self.results[obsProperty]:
                 for uom in self.results[obsProperty][sensorLocation]:
                     data = self.results[obsProperty][sensorLocation][uom]['raw']
+                    # print data
                     self.results[obsProperty][sensorLocation][uom]['tempOrdered'] = dict()
                     if data[-1:] == ';':
                         data = data[:-1]
                     dataList = data.split(';')
                     for each in dataList:
+                        # print each
                         resultTimeString, value = each.split(',')
                         resultTime = dateutil.parser.parse(resultTimeString).replace(tzinfo=utc)
 
                         # double check that the result time is in between start and end time
                         if resultTime < startTime or resultTime > endTime:
-                            print "Result time is outside temporal range"
+                            # print "Result time is outside temporal range"
                             continue
 
                             # return
@@ -583,14 +640,14 @@ class Request():
                         # Calculate how many times the temporal granularity fits in the difference after the remainder is removed
                         division = int( (difference - remainderDifference).total_seconds() / tempGranularity.total_seconds() )
 
-                        if str(startTime + tempGranularity * division) in self.results[obsProperty][sensorLocation][uom]['tempOrdered']:
+                        if "{0},{1}".format(startTime + tempGranularity * division, startTime + tempGranularity * (division + 1) ) in self.results[obsProperty][sensorLocation][uom]['tempOrdered']:
                             self.results[obsProperty][sensorLocation][uom]['tempOrdered']["{0},{1}".format(startTime + tempGranularity * division, startTime + tempGranularity * (division + 1) ) ].append(each)
                         else:
                             # print startTime, tempGranularity, division
                             # print str(startTime + tempGranularity * division)
                             self.results[obsProperty][sensorLocation][uom]['tempOrdered']["{0},{1}".format(startTime + tempGranularity * division, startTime + tempGranularity * (division + 1) ) ] = [each]
 
-
+                        # print self.results[obsProperty][sensorLocation][uom]['tempOrdered']
 
         # Aggregate the data inside each list to a single value
         for obsProperty in self.results:
@@ -616,6 +673,7 @@ class Request():
 
 
                         self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange] = aggregatedData 
+                        # print self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange]
 
 
         
@@ -640,19 +698,23 @@ class Request():
             # print newPolygon
             # return
             featureList.append( (name, polygon) )
+        # print featureList
 
 
         # Order the observation data per feature
         for obsProperty in self.results:
+            print "observed property", obsProperty
             for sensorLocation in self.results[obsProperty]:
+                # print sensorLocation
                 for name, polygon in featureList:
                     # Check if sensor location overlaps with feature
                     point = loads(sensorLocation)
-                    # Since the Polygon geometries have lat/lon instead of lon/lat the point coordinates are reversed here (not a perfect solution)
-                    reversedPoint = loads('POINT({0} {1})'.format(point.y, point.x))
-                    if polygon.contains(reversedPoint):
+                    reversedPoint = loads('POINT({0} {1})'.format(point.y, point.x))      
+                    if polygon.contains(point):
+                        # print "point in polygon"
                         if obsProperty not in self.output[name]:
                             self.output[name][obsProperty] = {}
+                        # print self.output
 
                         # Append data to list per feature
                         for uom in self.results[obsProperty][sensorLocation]:
@@ -697,6 +759,8 @@ class Request():
 
 
     def createOutput(self):
+        print "Create output XML"
+        print self.output
         self.outputFile = StringIO.StringIO()
 
         if self.spatialAggregation.lower() == 'false':
@@ -813,6 +877,6 @@ class Request():
 
         # etree.cleanup_namespaces(root)
         XML = etree.tostring(root, pretty_print=True)
-        # print XML
+        print XML
         
         self.outputFile.write(XML)
