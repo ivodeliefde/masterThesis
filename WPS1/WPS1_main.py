@@ -27,19 +27,19 @@ class Process(WPSProcess):
         #----------------------------------------------------------------------#
         self.urlIn = self.addLiteralInput(identifier = "input_url",
                                             title = "Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'",
-                                            default = "http://sos.irceline.be/sos?",
+                                            default = "http://inspire.rivm.nl/sos/eaq/service?",
                                             type = "StringType")
 
-        self.mappingIn = self.addComplexInput(identifier="input",
-                        title="Input file",
-                        # default = "H:\Ivo\Geomatics\Year 2\Thesis\Thesis Template\WPS1\observedPropertyMapping.ttl" 
-                        # formats = [ # Turtle
-                        #             {mimeType: 'text/turtle',
-                        #             encoding:'utf-8',
-                        #             schema: None } 
-                        #           ] 
+        # self.mappingIn = self.addComplexInput(identifier="input",
+        #                 title="Input file",
+        #                 # default = "H:\Ivo\Geomatics\Year 2\Thesis\Thesis Template\WPS1\observedPropertyMapping.ttl" 
+        #                 # formats = [ # Turtle
+        #                 #             {mimeType: 'text/turtle',
+        #                 #             encoding:'utf-8',
+        #                 #             schema: None } 
+        #                 #           ] 
                         
-                                )
+        #                         )
                         
                        
                     
@@ -65,7 +65,7 @@ class Process(WPSProcess):
         # ------------------------#
         # Test mappingScript file #
         # ------------------------#
-        # mappingscript = "file///H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS1\observedPropertyMapping.ttl"
+        mappingscript = "file:///H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS1\observedPropertyMapping.ttl"
         # ------------------------#
 
 
