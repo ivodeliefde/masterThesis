@@ -113,10 +113,10 @@ def capabilities(SOS):
 					continue
 
 				if StandardObsProperty == '':
-					# print "I have no clue what {0} is...".format(obsProperty)
+					print "I have no clue what {0} is...".format(obsProperty)
 					continue
-				# else: 
-				#   print obsProperty, "==", StandardObsProperty
+				else: 
+				  print obsProperty, "==", StandardObsProperty
 
 				StandardCollection = URIRef("{0}/FOI_Collection_{1}".format(baseURI, StandardObsProperty).replace(' ','') )
 				if StandardCollection in definedCollections:
