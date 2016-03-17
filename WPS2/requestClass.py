@@ -201,15 +201,56 @@ class Request():
 
         # spatialFilterSOS = "spatialFilter=featureOfInterest/*/shape,{0},{1},{2},{3},http://www.opengis.net/def/crs/EPSG/0/4258".format(Xmin, Ymin, Xmax, Ymax)
         # print spatialFilterSOS
-
+        sosServices = set()
         parametersCollection = set()
         for obsProperty in self.sensors:
             self.results[obsProperty] = {}
             for sensor in self.sensors[obsProperty]:
                 parameters = self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName']
                 parametersCollection.add(parameters)
+                sosServices.add(self.sensors[obsProperty][sensor]['sos'])
         # print parametersCollection
 
+        print sosServices
+        sosDict = {}
+        for sos in sosServices:
+            sosDict[sos] = {"post":'',"spatialFilters":[]}
+            # Retrieve the capabilities document
+            GetCapabilities = '{0}service=SOS&request=GetCapabilities'.format(sos)
+            r = requests.get(GetCapabilities)
+
+            # Store the retrieved document as an etree object
+            tree = etree.fromstring(r.content)
+            nsm = tree.nsmap
+
+            # find the http address for POST requests
+            PostAdresses = tree.findall('.//ows:OperationsMetadata//ows:Post', nsm)
+            if len(PostAdresses) >= 1:
+                for address in PostAdresses:
+                    values = address.findall('.//ows:Constraint[@name="Content-Type"]/ows:AllowedValues/ows:Value', nsm)
+                    for value in values:
+                        if "text/xml" == value.text:
+                            # print "text",address
+                            sosDict[sos]["post"] = address.attrib["{http://www.w3.org/1999/xlink}href"]
+            else:
+                sosDict[sos]["post"] = PostAdresses.attrib["{http://www.w3.org/1999/xlink}href"]
+                # print "len < 1",PostAdresses
+
+            # if no specification is provided for the post addresses the last one is selected
+            if sosDict[sos]["post"] == '':
+                # print "nothing specified"
+                sosDict[sos]["post"] = address.attrib["{http://www.w3.org/1999/xlink}href"]
+
+            # find the type of spatialFilters
+            spatialFilters = tree.findall('.//fes:Spatial_Capabilities/fes:SpatialOperators/fes:SpatialOperator', nsm)
+            for spatialFilter in spatialFilters: 
+                name = spatialFilter.attrib["name"]
+                geometryOperand = spatialFilter.find('.//fes:GeometryOperand',nsm).attrib["name"]
+                sosDict[sos]["spatialFilters"].append( (name, geometryOperand) )
+        # print sosDict
+        # return
+
+        spatialFilterUsed = True
         for parameters in parametersCollection:
             # print parameters
             sos, procedureName, offeringName, obsPropertyName = parameters
@@ -229,38 +270,45 @@ class Request():
             observedProperty = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}observedProperty')
             observedProperty.text = obsPropertyName
 
-            spatialFilter = etree.SubElement(getObservation, "{http://www.opengis.net/sos/2.0}spatialFilter")
+            if len(sosDict[sos]["spatialFilters"]) == 0:
+                spatialFilterUsed = False
+                print 'No spatial filter implemented'
+            elif len([spatialFilter for spatialFilter in sosDict[sos]["spatialFilters"] if spatialFilter[0] == 'BBOX']) == 0:
+                print 'no BBOX'
 
-
-            bbox = etree.SubElement(spatialFilter, "{http://www.opengis.net/fes/2.0}BBOX" )
-
+            else:
+                print 'BBOX'
             
-            valueReference = etree.SubElement(bbox, "{http://www.opengis.net/fes/2.0}ValueReference")
-            valueReference.text = "om:featureOfInterest/sams:SF_SpatialSamplingFeature/sams:shape"
-   
 
-            envelope = etree.SubElement(bbox, "{http://www.opengis.net/gml/3.2}Envelope")
-            envelope.attrib["srsName"] = "http://www.opengis.net/def/crs/EPSG/0/4258"
+                spatialFilter = etree.SubElement(getObservation, "{http://www.opengis.net/sos/2.0}spatialFilter")
 
-            LLcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}lowerCorner")
-            LLcorner.text = "{1} {0}".format(Xmin, Ymin)
 
-            URcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}upperCorner")
-            URcorner.text = "{1} {0}".format(Xmax, Ymax)
+                bbox = etree.SubElement(spatialFilter, "{http://www.opengis.net/fes/2.0}BBOX" )
 
-            responseFormat = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}responseFormat')
-            responseFormat.text = "http://www.opengis.net/om/2.0"
+                
+                valueReference = etree.SubElement(bbox, "{http://www.opengis.net/fes/2.0}ValueReference")
+                valueReference.text = "om:featureOfInterest/sams:SF_SpatialSamplingFeature/sams:shape"
+       
 
-     
- 
+                envelope = etree.SubElement(bbox, "{http://www.opengis.net/gml/3.2}Envelope")
+                envelope.attrib["srsName"] = "http://www.opengis.net/def/crs/EPSG/0/4258"
 
+                LLcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}lowerCorner")
+                LLcorner.text = "{1} {0}".format(Xmin, Ymin)
+
+                URcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}upperCorner")
+                URcorner.text = "{1} {0}".format(Xmax, Ymax)
+
+                responseFormat = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}responseFormat')
+                responseFormat.text = "http://www.opengis.net/om/2.0"
+
+            # Create XML string and POST it to the endpoint
             XML = etree.tostring(getObservation, pretty_print=True)
-            # sos="http://inspire.rivm.nl/sos/eaq/service/pox"
-            # print sos[:-1]
-            print "\n",XML
-            r = requests.post(sos[:-1], XML)
-            print r
-            print r.content
+            r = requests.post(sosDict[sos]["post"], XML)
+            if r != "<Response [200]>":
+                spatialFilterUsed = False
+                print "SpatialFilter failed"
+            # print r.content
             # return
 
 

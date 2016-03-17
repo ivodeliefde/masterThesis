@@ -27,7 +27,7 @@ class Process(WPSProcess):
 
         self.InputFeatures = self.addLiteralInput(identifier = "feature_names",
                                             title = "Input feature name strings, seperated by comma's", 
-                                            default="Antwerpen",
+                                            default="Utrecht",
                                             type = "StringType")
 
         self.InputObsProperties = self.addLiteralInput(identifier = "observed_properties",
