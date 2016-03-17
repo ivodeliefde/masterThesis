@@ -27,7 +27,7 @@ class Process(WPSProcess):
 
         self.InputFeatures = self.addLiteralInput(identifier = "feature_names",
                                             title = "Input feature name strings, seperated by comma's", 
-                                            default="Utrecht",
+                                            default="Antwerpen",
                                             type = "StringType")
 
         self.InputObsProperties = self.addLiteralInput(identifier = "observed_properties",
@@ -100,26 +100,24 @@ class Process(WPSProcess):
         # return
 
         # Make SPARQL queries that find the sensors that are within the feature geometries with one of the three methods
-        # getSensorsVector()
-        # getSensorsBBOX()
-        dataRequest.getSensorsRaster()
+        # The data is also automatically retrieved from the relevant Sensor Observation Services
+        # dataRequest.getSensorDataVector()
+        dataRequest.getSensorDataBBOX()
+        # dataRequest.getSensorDataRaster()
 
-        # Make SOS queries for every found data source to retrieve data for all found sensors
-        dataRequest.getObservationData()
+        # # Check if aggregation method is valid
+        # # dataRequest.aggregateCheck()
 
-        # Check if aggregation method is valid
-        # dataRequest.aggregateCheck()
+        # # Aggregate sensor data
+        # dataRequest.aggregateTemporal()
 
-        # Aggregate sensor data
-        dataRequest.aggregateTemporal()
+        # if spatialAggregation.lower() != 'false':
+        #     dataRequest.aggregateSpatial()
 
-        if spatialAggregation.lower() != 'false':
-            dataRequest.aggregateSpatial()
-
-        # Create output XML file
-        dataRequest.createOutput()
-        # Output aggregated sensor data
-        self.dataOut.setValue( dataRequest.outputFile )
+        # # Create output XML file
+        # dataRequest.createOutput()
+        # # Output aggregated sensor data
+        # self.dataOut.setValue( dataRequest.outputFile )
 
         return 
 

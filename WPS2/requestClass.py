@@ -178,6 +178,7 @@ class Request():
             else:
                 print "It is not a Polygon or MultiPolygon, but a {0}".format(geom.geom_type)
 
+        # print coords
         Xmin = min(coords, key=lambda x:x[0])[0]
         Xmax = max(coords, key=lambda x:x[0])[0]
         Ymin = min(coords, key=lambda y:y[1])[1]
@@ -198,18 +199,72 @@ class Request():
         # Filter out sensors that are outside the area of interest and outside the temporal range
         self.filterSensors()
 
-        # SOScollection = set()
-        # for obsProperty in self.sensors:
-        #     self.results[obsProperty] = {}
-        #     for sensor in self.sensors[obsProperty]:
-        #         SOScollection.add(self.sensors[obsProperty][sensor]['sos'])
-        # print SOScollection
-
-        spatialFilterSOS = "spatialFilter=featureOfInterest/*/shape,{0},{1},{2},{3},http://www.opengis.net/def/crs/EPSG/0/4258".format(Xmin, Ymin, Xmax, Ymax)
+        # spatialFilterSOS = "spatialFilter=featureOfInterest/*/shape,{0},{1},{2},{3},http://www.opengis.net/def/crs/EPSG/0/4258".format(Xmin, Ymin, Xmax, Ymax)
         # print spatialFilterSOS
 
-        # for SOS in SOScollection:
-        self.getObservationData(spatialFilterSOS)
+        parametersCollection = set()
+        for obsProperty in self.sensors:
+            self.results[obsProperty] = {}
+            for sensor in self.sensors[obsProperty]:
+                parameters = self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName']
+                parametersCollection.add(parameters)
+        # print parametersCollection
+
+        for parameters in parametersCollection:
+            # print parameters
+            sos, procedureName, offeringName, obsPropertyName = parameters
+
+            getObservation = etree.Element('{http://www.opengis.net/sos/2.0}GetObservation') 
+            getObservation.attrib['service'] = "SOS"
+            getObservation.attrib['version'] = "2.0.0"
+
+            procedure = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}procedure')
+            procedure.text = procedureName
+            
+
+            offering = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}offering')
+            offering.text = offeringName
+
+            
+            observedProperty = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}observedProperty')
+            observedProperty.text = obsPropertyName
+
+            spatialFilter = etree.SubElement(getObservation, "{http://www.opengis.net/sos/2.0}spatialFilter")
+
+
+            bbox = etree.SubElement(spatialFilter, "{http://www.opengis.net/fes/2.0}BBOX" )
+
+            
+            valueReference = etree.SubElement(bbox, "{http://www.opengis.net/fes/2.0}ValueReference")
+            valueReference.text = "om:featureOfInterest/sams:SF_SpatialSamplingFeature/sams:shape"
+   
+
+            envelope = etree.SubElement(bbox, "{http://www.opengis.net/gml/3.2}Envelope")
+            envelope.attrib["srsName"] = "http://www.opengis.net/def/crs/EPSG/0/4258"
+
+            LLcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}lowerCorner")
+            LLcorner.text = "{1} {0}".format(Xmin, Ymin)
+
+            URcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}upperCorner")
+            URcorner.text = "{1} {0}".format(Xmax, Ymax)
+
+            responseFormat = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}responseFormat')
+            responseFormat.text = "http://www.opengis.net/om/2.0"
+
+     
+ 
+
+            XML = etree.tostring(getObservation, pretty_print=True)
+            # sos="http://inspire.rivm.nl/sos/eaq/service/pox"
+            # print sos[:-1]
+            print "\n",XML
+            r = requests.post(sos[:-1], XML)
+            print r
+            print r.content
+            # return
+
+
+
 
 
         return
@@ -362,7 +417,7 @@ class Request():
             # print query
             r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'XML', 'handle':'download', 'submit':'Query' }) 
             # if r != 
-            print r
+            # print r
             # print r.content
             # return
 
