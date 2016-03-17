@@ -206,7 +206,7 @@ class Request():
         for obsProperty in self.sensors:
             self.results[obsProperty] = {}
             for sensor in self.sensors[obsProperty]:
-                parameters = self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName']
+                parameters = self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'], self.sensors[obsProperty][sensor]['location']
                 parametersCollection.add(parameters)
                 sosServices.add(self.sensors[obsProperty][sensor]['sos'])
         # print parametersCollection
@@ -253,7 +253,7 @@ class Request():
         spatialFilterUsed = True
         for parameters in parametersCollection:
             # print parameters
-            sos, procedureName, offeringName, obsPropertyName = parameters
+            sos, procedureName, offeringName, obsPropertyName, sensorLocation = parameters
 
             getObservation = etree.Element('{http://www.opengis.net/sos/2.0}GetObservation') 
             getObservation.attrib['service'] = "SOS"
@@ -305,13 +305,93 @@ class Request():
             # Create XML string and POST it to the endpoint
             XML = etree.tostring(getObservation, pretty_print=True)
             r = requests.post(sosDict[sos]["post"], XML)
-            if r != "<Response [200]>":
+            if str(r) != "<Response [200]>":
                 spatialFilterUsed = False
                 print "SpatialFilter failed"
-            # print r.content
+            tree = etree.fromstring(r.content)
+            nsm = tree.nsmap
+
+
+
+            # Get observation data from the response document
+            for observation in tree.findall('.//sos:observationData', nsm):
+                dataType = tree.find('.//om:type', nsm).attrib['{http://www.w3.org/1999/xlink}href']
+                if dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement':
+                    # print 'OM measurement data'
+                    resultTime = observation.find('.//om:resultTime/gml:TimeInstant/gml:timePosition',nsm).text
+
+                    result = observation.find('.//om:result',nsm)
+                    uom = result.attrib['uom']
+                    value = result.text
+                    csvData = '{0},{1}'.format(resultTime, value)
+                    # print csvData
+
+                elif dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEObservation':
+                    if tree.find('.//om:result', nsm).attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] == 'swe:DataArrayPropertyType':
+                        # print 'SWE Data Array'
+                        uom = tree.find(".//swe:Quantity[@definition='{0}']/swe:uom".format(self.sensors[obsProperty][sensor]['obsPropertyName']), nsm).attrib['code']
+
+                        try:
+                            encoding = tree.find(".//swe:TextEncoding",nsm)
+                            blockSeparator = encoding.attrib["blockSeparator"]
+                            decimalSeparator = encoding.attrib["decimalSeparator"]
+                            tokenSeparator = encoding.attrib["tokenSeparator"]
+                            # make sure all csv data is using the same separators
+                            csvData = tree.find('.//swe:values', nsm).text.replace(blockSeparator,";").replace(decimalSeparator, ".").replace(tokenSeparator, ",")
+                            # print csvData
+                            # return 
+                        except:
+                            continue
+                
+                if sensorLocation in self.results[obsProperty]:
+                    self.results[obsProperty][sensorLocation][uom]['raw'] += '{0};'.format(csvData)
+                else:
+                    self.results[obsProperty][sensorLocation] = { uom: { 'raw': '{0};'.format(csvData) } }
+                # print self.results[obsProperty][sensorLocation][uom]['raw']
+
+
+            # manually filter the sensor data outside the temporal range
+            print 'filter out data outside the temporal range'
+            utc = pytz.UTC
+            startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
+            endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
+            for obsProperty in self.results:
+                # print obsProperty
+                for sensorLocation in self.results[obsProperty]:
+                    # print sensorLocation
+                    for uom in self.results[obsProperty][sensorLocation]:
+                        # print uom
+                        data = self.results[obsProperty][sensorLocation][uom]['raw']
+                        if data[-1:] == ';':
+                            data = data[:-1]
+                        dataList = data.split(';')
+                        for each in dataList:
+                            # print each
+                            # return
+                            # print each.split(',')
+                            # return
+                            try:
+                                resultTimeString, value = each.split(',')
+                            except:
+                                # print "remove:", each
+                                # dataList.remove(each)
+                                continue
+                            resultTime = dateutil.parser.parse(resultTimeString).replace(tzinfo=utc)
+                            if resultTime < startTime or resultTime > endTime:
+                                # The resultTime is outside the temporal range
+                                # print "Remove:", resultTime, "Not in range:",startTime, endTime
+                                # print 'Before:', len(dataList), resultTime
+                                dataList.remove(each)
+
+                                # if each in dataList:
+                                #   print each
+                                # print 'After:', len(dataList)
+                                # return
+                        # return
+                        self.results[obsProperty][sensorLocation][uom]['raw'] = ';'.join(dataList)
             # return
-
-
+        # print "results:",self.results
+        
 
 
 
@@ -647,7 +727,7 @@ class Request():
                                     data = data[:-1]
                                 dataList = data.split(';')
                                 for each in dataList:
-                                    print each
+                                    # print each
                                     # return
                                     # print each.split(',')
                                     # return
