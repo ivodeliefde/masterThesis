@@ -11,7 +11,11 @@ When retrieving sensor data from the \ac{sos} using \texttt{GetObservation} requ
 One of the \ac{sos} implementations allowed multiple observed properties to be related to an observation procedure. This was an unexpected finding, because a procedure is defined as a \enquote{method, algorithm or instrument, or system of these which may be used in making an observation} \cite[p. 4]{SW:ISO}. When a procedure has different observed properties it is rather a combination of procedures. It is unlikely that the same procedure can observe one property at a certain time and a completely other property at another time. The original implementation of the \ac{wps} had to be adjusted to deal with this.  
 
 \section{Semantics in Sensor Observation Services}
-The metadata in \aclp{sos} does not necessarily contain semantics. This is an issue when automatically retrieving metadata from different services. In the implementation this has caused a problem with identifying which observable properties in a \ac{sos} are the same as observable properties found in another \ac{sos}. 
+\subsection{mapping of observable properties}
+The metadata in \aclp{sos} does not necessarily contain semantics. This is an issue when automatically retrieving metadata from different services. In the implementation this has caused a problem with identifying which observable properties in a \ac{sos} are the same as observable properties found in another \ac{sos}.
+
+\subsection{Automatically creating an URI scheme}
+If an \ac{uri} is automatically created for data from an unknown source there is an amount of uncertainty to what the \ac{uri} will look like. Either a random identifier can be assigned to it, or the identifier that is already provided by the data source. This identifier most likely contains some reference to the nature of the real world thing the \ac{uri} represents and is therefore preferable to a a completely random identifier. Adding the given identifier to the \ac{uri} can create very long and strange \acp{uri} because different data sources have a different way of creating \acp{uri} since the \ac{om} schema allows simply `any \ac{uri}'.   
 
 \section{Spatial queries with stSPARQL}
 \label{par:spQueries}
@@ -23,5 +27,11 @@ GeoSPARQL allows spatial queries in which a geometry can be inserted in the quer
 \subsection{Raster queries}
 All raster cells are retrieved that overlap with the vector geometry. For these raster cell sensors are retrieved and later the excess ones are filtered out. 
 
+\subsection{Bounding box queries}
+Creating a bounding box around a vector feature and make \texttt{GetObservation} to the \ac{sos}.  
+
 \subsection{Latitude and longitude order}
 During the implementation a problem has come up regarding the order in which latitude and longitude are being presented in the \ac{sos}. The \ac{sos} of the \ac{rivm} provides point geometries in WGS84 as longitude, latitude and height. However, the Strabon endpoint expects the order to be latitude, longitude and height. This results false outcomes of spatial queries.    
+
+\section{Output data}
+Data is now outputted in \ac{xml} according to the \ac{om} schema. However, can this schema really handle aggregated data?
