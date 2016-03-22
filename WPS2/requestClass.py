@@ -130,7 +130,7 @@ class Request():
         if self.featureCategory.lower() == 'raster':
           # print 'Vector function cannot be applied for a raster request'
           return
-        else:
+        # else:
           # print 'Request data for vector geometry'
 
         spatialFilter = []
@@ -657,7 +657,7 @@ class Request():
 
                 nsm = tree.nsmap
 
-                if temporalFilterUsed == True:
+                # if temporalFilterUsed == True:
                     # r = requests.get(GetObservation)
                     # tree = etree.fromstring(r.content)
                     # nsm = tree.nsmap
