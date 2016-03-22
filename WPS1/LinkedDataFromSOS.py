@@ -30,16 +30,16 @@ class Process(WPSProcess):
                                             default = "http://inspire.rivm.nl/sos/eaq/service?",
                                             type = "StringType")
 
-        # self.mappingIn = self.addComplexInput(identifier="input",
-        #                 title="Input file",
-        #                 # default = "H:\Ivo\Geomatics\Year 2\Thesis\Thesis Template\WPS1\observedPropertyMapping.ttl" 
-        #                 # formats = [ # Turtle
-        #                 #             {mimeType: 'text/turtle',
-        #                 #             encoding:'utf-8',
-        #                 #             schema: None } 
-        #                 #           ] 
+        self.mappingIn = self.addComplexInput(identifier="input",
+                        title="Input turtle file with mappings of observed property identifiers to DBPedia URIs",
+                        # default = "H:\Ivo\Geomatics\Year 2\Thesis\Thesis Template\WPS1\observedPropertyMapping.ttl" 
+                        # formats = [ # Turtle
+                        #             {mimeType: 'text/turtle',
+                        #             encoding:'utf-8',
+                        #             schema: None } 
+                        #           ] 
                         
-        #                         )
+                                )
                         
                        
                     

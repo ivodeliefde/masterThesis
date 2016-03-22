@@ -242,7 +242,7 @@ def capabilities(SOS):
 
 	# bar.update(countTriples)
 
-	# postPURLbatch(purlBatch,'admin', 'password')
+	postPURLbatch(purlBatch,'admin', 'password')
 
 	return
 
