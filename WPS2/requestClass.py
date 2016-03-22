@@ -128,10 +128,10 @@ class Request():
 
     def getSensorDataVector(self):
         if self.featureCategory.lower() == 'raster':
-          print 'Vector function cannot be applied for a raster request'
+          # print 'Vector function cannot be applied for a raster request'
           return
         else:
-          print 'Request data for vector geometry'
+          # print 'Request data for vector geometry'
 
         spatialFilter = []
         for key, value in self.featureDict.iteritems():
@@ -175,8 +175,8 @@ class Request():
             elif geom.geom_type == "Polygon":
                 for point in geom.exterior.coords:
                     coords.add(point)
-            else:
-                print "It is not a Polygon or MultiPolygon, but a {0}".format(geom.geom_type)
+            # else:
+            #     print "It is not a Polygon or MultiPolygon, but a {0}".format(geom.geom_type)
 
         # print coords
         Xmin = min(coords, key=lambda x:x[0])[0]
@@ -211,7 +211,7 @@ class Request():
                 sosServices.add(self.sensors[obsProperty][sensor]['sos'])
         # print parametersCollection
 
-        print sosServices
+        # print sosServices
         sosDict = {}
         for sos in sosServices:
             sosDict[sos] = {"post":'',"spatialFilters":[]}
@@ -272,12 +272,12 @@ class Request():
 
             if len(sosDict[sos]["spatialFilters"]) == 0:
                 spatialFilterUsed = False
-                print 'No spatial filter implemented'
-            elif len([spatialFilter for spatialFilter in sosDict[sos]["spatialFilters"] if spatialFilter[0] == 'BBOX']) == 0:
-                print 'no BBOX'
+                # print 'No spatial filter implemented'
+            # elif len([spatialFilter for spatialFilter in sosDict[sos]["spatialFilters"] if spatialFilter[0] == 'BBOX']) == 0:
+            #     print 'no BBOX'
 
-            else:
-                print 'BBOX'
+            # else:
+            #     print 'BBOX'
             
 
                 spatialFilter = etree.SubElement(getObservation, "{http://www.opengis.net/sos/2.0}spatialFilter")
@@ -307,7 +307,7 @@ class Request():
             r = requests.post(sosDict[sos]["post"], XML)
             if str(r) != "<Response [200]>":
                 spatialFilterUsed = False
-                print "SpatialFilter failed"
+                # print "SpatialFilter failed"
             tree = etree.fromstring(r.content)
             nsm = tree.nsmap
 
@@ -351,7 +351,7 @@ class Request():
 
 
             # manually filter the sensor data outside the temporal range
-            print 'filter out data outside the temporal range'
+            # print 'filter out data outside the temporal range'
             utc = pytz.UTC
             startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
             endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
@@ -406,7 +406,7 @@ class Request():
             spatialFilter = "FILTER ( {0} )".format(' || '.join(spatialFilter))
             # print spatialFilter
         else:
-            print 'Find raster cells intersecting the vector geometry'
+            # print 'Find raster cells intersecting the vector geometry'
             featureFilter = []
             for key, value in self.featureDict.iteritems():
                 featureFilter.append('?name = "{0}"'.format(key))
@@ -450,14 +450,14 @@ class Request():
             spatialFilter = "FILTER ( {0} )".format(' || '.join(spatialFilter))
 
 
-        print 'Retrieve sensors inside raster cells'
+        # print 'Retrieve sensors inside raster cells'
         # Retrieve sensors and their SOS source using the spatial filter created here
         self.retrieveSensors(spatialFilter)
         
         # print self.sensors
 
         if self.featureCategory.lower() != 'raster':
-            print 'filter out redundant sensors'
+            # print 'filter out redundant sensors'
             # Filter out sensors that are outside the area of interest and outside the temporal range
             self.filterSensors()
             
@@ -628,7 +628,7 @@ class Request():
     #     return
 
     def getObservationData(self, spatialFilter=''):
-        print "Get Observation Data"
+        # print "Get Observation Data"
         # print self.sensors
         temporalFilter = '&temporalFilter=om:resultTime,{0}/{1}'.format(self.tempRange[0], self.tempRange[1])
         for obsProperty in self.sensors:
@@ -652,7 +652,7 @@ class Request():
                         tree = etree.fromstring(r.content)
                         temporalFilterUsed = False
                     except:
-                        print r.content
+                        # print r.content
                         return
 
                 nsm = tree.nsmap
@@ -662,9 +662,9 @@ class Request():
                     # tree = etree.fromstring(r.content)
                     # nsm = tree.nsmap
                     # temporalFilterUsed = False
-                    print GetObservationWtempfilter
-                else:
-                    print GetObservation
+                #     print GetObservationWtempfilter
+                # else:
+                #     print GetObservation
                 
                 # prevResultTime = ""
                 # print r.content
@@ -712,7 +712,7 @@ class Request():
 
                 if temporalFilterUsed == False:
                     # manually filter the sensor data outside the temporal range
-                    print 'filter out data outside the temporal range'
+                    # print 'filter out data outside the temporal range'
                     utc = pytz.UTC
                     startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
                     endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
@@ -762,7 +762,7 @@ class Request():
 
 
     def aggregateTemporal(self):
-        print "Perform temporal aggregation: {0}".format(self.tempAggregation)
+        # print "Perform temporal aggregation: {0}".format(self.tempAggregation)
 
         # Convert the input parameter tempGranularity to a timedelta object.
         tempGranularityList = self.tempGranularity.split(' ')
@@ -784,14 +784,14 @@ class Request():
         # elif 'year' in self.tempGranularity.lower():
         #   tempGranularity = timedelta(years = int(tempGranularityList[0]))
         
-        print "Temporal granularity:", tempGranularity
+        # print "Temporal granularity:", tempGranularity
         # return
 
         aggregatedDataList = []
         utc = pytz.UTC
         startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
         endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
-        print "Temporal range:", endTime - startTime
+        # print "Temporal range:", endTime - startTime
 
         # Sort the data into lists based on the temporal granularity 
         for obsProperty in self.results:
@@ -864,7 +864,7 @@ class Request():
         return
 
     def aggregateSpatial(self):
-        print "Perform spatial aggregation"
+        # print "Perform spatial aggregation"
 
         featureList = []
         for name, data in self.featureDict.iteritems():
@@ -886,7 +886,7 @@ class Request():
 
         # Order the observation data per feature
         for obsProperty in self.results:
-            print "observed property", obsProperty
+            # print "observed property", obsProperty
             for sensorLocation in self.results[obsProperty]:
                 # print sensorLocation
                 for name, polygon in featureList:
@@ -942,8 +942,8 @@ class Request():
 
 
     def createOutput(self):
-        print "Create output XML"
-        print self.output
+        # print "Create output XML"
+        # print self.output
         self.outputFile = StringIO.StringIO()
 
         if self.spatialAggregation.lower() == 'false':
@@ -989,8 +989,8 @@ class Request():
                             result.attrib['uom'] = uom
                             result.attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] = "{http://www.opengis.net/gml/3.2}MeasureType"
                             result.text = str(value)
-                            if type(value) == list:
-                                print "More values;", value
+                            # if type(value) == list:
+                            #     print "More values;", value
 
                             
 
@@ -1060,6 +1060,6 @@ class Request():
 
         # etree.cleanup_namespaces(root)
         XML = etree.tostring(root, pretty_print=True)
-        print XML
+        # print XML
         
         self.outputFile.write(XML)
