@@ -59,7 +59,7 @@ class Process(WPSProcess):
 
 
         url = self.urlIn.getValue()
-        # mappingscript = self.mappingIn.getValue()
+        mappingscript = self.mappingIn.getValue()
 
 
         # ------------------------#
