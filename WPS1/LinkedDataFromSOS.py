@@ -65,7 +65,7 @@ class Process(WPSProcess):
         # ------------------------#
         # Test mappingScript file #
         # ------------------------#
-        mappingscript = "file:///H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS1\observedPropertyMapping.ttl"
+        # mappingscript = "file:///H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS1\observedPropertyMapping.ttl"
         # ------------------------#
 
 
