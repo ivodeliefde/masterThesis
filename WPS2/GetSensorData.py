@@ -27,7 +27,7 @@ class Process(WPSProcess):
 
         self.InputFeatures = self.addLiteralInput(identifier = "feature_names",
                                             title = "Input feature name strings, seperated by comma's", 
-                                            default="Antwerpen",
+                                            default="Antwerpen,Utrecht",
                                             type = "StringType")
 
         self.InputObsProperties = self.addLiteralInput(identifier = "observed_properties",
@@ -47,7 +47,7 @@ class Process(WPSProcess):
 
         self.InputTempGranularity = self.addLiteralInput(identifier = "temporal_granularity",
                                             title = "Input temporal granularity as an integer followed by a temporal unit: minute, hour, day or week", 
-                                            default='1 day',
+                                            default='1 hours',
                                             type = "StringType")
 
         self.InputTempAggregation = self.addLiteralInput(identifier = "temporal_aggregation",
@@ -59,6 +59,12 @@ class Process(WPSProcess):
                                             title = "Input spatial aggregation method: average, median, maximum, minimum or sum. Set it to False for no spatial aggregation.", 
                                             default='average',
                                             type = "StringType")
+
+        self.method = self.addLiteralInput(identifier = "Query method",
+                                            title = "Using vector queries, raster cells to the endpoint or sending direct bbox requests to the SOS", 
+                                            default='raster',
+                                            type = "StringType")
+
 
         #----------------------------------------------------------------------#
         # Adding process outputs
@@ -73,11 +79,7 @@ class Process(WPSProcess):
     #--------------------------------------------------------------------------#
 
     def execute(self):
-        # receive the Request parameters
-        # inputString = self.textIn.getValue() # should be replaced with request input parameters
-        
-
-       #----------------------------------------------------------------------------#
+        #----------------------------------------------------------------------------#
         # Input data
         #----------------------------------------------------------------------------#
         observedProperties = self.InputObsProperties.getValue().split(',')
@@ -87,6 +89,7 @@ class Process(WPSProcess):
         tempGranularity = self.InputTempGranularity.getValue()
         spatialAggregation = self.InputSpatialAggregation.getValue()
         tempAggregation = self.InputTempAggregation.getValue()
+        method = self.method.getValue()
         #----------------------------------------------------------------------------#
         
         # Create Request instance
@@ -96,15 +99,15 @@ class Process(WPSProcess):
         # Make SPARQL queries that find the relevant feature geometries
         dataRequest.getGeometries()
 
-        # dataRequest.aggregateSpatial()
-        # return
-
         # Make SPARQL queries that find the sensors that are within the feature geometries with one of the three methods
         # The data is also automatically retrieved from the relevant Sensor Observation Services
-        # dataRequest.getSensorDataVector()
-        dataRequest.getSensorDataBBOX()
-        # dataRequest.getSensorDataRaster()
-
+        if method.lower() == "vector":
+            dataRequest.getSensorDataVector()
+        elif method.lower() == "bbox":
+            dataRequest.getSensorDataBBOX()
+        else:
+            dataRequest.getSensorDataRaster()
+            
         # # Check if aggregation method is valid
         # # dataRequest.aggregateCheck()
 

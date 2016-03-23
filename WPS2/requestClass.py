@@ -999,62 +999,111 @@ class Request():
 
             # XML = etree.tostring(root, pretty_print=True)
         else:
+            sos_NS = "http://www.opengis.net/sos/2.0"
+            sos = "{{{0}}}".format(sos_NS)
+            om_NS = "http://www.opengis.net/om/2.0"
+            om = "{{{0}}}".format(om_NS)
+            swe_NS = "http://www.opengis.net/swe/2.0"
+            swe = "{{{0}}}".format(swe_NS)
+            gml_NS = "http://www.opengis.net/gml/3.2"
+            gml = "{{{0}}}".format(gml_NS)
+            xlink_NS = "http://www.w3.org/1999/xlink"
+            xlink = "{{{0}}}".format(xlink_NS)
+
+            NSMAP = {
+                'sos': sos_NS,
+                'om': om_NS,
+                'swe': swe_NS,
+                'gml': gml_NS,
+                'xlink': xlink_NS
+
+            }
+            # print NSMAP
+
             # output feature names with temporally and spatially aggregated observation data
-            root = etree.Element("{http://www.opengis.net/sos/2.0}observationData")
-            for name in self.output:
-                Observation = etree.SubElement(root,"{http://www.opengis.net/om/2.0}OM_Observation")
-                FOI = etree.Element("{http://www.opengis.net/om/2.0}featureOfInterest")
-                FOI.attrib["{http://www.w3.org/1999/xlink}href"] = self.featureDict[name][0]
-                FOI.attrib["{http://www.w3.org/1999/xlink}title"] = name
-                Observation.append(FOI)
+            root = etree.Element(sos+"observationData", nsmap = NSMAP)
+            for i,name in enumerate(self.output):
+                Observation = etree.SubElement(root,om+"OM_Observation")
+                Observation.attrib[gml+"id"] = "o_{0}".format(i)
                 for obsProperty in self.output[name]:
-                    obsPropertyTag = etree.Element("{http://www.opengis.net/om/2.0}observedProperty")
-                    obsPropertyTag.attrib["{http://www.w3.org/1999/xlink}href"] = obsProperty
-                    Observation.append(obsPropertyTag)
                     for uom in self.output[name][obsProperty]:
                         # uom = etree.Element()
-                        encoding = etree.Element("{http://www.opengis.net/swe/2.0}Encoding")
-                        textEncoding = etree.SubElement(encoding, "{http://www.opengis.net/swe/2.0}TextEncoding")
+                        encoding = etree.Element(swe+"Encoding")
+                        textEncoding = etree.SubElement(encoding, swe+"TextEncoding")
                         textEncoding.attrib["blockSeparator"] = ";"
                         textEncoding.attrib["decimalSeparator"] = "."
                         textEncoding.attrib["tokenSeparator"] = ","
-                        sweType = etree.Element("{http://www.opengis.net/swe/2.0}elementType")
-                        fixedRecords = etree.SubElement(sweType, "{http://www.opengis.net/swe/2.0}DataRecord")
-                        time = objectify.Element("{http://www.opengis.net/swe/2.0}Time")
+                        sweType = etree.Element(swe+"elementType")
+                        fixedRecords = etree.SubElement(sweType, swe+"DataRecord")
+                        time = objectify.Element(swe+"Time")
                         time.attrib["definition"] = "http://www.opengis.net/def/property/OGC/0/SamplingTime"
-                        timeEncoding = objectify.SubElement(time, "{http://www.opengis.net/swe/2.0}uom")
-                        timeEncoding.attrib["{http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
-                        field1 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
+                        timeEncoding = objectify.SubElement(time, swe+"uom")
+                        timeEncoding.attrib[xlink+"href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
+                        field1 = etree.SubElement(fixedRecords, swe+"field")
                         field1.attrib["name"] = "StartTime"
                         field1.append(time)
-                        time = objectify.Element("{http://www.opengis.net/swe/2.0}Time")
+                        time = objectify.Element(swe+"Time")
                         time.attrib["definition"] = "http://www.opengis.net/def/property/OGC/0/SamplingTime"
-                        timeEncoding = objectify.SubElement(time, "{http://www.opengis.net/swe/2.0}uom")
-                        timeEncoding.attrib["{http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
-                        field2 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
+                        timeEncoding = objectify.SubElement(time, swe+"uom")
+                        timeEncoding.attrib[xlink+"href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
+                        field2 = etree.SubElement(fixedRecords, swe+"field")
                         field2.attrib["name"] = "EndTime"
                         field2.append(time)
-                        field3 = etree.SubElement(fixedRecords, "{http://www.opengis.net/swe/2.0}field")
+                        field3 = etree.SubElement(fixedRecords, swe+"field")
                         field3.attrib["name"] = "Value"
-                        quantity = etree.SubElement(field3, "{http://www.opengis.net/swe/2.0}Quantity")
-                        uomTag = etree.SubElement(quantity, "{http://www.opengis.net/swe/2.0}uom")
+                        quantity = etree.SubElement(field3, swe+"Quantity")
+                        uomTag = etree.SubElement(quantity, swe+"uom")
                         uomTag.text = uom
 
-                        result = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}result") 
+                        result = etree.Element(om+"result") 
                         # result.append(sweType)
                         result.attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = "{http://www.opengis.net/swe/2.0}DataArrayPropertyType"
-                        dataArray = etree.SubElement(result, "{http://www.opengis.net/swe/2.0}DataArray")
+                        dataArray = etree.SubElement(result, swe+"DataArray")
                         dataArray.append(sweType)
                         dataArray.append(encoding)
-                        values = etree.SubElement(dataArray, "{http://www.opengis.net/swe/2.0}values")
+                        values = etree.SubElement(dataArray, swe+"values")
                         
                         valuesList = [] 
+                        startDates = []
+                        endDates = []
                         for timeRange, value in self.output[name][obsProperty][uom].iteritems():
                             start, end = timeRange.split(",")
                             start = dateutil.parser.parse(start)
+                            startDates.append(start)
                             end = dateutil.parser.parse(end)
+                            endDates.append(end)
                             valuesList.append("{0},{1},{2}".format(start.isoformat(), end.isoformat(), value))
                         values.text = ";".join(valuesList)  
+                        minimum = min(startDates)
+                        maximum = max(endDates)
+
+                        # phenomenonTime
+                        phenomenonTime = etree.SubElement(Observation, om+"phenomenonTime")
+                        timePeriod = etree.SubElement(phenomenonTime, "{http://www.opengis.net/gml/3.2}TimePeriod")
+                        timePeriod.attrib[gml+"id"] = "phenomenonTime_{0}".format(name)
+                        begin = etree.SubElement(timePeriod, gml+"beginPosition")
+                        begin.text = minimum.isoformat()
+                        end = etree.SubElement(timePeriod, gml+"endPosition")
+                        end.text = maximum.isoformat()
+                        # resultTime
+                        resultTime = etree.SubElement(Observation, om+"resultTime")
+                        resultTime.attrib[xlink+"href"] = "phenomenonTime_{0}".format(name)
+
+                        # procedure is missing
+
+                        # Observed Property
+                        obsPropertyTag = etree.Element(om+"observedProperty")
+                        obsPropertyTag.attrib[xlink+"href"] = obsProperty
+                        Observation.append(obsPropertyTag)
+
+                        # Feature of Interest
+                        FOI = etree.Element(om+"featureOfInterest")
+                        FOI.attrib[xlink+"href"] = self.featureDict[name][0]
+                        FOI.attrib[xlink+"title"] = name
+                        Observation.append(FOI)
+
+                        # Result
+                        Observation.append(result)
 
                         objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
 
