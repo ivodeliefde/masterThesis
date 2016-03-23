@@ -57,7 +57,7 @@ class Process(WPSProcess):
 
         self.InputSpatialAggregation = self.addLiteralInput(identifier = "spatial_aggregation",
                                             title = "Input spatial aggregation method: average, median, maximum, minimum or sum. Set it to False for no spatial aggregation.", 
-                                            default='average',
+                                            default='False',
                                             type = "StringType")
 
         self.method = self.addLiteralInput(identifier = "Query method",

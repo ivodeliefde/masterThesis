@@ -35,6 +35,7 @@ class Request():
         self.spatialAggregation = spatialAggregation
         self.tempAggregation = tempAggregation
         self.sensors = {} 
+        self.procedures = {}
         self.sos = {}
         self.results = {} 
         self.output = {}
@@ -685,6 +686,7 @@ class Request():
                         uom = result.attrib['uom']
                         value = result.text
                         csvData = '{0},{1}'.format(resultTime, value)
+                        procedure = observation.find('.//om:procedure', nsm).attrib['{http://www.w3.org/1999/xlink}href']
                         # print csvData
 
                     elif dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEObservation':
@@ -698,9 +700,11 @@ class Request():
                                 decimalSeparator = encoding.attrib["decimalSeparator"]
                                 tokenSeparator = encoding.attrib["tokenSeparator"]
                                 # make sure all csv data is using the same separators
+
                                 csvData = tree.find('.//swe:values', nsm).text.replace(blockSeparator,";").replace(decimalSeparator, ".").replace(tokenSeparator, ",")
                                 # print data
                                 # return 
+                                procedure = observation.find('.//om:procedure', nsm).attrib['{http://www.w3.org/1999/xlink}href']
                             except:
                                 continue
                     
@@ -709,6 +713,8 @@ class Request():
                     else:
                         self.results[obsProperty][sensorLocation] = { uom: { 'raw': '{0};'.format(csvData) } }
                     # print self.results[obsProperty][sensorLocation][uom]['raw']
+                    self.procedures[obsProperty] = procedure
+
 
                 if temporalFilterUsed == False:
                     # manually filter the sensor data outside the temporal range
@@ -750,6 +756,7 @@ class Request():
                                         # return
                                 # return
                                 self.results[obsProperty][sensorLocation][uom]['raw'] = ';'.join(dataList)
+                                
 
         # print self.results
         return
@@ -815,20 +822,18 @@ class Request():
 
                             # return
 
-                        
-                        
                         difference = resultTime - startTime
                         # Calculate the remainder after the temporal granularity fits as many times as possible
                         remainderDifference = timedelta(seconds = (difference.total_seconds() % tempGranularity.total_seconds() ) )
                         # Calculate how many times the temporal granularity fits in the difference after the remainder is removed
                         division = int( (difference - remainderDifference).total_seconds() / tempGranularity.total_seconds() )
 
-                        if "{0},{1}".format(startTime + tempGranularity * division, startTime + tempGranularity * (division + 1) ) in self.results[obsProperty][sensorLocation][uom]['tempOrdered']:
-                            self.results[obsProperty][sensorLocation][uom]['tempOrdered']["{0},{1}".format(startTime + tempGranularity * division, startTime + tempGranularity * (division + 1) ) ].append(each)
+                        if "{0},{1}".format((startTime + tempGranularity * division).isoformat(), (startTime + tempGranularity * (division + 1) ).isoformat() ) in self.results[obsProperty][sensorLocation][uom]['tempOrdered']:
+                            self.results[obsProperty][sensorLocation][uom]['tempOrdered']["{0},{1}".format((startTime + tempGranularity * division).isoformat(), (startTime + tempGranularity * (division + 1) ).isoformat() )].append(each)
                         else:
                             # print startTime, tempGranularity, division
                             # print str(startTime + tempGranularity * division)
-                            self.results[obsProperty][sensorLocation][uom]['tempOrdered']["{0},{1}".format(startTime + tempGranularity * division, startTime + tempGranularity * (division + 1) ) ] = [each]
+                            self.results[obsProperty][sensorLocation][uom]['tempOrdered']["{0},{1}".format((startTime + tempGranularity * division).isoformat(), (startTime + tempGranularity * (division + 1) ).isoformat() )] = [each]
 
                         # print self.results[obsProperty][sensorLocation][uom]['tempOrdered']
 
@@ -946,79 +951,94 @@ class Request():
         # print self.output
         self.outputFile = StringIO.StringIO()
 
+        sos_NS = "http://www.opengis.net/sos/2.0"
+        sos = "{{{0}}}".format(sos_NS)
+        om_NS = "http://www.opengis.net/om/2.0"
+        om = "{{{0}}}".format(om_NS)
+        swe_NS = "http://www.opengis.net/swe/2.0"
+        swe = "{{{0}}}".format(swe_NS)
+        gml_NS = "http://www.opengis.net/gml/3.2"
+        gml = "{{{0}}}".format(gml_NS)
+        xlink_NS = "http://www.w3.org/1999/xlink"
+        xlink = "{{{0}}}".format(xlink_NS)
+
+        NSMAP = {
+            'sos': sos_NS,
+            'om': om_NS,
+            'swe': swe_NS,
+            'gml': gml_NS,
+            'xlink': xlink_NS
+
+        }
+        # print NSMAP
+
+
         if self.spatialAggregation.lower() == 'false':
             # output points with temporally aggregated observation data
 
             # self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange]
             
-            root = etree.Element("{http://www.opengis.net/sos/2.0}observationData")
-            for obsProperty in self.results:     
-                obsPropertyTag = etree.Element("{http://www.opengis.net/om/2.0}observedProperty")
-                obsPropertyTag.attrib["{http://www.w3.org/1999/xlink}href"] = obsProperty
+            root = etree.Element("{http://www.opengis.net/sos/2.0}observationData", nsmap=NSMAP)
+            for i,obsProperty in enumerate(self.results):     
                 for sensorLocation in self.results[obsProperty]:
-                    FOI = etree.Element("{http://www.opengis.net/om/2.0}featureOfInterest")
-                    samplingFeature = etree.SubElement(FOI, "{http://www.opengis.net/samplingSpatial/2.0}SF_SpatialSamplingFeature")
-                    shape = etree.SubElement(samplingFeature, "{http://www.opengis.net/samplingSpatial/2.0}Shape")
-                    CRSType = etree.SubElement(samplingFeature, "{http://www.opengis.net/samplingSpatial/2.0}sampledFeature").attrib["{http://www.w3.org/1999/xlink}href"] = "urn:ogc:def:nil:OGC:unknown"
-                    point = etree.SubElement(shape, "{http://www.opengis.net/gml/3.2}Point")
-                    coords = etree.SubElement(point, "pos")
-                    geom, CRS = sensorLocation.split(';')
-                    CRS = CRS.strip('<').strip('>')
-                    coords.attrib["srsName"] = CRS
-                    pointObj = loads(geom)
-                    if len(list(pointObj.coords)[0]) == 2:
-                        coords.text = "{0} {1}".format(pointObj.x, pointObj.y)
-                    else:
-                        coords.text = "{0} {1} {2}".format(pointObj.x, pointObj.y, pointObj.z)
                     for uom in self.results[obsProperty][sensorLocation]:
+                        count = 0
                         for timeRange, value in self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())].iteritems():
+                            obsPropertyTag = etree.Element("{http://www.opengis.net/om/2.0}observedProperty")
+                            obsPropertyTag.attrib["{http://www.w3.org/1999/xlink}href"] = obsProperty
+
                             phenomenonTime = etree.Element("{http://www.opengis.net/om/2.0}phenomenonTime")
                             timePeriod = etree.SubElement(phenomenonTime, "{http://www.opengis.net/gml/3.2}TimePeriod")
+                            timePeriod.attrib[gml+"id"] = "t_{0}".format(count)
                             begin = etree.SubElement(timePeriod, "{http://www.opengis.net/gml/3.2}beginPosition")
                             end = etree.SubElement(timePeriod, "{http://www.opengis.net/gml/3.2}endPosition")
                             timeRangeLst = timeRange.split(',')
                             begin.text = timeRangeLst[0]
                             end.text = timeRangeLst[1]
+                            # phenomenonTime.attrib[gml+"id"] = "phenomenonTime_{0}".format(count)
 
                             Observation = etree.SubElement(root,"{http://www.opengis.net/om/2.0}OM_Observation")
-                            Observation.append(phenomenonTime)
-                            Observation.append(obsPropertyTag)
-                            Observation.append(FOI)
+                            Observation.attrib[gml+"id"] = "o_{0}".format(count)
                             etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}type").attrib["{http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"
+                            Observation.append(phenomenonTime)
+                            etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}resultTime").attrib["{http://www.w3.org/1999/xlink}href"] = "t_{0}".format(count)
+                            
+                            # procedure
+                            procedure = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}procedure").attrib["{http://www.w3.org/1999/xlink}href"] = self.procedures[obsProperty]
+                            
+                            # Observed Property
+                            Observation.append(obsPropertyTag)
+
+                            # Feature of interest
+                            FOI = etree.Element("{http://www.opengis.net/om/2.0}featureOfInterest")
+                            # samplingFeature = etree.SubElement(FOI, "{http://www.opengis.net/samplingSpatial/2.0}SF_SpatialSamplingFeature")
+                            shape = etree.SubElement(FOI, "{http://www.opengis.net/gml/3.2}AbstractFeature")
+                            CRSType = etree.SubElement(FOI, "{http://www.opengis.net/samplingSpatial/2.0}sampledFeature").attrib["{http://www.w3.org/1999/xlink}href"] = "urn:ogc:def:nil:OGC:unknown"
+                            point = etree.SubElement(shape, "{http://www.opengis.net/gml/3.2}Point")
+                            point.attrib[gml+"id"] = "p_{0}".format(count)
+                            coords = etree.SubElement(point, "{http://www.opengis.net/gml/3.2}pos")
+                            geom, CRS = sensorLocation.split(';')
+                            CRS = CRS.strip('<').strip('>')
+                            coords.attrib["srsName"] = CRS
+                            pointObj = loads(geom)
+                            if len(list(pointObj.coords)[0]) == 2:
+                                coords.text = "{0} {1}".format(pointObj.x, pointObj.y)
+                            else:
+                                coords.text = "{0} {1} {2}".format(pointObj.x, pointObj.y, pointObj.z)
+                            Observation.append(FOI)
+                            
+                            
+
+                            
+                            # result
                             result = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}result")
                             result.attrib['uom'] = uom
                             result.attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] = "{http://www.opengis.net/gml/3.2}MeasureType"
                             result.text = str(value)
                             # if type(value) == list:
                             #     print "More values;", value
-
-                            
-
-
-
-
-            # XML = etree.tostring(root, pretty_print=True)
+                            count += 1
         else:
-            sos_NS = "http://www.opengis.net/sos/2.0"
-            sos = "{{{0}}}".format(sos_NS)
-            om_NS = "http://www.opengis.net/om/2.0"
-            om = "{{{0}}}".format(om_NS)
-            swe_NS = "http://www.opengis.net/swe/2.0"
-            swe = "{{{0}}}".format(swe_NS)
-            gml_NS = "http://www.opengis.net/gml/3.2"
-            gml = "{{{0}}}".format(gml_NS)
-            xlink_NS = "http://www.w3.org/1999/xlink"
-            xlink = "{{{0}}}".format(xlink_NS)
-
-            NSMAP = {
-                'sos': sos_NS,
-                'om': om_NS,
-                'swe': swe_NS,
-                'gml': gml_NS,
-                'xlink': xlink_NS
-
-            }
-            # print NSMAP
 
             # output feature names with temporally and spatially aggregated observation data
             root = etree.Element(sos+"observationData", nsmap = NSMAP)
@@ -1082,9 +1102,9 @@ class Request():
                         timePeriod = etree.SubElement(phenomenonTime, "{http://www.opengis.net/gml/3.2}TimePeriod")
                         timePeriod.attrib[gml+"id"] = "phenomenonTime_{0}".format(name)
                         begin = etree.SubElement(timePeriod, gml+"beginPosition")
-                        begin.text = minimum.isoformat()
+                        begin.text = minimum
                         end = etree.SubElement(timePeriod, gml+"endPosition")
-                        end.text = maximum.isoformat()
+                        end.text = maximum
                         # resultTime
                         resultTime = etree.SubElement(Observation, om+"resultTime")
                         resultTime.attrib[xlink+"href"] = "phenomenonTime_{0}".format(name)
