@@ -1,6 +1,5 @@
 from pywps.Process import WPSProcess
 
-
 from requestClass import *
 
 
@@ -62,10 +61,16 @@ class Process(WPSProcess):
         # Adding process outputs
         #----------------------------------------------------------------------#
 
-        self.dataOut = self.addComplexOutput(identifier="output",
+        self.SensorsOut = self.addComplexOutput(identifier="output",
                 title="Output sensor data",
-                formats =  [{'mimeType':'text/xml'}])
-        
+                formats= [{
+                            # json
+                            'mimeType': 'text/plain',
+                            'encoding': 'iso-8859-2',
+                            'schema': None
+                        }]
+                )
+
 
     #--------------------------------------------------------------------------#
     # Execution part of the process
@@ -85,8 +90,8 @@ class Process(WPSProcess):
         method = self.method.getValue()
         #----------------------------------------------------------------------------#
         
-        # Create Request instance
-        # observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
+        # # Create Request instance
+        # # observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
         dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation)
 
         # Make SPARQL queries that find the relevant feature geometries
@@ -101,7 +106,11 @@ class Process(WPSProcess):
         else:
             dataRequest.getSensorsRaster()
 
-        # make sensor output file
+        # make sensor output file in GeoJSON format
+        dataRequest.sensorsToGeoJSON()
+
+        self.SensorsOut.setValue( dataRequest.outputSensors )
+
 
         return 
 

@@ -15,6 +15,7 @@ import pytz
 from datetime import datetime, timedelta
 import numpy
 import StringIO
+import json
 
 
 logging.basicConfig()
@@ -39,6 +40,12 @@ class Request():
         self.sos = {}
         self.results = {} 
         self.output = {}
+
+
+
+    #=======================================================================================================================================#
+    #====================================================         WPS 1 methods         ====================================================#
+    #=======================================================================================================================================#
 
     def getGeometries(self, countries=['the Netherlands', 'Belgium']):
         global myEndpoint
@@ -600,6 +607,49 @@ class Request():
                         # if sos not in self.sos:
                         #   self.parseSOS(sos)
 
+    def sensorsToGeoJSON(self):
+        outputData = {
+            "type": "FeatureCollection", 
+            "features": []
+            }
+
+        for obsProperty in self.sensors:
+            for sensor in self.sensors[obsProperty]:
+                wkt = loads(self.sensors[obsProperty][sensor]['location'])
+
+                feature = { "type": "Feature",
+                    "geometry": {
+                        "type": "Point", 
+                        "coordinates": [list(wkt.coords)[0][0],list(wkt.coords)[0][1]]
+                        },
+                    "properties": {
+                        "name": self.sensors[obsProperty][sensor]['FOI'],
+                        "sos": self.sensors[obsProperty][sensor]['sos'],
+                        "procedure": self.sensors[obsProperty][sensor]['procedure'],
+                        "observedProperty": self.sensors[obsProperty][sensor]['obsPropertyName'],
+                        "offering": self.sensors[obsProperty][sensor]['offering'],
+                        "sensorUri": sensor
+                        }
+                }
+
+                outputData["features"].append(feature)
+
+        # print outputData
+        self.outputSensors = StringIO.StringIO()
+        json.dump(outputData, self.outputSensors)
+
+
+        return
+
+    #=======================================================================================================================================#
+    #====================================================         WPS 2 methods         ====================================================#
+    #=======================================================================================================================================#
+
+    def GeoJSONTosensors(self):
+        pass
+
+        return
+
 
     # def parseSOS(sosURI):
     #     print "Retrieve data about", sosURI
@@ -859,9 +909,6 @@ class Request():
                         self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange] = aggregatedData 
                         # print self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange]
 
-
-        
-
         return
 
     def aggregateSpatial(self):
@@ -942,189 +989,203 @@ class Request():
         return
 
 
-    def createOutput(self):
-        # print "Create output XML"
-        # print self.output
-        self.outputFile = StringIO.StringIO()
 
-        sos_NS = "http://www.opengis.net/sos/2.0"
-        sos = "{{{0}}}".format(sos_NS)
-        om_NS = "http://www.opengis.net/om/2.0"
-        om = "{{{0}}}".format(om_NS)
-        swe_NS = "http://www.opengis.net/swe/2.0"
-        swe = "{{{0}}}".format(swe_NS)
-        gml_NS = "http://www.opengis.net/gml/3.2"
-        gml = "{{{0}}}".format(gml_NS)
-        xlink_NS = "http://www.w3.org/1999/xlink"
-        xlink = "{{{0}}}".format(xlink_NS)
+    def createOutput(self, outputFormat):
+        if outputFormat == 'XML':
+            # print "Create output XML"
+            # print self.output
+            self.outputFile = StringIO.StringIO()
 
-        NSMAP = {
-            'sos': sos_NS,
-            'om': om_NS,
-            'swe': swe_NS,
-            'gml': gml_NS,
-            'xlink': xlink_NS
+            sos_NS = "http://www.opengis.net/sos/2.0"
+            sos = "{{{0}}}".format(sos_NS)
+            om_NS = "http://www.opengis.net/om/2.0"
+            om = "{{{0}}}".format(om_NS)
+            swe_NS = "http://www.opengis.net/swe/2.0"
+            swe = "{{{0}}}".format(swe_NS)
+            gml_NS = "http://www.opengis.net/gml/3.2"
+            gml = "{{{0}}}".format(gml_NS)
+            xlink_NS = "http://www.w3.org/1999/xlink"
+            xlink = "{{{0}}}".format(xlink_NS)
 
-        }
-        # print NSMAP
+            NSMAP = {
+                'sos': sos_NS,
+                'om': om_NS,
+                'swe': swe_NS,
+                'gml': gml_NS,
+                'xlink': xlink_NS
+
+            }
+            # print NSMAP
 
 
-        if self.spatialAggregation.lower() == 'false':
-            # output points with temporally aggregated observation data
+            if self.spatialAggregation.lower() == 'false':
+                # output points with temporally aggregated observation data
 
-            # self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange]
-            
-            root = etree.Element("{http://www.opengis.net/sos/2.0}observationData", nsmap=NSMAP)
-            for i,obsProperty in enumerate(self.results):     
-                for sensorLocation in self.results[obsProperty]:
-                    for uom in self.results[obsProperty][sensorLocation]:
-                        count = 0
-                        for timeRange, value in self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())].iteritems():
-                            obsPropertyTag = etree.Element("{http://www.opengis.net/om/2.0}observedProperty")
-                            obsPropertyTag.attrib["{http://www.w3.org/1999/xlink}href"] = obsProperty
+                # self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())][timeRange]
+                
+                root = etree.Element("{http://www.opengis.net/sos/2.0}observationData", nsmap=NSMAP)
+                for i,obsProperty in enumerate(self.results):     
+                    for sensorLocation in self.results[obsProperty]:
+                        for uom in self.results[obsProperty][sensorLocation]:
+                            count = 0
+                            for timeRange, value in self.results[obsProperty][sensorLocation][uom]['temp{0}'.format(self.tempAggregation.title())].iteritems():
+                                obsPropertyTag = etree.Element("{http://www.opengis.net/om/2.0}observedProperty")
+                                obsPropertyTag.attrib["{http://www.w3.org/1999/xlink}href"] = obsProperty
 
-                            phenomenonTime = etree.Element("{http://www.opengis.net/om/2.0}phenomenonTime")
+                                phenomenonTime = etree.Element("{http://www.opengis.net/om/2.0}phenomenonTime")
+                                timePeriod = etree.SubElement(phenomenonTime, "{http://www.opengis.net/gml/3.2}TimePeriod")
+                                timePeriod.attrib[gml+"id"] = "t_{0}".format(count)
+                                begin = etree.SubElement(timePeriod, "{http://www.opengis.net/gml/3.2}beginPosition")
+                                end = etree.SubElement(timePeriod, "{http://www.opengis.net/gml/3.2}endPosition")
+                                timeRangeLst = timeRange.split(',')
+                                begin.text = timeRangeLst[0]
+                                end.text = timeRangeLst[1]
+                                # phenomenonTime.attrib[gml+"id"] = "phenomenonTime_{0}".format(count)
+
+                                Observation = etree.SubElement(root,"{http://www.opengis.net/om/2.0}OM_Observation")
+                                Observation.attrib[gml+"id"] = "o_{0}".format(count)
+                                etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}type").attrib["{http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"
+                                Observation.append(phenomenonTime)
+                                etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}resultTime").attrib["{http://www.w3.org/1999/xlink}href"] = "t_{0}".format(count)
+                                
+                                # procedure
+                                procedure = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}procedure").attrib["{http://www.w3.org/1999/xlink}href"] = self.procedures[obsProperty]
+                                
+                                # Observed Property
+                                Observation.append(obsPropertyTag)
+
+                                # Feature of interest
+                                FOI = etree.Element("{http://www.opengis.net/om/2.0}featureOfInterest")
+                                # samplingFeature = etree.SubElement(FOI, "{http://www.opengis.net/samplingSpatial/2.0}SF_SpatialSamplingFeature")
+                                shape = etree.SubElement(FOI, "{http://www.opengis.net/gml/3.2}AbstractFeature")
+                                CRSType = etree.SubElement(FOI, "{http://www.opengis.net/samplingSpatial/2.0}sampledFeature").attrib["{http://www.w3.org/1999/xlink}href"] = "urn:ogc:def:nil:OGC:unknown"
+                                point = etree.SubElement(shape, "{http://www.opengis.net/gml/3.2}Point")
+                                point.attrib[gml+"id"] = "p_{0}".format(count)
+                                coords = etree.SubElement(point, "{http://www.opengis.net/gml/3.2}pos")
+                                geom, CRS = sensorLocation.split(';')
+                                CRS = CRS.strip('<').strip('>')
+                                coords.attrib["srsName"] = CRS
+                                pointObj = loads(geom)
+                                if len(list(pointObj.coords)[0]) == 2:
+                                    coords.text = "{0} {1}".format(pointObj.x, pointObj.y)
+                                else:
+                                    coords.text = "{0} {1} {2}".format(pointObj.x, pointObj.y, pointObj.z)
+                                Observation.append(FOI)
+                                
+                                
+
+                                
+                                # result
+                                result = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}result")
+                                result.attrib['uom'] = uom
+                                result.attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] = "{http://www.opengis.net/gml/3.2}MeasureType"
+                                result.text = str(value)
+                                # if type(value) == list:
+                                #     print "More values;", value
+                                count += 1
+            else:
+
+                # output feature names with temporally and spatially aggregated observation data
+                root = etree.Element(sos+"observationData", nsmap = NSMAP)
+                for i,name in enumerate(self.output):
+                    Observation = etree.SubElement(root,om+"OM_Observation")
+                    Observation.attrib[gml+"id"] = "o_{0}".format(i)
+                    for obsProperty in self.output[name]:
+                        for uom in self.output[name][obsProperty]:
+                            # uom = etree.Element()
+                            encoding = etree.Element(swe+"Encoding")
+                            textEncoding = etree.SubElement(encoding, swe+"TextEncoding")
+                            textEncoding.attrib["blockSeparator"] = ";"
+                            textEncoding.attrib["decimalSeparator"] = "."
+                            textEncoding.attrib["tokenSeparator"] = ","
+                            sweType = etree.Element(swe+"elementType")
+                            fixedRecords = etree.SubElement(sweType, swe+"DataRecord")
+                            time = objectify.Element(swe+"Time")
+                            time.attrib["definition"] = "http://www.opengis.net/def/property/OGC/0/SamplingTime"
+                            timeEncoding = objectify.SubElement(time, swe+"uom")
+                            timeEncoding.attrib[xlink+"href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
+                            field1 = etree.SubElement(fixedRecords, swe+"field")
+                            field1.attrib["name"] = "StartTime"
+                            field1.append(time)
+                            time = objectify.Element(swe+"Time")
+                            time.attrib["definition"] = "http://www.opengis.net/def/property/OGC/0/SamplingTime"
+                            timeEncoding = objectify.SubElement(time, swe+"uom")
+                            timeEncoding.attrib[xlink+"href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
+                            field2 = etree.SubElement(fixedRecords, swe+"field")
+                            field2.attrib["name"] = "EndTime"
+                            field2.append(time)
+                            field3 = etree.SubElement(fixedRecords, swe+"field")
+                            field3.attrib["name"] = "Value"
+                            quantity = etree.SubElement(field3, swe+"Quantity")
+                            uomTag = etree.SubElement(quantity, swe+"uom")
+                            uomTag.text = uom
+
+                            result = etree.Element(om+"result") 
+                            # result.append(sweType)
+                            result.attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = "{http://www.opengis.net/swe/2.0}DataArrayPropertyType"
+                            dataArray = etree.SubElement(result, swe+"DataArray")
+                            dataArray.append(sweType)
+                            dataArray.append(encoding)
+                            values = etree.SubElement(dataArray, swe+"values")
+                            
+                            valuesList = [] 
+                            startDates = []
+                            endDates = []
+                            for timeRange, value in self.output[name][obsProperty][uom].iteritems():
+                                start, end = timeRange.split(",")
+                                start = dateutil.parser.parse(start)
+                                startDates.append(start)
+                                end = dateutil.parser.parse(end)
+                                endDates.append(end)
+                                valuesList.append("{0},{1},{2}".format(start.isoformat(), end.isoformat(), value))
+                            values.text = ";".join(valuesList)  
+                            minimum = min(startDates)
+                            maximum = max(endDates)
+
+                            # phenomenonTime
+                            phenomenonTime = etree.SubElement(Observation, om+"phenomenonTime")
                             timePeriod = etree.SubElement(phenomenonTime, "{http://www.opengis.net/gml/3.2}TimePeriod")
-                            timePeriod.attrib[gml+"id"] = "t_{0}".format(count)
-                            begin = etree.SubElement(timePeriod, "{http://www.opengis.net/gml/3.2}beginPosition")
-                            end = etree.SubElement(timePeriod, "{http://www.opengis.net/gml/3.2}endPosition")
-                            timeRangeLst = timeRange.split(',')
-                            begin.text = timeRangeLst[0]
-                            end.text = timeRangeLst[1]
-                            # phenomenonTime.attrib[gml+"id"] = "phenomenonTime_{0}".format(count)
+                            timePeriod.attrib[gml+"id"] = "phenomenonTime_{0}".format(name)
+                            begin = etree.SubElement(timePeriod, gml+"beginPosition")
+                            begin.text = minimum
+                            end = etree.SubElement(timePeriod, gml+"endPosition")
+                            end.text = maximum
+                            # resultTime
+                            resultTime = etree.SubElement(Observation, om+"resultTime")
+                            resultTime.attrib[xlink+"href"] = "phenomenonTime_{0}".format(name)
 
-                            Observation = etree.SubElement(root,"{http://www.opengis.net/om/2.0}OM_Observation")
-                            Observation.attrib[gml+"id"] = "o_{0}".format(count)
-                            etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}type").attrib["{http://www.w3.org/1999/xlink}href"] = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"
-                            Observation.append(phenomenonTime)
-                            etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}resultTime").attrib["{http://www.w3.org/1999/xlink}href"] = "t_{0}".format(count)
-                            
-                            # procedure
-                            procedure = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}procedure").attrib["{http://www.w3.org/1999/xlink}href"] = self.procedures[obsProperty]
-                            
+                            # procedure is missing
+
                             # Observed Property
+                            obsPropertyTag = etree.Element(om+"observedProperty")
+                            obsPropertyTag.attrib[xlink+"href"] = obsProperty
                             Observation.append(obsPropertyTag)
 
-                            # Feature of interest
-                            FOI = etree.Element("{http://www.opengis.net/om/2.0}featureOfInterest")
-                            # samplingFeature = etree.SubElement(FOI, "{http://www.opengis.net/samplingSpatial/2.0}SF_SpatialSamplingFeature")
-                            shape = etree.SubElement(FOI, "{http://www.opengis.net/gml/3.2}AbstractFeature")
-                            CRSType = etree.SubElement(FOI, "{http://www.opengis.net/samplingSpatial/2.0}sampledFeature").attrib["{http://www.w3.org/1999/xlink}href"] = "urn:ogc:def:nil:OGC:unknown"
-                            point = etree.SubElement(shape, "{http://www.opengis.net/gml/3.2}Point")
-                            point.attrib[gml+"id"] = "p_{0}".format(count)
-                            coords = etree.SubElement(point, "{http://www.opengis.net/gml/3.2}pos")
-                            geom, CRS = sensorLocation.split(';')
-                            CRS = CRS.strip('<').strip('>')
-                            coords.attrib["srsName"] = CRS
-                            pointObj = loads(geom)
-                            if len(list(pointObj.coords)[0]) == 2:
-                                coords.text = "{0} {1}".format(pointObj.x, pointObj.y)
-                            else:
-                                coords.text = "{0} {1} {2}".format(pointObj.x, pointObj.y, pointObj.z)
+                            # Feature of Interest
+                            FOI = etree.Element(om+"featureOfInterest")
+                            FOI.attrib[xlink+"href"] = self.featureDict[name][0]
+                            FOI.attrib[xlink+"title"] = name
                             Observation.append(FOI)
-                            
-                            
 
-                            
-                            # result
-                            result = etree.SubElement(Observation, "{http://www.opengis.net/om/2.0}result")
-                            result.attrib['uom'] = uom
-                            result.attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] = "{http://www.opengis.net/gml/3.2}MeasureType"
-                            result.text = str(value)
-                            # if type(value) == list:
-                            #     print "More values;", value
-                            count += 1
+                            # Result
+                            Observation.append(result)
+
+                            objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
+
+            # etree.cleanup_namespaces(root)
+            XML = etree.tostring(root, pretty_print=True)
+            # print XML
+            
+            self.outputFile.write(XML)
+
         else:
+            print "Make GeoJSON output file"
 
-            # output feature names with temporally and spatially aggregated observation data
-            root = etree.Element(sos+"observationData", nsmap = NSMAP)
-            for i,name in enumerate(self.output):
-                Observation = etree.SubElement(root,om+"OM_Observation")
-                Observation.attrib[gml+"id"] = "o_{0}".format(i)
-                for obsProperty in self.output[name]:
-                    for uom in self.output[name][obsProperty]:
-                        # uom = etree.Element()
-                        encoding = etree.Element(swe+"Encoding")
-                        textEncoding = etree.SubElement(encoding, swe+"TextEncoding")
-                        textEncoding.attrib["blockSeparator"] = ";"
-                        textEncoding.attrib["decimalSeparator"] = "."
-                        textEncoding.attrib["tokenSeparator"] = ","
-                        sweType = etree.Element(swe+"elementType")
-                        fixedRecords = etree.SubElement(sweType, swe+"DataRecord")
-                        time = objectify.Element(swe+"Time")
-                        time.attrib["definition"] = "http://www.opengis.net/def/property/OGC/0/SamplingTime"
-                        timeEncoding = objectify.SubElement(time, swe+"uom")
-                        timeEncoding.attrib[xlink+"href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
-                        field1 = etree.SubElement(fixedRecords, swe+"field")
-                        field1.attrib["name"] = "StartTime"
-                        field1.append(time)
-                        time = objectify.Element(swe+"Time")
-                        time.attrib["definition"] = "http://www.opengis.net/def/property/OGC/0/SamplingTime"
-                        timeEncoding = objectify.SubElement(time, swe+"uom")
-                        timeEncoding.attrib[xlink+"href"] = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"  
-                        field2 = etree.SubElement(fixedRecords, swe+"field")
-                        field2.attrib["name"] = "EndTime"
-                        field2.append(time)
-                        field3 = etree.SubElement(fixedRecords, swe+"field")
-                        field3.attrib["name"] = "Value"
-                        quantity = etree.SubElement(field3, swe+"Quantity")
-                        uomTag = etree.SubElement(quantity, swe+"uom")
-                        uomTag.text = uom
+            for i,obsProperty in enumerate(self.results):     
+                    for sensorLocation in self.results[obsProperty]:
+                        for uom in self.results[obsProperty][sensorLocation]:
 
-                        result = etree.Element(om+"result") 
-                        # result.append(sweType)
-                        result.attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = "{http://www.opengis.net/swe/2.0}DataArrayPropertyType"
-                        dataArray = etree.SubElement(result, swe+"DataArray")
-                        dataArray.append(sweType)
-                        dataArray.append(encoding)
-                        values = etree.SubElement(dataArray, swe+"values")
-                        
-                        valuesList = [] 
-                        startDates = []
-                        endDates = []
-                        for timeRange, value in self.output[name][obsProperty][uom].iteritems():
-                            start, end = timeRange.split(",")
-                            start = dateutil.parser.parse(start)
-                            startDates.append(start)
-                            end = dateutil.parser.parse(end)
-                            endDates.append(end)
-                            valuesList.append("{0},{1},{2}".format(start.isoformat(), end.isoformat(), value))
-                        values.text = ";".join(valuesList)  
-                        minimum = min(startDates)
-                        maximum = max(endDates)
+                            for timeRange, value in self.output[name][obsProperty][uom].iteritems():
+                                pass
 
-                        # phenomenonTime
-                        phenomenonTime = etree.SubElement(Observation, om+"phenomenonTime")
-                        timePeriod = etree.SubElement(phenomenonTime, "{http://www.opengis.net/gml/3.2}TimePeriod")
-                        timePeriod.attrib[gml+"id"] = "phenomenonTime_{0}".format(name)
-                        begin = etree.SubElement(timePeriod, gml+"beginPosition")
-                        begin.text = minimum
-                        end = etree.SubElement(timePeriod, gml+"endPosition")
-                        end.text = maximum
-                        # resultTime
-                        resultTime = etree.SubElement(Observation, om+"resultTime")
-                        resultTime.attrib[xlink+"href"] = "phenomenonTime_{0}".format(name)
-
-                        # procedure is missing
-
-                        # Observed Property
-                        obsPropertyTag = etree.Element(om+"observedProperty")
-                        obsPropertyTag.attrib[xlink+"href"] = obsProperty
-                        Observation.append(obsPropertyTag)
-
-                        # Feature of Interest
-                        FOI = etree.Element(om+"featureOfInterest")
-                        FOI.attrib[xlink+"href"] = self.featureDict[name][0]
-                        FOI.attrib[xlink+"title"] = name
-                        Observation.append(FOI)
-
-                        # Result
-                        Observation.append(result)
-
-                        objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
-
-        # etree.cleanup_namespaces(root)
-        XML = etree.tostring(root, pretty_print=True)
-        # print XML
-        
-        self.outputFile.write(XML)
+        return

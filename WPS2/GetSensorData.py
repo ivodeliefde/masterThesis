@@ -77,7 +77,11 @@ class Process(WPSProcess):
 
         self.XMLdataOut = self.addComplexOutput(identifier="output_XML",
                 title="Output sensor data in XML format",
-                formats =  [{'mimeType':'text/xml'}])
+                formats =  [{
+                    'mimeType':'text/xml',
+                    # 'schema': None
+                    }]
+                )
 
         self.GeoJSONdataOut = self.addComplexOutput(identifier="output_GeoJSON",
                 title="Output sensor data in GeoJSON format",
@@ -107,6 +111,9 @@ class Process(WPSProcess):
         # observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
         dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation)
 
+        # transform the input GeoJSON string into python dictionary
+        dataRequest.GeoJSONTosensors()
+
         # Make SOS queries for every found data source to retrieve data for all found sensors
         dataRequest.getObservationData()
             
@@ -127,7 +134,9 @@ class Process(WPSProcess):
             self.XMLdataOut.setValue( dataRequest.outputFile )
         else:
             self.GeoJSONdataOut.setValue( dataRequest.outputFile )
+        
         return 
+
 
 if (__name__ == "__main__"):
     Process = Process()
