@@ -24,7 +24,7 @@ myEndpoint = 'http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/Query'
 
 
 class Request():
-    def __init__(self, observedProperties, featureCategory, featureNames, tempRange=[(datetime.now() - timedelta(days=7)).isoformat(), datetime.now().isoformat()], tempGranularity='1 day', spatialAggregation='average', tempAggregation='average'):
+    def __init__(self, observedProperties, featureCategory, featureNames, tempRange=[(datetime.now() - timedelta(days=7)).isoformat(), datetime.now().isoformat()], tempGranularity='1 day', spatialAggregation='average', tempAggregation='average', sensors={} ):
 
         self.observedProperties = observedProperties
         self.featureCategory = featureCategory
@@ -34,7 +34,7 @@ class Request():
         self.tempGranularity = tempGranularity
         self.spatialAggregation = spatialAggregation
         self.tempAggregation = tempAggregation
-        self.sensors = {} 
+        self.sensors = sensors
         self.procedures = {}
         self.sos = {}
         self.results = {} 
@@ -127,7 +127,7 @@ class Request():
         # Find relevant sensors 
         #----------------------------------------------------------------------#
 
-    def getSensorDataVector(self):
+    def getSensorsVector(self):
         if self.featureCategory.lower() == 'raster':
           # print 'Vector function cannot be applied for a raster request'
           return
@@ -142,264 +142,263 @@ class Request():
         # Retrieve sensors and their SOS source using the spatial filter created here
         self.retrieveSensors(spatialFilter)
         
-        # Make SOS queries for every found data source to retrieve data for all found sensors
-        self.getObservationData()
+        
 
         return
 
 
-    def getSensorDataBBOX(self):
-        coords = set()
-        for name, (uri, WKT) in self.featureDict.iteritems():
-            if len(WKT.split(';')) == 2:
-                geometry, CRS = WKT.split(';')
-            else:
-                # if no CRS is provided it is assumed that it is in WGS-84 (EPGS 4326)
-                CRS = 'http://www.opengis.net/def/crs/EPSG/0/4326'
+    # def getSensorDataBBOX(self):
+    #     coords = set()
+    #     for name, (uri, WKT) in self.featureDict.iteritems():
+    #         if len(WKT.split(';')) == 2:
+    #             geometry, CRS = WKT.split(';')
+    #         else:
+    #             # if no CRS is provided it is assumed that it is in WGS-84 (EPGS 4326)
+    #             CRS = 'http://www.opengis.net/def/crs/EPSG/0/4326'
 
-            EPSG = CRS.split('/')[-1].strip('>')
-            # print EPSG      
+    #         EPSG = CRS.split('/')[-1].strip('>')
+    #         # print EPSG      
 
-            if EPSG != "4258":
-                project = partial(
-                              pyproj.transform,
-                              pyproj.Proj(init='epsg:{0}'.format(EPSG) ),
-                              pyproj.Proj(init='epsg:4258'))
-                newFeature = transform(project, feature)
+    #         if EPSG != "4258":
+    #             project = partial(
+    #                           pyproj.transform,
+    #                           pyproj.Proj(init='epsg:{0}'.format(EPSG) ),
+    #                           pyproj.Proj(init='epsg:4258'))
+    #             newFeature = transform(project, feature)
 
-            geom = loads(WKT)
-            # print geom.geom_type
-            if geom.geom_type == "MultiPolygon":
-                for polygon in geom.geoms:
-                    for point in polygon.exterior.coords:
-                        coords.add(point)
-            elif geom.geom_type == "Polygon":
-                for point in geom.exterior.coords:
-                    coords.add(point)
-            # else:
-            #     print "It is not a Polygon or MultiPolygon, but a {0}".format(geom.geom_type)
+    #         geom = loads(WKT)
+    #         # print geom.geom_type
+    #         if geom.geom_type == "MultiPolygon":
+    #             for polygon in geom.geoms:
+    #                 for point in polygon.exterior.coords:
+    #                     coords.add(point)
+    #         elif geom.geom_type == "Polygon":
+    #             for point in geom.exterior.coords:
+    #                 coords.add(point)
+    #         # else:
+    #         #     print "It is not a Polygon or MultiPolygon, but a {0}".format(geom.geom_type)
 
-        # print coords
-        Xmin = min(coords, key=lambda x:x[0])[0]
-        Xmax = max(coords, key=lambda x:x[0])[0]
-        Ymin = min(coords, key=lambda y:y[1])[1]
-        Ymax = max(coords, key=lambda y:y[1])[1]
+    #     # print coords
+    #     Xmin = min(coords, key=lambda x:x[0])[0]
+    #     Xmax = max(coords, key=lambda x:x[0])[0]
+    #     Ymin = min(coords, key=lambda y:y[1])[1]
+    #     Ymax = max(coords, key=lambda y:y[1])[1]
 
-        BBOX = '"POLYGON (( {0} {1}, {2} {1}, {2} {3}, {0} {3}, {0} {1} ));<http://www.opengis.net/def/crs/EPSG/0/4258>"^^<http://strdf.di.uoa.gr/ontology#WKT>'.format(Xmin, Ymin, Xmax, Ymax)
-        spatialFilter = "FILTER (<http://strdf.di.uoa.gr/ontology#contains>({0}, ?geom) )".format(BBOX)
+    #     BBOX = '"POLYGON (( {0} {1}, {2} {1}, {2} {3}, {0} {3}, {0} {1} ));<http://www.opengis.net/def/crs/EPSG/0/4258>"^^<http://strdf.di.uoa.gr/ontology#WKT>'.format(Xmin, Ymin, Xmax, Ymax)
+    #     spatialFilter = "FILTER (<http://strdf.di.uoa.gr/ontology#contains>({0}, ?geom) )".format(BBOX)
 
-        # print Xmin, Xmax
-        # print Ymin, Ymax
-        # print BBOX
-        # print spatialFilter
-        # return
+    #     # print Xmin, Xmax
+    #     # print Ymin, Ymax
+    #     # print BBOX
+    #     # print spatialFilter
+    #     # return
 
-        # Retrieve sensors and their SOS source using the spatial filter created here
-        self.retrieveSensors(spatialFilter)
+    #     # Retrieve sensors and their SOS source using the spatial filter created here
+    #     self.retrieveSensors(spatialFilter)
 
-        # Filter out sensors that are outside the area of interest and outside the temporal range
-        self.filterSensors()
+    #     # Filter out sensors that are outside the area of interest and outside the temporal range
+    #     self.filterSensors()
 
-        # spatialFilterSOS = "spatialFilter=featureOfInterest/*/shape,{0},{1},{2},{3},http://www.opengis.net/def/crs/EPSG/0/4258".format(Xmin, Ymin, Xmax, Ymax)
-        # print spatialFilterSOS
-        sosServices = set()
-        parametersCollection = set()
-        for obsProperty in self.sensors:
-            self.results[obsProperty] = {}
-            for sensor in self.sensors[obsProperty]:
-                parameters = self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'], self.sensors[obsProperty][sensor]['location']
-                parametersCollection.add(parameters)
-                sosServices.add(self.sensors[obsProperty][sensor]['sos'])
-        # print parametersCollection
+    #     # spatialFilterSOS = "spatialFilter=featureOfInterest/*/shape,{0},{1},{2},{3},http://www.opengis.net/def/crs/EPSG/0/4258".format(Xmin, Ymin, Xmax, Ymax)
+    #     # print spatialFilterSOS
+    #     sosServices = set()
+    #     parametersCollection = set()
+    #     for obsProperty in self.sensors:
+    #         self.results[obsProperty] = {}
+    #         for sensor in self.sensors[obsProperty]:
+    #             parameters = self.sensors[obsProperty][sensor]['sos'], self.sensors[obsProperty][sensor]['procedure'], self.sensors[obsProperty][sensor]['offering'], self.sensors[obsProperty][sensor]['obsPropertyName'], self.sensors[obsProperty][sensor]['location']
+    #             parametersCollection.add(parameters)
+    #             sosServices.add(self.sensors[obsProperty][sensor]['sos'])
+    #     # print parametersCollection
 
-        # print sosServices
-        sosDict = {}
-        for sos in sosServices:
-            sosDict[sos] = {"post":'',"spatialFilters":[]}
-            # Retrieve the capabilities document
-            GetCapabilities = '{0}service=SOS&request=GetCapabilities'.format(sos)
-            r = requests.get(GetCapabilities)
+    #     # print sosServices
+    #     sosDict = {}
+    #     for sos in sosServices:
+    #         sosDict[sos] = {"post":'',"spatialFilters":[]}
+    #         # Retrieve the capabilities document
+    #         GetCapabilities = '{0}service=SOS&request=GetCapabilities'.format(sos)
+    #         r = requests.get(GetCapabilities)
 
-            # Store the retrieved document as an etree object
-            tree = etree.fromstring(r.content)
-            nsm = tree.nsmap
+    #         # Store the retrieved document as an etree object
+    #         tree = etree.fromstring(r.content)
+    #         nsm = tree.nsmap
 
-            # find the http address for POST requests
-            PostAdresses = tree.findall('.//ows:OperationsMetadata//ows:Post', nsm)
-            if len(PostAdresses) >= 1:
-                for address in PostAdresses:
-                    values = address.findall('.//ows:Constraint[@name="Content-Type"]/ows:AllowedValues/ows:Value', nsm)
-                    for value in values:
-                        if "text/xml" == value.text:
-                            # print "text",address
-                            sosDict[sos]["post"] = address.attrib["{http://www.w3.org/1999/xlink}href"]
-            else:
-                sosDict[sos]["post"] = PostAdresses.attrib["{http://www.w3.org/1999/xlink}href"]
-                # print "len < 1",PostAdresses
+    #         # find the http address for POST requests
+    #         PostAdresses = tree.findall('.//ows:OperationsMetadata//ows:Post', nsm)
+    #         if len(PostAdresses) >= 1:
+    #             for address in PostAdresses:
+    #                 values = address.findall('.//ows:Constraint[@name="Content-Type"]/ows:AllowedValues/ows:Value', nsm)
+    #                 for value in values:
+    #                     if "text/xml" == value.text:
+    #                         # print "text",address
+    #                         sosDict[sos]["post"] = address.attrib["{http://www.w3.org/1999/xlink}href"]
+    #         else:
+    #             sosDict[sos]["post"] = PostAdresses.attrib["{http://www.w3.org/1999/xlink}href"]
+    #             # print "len < 1",PostAdresses
 
-            # if no specification is provided for the post addresses the last one is selected
-            if sosDict[sos]["post"] == '':
-                # print "nothing specified"
-                sosDict[sos]["post"] = address.attrib["{http://www.w3.org/1999/xlink}href"]
+    #         # if no specification is provided for the post addresses the last one is selected
+    #         if sosDict[sos]["post"] == '':
+    #             # print "nothing specified"
+    #             sosDict[sos]["post"] = address.attrib["{http://www.w3.org/1999/xlink}href"]
 
-            # find the type of spatialFilters
-            spatialFilters = tree.findall('.//fes:Spatial_Capabilities/fes:SpatialOperators/fes:SpatialOperator', nsm)
-            for spatialFilter in spatialFilters: 
-                name = spatialFilter.attrib["name"]
-                geometryOperand = spatialFilter.find('.//fes:GeometryOperand',nsm).attrib["name"]
-                sosDict[sos]["spatialFilters"].append( (name, geometryOperand) )
-        # print sosDict
-        # return
+    #         # find the type of spatialFilters
+    #         spatialFilters = tree.findall('.//fes:Spatial_Capabilities/fes:SpatialOperators/fes:SpatialOperator', nsm)
+    #         for spatialFilter in spatialFilters: 
+    #             name = spatialFilter.attrib["name"]
+    #             geometryOperand = spatialFilter.find('.//fes:GeometryOperand',nsm).attrib["name"]
+    #             sosDict[sos]["spatialFilters"].append( (name, geometryOperand) )
+    #     # print sosDict
+    #     # return
 
-        spatialFilterUsed = True
-        for parameters in parametersCollection:
-            # print parameters
-            sos, procedureName, offeringName, obsPropertyName, sensorLocation = parameters
+    #     spatialFilterUsed = True
+    #     for parameters in parametersCollection:
+    #         # print parameters
+    #         sos, procedureName, offeringName, obsPropertyName, sensorLocation = parameters
 
-            getObservation = etree.Element('{http://www.opengis.net/sos/2.0}GetObservation') 
-            getObservation.attrib['service'] = "SOS"
-            getObservation.attrib['version'] = "2.0.0"
+    #         getObservation = etree.Element('{http://www.opengis.net/sos/2.0}GetObservation') 
+    #         getObservation.attrib['service'] = "SOS"
+    #         getObservation.attrib['version'] = "2.0.0"
 
-            procedure = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}procedure')
-            procedure.text = procedureName
+    #         procedure = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}procedure')
+    #         procedure.text = procedureName
             
 
-            offering = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}offering')
-            offering.text = offeringName
+    #         offering = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}offering')
+    #         offering.text = offeringName
 
             
-            observedProperty = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}observedProperty')
-            observedProperty.text = obsPropertyName
+    #         observedProperty = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}observedProperty')
+    #         observedProperty.text = obsPropertyName
 
-            if len(sosDict[sos]["spatialFilters"]) == 0:
-                spatialFilterUsed = False
-                # print 'No spatial filter implemented'
-            # elif len([spatialFilter for spatialFilter in sosDict[sos]["spatialFilters"] if spatialFilter[0] == 'BBOX']) == 0:
-            #     print 'no BBOX'
+    #         if len(sosDict[sos]["spatialFilters"]) == 0:
+    #             spatialFilterUsed = False
+    #             # print 'No spatial filter implemented'
+    #         # elif len([spatialFilter for spatialFilter in sosDict[sos]["spatialFilters"] if spatialFilter[0] == 'BBOX']) == 0:
+    #         #     print 'no BBOX'
 
-            # else:
-            #     print 'BBOX'
+    #         # else:
+    #         #     print 'BBOX'
             
 
-                spatialFilter = etree.SubElement(getObservation, "{http://www.opengis.net/sos/2.0}spatialFilter")
+    #             spatialFilter = etree.SubElement(getObservation, "{http://www.opengis.net/sos/2.0}spatialFilter")
 
 
-                bbox = etree.SubElement(spatialFilter, "{http://www.opengis.net/fes/2.0}BBOX" )
+    #             bbox = etree.SubElement(spatialFilter, "{http://www.opengis.net/fes/2.0}BBOX" )
 
                 
-                valueReference = etree.SubElement(bbox, "{http://www.opengis.net/fes/2.0}ValueReference")
-                valueReference.text = "om:featureOfInterest/sams:SF_SpatialSamplingFeature/sams:shape"
+    #             valueReference = etree.SubElement(bbox, "{http://www.opengis.net/fes/2.0}ValueReference")
+    #             valueReference.text = "om:featureOfInterest/sams:SF_SpatialSamplingFeature/sams:shape"
        
 
-                envelope = etree.SubElement(bbox, "{http://www.opengis.net/gml/3.2}Envelope")
-                envelope.attrib["srsName"] = "http://www.opengis.net/def/crs/EPSG/0/4258"
+    #             envelope = etree.SubElement(bbox, "{http://www.opengis.net/gml/3.2}Envelope")
+    #             envelope.attrib["srsName"] = "http://www.opengis.net/def/crs/EPSG/0/4258"
 
-                LLcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}lowerCorner")
-                LLcorner.text = "{1} {0}".format(Xmin, Ymin)
+    #             LLcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}lowerCorner")
+    #             LLcorner.text = "{1} {0}".format(Xmin, Ymin)
 
-                URcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}upperCorner")
-                URcorner.text = "{1} {0}".format(Xmax, Ymax)
+    #             URcorner = etree.SubElement(envelope, "{http://www.opengis.net/gml/3.2}upperCorner")
+    #             URcorner.text = "{1} {0}".format(Xmax, Ymax)
 
-                responseFormat = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}responseFormat')
-                responseFormat.text = "http://www.opengis.net/om/2.0"
+    #             responseFormat = etree.SubElement(getObservation,'{http://www.opengis.net/sos/2.0}responseFormat')
+    #             responseFormat.text = "http://www.opengis.net/om/2.0"
 
-            # Create XML string and POST it to the endpoint
-            XML = etree.tostring(getObservation, pretty_print=True)
-            r = requests.post(sosDict[sos]["post"], XML)
-            if str(r) != "<Response [200]>":
-                spatialFilterUsed = False
-                # print "SpatialFilter failed"
-            tree = etree.fromstring(r.content)
-            nsm = tree.nsmap
+    #         # Create XML string and POST it to the endpoint
+    #         XML = etree.tostring(getObservation, pretty_print=True)
+    #         r = requests.post(sosDict[sos]["post"], XML)
+    #         if str(r) != "<Response [200]>":
+    #             spatialFilterUsed = False
+    #             # print "SpatialFilter failed"
+    #         tree = etree.fromstring(r.content)
+    #         nsm = tree.nsmap
 
 
 
-            # Get observation data from the response document
-            for observation in tree.findall('.//sos:observationData', nsm):
-                dataType = tree.find('.//om:type', nsm).attrib['{http://www.w3.org/1999/xlink}href']
-                if dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement':
-                    # print 'OM measurement data'
-                    resultTime = observation.find('.//om:resultTime/gml:TimeInstant/gml:timePosition',nsm).text
+    #         # Get observation data from the response document
+    #         for observation in tree.findall('.//sos:observationData', nsm):
+    #             dataType = tree.find('.//om:type', nsm).attrib['{http://www.w3.org/1999/xlink}href']
+    #             if dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement':
+    #                 # print 'OM measurement data'
+    #                 resultTime = observation.find('.//om:resultTime/gml:TimeInstant/gml:timePosition',nsm).text
 
-                    result = observation.find('.//om:result',nsm)
-                    uom = result.attrib['uom']
-                    value = result.text
-                    csvData = '{0},{1}'.format(resultTime, value)
-                    # print csvData
+    #                 result = observation.find('.//om:result',nsm)
+    #                 uom = result.attrib['uom']
+    #                 value = result.text
+    #                 csvData = '{0},{1}'.format(resultTime, value)
+    #                 # print csvData
 
-                elif dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEObservation':
-                    if tree.find('.//om:result', nsm).attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] == 'swe:DataArrayPropertyType':
-                        # print 'SWE Data Array'
-                        uom = tree.find(".//swe:Quantity[@definition='{0}']/swe:uom".format(self.sensors[obsProperty][sensor]['obsPropertyName']), nsm).attrib['code']
+    #             elif dataType == 'http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEObservation':
+    #                 if tree.find('.//om:result', nsm).attrib['{http://www.w3.org/2001/XMLSchema-instance}type'] == 'swe:DataArrayPropertyType':
+    #                     # print 'SWE Data Array'
+    #                     uom = tree.find(".//swe:Quantity[@definition='{0}']/swe:uom".format(self.sensors[obsProperty][sensor]['obsPropertyName']), nsm).attrib['code']
 
-                        try:
-                            encoding = tree.find(".//swe:TextEncoding",nsm)
-                            blockSeparator = encoding.attrib["blockSeparator"]
-                            decimalSeparator = encoding.attrib["decimalSeparator"]
-                            tokenSeparator = encoding.attrib["tokenSeparator"]
-                            # make sure all csv data is using the same separators
-                            csvData = tree.find('.//swe:values', nsm).text.replace(blockSeparator,";").replace(decimalSeparator, ".").replace(tokenSeparator, ",")
-                            # print csvData
-                            # return 
-                        except:
-                            continue
+    #                     try:
+    #                         encoding = tree.find(".//swe:TextEncoding",nsm)
+    #                         blockSeparator = encoding.attrib["blockSeparator"]
+    #                         decimalSeparator = encoding.attrib["decimalSeparator"]
+    #                         tokenSeparator = encoding.attrib["tokenSeparator"]
+    #                         # make sure all csv data is using the same separators
+    #                         csvData = tree.find('.//swe:values', nsm).text.replace(blockSeparator,";").replace(decimalSeparator, ".").replace(tokenSeparator, ",")
+    #                         # print csvData
+    #                         # return 
+    #                     except:
+    #                         continue
                 
-                if sensorLocation in self.results[obsProperty]:
-                    self.results[obsProperty][sensorLocation][uom]['raw'] += '{0};'.format(csvData)
-                else:
-                    self.results[obsProperty][sensorLocation] = { uom: { 'raw': '{0};'.format(csvData) } }
-                # print self.results[obsProperty][sensorLocation][uom]['raw']
+    #             if sensorLocation in self.results[obsProperty]:
+    #                 self.results[obsProperty][sensorLocation][uom]['raw'] += '{0};'.format(csvData)
+    #             else:
+    #                 self.results[obsProperty][sensorLocation] = { uom: { 'raw': '{0};'.format(csvData) } }
+    #             # print self.results[obsProperty][sensorLocation][uom]['raw']
 
 
-            # manually filter the sensor data outside the temporal range
-            # print 'filter out data outside the temporal range'
-            utc = pytz.UTC
-            startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
-            endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
-            for obsProperty in self.results:
-                # print obsProperty
-                for sensorLocation in self.results[obsProperty]:
-                    # print sensorLocation
-                    for uom in self.results[obsProperty][sensorLocation]:
-                        # print uom
-                        data = self.results[obsProperty][sensorLocation][uom]['raw']
-                        if data[-1:] == ';':
-                            data = data[:-1]
-                        dataList = data.split(';')
-                        for each in dataList:
-                            # print each
-                            # return
-                            # print each.split(',')
-                            # return
-                            try:
-                                resultTimeString, value = each.split(',')
-                            except:
-                                # print "remove:", each
-                                # dataList.remove(each)
-                                continue
-                            resultTime = dateutil.parser.parse(resultTimeString).replace(tzinfo=utc)
-                            if resultTime < startTime or resultTime > endTime:
-                                # The resultTime is outside the temporal range
-                                # print "Remove:", resultTime, "Not in range:",startTime, endTime
-                                # print 'Before:', len(dataList), resultTime
-                                dataList.remove(each)
+    #         # manually filter the sensor data outside the temporal range
+    #         # print 'filter out data outside the temporal range'
+    #         utc = pytz.UTC
+    #         startTime = dateutil.parser.parse(self.tempRange[0]).replace(tzinfo=utc)
+    #         endTime = dateutil.parser.parse(self.tempRange[1]).replace(tzinfo=utc)
+    #         for obsProperty in self.results:
+    #             # print obsProperty
+    #             for sensorLocation in self.results[obsProperty]:
+    #                 # print sensorLocation
+    #                 for uom in self.results[obsProperty][sensorLocation]:
+    #                     # print uom
+    #                     data = self.results[obsProperty][sensorLocation][uom]['raw']
+    #                     if data[-1:] == ';':
+    #                         data = data[:-1]
+    #                     dataList = data.split(';')
+    #                     for each in dataList:
+    #                         # print each
+    #                         # return
+    #                         # print each.split(',')
+    #                         # return
+    #                         try:
+    #                             resultTimeString, value = each.split(',')
+    #                         except:
+    #                             # print "remove:", each
+    #                             # dataList.remove(each)
+    #                             continue
+    #                         resultTime = dateutil.parser.parse(resultTimeString).replace(tzinfo=utc)
+    #                         if resultTime < startTime or resultTime > endTime:
+    #                             # The resultTime is outside the temporal range
+    #                             # print "Remove:", resultTime, "Not in range:",startTime, endTime
+    #                             # print 'Before:', len(dataList), resultTime
+    #                             dataList.remove(each)
 
-                                # if each in dataList:
-                                #   print each
-                                # print 'After:', len(dataList)
-                                # return
-                        # return
-                        self.results[obsProperty][sensorLocation][uom]['raw'] = ';'.join(dataList)
-            # return
-        # print "results:",self.results
+    #                             # if each in dataList:
+    #                             #   print each
+    #                             # print 'After:', len(dataList)
+    #                             # return
+    #                     # return
+    #                     self.results[obsProperty][sensorLocation][uom]['raw'] = ';'.join(dataList)
+    #         # return
+    #     # print "results:",self.results
         
 
 
 
-        return
+    #     return
 
 
-    def getSensorDataRaster(self):
+    def getSensorsRaster(self):
         if self.featureCategory.lower() == 'raster':
             spatialFilter = []
             for key, value in self.featureDict.iteritems():
@@ -465,9 +464,6 @@ class Request():
 
         # print len(str(self.sensors))
         # print self.sensors
-
-        # Make SOS queries for every found data source to retrieve data for all found sensors
-        self.getObservationData()
 
         return
 

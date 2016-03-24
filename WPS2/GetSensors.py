@@ -14,9 +14,9 @@ class Process(WPSProcess):
         #----------------------------------------------------------------------#
 
         WPSProcess.__init__(self,
-            identifier = "GetSensorData",
-            title="Automatically retrieves, integrates and aggregates heterogenous sensor data using the semantic web",
-            abstract="""This process takes sensors found by the WPS 'GetSensors' and automatically integrates and aggregates the data from different sources on the web.""",
+            identifier = "GetSensors",
+            title="Automatically retrieves sensors from heterogenous sources using the semantic web",
+            abstract="""This process takes a sensor data request with parameters for spatial features of interest, observed property, temporal range and granularity, and finds all relevant sensor data sources on the semantic web.""",
             version = "1.0",
             storeSupported = True,
             statusSupported = True)
@@ -50,38 +50,22 @@ class Process(WPSProcess):
                                             default='1 hours',
                                             type = "StringType")
 
-        self.InputTempAggregation = self.addLiteralInput(identifier = "temporal_aggregation",
-                                            title = "Input temporal aggregation method: average, median, maximum, minimum or sum", 
-                                            default='average',
-                                            type = "StringType")
-
-        self.InputSpatialAggregation = self.addLiteralInput(identifier = "spatial_aggregation",
-                                            title = "Input spatial aggregation method: average, median, maximum, minimum or sum. Set it to False for no spatial aggregation.", 
-                                            default='average',
-                                            type = "StringType")
-
-        self.sensor = self.addLiteralInput(identifier = "Sensors",
-                                            title = "Sensors to be queried and temporally (and spatially) aggregated", 
+        self.method = self.addLiteralInput(identifier = "Query method",
+                                            title = "Using vector queries, raster cells to the endpoint or sending direct bbox requests to the SOS", 
                                             default='raster',
                                             type = "StringType")
 
-        self.outputFormat = self.addLiteralInput(identifier = "outputFormat",
-                                            title = "Select XML or GeoJSON as output format", 
-                                            default='XML',
-                                            type = "StringType")
+
 
 
         #----------------------------------------------------------------------#
         # Adding process outputs
         #----------------------------------------------------------------------#
 
-        self.XMLdataOut = self.addComplexOutput(identifier="output_XML",
-                title="Output sensor data in XML format",
+        self.dataOut = self.addComplexOutput(identifier="output",
+                title="Output sensor data",
                 formats =  [{'mimeType':'text/xml'}])
-
-        self.GeoJSONdataOut = self.addComplexOutput(identifier="output_GeoJSON",
-                title="Output sensor data in GeoJSON format",
-                formats =  [{'mimeType':'text/json'}])
+        
 
     #--------------------------------------------------------------------------#
     # Execution part of the process
@@ -96,37 +80,29 @@ class Process(WPSProcess):
         featureNames = self.InputFeatures.getValue().split(',')
         tempRange = self.InputTempRange.getValue().split(',')
         tempGranularity = self.InputTempGranularity.getValue()
-        spatialAggregation = self.InputSpatialAggregation.getValue()
-        tempAggregation = self.InputTempAggregation.getValue()
-        method = '' # not a relevant class parameter for this WPS 
-        sensors = self.sensors.getValue()
-        outputFormat = self.outputFormat.getValue()
+        spatialAggregation = '' # not a relevant class parameter for this WPS 
+        tempAggregation = '' # not a relevant class parameter for this WPS 
+        method = self.method.getValue()
         #----------------------------------------------------------------------------#
         
         # Create Request instance
         # observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
         dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation)
 
-        # Make SOS queries for every found data source to retrieve data for all found sensors
-        dataRequest.getObservationData()
-            
-        # # Check if aggregation method is valid
-        # # dataRequest.aggregateCheck()
+        # Make SPARQL queries that find the relevant feature geometries
+        dataRequest.getGeometries()
 
-        # # Aggregate sensor data
-        dataRequest.aggregateTemporal()
-
-        if spatialAggregation.lower() != 'false':
-            dataRequest.aggregateSpatial()
-
-        # Create output XML file
-        dataRequest.createOutput(outputFormat)
-
-        # Output aggregated sensor data
-        if outputFormat == '':
-            self.XMLdataOut.setValue( dataRequest.outputFile )
+        # Make SPARQL queries that find the sensors that are within the feature geometries with one of the three methods
+        if method.lower() == "vector":
+            dataRequest.getSensorsVector()
+        # elif method.lower() == "bbox":
+            # Makes SOS requests with bounding box filter
+        #     dataRequest.getSensorDataBBOX()
         else:
-            self.GeoJSONdataOut.setValue( dataRequest.outputFile )
+            dataRequest.getSensorsRaster()
+
+        # make sensor output file
+
         return 
 
 if (__name__ == "__main__"):
