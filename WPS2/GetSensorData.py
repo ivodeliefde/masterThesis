@@ -47,7 +47,7 @@ class Process(WPSProcess):
 
         self.InputTempGranularity = self.addLiteralInput(identifier = "temporal_granularity",
                                             title = "Input temporal granularity as an integer followed by a temporal unit: minute, hour, day or week", 
-                                            default='1 hours',
+                                            default='1 day',
                                             type = "StringType")
 
         self.InputTempAggregation = self.addLiteralInput(identifier = "temporal_aggregation",
@@ -60,7 +60,7 @@ class Process(WPSProcess):
                                             default='average',
                                             type = "StringType")
 
-        self.sensor = self.addLiteralInput(identifier = "Sensors",
+        self.sensors = self.addLiteralInput(identifier = "Sensors",
                                             title = "Sensors to be queried and temporally (and spatially) aggregated", 
                                             default='raster',
                                             type = "StringType")
@@ -111,8 +111,15 @@ class Process(WPSProcess):
         # observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
         dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation)
 
+        dataRequest.sensorFile = open("H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS2\pywpsOutputsja3hs","r")
+
+        # Make SPARQL queries that find the relevant feature geometries
+        dataRequest.getGeometries()
+
         # transform the input GeoJSON string into python dictionary
         dataRequest.GeoJSONTosensors()
+
+        # return
 
         # Make SOS queries for every found data source to retrieve data for all found sensors
         dataRequest.getObservationData()

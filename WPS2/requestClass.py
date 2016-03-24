@@ -48,6 +48,7 @@ class Request():
     #=======================================================================================================================================#
 
     def getGeometries(self, countries=['the Netherlands', 'Belgium']):
+        print "Get geometries"
         global myEndpoint
         global DBPedia
         #----------------------------------------------------------------------#
@@ -616,17 +617,18 @@ class Request():
         for obsProperty in self.sensors:
             for sensor in self.sensors[obsProperty]:
                 wkt = loads(self.sensors[obsProperty][sensor]['location'])
+                print self.sensors[obsProperty][sensor]['location']
 
                 feature = { "type": "Feature",
                     "geometry": {
                         "type": "Point", 
-                        "coordinates": [list(wkt.coords)[0][0],list(wkt.coords)[0][1]]
+                        "coordinates": [list(wkt.coords)[0][1],list(wkt.coords)[0][0]]
                         },
                     "properties": {
                         "name": self.sensors[obsProperty][sensor]['FOI'],
                         "sos": self.sensors[obsProperty][sensor]['sos'],
                         "procedure": self.sensors[obsProperty][sensor]['procedure'],
-                        "observedProperty": self.sensors[obsProperty][sensor]['obsPropertyName'],
+                        "observedProperty": [self.sensors[obsProperty][sensor]['obsPropertyName'], obsProperty],
                         "offering": self.sensors[obsProperty][sensor]['offering'],
                         "sensorUri": sensor
                         }
@@ -638,7 +640,6 @@ class Request():
         self.outputSensors = StringIO.StringIO()
         json.dump(outputData, self.outputSensors)
 
-
         return
 
     #=======================================================================================================================================#
@@ -646,7 +647,37 @@ class Request():
     #=======================================================================================================================================#
 
     def GeoJSONTosensors(self):
-        pass
+        inputFile = self.sensorFile.read()
+        geoJSON = json.loads(inputFile)
+        
+        for features in geoJSON:
+            if features == "type":
+                continue
+            # print features
+            for feature in geoJSON[features]:
+                # print feature
+                for data in feature:
+                    if data == "geometry":
+                        geometry = feature[data]['coordinates']
+                        # print "geometry", geometry
+                    elif data == "properties":
+                        # print "properties", feature[data] 
+                        sensor = feature[data]['sensorUri']
+                        obsProperty = feature[data]['observedProperty'][1]
+
+                        if not obsProperty in self.sensors:
+                            self.sensors[obsProperty] = {}
+                        if not sensor in self.sensors[obsProperty]:
+                           self.sensors[obsProperty][sensor] = {} 
+
+                        self.sensors[obsProperty][sensor]['FOI'] = feature[data]['name']
+                        self.sensors[obsProperty][sensor]['offering'] = feature[data]['offering']
+                        self.sensors[obsProperty][sensor]['sos'] = feature[data]['sos']
+                        self.sensors[obsProperty][sensor]['obsPropertyName'] = feature[data]['observedProperty'][0]
+                        self.sensors[obsProperty][sensor]['procedure'] = feature[data]['procedure']
+                self.sensors[obsProperty][sensor]['location'] = "POINT( {0} {1} );<http://www.opengis.net/def/crs/EPSG/0/4326>".format(geometry[1], geometry[0])
+
+        # print self.sensors
 
         return
 
@@ -675,7 +706,7 @@ class Request():
     #     return
 
     def getObservationData(self, spatialFilter=''):
-        # print "Get Observation Data"
+        print "Get Observation Data"
         # print self.sensors
         temporalFilter = '&temporalFilter=om:resultTime,{0}/{1}'.format(self.tempRange[0], self.tempRange[1])
         for obsProperty in self.sensors:
@@ -815,7 +846,7 @@ class Request():
 
 
     def aggregateTemporal(self):
-        # print "Perform temporal aggregation: {0}".format(self.tempAggregation)
+        print "Perform temporal aggregation: {0}".format(self.tempAggregation)
 
         # Convert the input parameter tempGranularity to a timedelta object.
         tempGranularityList = self.tempGranularity.split(' ')
@@ -912,7 +943,7 @@ class Request():
         return
 
     def aggregateSpatial(self):
-        # print "Perform spatial aggregation"
+        print "Perform spatial aggregation"
 
         featureList = []
         for name, data in self.featureDict.iteritems():
@@ -929,7 +960,7 @@ class Request():
             # print newPolygon
             # return
             featureList.append( (name, polygon) )
-        # print featureList
+        print len(featureList), featureList[0]
 
 
         # Order the observation data per feature
@@ -992,7 +1023,7 @@ class Request():
 
     def createOutput(self, outputFormat):
         if outputFormat == 'XML':
-            # print "Create output XML"
+            print "Create output XML"
             # print self.output
             self.outputFile = StringIO.StringIO()
 
@@ -1084,7 +1115,7 @@ class Request():
                                 #     print "More values;", value
                                 count += 1
             else:
-
+                print "create XML document"
                 # output feature names with temporally and spatially aggregated observation data
                 root = etree.Element(sos+"observationData", nsmap = NSMAP)
                 for i,name in enumerate(self.output):
@@ -1147,9 +1178,9 @@ class Request():
                             timePeriod = etree.SubElement(phenomenonTime, "{http://www.opengis.net/gml/3.2}TimePeriod")
                             timePeriod.attrib[gml+"id"] = "phenomenonTime_{0}".format(name)
                             begin = etree.SubElement(timePeriod, gml+"beginPosition")
-                            begin.text = minimum
+                            begin.text = minimum.isoformat()
                             end = etree.SubElement(timePeriod, gml+"endPosition")
-                            end.text = maximum
+                            end.text = maximum.isoformat()
                             # resultTime
                             resultTime = etree.SubElement(Observation, om+"resultTime")
                             resultTime.attrib[xlink+"href"] = "phenomenonTime_{0}".format(name)
@@ -1174,7 +1205,7 @@ class Request():
 
             # etree.cleanup_namespaces(root)
             XML = etree.tostring(root, pretty_print=True)
-            # print XML
+            print XML
             
             self.outputFile.write(XML)
 
