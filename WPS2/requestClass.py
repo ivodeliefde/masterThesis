@@ -48,7 +48,7 @@ class Request():
     #=======================================================================================================================================#
 
     def getGeometries(self, countries=['the Netherlands', 'Belgium']):
-        print "Get geometries"
+        # print "Get geometries"
         global myEndpoint
         global DBPedia
         #----------------------------------------------------------------------#
@@ -706,7 +706,7 @@ class Request():
     #     return
 
     def getObservationData(self, spatialFilter=''):
-        print "Get Observation Data"
+        # print "Get Observation Data"
         # print self.sensors
         temporalFilter = '&temporalFilter=om:resultTime,{0}/{1}'.format(self.tempRange[0], self.tempRange[1])
         for obsProperty in self.sensors:
@@ -846,7 +846,7 @@ class Request():
 
 
     def aggregateTemporal(self):
-        print "Perform temporal aggregation: {0}".format(self.tempAggregation)
+        # print "Perform temporal aggregation: {0}".format(self.tempAggregation)
 
         # Convert the input parameter tempGranularity to a timedelta object.
         tempGranularityList = self.tempGranularity.split(' ')
@@ -943,7 +943,7 @@ class Request():
         return
 
     def aggregateSpatial(self):
-        print "Perform spatial aggregation"
+        # print "Perform spatial aggregation"
 
         featureList = []
         for name, data in self.featureDict.iteritems():
@@ -960,7 +960,7 @@ class Request():
             # print newPolygon
             # return
             featureList.append( (name, polygon) )
-        print len(featureList), featureList[0]
+        # print len(featureList), featureList[0]
 
 
         # Order the observation data per feature
@@ -1022,10 +1022,13 @@ class Request():
 
 
     def createOutput(self, outputFormat):
+        # create file like object for the output file
+        self.outputFile = StringIO.StringIO()
+
         if outputFormat == 'XML':
-            print "Create output XML"
+            # print "Create output XML"
             # print self.output
-            self.outputFile = StringIO.StringIO()
+            
 
             sos_NS = "http://www.opengis.net/sos/2.0"
             sos = "{{{0}}}".format(sos_NS)
@@ -1115,7 +1118,7 @@ class Request():
                                 #     print "More values;", value
                                 count += 1
             else:
-                print "create XML document"
+                # print "create XML document"
                 # output feature names with temporally and spatially aggregated observation data
                 root = etree.Element(sos+"observationData", nsmap = NSMAP)
                 for i,name in enumerate(self.output):
@@ -1205,18 +1208,64 @@ class Request():
 
             # etree.cleanup_namespaces(root)
             XML = etree.tostring(root, pretty_print=True)
-            print XML
+            # print XML
             
             self.outputFile.write(XML)
 
         else:
-            print "Make GeoJSON output file"
+            # print "Make GeoJSON output file"
 
-            for i,obsProperty in enumerate(self.results):     
-                    for sensorLocation in self.results[obsProperty]:
-                        for uom in self.results[obsProperty][sensorLocation]:
-
+            if self.spatialAggregation.lower() == 'false':
+                # make GeoJSON output of only temporally aggregated sensor data 
+                pass
+            else:
+                # make GeoJSON output of temporally and spatially aggregated sensor data
+                outputData = {
+                    "type": "FeatureCollection", 
+                    "features": []
+                    }
+                for i,name in enumerate(self.output):
+                    print name
+                    for obsProperty in self.output[name]:
+                        for uom in self.output[name][obsProperty]:
+                            wkt = self.featureDict[name][1]
+                            # print self.featureDict[name]
+                            geom = loads(wkt)
+                            coordinates = []
+                            if geom.geom_type == "MultiPolygon":
+                                for polygon in geom.geoms:
+                                    for point in polygon.exterior.coords:
+                                        # print point
+                                        coordinates.append([point[1], point[0]])
+                            
+                            feature = { "type": "Feature",
+                                        "geometry": {
+                                            "type": "Polygon", 
+                                            "coordinates": coordinates
+                                            },
+                                        "properties": {
+                                            "observedProperty" : obsProperty,
+                                            "name": name,
+                                            "uri": self.featureDict[name][0],
+                                            "blockSeparator": ";",
+                                            "decimalSeparatorSeparator": ".",
+                                            "tokenSeparator": ",",
+                                            "observationDataArray": [] 
+                                        }
+                                    }
+                            valuesList = []
                             for timeRange, value in self.output[name][obsProperty][uom].iteritems():
-                                pass
+                                start, end = timeRange.split(",")
+                                start = dateutil.parser.parse(start)
+                                # startDates.append(start)
+                                end = dateutil.parser.parse(end)
+                                # endDates.append(end)
+                                feature['properties']['observationDataArray'].append("{0},{1},{2}".format(start.isoformat(), end.isoformat(), value))
+                            feature['properties']['observationDataArray'] = ";".join(feature['properties']['observationDataArray'])
+                            outputData['features'].append(feature)
+
+                            
+        json.dump(outputData, self.outputFile)
+                            
 
         return
