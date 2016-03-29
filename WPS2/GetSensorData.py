@@ -67,7 +67,7 @@ class Process(WPSProcess):
 
         self.outputFormat = self.addLiteralInput(identifier = "outputFormat",
                                             title = "Select XML or GeoJSON as output format", 
-                                            default='XML',
+                                            default='GeoJSON',
                                             type = "StringType")
 
 
@@ -75,17 +75,14 @@ class Process(WPSProcess):
         # Adding process outputs
         #----------------------------------------------------------------------#
 
-        self.XMLdataOut = self.addComplexOutput(identifier="output_XML",
-                title="Output sensor data in XML format",
+        self.dataOut = self.addComplexOutput(identifier="output_data",
+                title="Output sensor data",
                 formats =  [{
                     'mimeType':'text/xml',
+                    'mimeType':'text/json'
                     # 'schema': None
                     }]
                 )
-
-        self.GeoJSONdataOut = self.addComplexOutput(identifier="output_GeoJSON",
-                title="Output sensor data in GeoJSON format",
-                formats =  [{'mimeType':'text/json'}])
 
     #--------------------------------------------------------------------------#
     # Execution part of the process
@@ -102,16 +99,15 @@ class Process(WPSProcess):
         tempGranularity = self.InputTempGranularity.getValue()
         spatialAggregation = self.InputSpatialAggregation.getValue()
         tempAggregation = self.InputTempAggregation.getValue()
-        method = '' # not a relevant class parameter for this WPS 
         sensors = self.sensors.getValue()
         outputFormat = self.outputFormat.getValue()
         #----------------------------------------------------------------------------#
         
         # Create Request instance
         # observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
-        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation)
+        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation, sensors)
 
-        dataRequest.sensorFile = open("H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS2\pywpsOutputsja3hs","r")
+        dataRequest.sensorFile = "H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS2\pywpsOutputsja3hs"
 
         # Make SPARQL queries that find the relevant feature geometries
         dataRequest.getGeometries()
@@ -119,15 +115,13 @@ class Process(WPSProcess):
         # transform the input GeoJSON string into python dictionary
         dataRequest.GeoJSONTosensors()
 
-        # return
-
         # Make SOS queries for every found data source to retrieve data for all found sensors
         dataRequest.getObservationData()
             
-        # # Check if aggregation method is valid
-        # # dataRequest.aggregateCheck()
+        # Check if aggregation method is valid
+        # dataRequest.aggregateCheck()
 
-        # # Aggregate sensor data
+        # Aggregate sensor data
         dataRequest.aggregateTemporal()
 
         if spatialAggregation.lower() != 'false':
@@ -137,10 +131,7 @@ class Process(WPSProcess):
         dataRequest.createOutput(outputFormat)
 
         # Output aggregated sensor data
-        if outputFormat == '':
-            self.XMLdataOut.setValue( dataRequest.outputFile )
-        else:
-            self.GeoJSONdataOut.setValue( dataRequest.outputFile )
+        self.dataOut.setValue( dataRequest.outputFile )
         
         return 
 
