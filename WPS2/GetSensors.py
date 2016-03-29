@@ -44,11 +44,6 @@ class Process(WPSProcess):
                                             default='Municipality',
                                             type = "StringType")
 
-        self.InputTempGranularity = self.addLiteralInput(identifier = "temporal_granularity",
-                                            title = "Input temporal granularity as an integer followed by a temporal unit: minute, hour, day or week", 
-                                            default='1 hours',
-                                            type = "StringType")
-
         self.method = self.addLiteralInput(identifier = "Query method",
                                             title = "Using vector queries, raster cells to the endpoint or sending direct bbox requests to the SOS", 
                                             default='raster',
@@ -84,15 +79,12 @@ class Process(WPSProcess):
         featureCategory = self.InputFeatureCategory.getValue()
         featureNames = self.InputFeatures.getValue().split(',')
         tempRange = self.InputTempRange.getValue().split(',')
-        tempGranularity = self.InputTempGranularity.getValue()
-        spatialAggregation = '' # not a relevant class parameter for this WPS 
-        tempAggregation = '' # not a relevant class parameter for this WPS 
         method = self.method.getValue()
         #----------------------------------------------------------------------------#
         
         # # Create Request instance
         # # observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
-        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation)
+        dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity= '', spatialAggregation= '', tempAggregation= '', sensors= '')
 
         # Make SPARQL queries that find the relevant feature geometries
         dataRequest.getGeometries()

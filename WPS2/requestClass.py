@@ -35,11 +35,12 @@ class Request():
         self.tempGranularity = tempGranularity
         self.spatialAggregation = spatialAggregation
         self.tempAggregation = tempAggregation
-        self.sensors = sensors
+        self.sensors = {}
         self.procedures = {}
         self.sos = {}
         self.results = {} 
         self.output = {}
+        self.sensorFile = sensors
 
 
 
@@ -622,7 +623,7 @@ class Request():
                 feature = { "type": "Feature",
                     "geometry": {
                         "type": "Point", 
-                        "coordinates": [list(wkt.coords)[0][1],list(wkt.coords)[0][0]]
+                        "coordinates": [list(wkt.coords)[0][0],list(wkt.coords)[0][1]]
                         },
                     "properties": {
                         "name": self.sensors[obsProperty][sensor]['FOI'],
@@ -647,7 +648,7 @@ class Request():
     #=======================================================================================================================================#
 
     def GeoJSONTosensors(self):
-        inputFile = self.sensorFile.read()
+        inputFile = open(self.sensorFile, "r").read()
         geoJSON = json.loads(inputFile)
         
         for features in geoJSON:
@@ -1225,7 +1226,7 @@ class Request():
                     "features": []
                     }
                 for i,name in enumerate(self.output):
-                    print name
+                    # print name
                     for obsProperty in self.output[name]:
                         for uom in self.output[name][obsProperty]:
                             wkt = self.featureDict[name][1]
