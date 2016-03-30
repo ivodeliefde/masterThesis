@@ -127,7 +127,8 @@ class Request():
             try:
                 self.featureDict[name] = uri, geom
             except:
-                print "could not find feature with geometry!"
+                pass
+                # print "could not find feature with geometry!"
 
         # print 'Features:', self.featureDict
         return
@@ -618,7 +619,7 @@ class Request():
         for obsProperty in self.sensors:
             for sensor in self.sensors[obsProperty]:
                 wkt = loads(self.sensors[obsProperty][sensor]['location'])
-                print self.sensors[obsProperty][sensor]['location']
+                # print self.sensors[obsProperty][sensor]['location']
 
                 feature = { "type": "Feature",
                     "geometry": {
@@ -648,7 +649,11 @@ class Request():
     #=======================================================================================================================================#
 
     def GeoJSONTosensors(self):
-        inputFile = open(self.sensorFile, "r").read()
+        # try:
+        inputFile = requests.get(self.sensorFile).text
+        # print inputFile
+        # except:
+        #     inputFile = open(self.sensorFile, "r").read()
         geoJSON = json.loads(inputFile)
         
         for features in geoJSON:
@@ -889,8 +894,11 @@ class Request():
                         data = data[:-1]
                     dataList = data.split(';')
                     for each in dataList:
-                        # print each
-                        resultTimeString, value = each.split(',')
+                        try:
+                            resultTimeString, value = each.split(',')
+                        except:
+                            # print each
+                            continue
                         resultTime = dateutil.parser.parse(resultTimeString).replace(tzinfo=utc)
 
                         # double check that the result time is in between start and end time
@@ -973,7 +981,7 @@ class Request():
                     # Check if sensor location overlaps with feature
                     point = loads(sensorLocation)
                     reversedPoint = loads('POINT({0} {1})'.format(point.y, point.x))      
-                    if polygon.contains(point):
+                    if polygon.contains(reversedPoint):
                         # print "point in polygon"
                         if obsProperty not in self.output[name]:
                             self.output[name][obsProperty] = {}
@@ -993,6 +1001,9 @@ class Request():
                                     self.output[name][obsProperty][uom][timeRange] = []
 
                                 self.output[name][obsProperty][uom][timeRange].append(data)
+                    # else:
+                    #     print "point not in polygon"
+                    #     print point, list(polygon.geoms[0].exterior.coords)[50]
 
         # Aggregate the order data to a single value per feature per timerange
         for name in self.output:

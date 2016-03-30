@@ -107,7 +107,8 @@ class Process(WPSProcess):
         # observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation = self.data
         dataRequest = Request(observedProperties, featureCategory, featureNames, tempRange, tempGranularity, spatialAggregation, tempAggregation, sensors)
 
-        dataRequest.sensorFile = "H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS2\pywpsOutputsja3hs"
+        # dataRequest.sensorFile = "H:\Ivo\Geomatics\Year 2\Thesis\ThesisGitHub\WPS2\pywpsOutputsja3hs"
+        # dataRequest.sensorFile = "http://localhost:5000/static/uploads/sensors_1.json"
 
         # Make SPARQL queries that find the relevant feature geometries
         dataRequest.getGeometries()
