@@ -1260,7 +1260,7 @@ class Request():
                                             "name": name,
                                             "uri": self.featureDict[name][0],
                                             "blockSeparator": ";",
-                                            "decimalSeparatorSeparator": ".",
+                                            "decimalSeparator": ".",
                                             "tokenSeparator": ",",
                                             "observationDataArray": [] 
                                         }
