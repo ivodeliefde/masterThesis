@@ -1248,12 +1248,12 @@ class Request():
                                 for polygon in geom.geoms:
                                     for point in polygon.exterior.coords:
                                         # print point
-                                        coordinates.append([point[1], point[0]])
+                                        coordinates.append([point[0], point[1]])
                             
                             feature = { "type": "Feature",
                                         "geometry": {
                                             "type": "Polygon", 
-                                            "coordinates": coordinates
+                                            "coordinates": [coordinates]
                                             },
                                         "properties": {
                                             "observedProperty" : obsProperty,
