@@ -27,7 +27,7 @@ class Process(WPSProcess):
 
         self.InputFeatures = self.addLiteralInput(identifier = "feature_names",
                                             title = "Input feature name strings, seperated by comma's", 
-                                            default="Antwerpen,Utrecht",
+                                            default="100kmE39N31",
                                             type = "StringType")
 
         self.InputObsProperties = self.addLiteralInput(identifier = "observed_properties",
@@ -42,7 +42,7 @@ class Process(WPSProcess):
 
         self.InputFeatureCategory = self.addLiteralInput(identifier = "feature_category",
                                             title = "Input feature category: municipality, province, raster or landcover", 
-                                            default='Municipality',
+                                            default='raster',
                                             type = "StringType")
 
         self.InputTempGranularity = self.addLiteralInput(identifier = "temporal_granularity",
@@ -62,7 +62,7 @@ class Process(WPSProcess):
 
         self.sensors = self.addLiteralInput(identifier = "Sensors",
                                             title = "Sensors to be queried and temporally (and spatially) aggregated", 
-                                            default='raster',
+                                            default=' ',
                                             type = "StringType")
 
         self.outputFormat = self.addLiteralInput(identifier = "outputFormat",
@@ -133,6 +133,8 @@ class Process(WPSProcess):
 
         # Output aggregated sensor data
         self.dataOut.setValue( dataRequest.outputFile )
+
+        # print dataRequest.outputFile
         
         return 
 

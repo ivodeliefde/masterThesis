@@ -1236,6 +1236,7 @@ class Request():
                     "type": "FeatureCollection", 
                     "features": []
                     }
+                featureSet = set()
                 for i,name in enumerate(self.output):
                     # print name
                     for obsProperty in self.output[name]:
@@ -1245,7 +1246,9 @@ class Request():
                             geom = loads(wkt)
                             coordinates = []
                             if geom.geom_type == "MultiPolygon":
+                                # print 'MultiPolygon'
                                 for polygon in geom.geoms:
+                                    # print 'contains Polygon'
                                     for point in polygon.exterior.coords:
                                         # print point
                                         coordinates.append([point[0], point[1]])
@@ -1265,6 +1268,7 @@ class Request():
                                             "observationDataArray": [] 
                                         }
                                     }
+                                    
                             valuesList = []
                             for timeRange, value in self.output[name][obsProperty][uom].iteritems():
                                 start, end = timeRange.split(",")
@@ -1274,9 +1278,10 @@ class Request():
                                 # endDates.append(end)
                                 feature['properties']['observationDataArray'].append("{0},{1},{2}".format(start.isoformat(), end.isoformat(), value))
                             feature['properties']['observationDataArray'] = ";".join(feature['properties']['observationDataArray'])
-                            outputData['features'].append(feature)
+                            if feature not in outputData['features']:
+                                outputData['features'].append(feature)
 
-                            
+        print outputData
         json.dump(outputData, self.outputFile)
                             
 
