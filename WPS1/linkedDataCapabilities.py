@@ -14,7 +14,7 @@ import logging
 baseURI = "http://localhost:8099/masterThesis_tudelft" 
 # endpoint = 'http://localhost:8089/parliament/sparql?' 
 endpoint = "http://localhost:8083/strabon-endpoint-3.3.2-SNAPSHOT/Query"
-purlBatch = 'D:/purlBatches/SOS/SOSbatch'
+purlBatch = 'D:/purlBatches/'
 
 def capabilities(SOS):
 	global baseURI
