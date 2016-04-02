@@ -2,11 +2,12 @@
 
 
 %overview of the methodology to be used;
+% ~20 pages
 
 \chapter{Methods}
 \label{chap:methods}
 
-A number of studies related to this thesis have been reviewed in Chapter \ref{chap:rw}. This chapter discusses why the semantic web will be used for linking sensor metadata and which methods will be used to achieve this. The \ac{swe} standards, the om-lite and sam-lite ontologies, and \ac{rdf} will be described.  
+A number of studies related to this thesis have been reviewed in Chapter \ref{chap:rw}. This chapter discusses why the semantic web will be used for linking sensor metadata and which methods will be used to achieve this. The \ac{swe} standards, the om-lite and sam-lite ontologies, and \ac{rdf} will be described. Also a brief overview of the data use for this thesis is presented.   
 
 \section{Sensor metadata on the semantic web}
 \ac{semsos} \citep{SSW:Henson, SSW:Pschorr} as well as \ac{sel} \citep{SSW:Janowicz} focus on combining the sensor web with the semantic web, but do not address the integration and aggregation of sensor data. Similarly, \cite{SSW:Atkinson} proposes to expose sensor data to the semantic web in order to find other kinds of related data about the same feature-of-interest. Data that can be collected for another area of research. However, \cite{SSW:Atkinson} do not mention the integration of complementary sensor data from heterogeneous sources either. \cite{SSW:Stasch} and \cite{SSW:Stasch3} suggest interesting methods for aggregating sensor data based on features-of-interest. However, also these studies use sensor data from only a single source into account. Moreover, \cite{SSW:Corcho} and \cite{SSW:Ji} argue that methods for integration and fusion of sensor data on the semantic web is still an area for future research. Data fusion is \enquote{a data processing technique that associates, combines, aggregates, and integrates data from different sources} \cite[p. 2]{SSW:Wang2}. 
@@ -134,6 +135,8 @@ To publish data on the semantic web ontologies are required to specify the diffe
 %	\label{fig:UML}
 %\end{figure}
 
-\section{Sensor data aggregation}
-There are many different ways to aggregate sensor data, for example by taking the minimum value, the maximum value, the average value, the sum, etc. Also, spatial aggregation techniques (based on neighbourhood analysis) can be considered to adjust for spatio-temporal irregularities as mentioned by \cite{SW:Ganesan}. In order to determine which method of aggregation is applicable for a specific kind of sensor data the sensor metadata will contain links to appropriate aggregation methods. However, which methods are appropriate should be based on expert knowledge.
+%\section{Aggregation}
+%There are many different ways to aggregate sensor data, for example by taking the minimum value, the maximum value, the average value, the sum, etc. Also, spatial aggregation techniques (based on neighbourhood analysis) can be considered to adjust for spatio-temporal irregularities as mentioned by \cite{SW:Ganesan}. In order to determine which method of aggregation is applicable for a specific kind of sensor data the sensor metadata will contain links to appropriate aggregation methods. However, which methods are appropriate should be based on expert knowledge.
 
+\section{Data}
+A more detailed description of the data can be found in Appendix \ref{chap:data}.
