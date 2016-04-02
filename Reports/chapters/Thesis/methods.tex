@@ -43,8 +43,9 @@ The \texttt{DescribeSensor} request gives detailed information on a specific sen
 
 Using \texttt{GetObservation} actual measurements can be retrieved. The request is made by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&version=2.0.0\&request=GetObservation}. This returns a response with the default parameters, which can differ from one \ac{sos} to another. To further specify the request, optional paramaters can be added such as: observed property, procedure, feature-of-interest, offering and outputformat. Spatial and temporal filters can be added if these are supported by the service. 
 
-\section{Semantic web}
 
+
+\section{Semantic web}
 
 \begin{figure}
 	\centering
@@ -137,6 +138,14 @@ To publish data on the semantic web ontologies are required to specify the diffe
 
 %\section{Aggregation}
 %There are many different ways to aggregate sensor data, for example by taking the minimum value, the maximum value, the average value, the sum, etc. Also, spatial aggregation techniques (based on neighbourhood analysis) can be considered to adjust for spatio-temporal irregularities as mentioned by \cite{SW:Ganesan}. In order to determine which method of aggregation is applicable for a specific kind of sensor data the sensor metadata will contain links to appropriate aggregation methods. However, which methods are appropriate should be based on expert knowledge.
+
+\section{Web Processing Service}
+
+\subsection{Get Capabilities}
+
+\subsection{Describe Process}
+
+\subsection{Execute}
 
 \section{Data}
 A more detailed description of the data can be found in Appendix \ref{chap:data}.
