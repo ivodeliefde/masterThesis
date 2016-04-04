@@ -16,6 +16,11 @@ A number of studies related to this thesis have been reviewed in Chapter \ref{ch
 
 Since data on the web has a distributed nature it can be questioned whether centralised catalogue services are feasible to create. It places a burden on the owner of the \ac{sos} to register with a catalogue service. Also, there could be multiple of these services on the web creating issue regarding the discovery of relevant catalogues. The semantic web could solve this issue by getting rid of the `dataset-centric' approach and adding metadata directly to the web instead.
 
+\section{Semantic Web and the Internet of Things}
+\cite{IOT:Barnaghi} describe how the semantic web could be of great importance for the \ac{iot}.
+\cite{IOT:Jazayeri} describe the \ac{sos} as one of the protocols that \ac{iot} devices could use.
+
+
 \section{Sensor observation service}
 There are three core requests that can be made to retrieve sensor (meta)data from a \ac{sos}: \texttt{GetCapabilities}, \texttt{DescribeSensor} and \texttt{GetObservation}. \texttt{Get} \texttt{Capabilities} returns a complete overview of what the \ac{sos} has to offer. The \texttt{DescribeSensor} request returns detailed information about individual sensors. These three core requests are mandatory in a \ac{sos} under the 2.0 specifications \citep{SW:OGC2}. There are also a number of optional extensions to a \ac{sos}. Requests can be made as a \ac{http} GET request or a \ac{http} POST request. There can be different response formats. Usually there is at least the option to retrieve the response as an \ac{xml} document. Based on the specification by \cite{SW:OGC2} this paragraph describes the core and optional requests of a \ac{sos}, as well as the structure of their responses. 
 
