@@ -5,7 +5,7 @@
 \chapter{Implementation}
 \label{chap:impl}
 
-Implementation of the methods are described in this chapter.
+Proposed design using the methods are described in this chapter.
 
 \section{Preparing linked data}
 Linked data has been prepared that is used to retrieve and process sensor data on the semantic web (Figure \ref*{fig:Static}). This is done for vector data sets of administrative units and land cover features, and for raster data sets of \ac{eea} grids with a resolution of 10km\textsuperscript{2} and 100km\textsuperscript{2}. 
@@ -138,5 +138,7 @@ Data is aggregated.
 
 \section{Setting up the Web Processing Services}
 Creating two \aclp{wps} using PyWPS.
+
+Ouput \ac{xml} using \ac{om} schema or using \ac{json} with the potential \ac{ogc} canditate standard for \ac{json} \citep{SW:OGC6}.
 
 \section{Creating an online dashboard}
