@@ -44,11 +44,15 @@ The contents section describes the data that can be retrieved, grouped in offeri
 The \texttt{DescribeSensor} request gives detailed information on a specific sensor. The request is built by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&version=2.0.0\&request=DescribeSensor\&procedure=aprocedure\&proceduredescriptionformat=aformat} where the procedure and procedure description format have to contain values defined in the capabilities document.
 \end{sloppypar}
 
+% write about SWE describesensor schema
+% http://www.opengis.net/swes/2.0
+% http://schemas.opengis.net/swes/2.0/swesContents.xsd
+
 \subsection{Get observation}
 
 Using \texttt{GetObservation} actual measurements can be retrieved. The request is made by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&version=2.0.0\&request=GetObservation}. This returns a response with the default parameters, which can differ from one \ac{sos} to another. To further specify the request, optional paramaters can be added such as: observed property, procedure, feature-of-interest, offering and outputformat. Spatial and temporal filters can be added if these are supported by the service. 
 
-
+% write about OM observation schema
 
 \section{Semantic web}
 
