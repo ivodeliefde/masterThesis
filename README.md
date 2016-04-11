@@ -1,4 +1,4 @@
-# Discovery, Integration and Aggregation of Sensor Data Using the Semantic Web
+# Exploring the Use of the Semantic Web for discovering and processing data from Sensor Observation Services
 Master thesis by Ivo de Liefde (student MSc. Geomatics at Delft University of Technology)
 
 ## Background
