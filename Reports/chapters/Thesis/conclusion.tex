@@ -22,15 +22,25 @@ Another class that should be represented in an ontology is the \acl{sos}. The cu
 
 %Semantically defining the \ac{sos} and its allowed queries opens the door to automatically combining, analysing or processing data from different \ac{ogc} geo web services. If all \ac{ogc} geo web services and their queries are part of an ontology a \ac{gis} would be able to use these services without having built-in knowledge on how they work. Future versions of a services or the addition of a service could take place by extending the ontology instead of updating each installation of a \ac{gis}.             
 
-\paragraph{What is an efficient balance between the semantic web and the geo web in the chain of discovering, retrieving and processing sensor data?}\mbox{}
+\paragraph{What is an effective balance between the semantic web and the geo web in the chain of discovering, retrieving and processing sensor data?}\mbox{}
 
+A number of authors have shown that triple stores do not perform as good as databases when their data is requested via a web application. On the other hand, linked data is very well suited for discovering data as it is literally `linked' to related data. Therefore, this thesis aimed to design a method for using the semantic web in combination with sensor web applications, where the semantic web contains metadata and the sensor web observation data. However, there is a grey area of functions that could be implemented using either on of these two parts of the web. 
+
+For example, the semantic web could have a bounding box per \ac{sos} containing all features of interest it offers in combination with a list of all observed properties. In this scenario spatial and temporal filters would have to be applied at the \ac{sos} side when retrieving observation data. On the other hand, the semantic web could also contain detailed information about individual sensors. In this case, the \aclp{sos} are only used to retrieve observation data of already selected sensors.
+
+Both scenario's have been considered. The second scenario has be used in the design for a number of reasons. First of all, it was found that not all \aclp{sos} offer the same filter capabilities. In order for the first scenario to be viable every \ac{sos} should have a minimum amount of filter capabilities implemented by default. 
+Second of all, if a user is interested in sensors located in a specific area the bounding box of all sensors might be misleading. If there is an outlying sensor or if all sensors are inside a curved or diagonal vector geometry a \ac{sos} might seem relevant for a certain area while it actually is not. The result of this is that many unnecessary requests will be send to a \ac{sos} keeping the user waiting and the \ac{sos} server busy for no reason. 
+
+Third of all, semantic information about specific sensors can be linked to by other related linked data. This can be done by the organisation maintaining the sensor or by other organisations. For example links about the manufacturer, the quality of observations achieved by a certain model of sensors, or the conditions under which the sensor is placed could be useful for anyone interested in the observation data. 
+
+However, the down side of the second approach is that the performance of the \ac{sparql} query language is not as good as for example Postgis. Adding spatial filters is possible, but is not very fast for most vector geometries. Also, since it uses verbose \ac{wkt} encoding the queries can be rejected for exceeding the maximum amount of characters.            
 
 
 \paragraph{To what extent can already existing standards for retrieving data be (re)used for a service that supplies integrated and aggregated sensor data?}\mbox{}
 
 All data models and services in this thesis have been used because they are based on open standards. Designs for two processes have been explored: an automated process for creating linked data from metadata in a \ac{sos} and a process for discovering, retrieving and processing sensor data. These processes were created using \ac{ogc} \aclp{wps}, which is a standard \ac{api} for spatial data processes on the web. \ac{om} could be reused on the semantic web using the om-lite ontology. Performing spatial queries on this linked data is possible using \ac{ogc}'s GeoSPARQL.
 
-When sensor data is retrieved and aggregated from the discovered \aclp{sos} the \ac{om} observation schema is being reused. However, this only works with sensor data from a single procedure. The result of this is that only observations from the same \ac{sos} could be used, as different procedures were implemented by the organisations maintaining the \ac{sos}. Therefore, I propose 
+When sensor data is retrieved from the discovered \aclp{sos} and aggregated the \ac{om} observation schema is being reused. However, this only works with sensor data from a single procedure. The result of this is that only observations from the same \ac{sos} fit in the \ac{om} obsveration schema, as different procedures were implemented by the different organisations maintaining a \ac{sos}. Therefore, I propose to either allow the procedure to be nullable in the schema or to allow an array of multiple procedures to be placed inside the procedure element.  
 
 
 \paragraph{To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?}\mbox{}
