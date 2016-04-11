@@ -2,7 +2,7 @@
 
 % ~10 pages 
 
-\chapter{Implementation}
+\chapter{Design}
 \label{chap:impl}
 
 Proposed design using the methods are described in this chapter.
@@ -25,9 +25,10 @@ The \ac{corine} 2012 land cover dataset contains features with an identifier, a 
 The \ac{eea} reference grid with resolutions of 10km\textsuperscript{2} and 100km\textsuperscript{2}. Every feature is defined by an identifier, a resolution and a point geometry of the origin (Figure \ref{fig:Static}). The identifier is a code given to a feature by the \ac{eea} and has the form of: resolution + `E' + x coordinate + `N' + y coordinate.   
 
 \section{Publishing linked data}
+\label{par:publishLD}
 Setting up the Strabon (Figure \ref{fig:Strabon}), Apache Tomcat and Pubby software. 
 
-The Strabon and Parliament endpoint have been tested since they both handle GeoSPARQL queries. Strabon has been used in the final implementation, because the Parliament endpoint rejected certain longer queries (see \ref{par:spQueries}). \\
+The Strabon and Parliament endpoint have been tested since they both handle GeoSPARQL queries. Strabon has been used in the final design, because the Parliament endpoint rejected certain longer queries (see \ref{par:spQueries}). \\
 
 Pubby software in combination with Apache Tomcat allows for a user interface that is easier to navigate through for humans. The links stored in \ac{rdf} triples are represented as hyperlinks which can be used to navigate between pages about different concepts. \\
 
@@ -70,6 +71,7 @@ Setting it up on the university server
 
 
 \section{Retrieving metadata from the Sensor Observation Service}
+\label{chap:retrieveSOS}
 The metadata is automatically retrieved from the \ac{sos} according to Figure \ref{fig:SOS_UML}. A \ac{sos} is maintained by an organisation, of which the name is retrieved, as well as whether they charge fees or have implemented access constraints for using the \ac{sos}. In most cases the use is free of charge and without access constraints. However, it is possible for an organisation to restrict the use of the \ac{sos} in these ways. 
 
 In the \ac{swe} standards a sensor is modelled using two entities: a procedure and a feature of interest. The procedure is the method of sensing and the feature of interest is the feature of which the sensor is sensing a certain property. Therefore, the observable property ties together the procedure and feature of interest. It should be noted that the geometry of a feature of interest is not necessarily always a point geometry. It can also be generalized into larger features (e.g. multiple sensors observing different parts of one lake). 
