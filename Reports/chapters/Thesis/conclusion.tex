@@ -1,19 +1,32 @@
-%!TEX root = thesis.tex
+% !TeX root = ../../thesis.tex
 
 % ~2 pages 
 \chapter{Conclusion}
 \label{chap:conclusion}
 
-\section{Research question}
-This thesis aims to design a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. The following question will be answered in this research:   
-\textit{To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?} \\
+This thesis aimed to design a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Each of the subquestions posed in the introduction will be answered followed by the main research question.
 
-Subquestions:
-\begin{itemize}
-	\item To what extent can sensor metadata be automatically retrieved from a SOS and published
-	on the semantic web?
-	\item How can metadata on the semantic web be linked to relevant features-of-interest using
-	existing vocabularies?
-	\item To what extent can already existing standards for retrieving geographic data be used for
-	a service that supplies integrated and aggregated sensor data?
-\end{itemize}
+\paragraph{To what extent can sensor metadata be automatically retrieved from a SOS and published
+	on the semantic web?}\mbox{}
+
+Data inside a \acl{sos} can be automatically converted to linked data. However, in the current implementation of the schema's for \ac{sos} (\url{http://schemas.opengis.net/sos/2.0}) and \ac{om} (\url{http://schemas.opengis.net/om/2.0/}) identifiers for features of interest, observed properties and procedures can be `any \ac{uri}'. This means that an \ac{url} with semantics can be provided, but a non-semantic \ac{uri} would also be valid. I propose to make the standard more strict and require a semantic \ac{url} that can be resolved to an \ac{rdf} document.
+
+In this thesis the om-lite and sam-lite ontologies have been used to make linked data from the \ac{sos} metadata. However, a number of classes should be added to these ontologies to make it suit this process better. First of all, a class that distinguishes the process of creating an observation from the physical device that uses this process. This `sensor' class could be modelled as a device that uses a procedure at a certain sampling point.
+
+Another class that should be represented in an ontology is the \acl{sos}. The current prototype design (Chapter \ref{chap:impl}) used a single endpoint for storing all \ac{sos} semantics. Therefore, it was known that the source of data is a \ac{sos}, but it is not properly defined in a linked data ontology. If programs crawling the semantic web can identify a data source such as a \ac{sos} and `understand' its allowed queries (\texttt{GetCapabilities}, \texttt{GetObservation}, etcetera), they will know how to retrieve data from it.  
+
+%Semantically defining the \ac{sos} and its allowed queries opens the door to automatically combining, analysing or processing data from different \ac{ogc} geo web services. If all \ac{ogc} geo web services and their queries are part of an ontology a \ac{gis} would be able to use these services without having built-in knowledge on how they work. Future versions of a services or the addition of a service could take place by extending the ontology instead of updating each installation of a \ac{gis}.             
+
+\paragraph{What is an efficient balance between the semantic web and the geo web in the chain of discovering, retrieving and processing sensor data?}\mbox{}
+
+
+
+\paragraph{To what extent can already existing standards for retrieving data be (re)used for
+	a service that supplies integrated and aggregated sensor data?}\mbox{}
+
+All data models and services in this thesis have been used because they are based on open standards. Designs for two processes have been explored: an automated process for creating linked data from metadata in a \ac{sos} and a process for discovering, retrieving and processing sensor data.
+
+
+\paragraph{To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?}\mbox{}
+
+An online knowledge base with linked metadata extracted from \aclp{sos} makes sensor data easy to discover. It allows for automatic data retrieval and processing. It can be generated from any SOS, if there are a minimum of semantics provided. 
