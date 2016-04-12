@@ -76,7 +76,7 @@ def capabilities(SOS):
 			# if (proc[:4].lower() == 'http'):
 			#   uriProcedure = URIRef(proc)
 			# else:
-			uriProcedure = URIRef("{0}/PROC_{1}".format(baseURI, count).replace(' ','') ) 
+			uriProcedure = URIRef("{0}/{1}_PROC_{2}".format(baseURI, SOS.organisation.replace(' ', ''), count).replace(' ','') ) 
 			# Create a PURL for every procedure URI 
 			CreatePurls([uriProcedure], purlBatch)
 
@@ -84,7 +84,7 @@ def capabilities(SOS):
 				# if (observedProperty[:4] == 'http'):
 				#   obsProperty = URIRef(observedProperty)
 				# else:
-				obsProperty = URIRef("{0}/OBSERVED_{1}".format(baseURI, observedProperty.replace(' ','').replace('http://','').replace('.','_').replace('/','_') ) ) 
+				obsProperty = URIRef("{0}/{1}_OBSERVED_{2}".format(baseURI, SOS.organisation.replace(' ', ''), observedProperty.replace(' ','').replace('http://','').replace('.','_').replace('/','_') ) ) 
 				# Create a PURL for every observed property URI 
 				CreatePurls([obsProperty], purlBatch)
 				
@@ -113,12 +113,12 @@ def capabilities(SOS):
 					continue
 
 				if StandardObsProperty == '':
-					print "I have no clue what {0} is...".format(obsProperty)
+					# print "I have no clue what {0} is...".format(obsProperty)
 					continue
-				else: 
-				  print obsProperty, "==", StandardObsProperty
+				# else: 
+				#   print obsProperty, "==", StandardObsProperty
 
-				StandardCollection = URIRef("{0}/FOI_Collection_{1}".format(baseURI, StandardObsProperty).replace(' ','') )
+				StandardCollection = URIRef("{0}/{1}_FOI_Collection_{2}".format(baseURI, SOS.organisation, StandardObsProperty).replace(' ','') )
 				if StandardCollection in definedCollections:
 					# the collection is already defined 
 					pass
