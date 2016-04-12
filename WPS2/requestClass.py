@@ -527,7 +527,7 @@ class Request():
                         WHERE {{
                            ?collection <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://def.seegrid.csiro.au/ontology/om/sam-lite#SamplingCollection> .
                            ?collection <http://def.seegrid.csiro.au/ontology/om/om-lite#observedProperty> <{0}> .
-                           <http://dbpedia.org/resource/Nitrogen_dioxide> <http://www.w3.org/2002/07/owl#sameAs> ?obsProperty .
+                           <{0}> <http://www.w3.org/2002/07/owl#sameAs> ?obsProperty .
                            ?obsProperty <http://xmlns.com/foaf/0.1/name> ?obsPropertyName .
                            ?collection <http://def.seegrid.csiro.au/ontology/om/sam-lite#member> ?FOI .
 
