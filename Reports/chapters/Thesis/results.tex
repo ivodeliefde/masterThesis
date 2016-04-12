@@ -36,4 +36,6 @@ Creating a bounding box around a vector feature and make \texttt{GetObservation}
 During the implementation a problem has come up regarding the order in which latitude and longitude are being presented in the \ac{sos}. The \ac{sos} of the \ac{rivm} provides point geometries in WGS84 as longitude, latitude and height. However, the Strabon endpoint expects the order to be latitude, longitude and height. This results false outcomes of spatial queries.    
 
 \section{Output data}
-Data is now outputted in \ac{xml} according to the \ac{om} schema. However, can this schema really handle aggregated data?
+Data is outputted in \ac{xml} or \ac{json} according to the \ac{om} schema. However, this schema cannot be used when different processes have been used by the data that has been aggregated.
+
+ 
