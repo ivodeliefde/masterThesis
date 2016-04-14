@@ -7,3 +7,5 @@
 Include more standards besides \ac{sos}, such as tinySOS and SensorThings \ac{api}.
 
 Extend current ontologies with semantics about OGC geo web services such as \ac{sos} and their allowed requests.
+
+Improving performance: currently discovering sensors is fast for bounding box or raster queries. Vector queries take up more time, but is still relatively fast. However, real performance improvements could still be gained in the automatic querying of a \ac{sos}. Currently for every sensor a request is send, but this could probably be improved by requesting all sensor data from the same \ac{sos} using fewer or perhaps even using only a single request.  
