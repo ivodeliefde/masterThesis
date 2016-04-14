@@ -1265,7 +1265,8 @@ class Request():
                                             "blockSeparator": ";",
                                             "decimalSeparator": ".",
                                             "tokenSeparator": ",",
-                                            "observationDataArray": [] 
+                                            "observationDataArray": [], 
+                                            "uom": uom 
                                         }
                                     }
                                     
