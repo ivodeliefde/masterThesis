@@ -20,6 +20,10 @@
 \usepackage[english]{babel}
 \usepackage{seqsplit}  
 
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
 
 \usepackage{listings}
 \lstset{frame=tb,
@@ -72,8 +76,10 @@
 %******************************************************************
 \pagenumbering{arabic}
 \input{chapters/Thesis/introduction}
+\input{chapters/Thesis/concepts}
 \input{chapters/Thesis/relatedwork}
 \input{chapters/Thesis/methods}
+\input{chapters/Thesis/data}
 \input{chapters/Thesis/implementation}
 \input{chapters/Thesis/results}
 \input{chapters/Thesis/conclusion}
@@ -85,7 +91,7 @@
 % Backmatter
 %******************************************************************
 \appendix
-\input{chapters/Thesis/data}
+\input{appendices/WPSresponses}
 
 %%%
 %- bibliography
