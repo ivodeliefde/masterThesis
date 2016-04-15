@@ -1,0 +1,200 @@
+% !TeX root = ../thesis.tex
+\lstset{
+	basicstyle=\ttfamily,
+	columns=fullflexible,
+	showstringspaces=false,
+	commentstyle=\color{gray}\upshape
+}
+
+\lstdefinelanguage{XML}
+{
+	morestring=[b]",
+	morestring=[s]{>}{<},
+	morecomment=[s]{<?}{?>},
+	stringstyle=\color{black},
+	identifierstyle=\color{darkblue},
+	keywordstyle=\color{cyan},
+	morekeywords={xml,xsi,xmlns,version,type,xlink}% list your attributes here
+}
+
+
+\chapter{Web Processing Service Response Documents}
+\label{app:WPS}
+
+\section{Example Capabilities Document}
+
+\begin{lstlisting}[language=xml]
+<wps:Capabilities xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WPS" version="1.0.0" xml:lang="en-CA" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsGetCapabilities_response.xsd" updateSequence="1">
+	<ows:ServiceIdentification>
+		<ows:Title>PyWPS Server</ows:Title>
+		<ows:Abstract>
+			See http://pywps.wald.intevation.org and http://www.opengeospatial.org/standards/wps
+		</ows:Abstract>
+		<ows:Keywords>
+			<ows:Keyword>WPS</ows:Keyword>
+			<ows:Keyword>SWE</ows:Keyword>
+			<ows:Keyword>SOS</ows:Keyword>
+		</ows:Keywords>
+		<ows:ServiceType>WPS</ows:ServiceType>
+		<ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+		<ows:Fees>None</ows:Fees>
+		<ows:AccessConstraints>none</ows:AccessConstraints>
+	</ows:ServiceIdentification>
+	<ows:ServiceProvider>
+		<ows:ProviderName>Delft University of Technology</ows:ProviderName>
+		<ows:ProviderSite xlink:href="http://masterthesistudelft.herokuapp.com/"/>
+		<ows:ServiceContact>
+		<ows:IndividualName>Ivo de Liefde</ows:IndividualName>
+		<ows:PositionName>MSc. student Geomatics for the Built Environment</ows:PositionName>
+		<ows:ContactInfo>
+			<ows:Address>
+			<ows:DeliveryPoint>Julianalaan 134</ows:DeliveryPoint>
+			<ows:City>Delft</ows:City>
+			<ows:PostalCode>2628 BL</ows:PostalCode>
+			<ows:Country>the Netherlands</ows:Country>
+			<ows:ElectronicMailAddress>i.deliefde@student.tudelft.nl</ows:ElectronicMailAddress>
+			</ows:Address>
+			<ows:OnlineResource xlink:href="http://masterthesistudelft.herokuapp.com/"/>
+			<ows:HoursOfService>0:00-24:00</ows:HoursOfService>
+			<ows:ContactInstructions>none</ows:ContactInstructions>
+		</ows:ContactInfo>
+		<ows:Role>
+			Created WPS
+		</ows:Role>
+		</ows:ServiceContact>
+	</ows:ServiceProvider>
+	<ows:OperationsMetadata>
+		<ows:Operation name="GetCapabilities">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://localhost/cgi-bin/wps?"/>
+					<ows:Post xlink:href="http://localhost/cgi-bin/wps"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="DescribeProcess">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://localhost/cgi-bin/wps?"/>
+					<ows:Post xlink:href="http://localhost/cgi-bin/wps"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="Execute">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://localhost/cgi-bin/wps?"/>
+					<ows:Post xlink:href="http://localhost/cgi-bin/wps"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+	</ows:OperationsMetadata>
+	<wps:ProcessOfferings>
+		<wps:Process wps:processVersion="1.0">
+			<ows:Identifier>LinkedDataFromSOS</ows:Identifier>
+			<ows:Title>Creates Linked Data of SOS metadata</ows:Title>
+			<ows:Abstract>
+				This process takes an HTTP address of a Sensor Observation Service (SOS) as input and converts the metadata to linked data.
+			</ows:Abstract>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.0">
+			<ows:Identifier>GetSensors</ows:Identifier>
+			<ows:Title>
+				Automatically retrieves sensors from heterogenous sources using the semantic web
+			</ows:Title>
+			<ows:Abstract>
+				This process takes a sensor data request with parameters for spatial features of interest, observed property, temporal range and granularity, and finds all relevant sensor data sources on the semantic web.
+			</ows:Abstract>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.0">
+			<ows:Identifier>GetSensorData</ows:Identifier>
+			<ows:Title>
+				Automatically retrieves, integrates and aggregates heterogenous sensor data using the semantic web
+			</ows:Title>
+			<ows:Abstract>
+			This process takes sensors found by the WPS 'GetSensors' and automatically integrates and aggregates the data from different sources on the web.
+			</ows:Abstract>
+		</wps:Process>
+	</wps:ProcessOfferings>
+	<wps:Languages>
+		<wps:Default>
+			<ows:Language>en-CA</ows:Language>
+		</wps:Default>
+		<wps:Supported>
+			<ows:Language>en-CA</ows:Language>
+		</wps:Supported>
+	</wps:Languages>
+	<wps:WSDL xlink:href="http://localhost/cgi-bin/wps?WSDL"/>
+</wps:Capabilities>
+\end{lstlisting}
+
+\clearpage
+
+\section{Example Describe Sensor Document}
+
+\begin{lstlisting}[language=xml]
+	<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA">
+	<ProcessDescription wps:processVersion="1.0" storeSupported="true" statusSupported="false">
+		<ows:Identifier>LinkedDataFromSOS</ows:Identifier>
+		<ows:Title>Creates Linked Data of SOS metadata</ows:Title>
+		<ows:Abstract>
+			This process takes an HTTP address of a Sensor Observation Service (SOS) as input and converts the metadata to linked data.
+		</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>observed_properties</ows:Identifier>
+				<ows:Title>
+					Input link to turtle file with mappings of observed property identifiers to DBPedia URIs
+				</ows:Title>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>http://inspire.rivm.nl/sos/eaq/service?</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>input_url</ows:Identifier>
+				<ows:Title>
+					Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'
+				</ows:Title>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>http://inspire.rivm.nl/sos/eaq/service?</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>
+\end{lstlisting}
+
+\clearpage
+
+\section{Example Execute Document}
+\begin{lstlisting}[language=xml]
+<wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA" serviceInstance="http://localhost/cgi-bin/wps?service=WPS&request=GetCapabilities&version=1.0.0" statusLocation="http://localhost/wps/wpsoutputs/pywps-146072575066.xml">
+	<wps:Process wps:processVersion="1.0">
+		<ows:Identifier>GetSensors</ows:Identifier>
+		<ows:Title>
+			Automatically retrieves sensors from heterogenous sources using the semantic web
+		</ows:Title>
+		<ows:Abstract>
+			This process takes a sensor data request with parameters for spatial features of interest, observed property, temporal range and granularity, and finds all relevant sensor data sources on the semantic web.
+		</ows:Abstract>
+	</wps:Process>
+	<wps:Status creationTime="2016-04-15T15:09:52Z">
+		<wps:ProcessSucceeded>PyWPS Process GetSensors successfully calculated</wps:ProcessSucceeded>
+	</wps:Status>
+	<wps:ProcessOutputs>
+		<wps:Output>
+			<ows:Identifier>output</ows:Identifier>
+			<ows:Title>Output sensor data</ows:Title>
+			<wps:Data>
+				<wps:ComplexData mimeType="text/JSON">
+					OUTPUT JSON DATA
+				</wps:ComplexData>
+			</wps:Data>
+		</wps:Output>
+	</wps:ProcessOutputs>
+</wps:ExecuteResponse>
+\end{lstlisting}
