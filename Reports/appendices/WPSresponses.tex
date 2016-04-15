@@ -22,7 +22,7 @@
 \label{app:WPS}
 
 \section{Example Capabilities Document}
-
+\label{app:wpsCapabilities}
 \begin{lstlisting}[language=xml]
 <wps:Capabilities xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WPS" version="1.0.0" xml:lang="en-CA" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsGetCapabilities_response.xsd" updateSequence="1">
 	<ows:ServiceIdentification>
@@ -131,7 +131,7 @@
 \clearpage
 
 \section{Example Describe Sensor Document}
-
+\label{app:wpsDescribe}
 \begin{lstlisting}[language=xml]
 	<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA">
 	<ProcessDescription wps:processVersion="1.0" storeSupported="true" statusSupported="false">
@@ -171,6 +171,7 @@
 \clearpage
 
 \section{Example Execute Document}
+\label{app:wpsExecute}
 \begin{lstlisting}[language=xml]
 <wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA" serviceInstance="http://localhost/cgi-bin/wps?service=WPS&request=GetCapabilities&version=1.0.0" statusLocation="http://localhost/wps/wpsoutputs/pywps-146072575066.xml">
 	<wps:Process wps:processVersion="1.0">
