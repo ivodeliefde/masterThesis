@@ -59,14 +59,14 @@ The \texttt{GetObservationByID} request is an extension that let's users retriev
 
 
 \subsection{Get feature of interest}
-
+The \texttt{GetFeatureOfInterest} request allows to retrieve information about the feature of interest of a certain observation. The response can be all features of interest or only ones that are related to a specific observed property, procedure or spatial filter. This request also allows logical operators, for example: \enquote{GetFeatureOfInterest ( observedProperty := temperature AND procedure := thermometerX OR anemometerY )} \citep[p. 40]{SW:OGC2}. The response is a document with `GFI\_features' (\ac{iso} 19109) \citep{GEO:ISO}, which are implemented in the \ac{gml} (\ac{iso} 19136) \citep{GEO:ISO2} by the element gml:AbstractFeature and type gml:AbstractFeatureType \citep[p. 38]{SW:ISO}.
 
 \subsection{Transactional extensions}
 It is possible to update the content of a \ac{sos} using transactional request. There are six of these requests that could be implemented: \texttt{InsertCapabilities}, \texttt{InsertObservation}, \texttt{InsertSensor}, \text{DeleteSensor}, \texttt{InsertResultTemplate} and \texttt{InsertResult}. \texttt{InsertCapabilities} allows a request to add data to the capabilities document described in Paragraph \ref{par:capabilities}. The request contains three mandatory parameters and one optional parameter: it is required to have the \texttt{procedureDescriptionFormat}, \texttt{FeatureOfInterestType} and \texttt{ObservationType}. Optionally, \texttt{SupportedEncoding} could be added to the request. An \texttt{InsertCapabilities} should be made in combination with a \texttt{InsertObservation}, \texttt{InsertSensor} or \texttt{InsertResult} request.
 
 A \texttt{InsertResultTemplate} request allows to upload a template for result values. It should contain data about the offering, the observation template, the result structure and result encoding. The actual results can be added later using an \texttt{InsertResult} request. This request is different from the \texttt{InsertObservation} request, as it only inserts the result value of an observation, assuming that the metadata is already present in the \ac{sos}. This is useful when there is limited communication bandwidth and processing power. This request has two mandatory parameters: a pointer to the template and the observation value to be inserted. An \texttt{InsertObservation} request allows observations to be added to a registered sensor system. It also has two mandatory parameters: a pointer to an offering and the observation to be inserted.
 
-Individual sensors can be inserted or deleted using \texttt{InsertSensor} and \texttt{DeleteSensor} requests. For inserting a sensor the following parameters are required: the procedure description format, a procedure description, the observable property, a feature of interest type and an observation type. For deleting a sensor 
+Individual sensors can be inserted or deleted using \texttt{InsertSensor} and \texttt{DeleteSensor} requests. For inserting a sensor the following parameters are required: the procedure description format, a procedure description, the observable property, a feature of interest type and an observation type. For deleting a sensor an identifier that points to a specific sensor needs to be passed as a parameter.
 
 \section{Semantic web}
 
