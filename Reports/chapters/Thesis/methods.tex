@@ -22,9 +22,10 @@ Since data on the web has a distributed nature it can be questioned whether cent
 
 
 \section{Sensor observation service}
-There are three core requests that can be made to retrieve sensor (meta)data from a \ac{sos}: \texttt{GetCapabilities}, \texttt{DescribeSensor} and \texttt{GetObservation}. \texttt{Get} \texttt{Capabilities} returns a complete overview of what the \ac{sos} has to offer. The \texttt{DescribeSensor} request returns detailed information about individual sensors. These three core requests are mandatory in a \ac{sos} under the 2.0 specifications \citep{SW:OGC2}. There are also a number of optional extensions to a \ac{sos}. Requests can be made as a \ac{http} GET request or a \ac{http} POST request. There can be different response formats. Usually there is at least the option to retrieve the response as an \ac{xml} document. Based on the specification by \cite{SW:OGC2} this paragraph describes the core and optional requests of a \ac{sos}, as well as the structure of their responses. 
+There are three core requests that can be made to retrieve sensor (meta)data from a \ac{sos}: \texttt{GetCapabilities}, \texttt{DescribeSensor} and \texttt{GetObservation}. \texttt{Get} \texttt{Capabilities} returns a complete overview of what the \ac{sos} has to offer. The \texttt{DescribeSensor} request returns detailed information about individual sensors. These three core requests are mandatory in a \ac{sos} under the 2.0 specifications \citep{SW:OGC2}. There are also a number of optional extensions to a \ac{sos}: \texttt{GetFeatureOfInterest}, \texttt{GetObservationById}, \texttt{InsertCapabilities}, \texttt{InsertObservation}, \texttt{InsertSensor}, \text{DeleteSensor}, \texttt{InsertResult}, \texttt{InsertResultTemplate} and \texttt{GetResultTemplate}. Requests can be made as a \ac{http} GET request or a \ac{http} POST request. There can be different response formats, but there is always at least the option to retrieve the response as an \ac{xml} document. Based on the specification by \cite{SW:OGC2} the following paragraphs describe the core and optional requests of a \ac{sos}, as well as the structure of their responses. 
 
 \subsection{Get capabilities}
+\label{par:capabilities}
 The \texttt{GetCapabilities} request is the first step in communicating with a \ac{sos}. The request is made by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&request=GetCapabilities}. It returns a document including information on what the service has to offer. The document contains a number of sections: service identification, service provider, operations metadata, filter capabilities and contents. 
 
 In the service identification section there is general information about the service, such as the title and supported \ac{sos} versions, but also whether there are fees or access constraints. The service provider section contains details on which organisation provides the \ac{sos} and lists their contact information. The operations metadata section lists the supported request types. It also contains an overview of all features-of-interest, observed properties, procedures and offerings. Offerings are similar to layers in a \ac{wms}, grouping together observations collected by one procedure.
@@ -52,7 +53,20 @@ The \texttt{DescribeSensor} request gives detailed information on a specific sen
 
 Using \texttt{GetObservation} actual measurements can be retrieved. The request is made by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&version=2.0.0\&request=GetObservation}. This returns a response with the default parameters, which can differ from one \ac{sos} to another. To further specify the request, optional paramaters can be added such as: observed property, procedure, feature-of-interest, offering and outputformat. Spatial and temporal filters can be added if these are supported by the service. 
 
+The \texttt{GetObservationByID} request is an extension that let's users retrieve an observation using an identifier that points to a certain observation. 
+
 % write about OM observation schema
+
+
+\subsection{Get feature of interest}
+
+
+\subsection{Transactional extensions}
+It is possible to update the content of a \ac{sos} using transactional request. There are six of these requests that could be implemented: \texttt{InsertCapabilities}, \texttt{InsertObservation}, \texttt{InsertSensor}, \text{DeleteSensor}, \texttt{InsertResultTemplate} and \texttt{InsertResult}. \texttt{InsertCapabilities} allows a request to add data to the capabilities document described in Paragraph \ref{par:capabilities}. The request contains three mandatory parameters and one optional parameter: it is required to have the \texttt{procedureDescriptionFormat}, \texttt{FeatureOfInterestType} and \texttt{ObservationType}. Optionally, \texttt{SupportedEncoding} could be added to the request. An \texttt{InsertCapabilities} should be made in combination with a \texttt{InsertObservation}, \texttt{InsertSensor} or \texttt{InsertResult} request.
+
+A \texttt{InsertResultTemplate} request allows to upload a template for result values. It should contain data about the offering, the observation template, the result structure and result encoding. The actual results can be added later using an \texttt{InsertResult} request. This request is different from the \texttt{InsertObservation} request, as it only inserts the result value of an observation, assuming that the metadata is already present in the \ac{sos}. This is useful when there is limited communication bandwidth and processing power. This request has two mandatory parameters: a pointer to the template and the observation value to be inserted. An \texttt{InsertObservation} request allows observations to be added to a registered sensor system. It also has two mandatory parameters: a pointer to an offering and the observation to be inserted.
+
+Individual sensors can be inserted or deleted using \texttt{InsertSensor} and \texttt{DeleteSensor} requests. For inserting a sensor the following parameters are required: the procedure description format, a procedure description, the observable property, a feature of interest type and an observation type. For deleting a sensor 
 
 \section{Semantic web}
 
@@ -149,12 +163,26 @@ To publish data on the semantic web ontologies are required to specify the diffe
 %There are many different ways to aggregate sensor data, for example by taking the minimum value, the maximum value, the average value, the sum, etc. Also, spatial aggregation techniques (based on neighbourhood analysis) can be considered to adjust for spatio-temporal irregularities as mentioned by \cite{SW:Ganesan}. In order to determine which method of aggregation is applicable for a specific kind of sensor data the sensor metadata will contain links to appropriate aggregation methods. However, which methods are appropriate should be based on expert knowledge.
 
 \section{Web Processing Service}
+The \ac{ogc} \acl{wps} is a standard interface for making simple or complex computational processing services accessible as web services. Originally, it has been created with spatial processes in mind, but it can also be used to insert non-spatial processing into a web services environment \citep[p. 8]{GEO:OGC}. Via the \ac{wps} jobs can be controlled and monitored, which run certain processes (Figure \ref{fig:WPSmodel}). Similar to \ac{wfs}, \ac{wps} and \ac{sos}, the \ac{wps} has requests for retrieving metadata: \texttt{GetCapabilities} and \texttt{DescribeProcess}. On top of that there are is the \texttt{Execute} request to execute a process, and a number of other requests for various purposes: \texttt{GetStatus}, \texttt{GetResult} and \texttt{Dismiss}. All requests will be briefly described in this paragraph.  
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{UML/WPSmodel.png}
+	\caption{Artifacts of the \ac{wps} service model \citep[p. 15]{GEO:OGC}}
+	\label{fig:WPSmodel}
+\end{figure}
 
 \subsection{Get Capabilities}
 
 \subsection{Describe Process}
 
 \subsection{Execute}
+
+\subsection{Get Status}
+
+\subsection{Get Result}
+
+\subsection{Dismiss}
 
 \section{Data}
 A more detailed description of the data can be found in Appendix \ref{chap:data}.
