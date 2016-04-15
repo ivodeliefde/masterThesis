@@ -6,7 +6,7 @@
 
 This thesis aimed to design a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Each of the four subquestions posed in the introduction will be answered in this chapter before addressing the main research question.
 
-\paragraph{\textbf{Subquestion 1.} To what extent can sensor metadata be automatically retrieved from any SOS?}\mbox{}
+\section*{\textbf{Subquestion 1.} To what extent can sensor metadata be automatically retrieved from any SOS?}%\mbox{}
 
 Data inside a \acl{sos} can be automatically retrieved from a \ac{sos}, using the methods described in Paragraph \ref{chap:retrieveSOS}. However, there are two things in the \ac{swe} standards that should be improved to make the proposed design work better. 
 
@@ -16,7 +16,7 @@ Secondly, in the current implementation of the \ac{xml} schemas for \ac{sos} (\u
 
 Besides the two changes that should be made to the \ac{swe} standards there is another issue with automatically retrieving sensor metadata from a \ac{sos}, namely the order of coordinates for a feature of interest. Both \aclp{sos} used in this thesis had a different order for the latitude and the longitude of their point coordinates. This is a standardisation issue already identified by many authors, which should be decided upon by the geomatics and geoscience community. For the method described in this thesis it is irrelevant which order is being used, as long as its clearly described in individual cases or prescribed using an international standard.
 
-\paragraph{\textbf{Subquestion 2.} To what extent can sensor metadata from a SOS be automatically converted to linked data and published on the semantic web?}\mbox{}
+\section*{\textbf{Subquestion 2.} To what extent can sensor metadata from a SOS be automatically converted to linked data and published on the semantic web?}%\mbox{}
 
 In a \ac{sos} there are \ac{xml} schemas that contain general semantics about the metadata. They identify what the different \acp{uri} represent (e.g. observed properties, procedures, features of interest). The om-lite and sam-lite ontologies have been used to make linked data from this metadata. However, a number of classes should be added to these ontologies to make it suit this process better. First of all, a class is required that distinguishes the \textit{process} of creating an observation from the physical \textit{device} that uses this process. This `sensor' class could be modelled as a device that uses a procedure at a certain sampling point. Adding this class takes away some of the ambiguity between defined processes and actually deployed sensors. Therefore, it will be easier to perform (spatial) \ac{sparql} queries that return deployed sensors of which data can be retrieved.  
 
@@ -24,7 +24,7 @@ Another class that should be represented in an ontology is the \acl{sos}. The cu
 
 %Semantically defining the \ac{sos} and its allowed queries opens the door to automatically combining, analysing or processing data from different \ac{ogc} geo web services. If all \ac{ogc} geo web services and their queries are part of an ontology a \ac{gis} would be able to use these services without having built-in knowledge on how they work. Future versions of a services or the addition of a service could take place by extending the ontology instead of updating each installation of a \ac{gis}.             
 
-\paragraph{\textbf{Subquestion 3.} What is an effective balance between the semantic web and the geo web in the chain of discovering, retrieving and processing sensor data?}\mbox{}
+\section*{\textbf{Subquestion 3.} What is an effective balance between the semantic web and the geo web in the chain of discovering, retrieving and processing sensor data?}%\mbox{}
 
 A number of authors have shown that triple stores do not perform as good as databases when their data is requested via a web application. On the other hand, linked data is very well suited for discovering data as it is literally `linked' to related data. Therefore, this thesis aimed to design a method for using the semantic web in combination with sensor web applications, where the semantic web contains metadata and the geoweb observation data. However, there is a grey area of functions that could be implemented using either on of these two parts of the web. 
 
@@ -40,7 +40,7 @@ However, the down side of the second approach is that the performance is lower. 
 Still, discovering sensors is only a matter of seconds using the second approach. Automatically retrieving sensor data can take up to a couple minutes depending on the amount of sensors for which data is requested and the temporal range. However, it should be noted that performance optimization has not been a part of this thesis. It is likely that this can still be improved significantly (see Chapter \ref{chap:futureResearch}).              
 
 
-\paragraph{\textbf{Subquestion 4.} To what extent can already existing standards for retrieving data be (re)used for a service that supplies integrated and aggregated sensor data?}\mbox{}
+\section*{\textbf{Subquestion 4.} To what extent can already existing standards for retrieving data be (re)used for a service that supplies integrated and aggregated sensor data?}%\mbox{}
 
 All data models and services in this thesis have been used because they are based on open standards. Designs for two processes have been explored: an automated process for creating linked data from metadata in a \ac{sos} and a process for discovering, retrieving and processing sensor data. These processes were created using \ac{ogc} \aclp{wps}, which is a standard \ac{api} for spatial data processes on the web. The \ac{wps} is well suited for these two applications.
 
@@ -49,7 +49,7 @@ The \ac{om} standard could be reused on the semantic web using the om-lite and s
 The \ac{om} observation schema is being reused for the spatially aggregated sensor data that is retrieved from the discovered \aclp{sos}. However, the schema only allows sensor data from the same procedure. The result of this is that only observations from the same \ac{sos} fit in the \ac{om} observation schema, as different procedures were implemented by the different organisations maintaining a \ac{sos}. Therefore, I propose to either allow the procedure to be nullable in the schema or to allow the procedure element to contain an array of multiple procedures.  
 
 
-\paragraph{\textbf{Main question:} To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?}\mbox{}
+\section*{\textbf{Main question:} To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?}%\mbox{}
 % To what extent is it possible to create an online knowledge base of linked metadata extracted from sensor observation services?
 
 In this thesis a method has been designed to create an online knowledge base with linked metadata extracted from \aclp{sos}. This helps discovering, integrating and aggregation sensor data, while for efficient data retrieval the \ac{sos} is still used. The results show that such a knowledge base makes it easy to discover sensors and their corresponding sources. It allows for online processes to automatically retrieve and process sensor data. It can be generated from any \ac{sos}, if there are a minimum of semantics provided. Most \ac{swe} standards can be (re)used, although some need to be changed for the method presented here to work for every implementation of a \ac{sos}. Observed properties and procedures need to be semantically defined by the organisation maintaining a \ac{sos} and linked data ontologies should be extended to define the \acl{sos}. A number of design decisions have been made which will be further discussed in Chapter \ref{chap:disc}. Areas for improving and extending the presented methods are described in Chapter \ref{chap:futureResearch}.

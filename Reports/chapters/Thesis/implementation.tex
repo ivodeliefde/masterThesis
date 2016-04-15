@@ -109,12 +109,12 @@ In Figure \ref{fig:SOS_Semantic_UML} the collection of sampling features only co
 
 Every observed property that is defined in a \ac{sos} relates to a certain observed property as defined by DBPedia. Since \ac{sos} requests require their own identifiers as input the observed property class exists twice in the model: one as defined by the \ac{sos} and one as defined by DBPedia. For the same reason all sampling points, processes and offerings have a `name' attribute in addition to their \ac{uri}. These store the original identifier that they were given by the \ac{sos}.
 
-\section{Establishing inward links from DBPedia}
-Sending triples to DBPedia the project to be uploaded.
+%\section{Establishing inward links from DBPedia}
+%Sending triples to DBPedia the project to be uploaded.
 
-Contains links from DBPedia page of `\acl{sos}' to the semantic definition of the input \ac{sos}, from the DBPedia page of `ozone', `particulate matter' and `nitrogen dioxide' to the corresponding collections of sampling features.
+%Contains links from DBPedia page of `\acl{sos}' to the semantic definition of the input \ac{sos}, from the DBPedia page of `ozone', `particulate matter' and `nitrogen dioxide' to the corresponding collections of sampling features.
 
-Also, the data of administrative units, land cover features and \ac{eea} reference grid cells will be linked to from DBPedia.
+%Also, the data of administrative units, land cover features and \ac{eea} reference grid cells will be linked to from DBPedia.
 
 \section{Prototype implementation}
 The prototype implementation serves as a proof of concept. It looks on the semantic web for sensors that observe a certain property in a specific area. It collects the data for these sensors at their corresponding \acl{sos}. When multiple data sources are found the data is integrated. The sensor data is aggregated before it is returned to the user.
