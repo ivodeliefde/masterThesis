@@ -50,6 +50,7 @@ The \texttt{DescribeSensor} request gives detailed information on a specific sen
 % http://schemas.opengis.net/swes/2.0/swesContents.xsd
 
 \subsection{Get observation}
+\label{par:getObservation}
 
 Using \texttt{GetObservation} actual measurements can be retrieved. The request is made by taking the \ac{http} address of the \ac{sos} and adding \url{service=SOS\&version=2.0.0\&request=GetObservation}. This returns a response with the default parameters, which can differ from one \ac{sos} to another. To further specify the request, optional paramaters can be added such as: observed property, procedure, feature-of-interest, offering and outputformat. Spatial and temporal filters can be added if these are supported by the service. 
 
@@ -187,19 +188,15 @@ A more detailed description of a process listed in the capabilities document of 
 
 
 \subsection{Execute}
-A \ac{wps} process can be started using the \texttt{Execute} request. To make this request the \ac{http} address of the \ac{wps} is extended with: \url{service=wps&version=1.0.0&request=execute&identifier=GetSensors} where the version parameter should be in accordance with the supported version(s) from the capabilities document and the identifier should be taken from the process offerings section of the capabilities document. 
+A \ac{wps} process can be started using the \texttt{Execute} request. To make this request the \ac{http} address of the \ac{wps} is extended with: \url{service=wps&version=1.0.0&request=execute&identifier=GetSensors} where the version parameter should be in accordance with the supported version(s) from the capabilities document and the identifier should be taken from the process offerings section of the capabilities document. Additionally, the desired execution mode can be added to the request (synchronous, asynchronous or auto) as well as the desired output format (response document or raw data). By default the execution mode is set to `document'.
 
-Depending on the individual requirements of the process input parameters can be added using \url{&DataInputs=[parameterName1=value1;parameterName2=value2]}. The parameter names are defined in the describe process response document, as well as the allowed values for each parameter. There are two kinds of input parameters that can be put in a \texttt{Execute} request: literal and complex data inputs. Literal data inputs can be a string of characters in consisting of different data types (e.g. Double, Integer, String), a given value range, and associated units (e.g. meters, degrees Celsius) \citep[p. 36]{GEO:OGC}. 
+\begin{sloppypar}
+	Depending on the individual requirements of the process, input parameters can be added using \url{&DataInputs=[parameterName1=value1;parameterName2=value2]}. The parameter names are defined in the describe process response document, as well as the allowed values for each parameter. There are two kinds of input parameters that can be put in a \texttt{Execute} request: literal and complex data inputs. Literal data inputs can be a string of characters in consisting of different data types (e.g. Double, Integer, String), a given value range, and associated units (e.g. meters, degrees Celsius) \citep[p. 36]{GEO:OGC}. 
+\end{sloppypar} 
 
-Complex data inputs are made for inputting complex vector-, raster- or other kind of data.  
+Complex data inputs are made for inputting complex vector-, raster- or other kind of data. This data can be inserted directly in the request or indirectly by referencing to a file. The process will then first retrieve this file from a remote server before running. A complex data input defines the allowed mime types that the process accepts.  
 
-If the process finishes successfully an execute response document is retrieved. This document contains
-
-An example of an execute response document can be found in Appendix \ref{app:wpsExecute}
+When the process finishes an execute response document is retrieved. This document has a process section with the identifier, title and abstract of the finished process. It also contains a status section with the time the process ended and whether it finished successfully. If any output data has been produced an `ProcessOutputs' section is created that contains the identifiers of the outputs and the corresponding data. An example of an execute response document can be found in Appendix \ref{app:wpsExecute}
 
 \subsection{Other requests}
-\texttt{Get Status}
-
-\texttt{Get Result}
-
-\texttt{Dismiss}
+\ac{wps} processes can run synchronously or asynchronously. With a synchronous execution the connection with the client stays open until the process has finished. However, for processes that take longer to execute the asynchronous mode is better suited. The process will continue running after the connection has been closed. With a \texttt{GetStatus} request the client can check whether the process is still running. This request is structured the same as the execute request, but with the mode set to `status'. Once it has finished the \texttt{GetResult} request allows the client to retrieve the output data. The \texttt{Dismiss} request can be made to communicate to the server that the client is no longer interested in the results of a job. This job will then be cancelled and its output deleted. A job identifier is a required parameter for all three of these requests. 
