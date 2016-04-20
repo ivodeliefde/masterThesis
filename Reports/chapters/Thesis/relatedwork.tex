@@ -10,14 +10,21 @@ A number of research topics are relevant for this thesis: how to use existing st
 \section{Sensor data catalogue service}
 The \ac{ogc} has developed a way of including sensors into a registry.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\linewidth]{figs/sor_sir.png}
+	\caption{Overview of the interaction between SIR, SOR and potential users. By \cite{SW:52North2}}
+	\label{fig:SorSir}
+\end{figure}
+
 \subsection{Sensor observable registry}
 The \ac{sor} is \enquote{a web service interface for managing the definitions of phenomena measured by sensors as well as exploring semantic relationships between these phenomena} \cite[p. vi]{SW:OGC4}. This is a web service developed by \ac{ogc} to enable semantic reasoning on sensor networks, especially concerning phenomenon definitions. This should make it easier to discover sensors that observe a certain phenomenon and to interpret sensor data.
 
 The \ac{sor} has four different requests: \texttt{GetCapabilities}, \texttt{GetDefinition-} \texttt{URNs}, \texttt{GetDefinition} and \texttt{GetMatchingDefinitions}. The \texttt{GetCapabilities} request provides an overview of what the \ac{sor} has to offer. The capabilities document that is returned to the client contains four sections. The service identification section lists general information about the service, such as the title and supported \ac{sor} versions, but also whether there are fees or access constraints. The service provider section contains details on which organisation provides the \ac{sos} and lists their contact information. The operations metadata section lists the supported request types. These sections are required for every \ac{ogc} geoweb service. The fourth section is the content section. This part of the capabilities document contains the following information: the number of entries inside the \ac{sor} instance, keywords describing the content of the \ac{sor} instance, the application domain for which a specific \ac{sor} can be applied and an `ontologyRepositoryURL'. This \ac{url} points to a repository that contains an ontology used by this \ac{sor}.
 
-\texttt{GetDefinitionURNs} returns a list of \acp{urn} identifying the definitions that are present in the \ac{sor}. Optionally a client can filter \acp{urn} by matching the definition with a text string. 
+\texttt{GetDefinitionURNs} returns a list of \acp{urn} identifying the definitions that are present in the \ac{sor}. Optionally a client can add a `SearchSensor' parameter to filter \acp{urn}. This parameter takes a substring that shall occur within the definition \acp{urn} to be returned. Also, a maximum limit for the amount of returned \acp{urn} can be added using the `maxNumberOfResults' parameter. The optional parameter `startResultElement' can be used to input the number of the first returned result element.
 
-For retrieving the definition of a specific \ac{urn} a \texttt{GetDefinition} request can be made. 
+For retrieving the definition of a specific \ac{urn} a \texttt{GetDefinition} request can be made. This request takes an \ac{urn} of the phenomenon for which a definition should be retrieved as input. The definition is returned as a GML dictionary entry.  
 
 \texttt{GetMatchingDefinitions} allows clients to retrieve definitions of observables which in some way are related to another given phenomenon. The relations `generalization', `specialization' and `equivalency' are currently supported for finding matching definitions \citep{SW:OGC4}.   
 
