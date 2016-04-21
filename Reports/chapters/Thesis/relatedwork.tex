@@ -8,7 +8,7 @@
 A number of research topics are relevant for this thesis: how to use existing standards for publishing sensor data to the semantic web, developing ontologies that are suitable for many different kinds of sensor data and how to aggregate sensor data based on geographical features and time. This chapter discusses the recent relevant literature on these topics.  
 
 \section{Sensor metadata in catalogue services}
-The \ac{ogc} has developed a way of including sensors into a catalogue service using sensor registries. The different services related to this are described in this paragraph, starting with the \ac{csw}, after which the \acf{sor} and \acf{sir} services will be presented.
+The \ac{ogc} has developed a way of including sensors into a catalogue service using sensor registries. The different services related to this are described in this paragraph, starting with the \acf{csw}, after which the \acf{sor} and \acf{sir} services will be presented.
 
 \begin{figure}
 	\centering
@@ -18,11 +18,14 @@ The \ac{ogc} has developed a way of including sensors into a catalogue service u
 \end{figure}
 
 \subsection{Catalog service for the web}
+\label{par:CSW}
  The \ac{csw} is an \ac{ogc} standard for a geoweb service that contains \enquote{collections of descriptive information (metadata) for data, services, and related information objects} \citep[p. xiv]{GEO:OGC2}. Figure \ref{fig:CSW} shows the intermediary role of this service between client and data sources. It also shows that the \ac{csw} can use data from three different sources to return to a client: a local metadata repository, a resource service, or another \ac{csw}. The resource service can use an \ac{ogc} interface, but this is not required. 
  
  \begin{sloppypar}
- The \ac{csw} has the following requests for retrieving metadata: \texttt{GetCapabilities},  \texttt{DescribeRecord}, \texttt{GetDomain}, \texttt{GetRecords} and \texttt{GetRecordByID}. Metadata producers can use the \texttt{Transaction} and \texttt{Harvest} requests to respectively change or add content of a \ac{csw}. 
+ The \ac{csw} has the following requests for retrieving metadata: \texttt{GetCapabilities},  \texttt{DescribeRecord}, \texttt{GetDomain}, \texttt{GetRecords} and \texttt{GetRecordByID}. Metadata producers can use the \texttt{Transaction} and \texttt{Harvest} requests to respectively change or add content of a \ac{csw}. The \texttt{GetCapabilities} request returns a capabilities document to the client showing what the service has to offer. This request and response is required for all \ac{ogc} geoweb services and contains sections such as: service identification, service provider, operations metadata and filter capabilities. The service identification section lists general information about the service, such as the title and supported \ac{csw} versions, but also whether there are fees or access constraints. The service provider section contains details on which organisation provides the \ac{sos} and lists their contact information. The operations metadata section lists the supported request types. The filter capabilities show the different filters that are supported by the \ac{csw} instance. 
 \end{sloppypar}
+
+
 
 \begin{figure}
 	\centering
@@ -34,7 +37,7 @@ The \ac{ogc} has developed a way of including sensors into a catalogue service u
 \subsection{Sensor observable registry}
 The \ac{sor} is \enquote{a web service interface for managing the definitions of phenomena measured by sensors as well as exploring semantic relationships between these phenomena} \cite[p. vi]{SW:OGC4}. This is a web service developed by \ac{ogc} to enable semantic reasoning on sensor networks, especially concerning phenomenon definitions. This should make it easier to discover sensors that observe a certain phenomenon and to interpret sensor data.
 
-The \ac{sor} has four different requests: \texttt{GetCapabilities}, \texttt{GetDefinition-} \texttt{URNs}, \texttt{GetDefinition} and \texttt{GetMatchingDefinitions}. The \texttt{GetCapabilities} request provides an overview of what the \ac{sor} has to offer. The capabilities document that is returned to the client contains four sections. The service identification section lists general information about the service, such as the title and supported \ac{sor} versions, but also whether there are fees or access constraints. The service provider section contains details on which organisation provides the \ac{sos} and lists their contact information. The operations metadata section lists the supported request types. These sections are required for every \ac{ogc} geoweb service. The fourth section is the content section. This part of the capabilities document contains the following information: the number of entries inside the \ac{sor} instance, keywords describing the content of the \ac{sor} instance, the application domain for which a specific \ac{sor} can be applied and an `ontologyRepositoryURL'. This \ac{url} points to a repository that contains an ontology used by this \ac{sor}.
+The \ac{sor} has four different requests: \texttt{GetCapabilities}, \texttt{GetDefinition-} \texttt{URNs}, \texttt{GetDefinition} and \texttt{GetMatchingDefinitions}. The \texttt{GetCapabilities} request provides an overview of what the \ac{sor} has to offer. The capabilities document that is returned to the client contains four sections. These sections are required for every \ac{ogc} geoweb service and the first three are the same as described in Paragraph \ref{par:CSW}. The fourth section is the content section. This part of the capabilities document contains the following information: the number of entries inside the \ac{sor} instance, keywords describing the content of the \ac{sor} instance, the application domain for which a specific \ac{sor} can be applied and an `ontologyRepositoryURL'. This \ac{url} points to a repository that contains an ontology used by this \ac{sor}.
 
 \texttt{GetDefinitionURNs} returns a list of \acp{urn} identifying the definitions that are present in the \ac{sor}. Optionally a client can add a `SearchSensor' parameter to filter \acp{urn}. This parameter takes a substring that shall occur within the definition \acp{urn} to be returned. Also, a maximum limit for the amount of returned \acp{urn} can be added using the `maxNumberOfResults' parameter. The optional parameter `startResultElement' can be used to input the number of the first returned result element. For retrieving the definition of a specific \ac{urn} a \texttt{GetDefinition} request can be made. This request takes an \ac{urn} of the phenomenon for which a definition should be retrieved as input. The definition is returned as a \ac{gml} dictionary entry. 
 
