@@ -2,23 +2,31 @@
 
 @Standard{GEO:ISO,
   title =        {{ISO 19109:2005; Geographic information --- Rules for application schema}},
-  organization = {ISO},
-  author =       {{ISO}},
+  organization = {{International Organisation for Standardisation}},
+  author =       {{International Organisation for Standardisation}},
   year =         {2005}
 }
 
 @Standard{GEO:ISO2,
-  title =        {{ISO 19136:2007; Geographic information -- Geography Markup Language (GML)}},
-  organization = {{ISO}},
-  author =       {{ISO}},
+  title =        {{ISO 19136:2007; Geographic information --- Geography Markup Language (GML)}},
+  organization = {{International Organisation for Standardisation}},
+  author =       {{International Organisation for Standardisation}},
   year =         {2007}
 }
 
 @Standard{GEO:OGC,
   title =        {{OGC WPS 2.0 Interface Standard}},
   organization = {{Open Geospatial Consortium}},
-  author =       {{OGC}},
+  author =       {{Open Geospatial Consortium}},
   year =         {2015}
+}
+
+@Standard{GEO:OGC2,
+  title =        {{OGC Catalogue Services Specification}},
+  organization = {{Open Geospatial Consortium}},
+  author =       {{Open Geospatial Consortium}},
+  number =       {07-006r1},
+  year =         {2007}
 }
 
 @Book{GIS:9IM,
@@ -1976,6 +1984,13 @@ This means that 52 North does not only provide the traditional SOS server, but a
   Url                      = {http://52north.org/communities/sensorweb/clients/OX_RESTful_SOS/index.html}
 }
 
+@Misc{SW:52North2,
+  author = {{52 North}},
+  title =  {Sensor Discovery},
+  year =   {2016},
+  note =   {[online] http://52north.org/communities/sensorweb/discovery [accessed on April, 20\textsuperscript{th}, 2016]}
+}
+
 @InCollection{SW:Botts,
   Title                    = {{OGC sensor web enablement: Overview and high level architecture}},
   Author                   = {Botts, Mike and Percivall, George and Reed, Carl and Davidson, John},
@@ -2302,14 +2317,13 @@ Future investigations shall offer a concept to analyze and geoprocess the sensor
 }
 
 @Standard{SW:OGC,
-  Title                    = {{OGC Sensor Web Enablement: Overview And High Level Architecture.}},
-  Organization             = {Open Geospatial Consortium},
-  Author                   = {Botts, Mike and Percivall, George and Reed, Carl and Davidson, John},
-  Note                     = {OGC document 06-021r1},
-  Type                     = {OGC White Paper},
-  Year                     = {2007},
-
-  Abstract                 = {This white paper provides a high-level overview of and architecture for the Open Geospatial
+  title =        {{OGC Sensor Web Enablement: Overview And High Level Architecture.}},
+  organization = {{Open Geospatial Consortium}},
+  author =       {Botts, Mike and Percivall, George and Reed, Carl and Davidson, John},
+  type =         {OGC White Paper},
+  year =         {2007},
+  note =         {OGC document 06-021r1},
+  abstract =     {This white paper provides a high-level overview of and architecture for the Open Geospatial
 Consortium (OGC) standards activities that focus on sensors, sensor networks, and a concept
 called the “Sensor Web”. This OGC focus area is known as Sensor Web Enablement (SWE). For
 readers interested in greater technical and architecture details, please download and read the
@@ -2318,21 +2332,20 @@ OGC SWE Architecture Discussion Paper titled “The OGC Sensor Web Enablement Arch
 Attention is drawn to the possibility that some of the elements of this document may be the
 subject of patent rights. The OGC shall not be held responsible for identifying any or all such
 patent rights.},
-  Owner                    = {Ivo},
-  Review                   = {Precursor paper that presents the different components of the SWE Standards Framework: Observations & Measurements (O&M), Sensor Model Language (SensorML), TransducerML (TML), Sensor Observation Service (SOS), Sensor Planning Service (SPS), Sensor Alert Service (SAS) and Web Notification Service (WNS).},
-  Timestamp                = {2015.11.12}
+  owner =        {Ivo},
+  review =       {Precursor paper that presents the different components of the SWE Standards Framework: Observations & Measurements (O&M), Sensor Model Language (SensorML), TransducerML (TML), Sensor Observation Service (SOS), Sensor Planning Service (SPS), Sensor Alert Service (SAS) and Web Notification Service (WNS).},
+  timestamp =    {2015.11.12}
 }
 
 @Standard{SW:OGC2,
-  Title                    = {{OGC Sensor observation service interface standard}},
-  Organization             = {OGC},
-  Author                   = {Br{\"o}ring, Arne and Stasch, Christoph and Echterhoff, Johannes},
-  Year                     = {2012},
-
-  Journal                  = {Open Geospatial Consortium Interface Standard},
-  Owner                    = {Ivo},
-  Pages                    = {12--006},
-  Timestamp                = {2016.01.20}
+  title =        {{OGC Sensor observation service interface standard}},
+  organization = {{Open Geospatial Consortium}},
+  author =       {Br\"{o}ring, Arne and Stasch, Christoph and Echterhoff, Johannes},
+  year =         {2012},
+  journal =      {Open Geospatial Consortium Interface Standard},
+  owner =        {Ivo},
+  pages =        {12--006},
+  timestamp =    {2016.01.20}
 }
 
 @Misc{SW:OGC3,
@@ -2358,13 +2371,12 @@ patent rights.},
 }
 
 @Standard{SW:OGC5,
-  Title                    = {{OGC OpenSearch Geo and Time Extensions}},
-  Organization             = {Open Geospatial Consortium},
-  Author                   = {Goncalves, Pedro},
-  Note                     = {OGC Implementation Standard},
-  Year                     = {2014},
-
-  Abstract                 = {This document is the specification for the OpenSearch Geo and Time extensions.
+  title =        {{OGC OpenSearch Geo and Time Extensions}},
+  organization = {{Open Geospatial Consortium}},
+  author =       {Goncalves, Pedro},
+  year =         {2014},
+  note =         {OGC Implementation Standard},
+  abstract =     {This document is the specification for the OpenSearch Geo and Time extensions.
 This standard is intended to provide a very simple way to make spatial and temporal
 queries to a repository of geospatial content that contains geographic and temporal
 properties and to allow simple syndication of repositories.
@@ -2378,16 +2390,16 @@ Recipients of this document are requested to submit, with their comments, notifi
 any relevant patent claims or other intellectual property rights of which they may be
 aware that might be infringed by any implementation of the standard set forth in this
 document, and to provide supporting documentation.},
-  Owner                    = {Ivo},
-  Review                   = {OGC standard for discovering sensor data via RSS and Atom},
-  Timestamp                = {2015.11.12}
+  owner =        {Ivo},
+  review =       {OGC standard for discovering sensor data via RSS and Atom},
+  timestamp =    {2015.11.12}
 }
 
 @Standard{SW:OGC6,
-  title =       {{OGC Observations and Measurements --- JSON implementation}},
-  institution = {{Open Geospatial Consortium}},
-  author =      {Cox, S. J. D. and Taylor, P.},
-  year =        {2015}
+  title =        {{OGC Observations and Measurements --- JSON implementation}},
+  organization = {{Open Geospatial Consortium}},
+  author =       {Cox, S. J. D. and Taylor, P.},
+  year =         {2015}
 }
 
 @Article{SW:Stasch,
