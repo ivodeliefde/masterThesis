@@ -1,13 +1,13 @@
 %!TEX root = thesis.tex
 
 
-\chapter{Data}
+\section{Data}
 \label{chap:data}
 
 A number of datasets have been used in this thesis. The following paragraphs will go over the different datasets, describing their sources and contents. 
 
-\section{Vector data}
-\subsection{Topography}
+\subsection{Vector data}
+\subsubsection{Topography}
 \begin{sloppypar}
 	The datasets of Dutch provinces (provincies, Figure \ref{fig:provinces}) and municipalities (gemeenten, Figure \ref{fig:municipalities}) have been downloaded from \url{https://www.pdok.nl/nl/producten/pdok-downloads/basis-registratie-kadaster/bestuurlijke-grenzen-actueel}. For the Netherlands there are 12 features in the provinces and 393 in the municipalities dataset. 
 	
@@ -16,14 +16,14 @@ A number of datasets have been used in this thesis. The following paragraphs wil
 	The country datasets have also been downloaded from \url{http://www.gadm.org/} (Figure \ref{fig:countries}). The administrative unit data contains the names of the administrative units and their (polygon) geometry. 
 \end{sloppypar}
 
-\subsection{Land cover}
+\subsubsection{Land cover}
 \begin{sloppypar}
 	Data on land cover will be used to complement the data of administrative units. A section of the 2012 dataset from the \ac{corine} programme will has been selected for this (Figure \ref{fig:CORINE}). The entire CORINE dataset was retrieved from \url{http://land.copernicus.eu/pan-european/corine-land-cover/clc-2012}. The features overlapping the Netherlands and Belgium have been retrieved from this dataset using the open source QGIS software and stored in a separate database in Postgres. 
 	
 	The database contains polygon geometries (Figure \ref{fig:CORINEZOOM}) with a unique identifier and a code that refers to the type of landcover. These codes can be looked up in the accompanied spreadsheet file containing the legend table of \ac{corine} 2012.  	
 \end{sloppypar}
 
-\section{Raster data}
+\subsection{Raster data}
 Data is often used in a raster representation for computations in a \ac{gis}. For natural phenomenon a raster representation is especially well suited. The \ac{eea} reference grid is a standard grid which covers Europe. It is available with a resolution of 100km\textsuperscript{2}, 10km\textsuperscript{2} and 1km\textsuperscript{2}. In this thesis the \ac{eea} grid cells with a resolution of 100km\textsuperscript{2} (Figure \ref{fig:100KM}) and 10km\textsuperscript{2} (Figure \ref{fig:10KM}) have been used that overlap the Netherlands and Belgium. 15 grid cells of 100km\textsuperscript{2} and 843 grid cells of 10km\textsuperscript{2} have been selected from the original dataset.  
 
 \begin{figure}
@@ -75,7 +75,7 @@ Data is often used in a raster representation for computations in a \ac{gis}. Fo
 	\label{fig:10KM}
 \end{figure}
 
-\section{Sensor data}
+\subsection{Sensor data}
 Air quality sensor data will be used from the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) and from the \ac{ircel} (\url{http://sos.irceline.be/}). Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. The one of the \ac{rivm} has been online since the 21\textsuperscript{st} of August, 2015. \ac{ircel} already made the \ac{sos} available on the first of January, 2011. Figure \ref{fig:RIVMSensor} and Figure \ref{fig:IRCELINESensor} show the sensor networks of both organisations. They provide different kinds of sensor data, such as particulate matter ($PM_{10}$), nitrogen dioxide ($NO^{2}$) and ozone ($O^{3}$). Figure \ref{fig:Sensor} shows one of the sensor locations in the city center of Amsterdam. 
 
 
