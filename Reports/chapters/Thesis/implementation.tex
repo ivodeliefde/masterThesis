@@ -17,7 +17,6 @@ Linked data has been prepared that is used to retrieve and process sensor data o
 	\label{fig:Static}
 \end{figure}
 
-
 Three types of administrative units have been converted to linked data: countries, provinces and municipalities. Every administrative unit has a name, `type' and (multi)polygon geometry assigned to it (Figure \ref{fig:Static}). The administrative unit type is defined by DBPedia \ac{uri}s of country, province and municipality. 
 
 The \ac{corine} 2012 land cover dataset contains features with an identifier, a land cover type and a (multi)polygon geometry (Figure \ref{fig:Static}). The identifier has the form of: `EU-' plus a unique seven digit number. The land cover type is defined by a three digit number, which can looked up in the provided spreadsheet containing the legend.    
@@ -116,17 +115,17 @@ Every observed property that is defined in a \ac{sos} relates to a certain obser
 
 %Also, the data of administrative units, land cover features and \ac{eea} reference grid cells will be linked to from DBPedia.
 
-\section{Prototype implementation}
+\chapter{Prototype implementation}
 The prototype implementation serves as a proof of concept. It looks on the semantic web for sensors that observe a certain property in a specific area. It collects the data for these sensors at their corresponding \acl{sos}. When multiple data sources are found the data is integrated. The sensor data is aggregated before it is returned to the user.
 
-\subsection{Input parameters}
+\section{Input parameters}
 The prototype takes a number of input parameters. First of all, a list with observed properties which will be the 'layers' that the process returns. The second parameter is the category of input features. This can be set to administrative units (country, province or municipality), land cover or raster. The third parameter is a list of input feature. This is a list of names or identifiers that correspond to the category. The next parameter is the temporal range. This has to be a list of two \ac{iso} datetime strings representing the start and end time. The fifth parameter is the temporal granularity, represented by an \ac{iso} delta datetime string. The sixth input parameter is the method of spatial aggregation. This method will be applied to aggregate the data based on the input features. The last input parameter is the temporal aggregation method to aggregate data between start and end time to the required granularity.      
 % for the \ac{eea} reference grid.  
 
-\subsection{Retrieving geometries}
+\section{Retrieving geometries}
 The input category is a starting point for the process to find the geometries of the input features. It creates a \ac{sparql} query to retrieve the geometries of these features. 
 
-\subsection{Spatial queries}
+\section{Spatial queries}
 With the found geometries a \ac{sparql} query is made to find a sensor collection that has a certain observed property. From this collection sensors can be selected that overlap the previously found geometries. Unfortunately \ac{sparql} queries are not allowed to exceed a certain number of characters. This creates problems when querying larger vector geometries (provinces and countries). For these queries two alternatives have been implemented: using the \ac{eea} reference grid as a spatial index for vector geometries and using bounding box queries at the \ac{sos}. 
 
 For the first alternative the \ac{eea} raster cells are retrieved instead of the vector data. Only the cells are requested that overlap with the vector geometry. For these cells all sensor locations are requested. However, the result of this is that too many sensor locations are retrieved, also ones that are outside the original vector feature. Therefore the \ac{wps} performs the spatial filter instead of the \ac{sparql} endpoint and removes all locations that are outside of the requested feature.
@@ -134,7 +133,7 @@ For the first alternative the \ac{eea} raster cells are retrieved instead of the
 The second alternative checks which \aclp{sos} have sensor locations within the bounding box of the vector geometry. For all of them that also observe the correct observed property \texttt{GetObservation} requests are made. In these requests a spatial filter is added. 
 
 
-\subsection{Retrieve sensor data}
+\section{Retrieve sensor data}
 After all sensor locations have been retrieved from the \ac{sparql} endpoint \texttt{GetObservation} requests are made. These require the identifiers that were given to the observed properties and procedures by their \ac{sos}, instead of the semantic \acp{url} that were assigned to them. The requests are structured as explained in Paragraph \ref{par:getObservation}. When possible, the request is extended with a temporal filter to only retrieve data inside the required temporal range. The output format is set to \ac{xml}.
 
 \begin{sloppypar}
@@ -145,18 +144,18 @@ An \ac{swe} data array is an array of observations that share the same metadata.
 
 The data from the received \ac{xml} documents is directly added to an individual comma separated value string per combination of observed property and \ac{uom}. In case the temporal filter could not be used all data is looped over to remove observations outside the temporal range. 
 
-\subsection{Data aggregation}
+\section{Data aggregation}
 After all observation data is retrieved it is first aggregated temporally. An empty dictionary is created to store each temporal granularity range that is inside the requested temporal range for all observations. A loop goes over the comma separated values and sorts them based on their result time per sensor location. The start time is subtracted from the result time, which results the time range from the start of the temporal range to the time of the observation. From this time range a modulo operation calculates how many times the temporal granularity fits in the time range between the start of the temporal range and the time of the observation. The start time is added to the temporal granularity times the outcome of the modulo operation to calculate the dictionary key to sort the observation by.
 
 As soon as all the observations have been sorted the data is aggregated. For all values per key the average, minimum, maximum, median or sum is calculated. The resulting value replaces the values in the dictionary. 
 
 If spatial aggregation is part of the sensor data request this is performed after the temporal aggregation. Using Shapely's 9-intersection model functions the sensor locations are ordered per spatial feature. Finally, all values are aggregated per feature per temporal range.          
 
-\section{Setting up the Web Processing Services}
+\subsection{Setting up the Web Processing Services}
 \label{impl:wps}
 Creating two \aclp{wps} using PyWPS.
 
 Ouput \ac{xml} using \ac{om} schema or using \ac{json} with the potential \ac{ogc} canditate standard for \ac{json} \citep{SW:OGC6}.
 
-\section{Creating a web application for retrieving sensor data}
+\subsection{Creating a web application for retrieving sensor data}
 A web application has been created using the \aclp{wps} from Paragraph \ref{impl:wps}.
