@@ -3,6 +3,8 @@
                headinclude,footinclude,BCOR5mm,%
                numbers=noenddot,cleardoublepage=empty]{scrreprt}
 
+%\usepackage[]{silence}        % use this to turn off those nasty marginpar warnings
+
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage[utf8]{inputenc} 
@@ -80,7 +82,6 @@
 %******************************************************************
 \pagenumbering{arabic}
 \input{chapters/Thesis/introduction}
-\input{chapters/Thesis/concepts}
 \input{chapters/Thesis/relatedwork}
 \input{chapters/Thesis/methods}
 \input{chapters/Thesis/data}
