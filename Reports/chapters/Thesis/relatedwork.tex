@@ -13,11 +13,22 @@ A number of research topics are relevant for this thesis: how to use existing st
 
 \subsection{Observation and measurements}
 
-How is an observation modelled in \ac{om}?
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\linewidth]{UML/OM_Observation.png}
+	\caption{Basic observation in the \ac{om} data model \citep[p. 9]{SW:ISO}}
+	\label{fig:OM_observation}
+\end{figure}
 
-Explain the following concepts: observation, result time, phenomenon time, result, \ac{uom}, feature of interest
+In the \acf{om} data model an observation is modelled using a number of concepts. First of all, there is a feature of which sensor data is wanted. This is the so-called \acf{foi}. This feature has a property that can be observed, also known as an osbervable property. For example, the air at a certain location (\ac{foi}) has a certain temperature (observable property). A \ac{foi} can also be a geographical feature such as a river or a forest area. \ac{om} uses the concept of \ac{foi} rather than the sensor location, because for some observations the exact location may not be trivially available. Furthermore, specific specimens are in some cases removed from their sampling location and observed at another location afterwards. This would create problems when defining a location of observation, hence the use of \aclp{foi} in the \ac{om} data model. An observation is defined as the \enquote{act of measuring or otherwise determining the value of a property} \citep[p. 3]{SW:ISO}. The observation uses a procedure, which is a method, algorithm or instrument, or system of these. A procedure can therefore be a sensor, an algorithm processing the raw observation data and/or a system of sensors observing a property of the \ac{foi}. The output of the procedure is a result. The result consists of a value and a corresponding \acf{uom}. For example: 15 (value) degrees Celcius (\ac{uom}). 
+
+A procedure can produce many results about the same \ac{foi} over time. Therefore, three temporal concepts have been modelled: result time, phenomenon time and valid time. The result time is the timestamp of the observation result, or in other words: the moment the observation result became available. It is not necessarily the time that corresponds to the phenomenon, depending on when the observation procedure is performed (specimens can be taken from a sampling location and observed later) and the amount of time it takes to perform a procedure. Therefore, the phenomenon time describes the time that the observation applies to the property of the \ac{foi}. The valid time is a time range that indicates when an observation is a valid indication of the property of the \ac{foi}. When observing glacier motion at a speed of several  meters per year an observation result might be valid for a day. On the other hand, observations with large fluctuations during the day might only be valid for a number of minutes up to an hour. This is the case for example with air quality observations in cities, that have large fluctuations with peaks during the rush hours.     
+
+Additional metadata about an observation can be added using the metadata class in the data model. To provide context about an observation the `related observations' class has been added to the \ac{om} model as well. Figure \ref{fig:OM_observation} shows the \ac{uml} diagram containing the different concepts explained in this paragraph and the relations between them.  
 
 \subsection{SensorML}
+
+The \acf{sensorml} aims to \enquote{provide a robust and semantically-tied means of defining processes and processing components associated with the measurement and post-measurement transformation of observations} \citep[p. ix]{SW:OGC7}. Enabling interoperability at the syntactic and semantic level allows processes to be better understood by machines, utilized automatically in complex workflows, and to be easily shared between intelligent sensor web nodes. \ac{sensorml} is a framework that can be used to define the geometric, dynamic, and observational characteristics of sensors and sensor systems. 
 
 \subsection{Sensor observation service}
 \begin{sloppypar}
