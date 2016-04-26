@@ -20,7 +20,27 @@ Since data on the web has a distributed nature it can be questioned whether cent
 \cite{IOT:Barnaghi} describe how the semantic web could be of great importance for the \ac{iot}.
 \cite{IOT:Jazayeri} describe the \ac{sos} as one of the protocols that \ac{iot} devices could use.
 
-\section{GeoSPARQL \& stSPARQL}
+\section{Creating linked data}
+For publishing sensor data on the semantic web a conversion of this data to \ac{rdf} is required. For this the method by \cite{LD:Missier} will be used. She developed a workflow for publishing linked open data, using existing spatial data as input (Figure \ref{fig:missier}). This workflow consists of three phases: preparation, modelling and conversion. The next paragraphs will describe these three phases in more detail.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{UML/workflowMissier.png}
+	\caption{Workflow diagram for publishing linked open data from existing spatial data \citep[p. 28]{LD:Missier}}
+	\label{fig:missier}
+\end{figure}
+
+\subsection{Preparation}
+The preparation phase deals with data acquisition, analysis and filtering. After an acquired dataset has been selected to convert to linked data it should be carefully examined. When creating linked data it is important to know the content and format of the input data. \cite{LD:Missier} explains that this understanding of the data is crucial for selecting the right ontologies and using the right software tools to process the data. Data filtering should be performed to select the parts of the dataset that need to be mapped to linked data. In this step the data quality could also be improved if necessary. The result of this phase should be a clean dataset, with semantics about the content, which has been filtered to only contain the parts of data that are required as linked data. 
+ 
+\subsection{Modelling}
+The first step in modelling data to linked data is to select an ontology. An ontology is part of a data model, that contains semantics of how objects in the real world are mapped inside a dataset. To improve interoperability is preferred to (re)use an already existing ontology. However, if there is no suitable ontology available a new one should be created. To select an ontology all ontologies that describe the type of data inside the dataset should be listed. The one that fits the dataset and the final application best should be selected from these ontologies. \cite{LD:Missier} stresses that it is also important to reuse common predicates associated with an ontology. This makes the data more understandable and it is easier to merge with other datasets using the same ontology and predicate. 
+
+ 
+\subsection{Conversion}
+
+
+\section{Spatial Queries with SPARQL}
 \label{par:SpatialFilters}
 GeoSPARQL \enquote{defines a vocabulary for representing geospatial data in RDF, and it defines an extension to the SPARQL query language for processing geospatial data} \cite[p. xvi]{LD:OGC}. It allows for defining geometric data in \ac{rdf} and performing spatial queries. The \ac{DE9IM} \citep{GIS:9IM} has been implemented to find topological relations between two geometries. GeoSPARQL has been implemented in the `Parliament' \ac{sparql} endpoint \citep{LD:GeoSPARQL}. The Strabon endpoint uses stRDF, which is \enquote{a constraint data model that extends RDF with the ability to represent spatial and temporal data} \cite[p. 425]{SSW:Koubarakis}. The stRDF model can be queried using stSPARQL, which syntax is similar to GeoSPARQL (listing \ref{lst:GeoSPARQL} \& \ref{lst:stSPARQL}). Both extensions of \ac{sparql} use filter expressions to perform spatial operations on \ac{wkt} or \ac{gml} geometries. The definition of geometries and the syntax of the filter expression differ slightly.
 
