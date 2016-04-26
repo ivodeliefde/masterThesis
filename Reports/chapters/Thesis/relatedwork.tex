@@ -11,7 +11,7 @@ A number of research topics are relevant for this thesis: how to use existing st
 
 \cite{SW:OGC} present \acf{swe}, which is a suite of standards developed by \ac{ogc}. It contains two parts: the information model and the service model. The information model includes \ac{om}, \ac{sensorml} and \ac{swe} common. \ac{om} defines the data model and encoding for observation data  and \ac{sensorml} defines the data model and encoding for sensor metadata. \ac{swe} common is a low-level data model for exchanging sensor related data. The service model contains the \ac{sos}, \ac{sps}, \ac{sas} and \ac{wns}. A \ac{sos} can be used to retrieve observation data, a \ac{sps} to plan actions of a sensor, and a \ac{sas} to receive alerts about subscribed events. With a \ac{wns} users can have asynchronous dialogues (message interchanges) with one or more other services. Recently the SensorThings \ac{api} has been added to the list of \ac{swe} services (see \url{http://ogc-iot.github.io/ogc-iot-api/index.html}). The SensorThings \ac{api} is a service for retrieving observation data and sensor metadata for \ac{iot} applications. This thesis focusses on \ac{om}, \ac{sensorml} and \ac{sos}. The following paragraphs will therefore described these standards in more detail.
 
-\subsection{Observation and measurements}
+\subsection{Observation and Measurements}
 
 \begin{figure}
 	\centering
@@ -48,7 +48,7 @@ In \ac{sensorml} there is a destinction between two types of processes: physical
 
 Although \ac{sensorml} is not dependent on \ac{om} the result of a process modelled by \ac{sensorml} is typically considered as an observation result. This is the case if it is measuring a physical property or phenomenon. Therefore, the output values described in \ac{sensorml} and resulting from a sensor or process may be encoded as an \ac{om} Observation. Inversely, the procedure property of an \ac{om} Observation instance can be described using SensorML \citep{SW:OGC7}.
 
-\subsection{Sensor observation service}
+\subsection{Sensor Observation Service}
 \begin{sloppypar}
 	There are three core requests that can be made to retrieve sensor (meta)data from a \ac{sos}: \texttt{GetCapabilities}, \texttt{DescribeSensor} and \texttt{GetObservation}. \texttt{Get} \texttt{Capabilities} returns a complete overview of what the \ac{sos} has to offer. The \texttt{DescribeSensor} request returns detailed information about individual sensors. These three core requests are mandatory in a \ac{sos} under the 2.0 specifications \citep{SW:OGC2}. There are also a number of optional extensions to a \ac{sos}: \texttt{GetFeatureOfInterest}, \texttt{GetObservationById}, \texttt{InsertCapabilities}, \texttt{InsertObservation}, \texttt{InsertSensor}, \text{DeleteSensor}, \texttt{InsertResult}, \texttt{InsertResultTemplate} and \texttt{GetResultTemplate}. Requests can be made as a \ac{http} GET request or a \ac{http} POST request. There can be different response formats, but there is always at least the option to retrieve the response as an \ac{xml} document. Based on the specification by \cite{SW:OGC2} the following paragraphs describe the core and optional requests of a \ac{sos}, as well as the structure of their responses. 
 \end{sloppypar}
@@ -108,8 +108,6 @@ Individual sensors can be inserted or deleted using \texttt{InsertSensor} and \t
 \end{figure}
 
 \subsection{Resource Description Framework}
-For publishing geographic data on the semantic web a conversion of Shapefiles to \ac{rdf} is required. For this the method by \cite{LD:Missier} will be used. First the Shapefile is loaded into a Postgres database with the Postgis extension. After that a Python script retrieves the records from the database. Attributes of the records will be mapped to classes from predefined ontologies. Then the script creates an \ac{rdf} graph and serialises it to a certain \ac{rdf} notation. This is written to a file. The final step is to publish the \ac{rdf} on the web and create a \ac{sparql} endpoint to query the data \citep{LD:Missier}. 
-
 In \ac{rdf} data is stored as so-called `triples'. These triples are structured as: subject, predicate and object \citep{LD:Berners-lee}. The subject and the object are things and the predicate is the relation between these two things. For example, to define a geographic feature such as the municipality of Delft on the semantic web a number of triples can be made. Figure \ref{fig:Triples} shows how Delft can be defined as a municipality with a certain geometry using triples of subject, predicate and object.
 
 \begin{figure}
@@ -167,7 +165,7 @@ The \ac{ogc} has developed a way of including sensors into a catalogue service u
 	\label{fig:CSW}
 \end{figure}
 
-\subsection{Catalog service for the web}
+\subsection{Catalog Service for the Web}
 \label{par:CSW}
  The \ac{csw} is an \ac{ogc} standard for a geoweb service that contains \enquote{collections of descriptive information (metadata) for data, services, and related information objects} \citep[p. xiv]{GEO:OGC2}. Figure \ref{fig:CSW} shows the intermediary role of this service between client and data sources. It also shows that the \ac{csw} can use data from three different sources to return to a client: a local metadata repository, a resource service, or another \ac{csw}. The resource service can use an \ac{ogc} interface, but this is not required. 
  
@@ -186,7 +184,7 @@ The \texttt{Transaction} request can be used to create, modify and delete catalo
 	\label{fig:SorSir}
 \end{figure}
 
-\subsection{Sensor observable registry}
+\subsection{Sensor Observable Registry}
 The \ac{sor} is \enquote{a web service interface for managing the definitions of phenomena measured by sensors as well as exploring semantic relationships between these phenomena} \cite[p. vi]{SW:OGC4}. This is a web service developed by \ac{ogc} to enable semantic reasoning on sensor networks, especially concerning phenomenon definitions. This should make it easier to discover sensors that observe a certain phenomenon and to interpret sensor data.
 
 The \ac{sor} has four different requests: \texttt{GetCapabilities}, \texttt{GetDefinition-} \texttt{URNs}, \texttt{GetDefinition} and \texttt{GetMatchingDefinitions}. The \texttt{GetCapabilities} request provides an overview of what the \ac{sor} has to offer. The capabilities document that is returned to the client contains four sections. These sections are required for every \ac{ogc} geoweb service and the first three are the same as described in Paragraph \ref{par:CSW}. The fourth section is the content section. This part of the capabilities document contains the following information: the number of entries inside the \ac{sor} instance, keywords describing the content of the \ac{sor} instance, the application domain for which a specific \ac{sor} can be applied and an `ontologyRepositoryURL'. This \ac{url} points to a repository that contains an ontology used by this \ac{sor}.
@@ -195,7 +193,7 @@ The \ac{sor} has four different requests: \texttt{GetCapabilities}, \texttt{GetD
 
 \texttt{GetMatchingDefinitions} allows clients to retrieve definitions of observables which in some way are related to another given phenomenon. The relations `generalization', `specialization' and `equivalency' are currently supported for finding matching definitions \citep{SW:OGC4} and have to be specified in the request using the `matchingtype' parameter. This parameter can take one of three values: SUPER\_CLASS, EQUIVALENT\_CLASS or SUB\_CLASS. Additionally, the request can have the `searchDepth' parameter, which represents the maximum amount of steps that are allowed in case of a transitively related phenomena.  
 
-\subsection{Sensor instance registry}
+\subsection{Sensor Instance Registry}
 Another web service interface specification by \ac{ogc} is \ac{sir}. \ac{sir} is aimed at \enquote{managing the metadata and status information of sensors} \cite[p. xii]{SW:OGC3}. The goal of this web service is to close the gap between metadata models based on \ac{sensorml}, which is used in \ac{swe}, and the metadata model used in \ac{ogc} catalogue services. Furthermore, it provides functionalities to discover sensors, to harvest sensor metadata from a \ac{sos}, to handle status information about sensors and to link \ac{sir} instances to \ac{ogc} catalogue services. 
 
 \begin{sloppypar}
