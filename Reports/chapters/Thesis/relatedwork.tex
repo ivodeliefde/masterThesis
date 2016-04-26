@@ -28,7 +28,25 @@ Additional metadata about an observation can be added using the metadata class i
 
 \subsection{SensorML}
 
-The \acf{sensorml} aims to \enquote{provide a robust and semantically-tied means of defining processes and processing components associated with the measurement and post-measurement transformation of observations} \citep[p. ix]{SW:OGC7}. Enabling interoperability at the syntactic and semantic level allows processes to be better understood by machines, utilized automatically in complex workflows, and to be easily shared between intelligent sensor web nodes. \ac{sensorml} is a framework that can be used to define the geometric, dynamic, and observational characteristics of sensors and sensor systems. 
+The \acf{sensorml} aims to \enquote{provide a robust and semantically-tied means of defining processes and processing components associated with the measurement and post-measurement transformation of observations} \citep[p. ix]{SW:OGC7}. Creating interoperability at the syntactic and semantic level allows processes to be better understood by machines, utilized automatically in complex workflows, and to be easily shared between intelligent sensor web nodes. \ac{sensorml} is a framework that can be used to define the geometric, dynamic, and observational characteristics of sensors and sensor systems in order to achieve syntactic and semantic interoperability. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{UML/describedObject.png}
+	\caption{`DescribedObject' class in \ac{sensorml} \citep[p. 39]{SW:OGC7}}
+	\label{fig:describedObject}
+\end{figure}
+
+In \ac{sensorml} there is a destinction between two types of processes: physical and non-physical processes. For a physical process information about the spatio-temporal position is important. This is the case with for example detectors, actuators, and sensor systems. Non-physical processes are mathematical operations or functions. A process is modelled as a specialisation of the `DescribedObject' class. This class provides a set of metadata which are useful for all process classes in \ac{sensorml}. Figure \ref{fig:describedObject} shows the properties of a described object class instance. The `AbstractProcess' class is derived from the described object and includes the properties: inputs, outputs, parameters, typeOf, featureOfInterest, configuration and modes. This forms the basis for defining both physical and non-physical processes. The `AbstractPhysicalProcess'  class is derived from the describe object class and adds spatial and temporal coordinates for the physical process device. The final step in defining a physical process is to specialise the abstract physical process with the `PhysicalComponent' class. The physical component describes the device that provides a processing function. Figure \ref{fig:physicalProcess} shows the \ac{uml} class diagram of a physical process. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\linewidth]{UML/physicalProcess.png}
+	\caption{Definition of a physical process in \ac{sensorml} \citep[p. 57]{SW:OGC7}}
+	\label{fig:physicalProcess}
+\end{figure}
+
+Although \ac{sensorml} is not dependent on \ac{om} the result of a process modelled by \ac{sensorml} is typically considered as an observation result. This is the case if it is measuring a physical property or phenomenon. Therefore, the output values described in \ac{sensorml} and resulting from a sensor or process may be encoded as an \ac{om} Observation. Inversely, the procedure property of an \ac{om} Observation instance can be described using SensorML \citep{SW:OGC7}.
 
 \subsection{Sensor observation service}
 \begin{sloppypar}
