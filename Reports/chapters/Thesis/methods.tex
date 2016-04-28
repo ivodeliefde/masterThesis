@@ -32,12 +32,16 @@ The preparation phase deals with data acquisition, analysis and filtering. After
 \subsection{Modelling}
 The first step in modelling data to linked data is to select an ontology. An ontology is part of a data model, that contains semantics of how objects in the real world are mapped inside a dataset. To improve interoperability is preferred to (re)use an already existing ontology. However, if there is no suitable ontology available a new one should be created. To select an ontology all ontologies that describe the type of data inside the dataset should be listed. The one that fits the dataset and the final application best should be selected from these ontologies. \cite{LD:Missier} stresses that it is also important to reuse common predicates associated with an ontology. This makes the data more understandable and it is easier to merge with other datasets using the same ontology and predicate. 
 
- 
 \subsection{Conversion}
+In the conversion of data to linked data \cite{LD:Missier} describes two approaches: the \ac{rdf} storage approach and the `on-the-fly' conversion. In the first approach data is converted to linked data and stored in a triple store. This triple store can be queried by a \ac{sparql} endpoint. Alternatively, data can be stored in a spatial database and converted to \ac{rdf} on the fly when it is requested. There are advantages and disadvantages to both methods. In general creating a triple store creates duplicate data, which should be very well maintained to prevent the duplicate data being out of sync. On the other hand creating a triple store is a one time operation after which the querying with \ac{sparql} is quite efficient. The on-the-fly conversion does not create duplicate data, but has to convert its data to \ac{rdf} for every \ac{sparql} query.
 
 \section{Spatial Queries with SPARQL}
 \label{par:SpatialFilters}
-GeoSPARQL \enquote{defines a vocabulary for representing geospatial data in RDF, and it defines an extension to the SPARQL query language for processing geospatial data} \cite[p. xvi]{LD:OGC}. It allows for defining geometric data in \ac{rdf} and performing spatial queries. The \ac{DE9IM} \citep{GIS:9IM} has been implemented to find topological relations between two geometries. GeoSPARQL has been implemented in the `Parliament' \ac{sparql} endpoint \citep{LD:GeoSPARQL}. The Strabon endpoint uses stRDF, which is \enquote{a constraint data model that extends RDF with the ability to represent spatial and temporal data} \cite[p. 425]{SSW:Koubarakis}. The stRDF model can be queried using stSPARQL, which syntax is similar to GeoSPARQL (listing \ref{lst:GeoSPARQL} \& \ref{lst:stSPARQL}). Both extensions of \ac{sparql} use filter expressions to perform spatial operations on \ac{wkt} or \ac{gml} geometries. The definition of geometries and the syntax of the filter expression differ slightly.
+
+The \ac{sparql} query language can perform many different kinds of queries on \ac{rdf} triples. However, in \ac{sparql} no spatial queries have been implemented. For this purpose GeoSPARQL and stSPARQL have been created. The next paragraphs will describe these two extensions of \ac{sparql} in more detail.
+
+\subsection{GeoSPARQL}
+GeoSPARQL \enquote{defines a vocabulary for representing geospatial data in RDF, and it defines an extension to the SPARQL query language for processing geospatial data} \cite[p. xvi]{LD:OGC}. It allows for defining geometric data in \ac{rdf} and performing spatial queries. The \ac{DE9IM} \citep{GIS:9IM} has been implemented to find topological relations between two geometries. GeoSPARQL has been implemented in the `Parliament' \ac{sparql} endpoint \citep{LD:GeoSPARQL}. 
 
 \begin{lstlisting}[caption={A GeoSPARQL query to find the names of features that contain a point geometry}, label={lst:GeoSPARQL}]
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
@@ -52,6 +56,9 @@ WHERE {
 FILTER (geof:sfContains(?geom,"<http://www.opengis.net/def/crs/EPSG/0/4258> POINT(4.289244 52.027337)"^^geo:wktLiteral))
 }
 \end{lstlisting}
+
+\subsection{stSPARQL}
+The Strabon endpoint uses stRDF, which is \enquote{a constraint data model that extends RDF with the ability to represent spatial and temporal data} \cite[p. 425]{SSW:Koubarakis}. The stRDF model can be queried using stSPARQL, which syntax is similar to GeoSPARQL (listing \ref{lst:GeoSPARQL} \& \ref{lst:stSPARQL}). Both extensions of \ac{sparql} use filter expressions to perform spatial operations on \ac{wkt} or \ac{gml} geometries. The definition of geometries and the syntax of the filter expression differ slightly.
 
 \begin{lstlisting}[caption={A stSPARQL query to find the names of features that contain a point geometry}, label={lst:stSPARQL}]
 PREFIX strdf: <ttp://strdf.di.uoa.gr/ontology#>
