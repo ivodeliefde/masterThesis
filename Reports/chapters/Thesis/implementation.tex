@@ -5,14 +5,17 @@
 \chapter{Design}
 \label{chap:impl}
 
-This thesis aims to design a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. In Chapter \ref{chap:methods} a number of  
+This thesis aims to design a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. The methods and tools described in Chapter \ref{chap:methods} will be used for that purpose. This chapter provides the outline for such a method. 
 
-\section{Retrieving metadata from the Sensor Observation Service}
-\label{chap:retrieveSOS}
+\section{Creating linked data from sensor metadata}
+
+The process of automatically creating linked data from sensor metadata is shown in Figure \ref{fig:WPS1}. A \ac{wps} contain processes for retrieving metadata, converting it to linked data and outputting it to a triple store. Data from a \ac{sos} is retrieved by a \ac{wps} process. This process converts it to linked data. The output is an \ac{rdf} document containing the metadata as triples. These documents are posted to a \ac{sparql} endpoint, where they can be queried.  
+
+The workflow of this \ac{wps} process is shown in Figure \ref{fig:WPS1workflow}. It is an adaption of the workflow by \cite{LD:Missier}, which was originally intended for creating linked data about vector parcel data. The input of the process should be the \ac{http} address of a \ac{sos}. Since both the requests and the data model are standardized in a \ac{sos} the process should be able to automatically perform the tasks for creating linked data. The first step is to make requests to the \ac{sos} to retrieve it's metadata. This results in a number of \ac{xml} documents that need to be filtered. The second step is to map the data inside these \ac{xml} documents to linked data ontologies. In the final step \ac{rdf} documents are created of the mapped metadata and published on the web.  
 
 \begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{UML/wps1diagram.PNG}
+	\includegraphics[width=0.8\linewidth]{UML/wps1diagram.PNG}
 	\caption{Creating linked data of metadata from Sensor Observation Services}
 	\label{fig:WPS1}
 \end{figure}
@@ -24,45 +27,54 @@ This thesis aims to design a method that uses the semantic web to improve sensor
 	\label{fig:WPS1workflow}
 \end{figure}
 
+\subsection{Retrieving metadata from the Sensor Observation Service}
+\label{chap:retrieveSOS}
 
-The metadata is automatically retrieved from the \ac{sos} according to Figure \ref{fig:SOS_UML}. A \ac{sos} is maintained by an organisation, of which the name is retrieved, as well as whether they charge fees or have implemented access constraints for using the \ac{sos}. In most cases the use is free of charge and without access constraints. However, it is possible for an organisation to restrict the use of the \ac{sos} in these ways. 
+The first step of creating an online knowledge base with sensor metadata is to retrieve the metadata from the different \aclp{sos}. This data has to be understood in order to map it to an ontology and it should be filtered to only contain the required parts of data. The next paragraphs will describe the way sensor metadata is modelled in a \ac{sos}, with which requests it can be retrieved and how it should be filtered. 
 
-In the \ac{swe} standards a sensor is modelled using two entities: a procedure and a feature of interest. The procedure is the method of sensing and the feature of interest is the feature of which the sensor is sensing a certain property. Therefore, the observable property ties together the procedure and feature of interest. It should be noted that the geometry of a feature of interest is not necessarily always a point geometry. It can also be generalized into larger features (e.g. multiple sensors observing different parts of one lake). 
+\subsubsection{Sensor metadata model}
+A sensor observation service describes a number of its properties that are required to know in order for clients to request data from it. It identifies the organisation that maintains it, with at least the organisation's name and its contact information. Optionally, the organisations website, keywords and an abstract about the \ac{sos} can be supplied. The \ac{sos} also describes its identifier and \ac{http} addresses (the address for sending requests can differ for POST or GET requests). It also lists the \ac{sos} versions and response formats it supports. The access constraints and fees are also mentioned. In most cases the use is free of charge and without access constraints. However, it is possible for an organisation to restrict the use of the \ac{sos} in these ways.  
 
-An offering is a grouping of features of interest, which have a common procedure. The purpose of offerings is to allow users to query the observation data more efficiently. Features of interest that are often queried together are grouped into the same offering.      
- 
+In the \ac{swe} standards a sensor is modelled using two entities: a procedure and a \acf{foi}. The procedure is the method of sensing and the \ac{foi} is the feature of which the sensor is sensing a certain property. Therefore, the observable property ties together the procedure and feature of interest. It should be noted that the geometry of a \ac{foi} is not necessarily always a point geometry. It can also be generalized into larger features (e.g. multiple sensors observing different parts of one lake). 
+
+In version 2.0 of the \acl{sos} Interface Standard \citep{SW:OGC2} an offering is defined as a grouping of \acp{foi}, which have a common procedure. The constraint of sharing the same procedure has been added in version 2 of this document to solve the ambiguity of offerings in \ac{sos} 1.0. The purpose of offerings is to allow users to query the observation data more efficiently. \acp{foi} that are often queried together are therefore grouped into the same offering for efficient retrieval.        
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{UML/SOS_UML.PNG}
-	\caption{Metadata automatically retrieved from a \ac{sos}}
+	\caption{Sensor metadata derived from a \ac{sos}}
 	\label{fig:SOS_UML}
 \end{figure}
 
-A Python class object is created for the \ac{sos} based on Figure \ref{fig:SOS_UML}. This class contains the different variables and has built in functions to automatically retrieve the metadata. To collect all the required metadata a number of request have to be made, which is done using the \texttt{SOSclass.request()} method which requires only the \ac{http} address of the \ac{sos} as input. First, the capabilities document is retrieved to collect information about the organisation, supported \ac{sos} versions and response formats. It also contains lists with identifiers for all features of interest, offerings, observable properties and procedures. In this document the offerings are linked to a certain procedure and to a certain observable property. 
+\subsubsection{Metadata Requests}
+To retrieve metadata from a \ac{sos} a \texttt{GetObservation} request is made first. This is a request with a very generic structure. The GET request is created by adding \url{service=SOS\&request=GetCapabilities} to the \ac{http} address of the \ac{sos}. For example, the \ac{rivm} has its \ac{sos} at the address: \url{http://inspire.rivm.nl/sos/eaq/service?}. Therefore, the capabilities document can be retrieved using the following \ac{url}: \url{http://inspire.rivm.nl/sos/eaq/service?service=SOS&request=GetCapabilities}. 
 
-Unfortunately, the capabilities document is not able to provide information about which procedure is being applied for which feature of interest. Also, the features' geometries cannot be retrieved from it. Therefore, a \texttt{GetFeatureOfInterest} request is made to retrieve the location of each features of interest. However, the \texttt{GetFeatureOfInterest} document does not necessarily provide information about the procedures that are related to a certain feature of interest. When a \texttt{GetObservation} request is made for an offering, the returned observation data is grouped per feature of interest. 
-Therefore, small amounts of data are retrieved from each offering using \texttt{GetObservation} requests, when possible with a temporal filter to limit the data traffic. 
-Every procedure and offering can now be related to a set of features of interest with point geometries.  
+This requests returns the capabilities document of the \ac{sos} (see Paragraph \ref{par:capabilities}). This lists the identifier of each \ac{foi}, each procedure and each observed property. It also has a section where the offerings that it contains are being described. This description of an offering includes a unique identifier, a procedure and the corresponding observed property. Additionally, descriptions can be added such as a bounding box, temporal range, \ac{foi} type and response format.  
 
-\subsection{Metadata Requests}
+\begin{sloppypar}
+	Unfortunately, the capabilities document is not able to provide information about which procedure is being applied for which feature of interest. This is crucial information for knowing which deployed sensors can be queried using a particular \ac{sos}. Also, the features' geometries cannot be retrieved from the capabilities document. Based on that document it is not yet clear which sensor locations are being used and what is measured at a specific location. Therefore, a \texttt{GetFeatureOfInterest} request can be made to retrieve the location of each \ac{foi}. Such a request can be made by adding \url{service=SOS&version=2.0.0&request=GetFeatureOfInterest}. The version \ac{kvp} should correspond to the version declared in the capabilities document. A pointer to a specific \ac{foi} is optional and usually all \acp{foi} are returned by default. Using the example of the \ac{sos} by the \ac{rivm} the \texttt{GetFeatureOfInterest} request looks like this: \url{http://inspire.rivm.nl/sos/eaq/service?service=SOS&version=2.0.0&request=GetFeatureOfInterest}.    
+\end{sloppypar}
 
-\subsection{Filter Metadata}
+On the one hand, a \texttt{GetFeatureOfInterest} document does not necessarily provide information about the procedures that are related to a certain feature of interest. On the other hand, a \texttt{DescribeSensor} request does not always relate the process to a \ac{foi} either. However, a \texttt{GetObservation} requests return observation data grouped per feature of interest. Therefore, small amounts of data can be retrieved from each offering using \texttt{GetObservation} requests to link the \acp{foi} to procedures and observed properties. When possible a temporal filter should be used to limit the data traffic. Using this method every procedure and offering can be related to a set of \acp{foi} with their corresponding geometry. This represents the collection of sensor devices of which data can be retrieved by sending requests to the \ac{sos}. 
+
+\subsubsection{Filter Metadata}
+
+The documents that are returned by the \ac{sos} contain a lot of information. In some cases the returned information can be limited by adding filters to the requests. However, not all \ac{sos} have supported all filters and not all unnecessary data can be filtered out. Therefore, the \ac{xml} documents that are returned should often be filtered on the client side. In a \ac{xml} document every element should be defined using a namespace. Often these prefixes are defined in the xmlns tag at the top of the document to refer to these namespaces. These namespaces and corresponding tags can be used to filter the response documents for the content that is required. It should be noted that there are multiple namespaces that could be used to define the same concept. However, the potential namespaces that can be encountered are restricted by the schema describing the content of a response document. This schema is usually referenced to in the start tag of the response document.
 
 
-\section{Modelling with the om-lite and sam-lite ontologies}
+\subsection{Modelling with the om-lite and sam-lite ontologies}
 \begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{UML/SOS_Semantic_UML.PNG}
+	\includegraphics[width=1\linewidth]{UML/SOS_Semantic_UML_2.PNG}
 	\caption{Sensor metadata as modelled in RDF (om-lite classes in yellow and sam-lite classes in purple)}
 	\label{fig:SOS_Semantic_UML}
 \end{figure}
 
-After the metadata has been retrieved from the \ac{sos} (Figure \ref{fig:SOS_UML}) it has to be converted to linked data. For this the om-lite and sam-lite ontologies are being used in combination with the PROV and GeoSPARQL ontologies. Figure \ref{fig:SOS_Semantic_UML} shows the semantic relations between the metadata that are stored in \ac{rdf} triples. Every (instance of a) class in this figure is represented by a \ac{uri}. 
+After the metadata has been retrieved from the \ac{sos} and filtered (Figure \ref{fig:SOS_UML}) it has to be mapped to linked data ontologies. For this the om-lite and sam-lite ontologies are being used in combination with the PROV and GeoSPARQL ontologies. Figure \ref{fig:SOS_Semantic_UML} shows the which ontologies that can be used to describe the classes of Figure \ref{fig:SOS_UML}.   
 
 A \ac{sos} is modelled as an agent with a specific name, that acts on behalf of a certain organisation. The organisation, access constraints, fees, versions and response formats are properties of the \ac{sos}. Every sensor is described by a procedure and a certain feature of interest. The sensor class was not present in the model of Figure \ref{fig:SOS_UML}, because the \ac{sos} does not define sensors. However, the sensor class has been added to the semantic model to make the relation between procedure and sampling point explicit. 
 
-In Figure \ref{fig:SOS_Semantic_UML} the collection of sampling features only contains sampling points. This is because the feature of interest of an air quality sensor is equal to the bubble of air directly around the sampling point. Other sampling features can be added when the application requires this. Sampling features are grouped into collections of features of which the same observed property is measured. These collections can contain sampling points from multiple \aclp{sos}. The offering class is a specialization of the collection of sampling features. It contains a subset of the sampling points that are all part of the same offering at a particular \ac{sos}.
+In Figure \ref{fig:SOS_Semantic_UML} the collection of sampling features only contains sampling points. This is because the \ac{foi} of an air quality sensor is equal to the bubble of air directly around the sampling point. Other sampling features can be added when the application requires this. Sampling features are grouped into collections of features of which the same observed property is measured. These collections can contain sampling points from multiple \aclp{sos}. The offering class is modelled as a specialization of the collection of sampling features. It contains a subset of the sampling points that are all part of the same offering at a particular \ac{sos}.
 
 Every observed property that is defined in a \ac{sos} relates to a certain observed property as defined by DBPedia. Since \ac{sos} requests require their own identifiers as input the observed property class exists twice in the model: one as defined by the \ac{sos} and one as defined by DBPedia. For the same reason all sampling points, processes and offerings have a `name' attribute in addition to their \ac{uri}. These store the original identifier that they were given by the \ac{sos}.
 
@@ -73,17 +85,17 @@ Every observed property that is defined in a \ac{sos} relates to a certain obser
 
 %Also, the data of administrative units, land cover features and \ac{eea} reference grid cells will be linked to from DBPedia.
 
-\section{Output linked sensor metadata}
+\subsection{Output linked sensor metadata}
 \label{par:publishLD}
 
-\subsection{Setting up the endpoint}
+\subsubsection{Setting up the endpoint}
 Setting up the Strabon (Figure \ref{fig:Strabon}), Apache Tomcat and Pubby software. 
 
 The Strabon and Parliament endpoint have been tested since they both handle GeoSPARQL queries. Strabon has been used in the final design, because the Parliament endpoint rejected certain longer queries (see \ref{par:spQueries}). \\
 
 Pubby software in combination with Apache Tomcat allows for a user interface that is easier to navigate through for humans. The links stored in \ac{rdf} triples are represented as hyperlinks which can be used to navigate between pages about different concepts. \\
 
-\subsection{Create RDF}
+\subsubsection{Create RDF}
 For creating \aclp{purl} the Purlz software (\url{http://www.purlz.org/}) has been used. All \acp{uri} that are created get a \ac{purl} assigned to it. The \ac{purl} resolves the \ac{uri} to a \texttt{DESCRIBE} query at the endpoint. This query is structured as a get request: \texttt{\seqsplit{http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Describe?submit=describe\&view=HTML\&handle=download\&format=turtle\&query=DESCRIBE < an\_URI >}}. The request has `\texttt{/Describe?submit=describe}' to call the script that deals with describe queries and to tell it that the request is also submitting this kind of query. The parameters `\texttt{view=HTML\&handle=download}' indicate that the endpoint's website is requested, but the returned data should be a download file instead of an HTML page. The parameter `\texttt{\&format=turtle}' sets the \ac{rdf} notation of the download file to Turtle and `\texttt{\&query=DESCRIBE <an\_URI>}' is the \ac{sparql} query that contains the \ac{uri} between brackets. 
 
 Every \ac{uri} is written to an \ac{xml} file with the parameters: ID, \ac{purl} type, and target address. Optionally, information about the person or organisation maintaining the \ac{purl} can be added. The ID is the original \ac{uri} that is being resolved to the target address. The \ac{purl} type is set to 303, which means that it refers the client to the target address. Alternative types can be found in Table \ref{tbl:HTTP}. After all \acp{uri} have been added to the so called \ac{xml} `batch' file \citep{LD:PURL2}, the file can be posted to the Purlz server. \\
@@ -121,7 +133,9 @@ Setting it up on the university server
 %	\label{fig:Pubby}
 %\end{figure}
 
-\subsection{Publish RDF on the web}
+\subsubsection{Publish RDF on the web}
+
+\section{Using logical queries to retrieve sensor data}
 
 
 \chapter{Prototype implementation}
@@ -133,6 +147,9 @@ Explain how the first WPS is made
 
 \subsection{Making sensor metadata requests}
 Pythons Requests library
+
+A Python class object is created for the \ac{sos} based on Figure \ref{fig:SOS_UML}. This class contains the different variables and has built in functions to automatically retrieve the metadata. To collect all the required metadata a number of request have to be made, which is done using the \texttt{SOSclass.request()} method which requires only the \ac{http} address of the \ac{sos} as input. First, the capabilities document is retrieved to collect information about the organisation, supported \ac{sos} versions and response formats. It also contains lists with identifiers for all features of interest, offerings, observable properties and procedures. In this document the offerings are linked to a certain procedure and to a certain observable property. 
+
 
 \subsection{Map metadata to ontologies}
 Pythons LXML library
@@ -163,7 +180,7 @@ For the first alternative the \ac{eea} raster cells are retrieved instead of the
 The second alternative checks which \aclp{sos} have sensor locations within the bounding box of the vector geometry. For all of them that also observe the correct observed property \texttt{GetObservation} requests are made. In these requests a spatial filter is added. 
 
 
-\subsection{Retrieve sensor data}
+\subsection{Retrieving sensor data}
 After all sensor locations have been retrieved from the \ac{sparql} endpoint \texttt{GetObservation} requests are made. These require the identifiers that were given to the observed properties and procedures by their \ac{sos}, instead of the semantic \acp{url} that were assigned to them. The requests are structured as explained in Paragraph \ref{par:getObservation}. When possible, the request is extended with a temporal filter to only retrieve data inside the required temporal range. The output format is set to \ac{xml}.
 
 \begin{sloppypar}
