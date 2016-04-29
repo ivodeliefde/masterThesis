@@ -156,7 +156,7 @@ The prototype implementation serves as a proof of concept. It takes the designed
 The first step of the method described in Chapter \ref{chap:design} is to automatically harvest sensor metadata from a \ac{sos} using various requests. This data should then be mapped to ontologies and serialized to an \ac{rdf} document. The next paragraphs will describe how these steps have been implemented using the Python programming language.
 
 \subsection{Making sensor metadata requests}
-A Python class object is created for the \ac{sos} based on Figure \ref{fig:SOS_UML}. This class contains the different variables and has built in functions to automatically retrieve the metadata. When a SOSclass instance is created the \ac{url} of the \ac{sos} has to be entered as input value. The initialisation of the SOSclass instance creates empty variables are created for storing information about the \ac{sos}' organisation, supported \ac{sos} versions, response formats, features of interest, offerings, observable properties and procedures. 
+A Python class object is created for the \ac{sos} based on Figure \ref{fig:SOS_UML}. This class contains the different variables and has built in functions to automatically retrieve the metadata. When a SOSclass instance is created the \ac{url} of the \ac{sos} has to be entered as input value. The initialisation of the SOSclass instance creates empty variables are created for storing information about the \ac{sos}' organisation, supported \ac{sos} versions, response formats, \acp{foi}, offerings, observable properties and procedures. The \acp{foi} are stored in a Python dictionary to allow the geometry to be stored, as well as information about the \ac{crs}, and the procedures and observed properties it is related to. Similarly, the procedures are stored in a dictionary to be able to easily access which observable property, which \acp{foi} and which offerings are related to a procedure.
 
 After the initialisation is finished the method \texttt{SOSclass.request()} is automatically triggered. This function starts by sending a \texttt{GetCapabilities} request to the \ac{sos}. For making \ac{http} GET and POST requests the Requests library for Python is used (see \url{http://docs.python-requests.org}). Listing \ref{lst:Requests} shows how to create a \texttt{GetCapabilities} request with the \ac{http} GET function from this library.
 
@@ -197,12 +197,13 @@ tree = etree.fromstring(r.content)
 # Retrieve the namespaces from the XML document
 nsm = tree.nsmap
 
-# Find all subsets of the XML document that are inside a `sos:ObservationOffering' element
+# Find all subsets of the XML document that are inside a   
+# `sos:ObservationOffering' element 
 SOSclass.offerings = tree.findall(".//sos:ObservationOffering", nsm)
 
 \end{lstlisting}   
 
-Once all the relevant metadata has been retrieved from the \ac{sos} and stored inside the class object it should be mapped to linked data ontologies. For the Python package RDFlib is used (see \url{https://rdflib.readthedocs.org/}).  RDFlib defines an \ac{rdf} graph to which triples can be added. Listing \ref{lst:rdflib} shows a snippet of code that defines an \ac{rdf} graph and adds all procedures of a \ac{sos} to it with the type `http://def.seegrid.csiro.au/ontology/om/om-lite\#process'.
+Once all the relevant metadata has been retrieved from the \ac{sos} and stored inside the class object it should be mapped to linked data ontologies. For the Python package RDFlib is used (see \url{https://rdflib.readthedocs.org/}).  RDFlib defines an \ac{rdf} graph to which triples can be added. Listing \ref{lst:rdflib} shows a snippet of code that defines an \ac{rdf} graph and adds all procedures of a \ac{sos} to it with the type `http://def.seegrid.csiro.au/ontology/om/om-lite\#process'. A semantic \ac{url} is defined for each procedure. It is created using a combination of the name of the organisation and a unique number for each procedure. The domain of the \ac{url} points to the \ac{purl} server. The same principle of creating triples from sensor metadata is applied to all classes and relations described in Figure \ref{fig:SOS_Semantic_UML}. 
 
 
 \begin{lstlisting}[caption={Creating an RDF graph object with the Python package RDFlib}, label={lst:rdflib}]
@@ -221,70 +222,123 @@ for i, procedure in enumerate(SOSclass.procedures):
 	# Define a URIs for the procedures
 	procedureURI = URIRef("{0}/{1}_PROC_{2}".format(PURLZ, SOSclass.organisation, i))
 	
-	# Add all procedures to the graph and define them as om-lite processes
-	g.add( ( uriProcedure, RDF.type, om_lite.process) )
+	# Add all procedures to the graph and define them   
+	# as om-lite processes
+	g.add( ( procedureURI, RDF.type, om_lite.process) )
 
 \end{lstlisting}  
 
 \subsection{Publish linked data}
-create and post purl batches
-
-For creating \aclp{purl} the Purlz software (\url{http://www.purlz.org/}) has been used. All \acp{uri} that are created get a \ac{purl} assigned to it. The \ac{purl} resolves the \ac{uri} to a \texttt{DESCRIBE} query at the endpoint. This query is structured as a get request: \texttt{\seqsplit{http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Describe?submit=describe\&view=HTML\&handle=download\&format=turtle\&query=DESCRIBE < an\_URI >}}. The request has `\texttt{/Describe?submit=describe}' to call the script that deals with describe queries and to tell it that the request is also submitting this kind of query. The parameters `\texttt{view=HTML\&handle=download}' indicate that the endpoint's website is requested, but the returned data should be a download file instead of an HTML page. The parameter `\texttt{\&format=turtle}' sets the \ac{rdf} notation of the download file to Turtle and `\texttt{\&query=DESCRIBE <an\_URI>}' is the \ac{sparql} query that contains the \ac{uri} between brackets. 
-
-Every \ac{uri} is written to an \ac{xml} file with the parameters: ID, \ac{purl} type, and target address. Optionally, information about the person or organisation maintaining the \ac{purl} can be added. The ID is the original \ac{uri} that is being resolved to the target address. The \ac{purl} type is set to 303, which means that it refers the client to the target address. Alternative types can be found in Table \ref{tbl:HTTP}. After all \acp{uri} have been added to the so called \ac{xml} `batch' file \citep{LD:PURL2}, the file can be posted to the Purlz server. \\
-
-
-
-serialize RDF graph
-post RDF file to endpoint
-
-
-Setting up the Strabon (Figure \ref{fig:Strabon}), Apache Tomcat and Pubby software. 
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{figs/Strabon.PNG}
-	\caption{Strabon endpoint}
+	\caption{User interface of the Strabon endpoint}
 	\label{fig:Strabon}
 \end{figure}
 
-%\begin{figure}
-%\centering
-%	\includegraphics[width=\linewidth]{figs/pubby.PNG}
-%	\caption{Pubby interface for \ac{rdf}}
-%	\label{fig:Pubby}
-%\end{figure}
+For publishing linked data the Strabon endpoint (Figure \ref{fig:Strabon}) is used in combination with an Apache Tomcat server. The Strabon endpoint is a semantic spatiotemporal \ac{rdf} store, originally developed for the European  SemsorGrid4Env project (see \url{http://strabon.di.uoa.gr/}). It uses a Postgres database with the Postgis extension to store \ac{rdf} triples and it provides spatial queries using stSPARQL (Paragraph \ref{par:stSPARQL}).  
 
-The Strabon and Parliament endpoint have been tested since they both handle GeoSPARQL queries. Strabon has been used in the final design, because the Parliament endpoint rejected certain longer queries (see \ref{par:spQueries}).
+The first step in publishing the graph that is created using RDFlib is to store it in an \ac{rdf} document. This process is called the serialization of an RDFlib graph. To perform this process function `serialize' of the RDFlib package is used. This function is a method of the graph object and requires two input parameters: the name of the output file and the notation of the triples. In the prototype implementation the Turtle notation is being used. 
 
-Pubby software in combination with Apache Tomcat allows for a user interface that is easier to navigate through for humans. The links stored in \ac{rdf} triples are represented as hyperlinks which can be used to navigate between pages about different concepts. 
+After the \ac{rdf} documents have been created they should be posted to the \ac{sparql} endpoint. To post a document to Strabon the client should first login to the endpoint. To do this a Session object is created using the Requests library. This session object posts it login credentials to the endpoint, after which it can be used for posting \ac{rdf} data. Listing \ref{lst:rdflib} shows how to log in to the endpoint with a session object. After that the graph is serialized to the document `sensors.ttl', which can then be posted to the Strabon endpoint.   
 
+\begin{lstlisting}[caption={Serializing the RDFlib graph object and posting it to the Strabon endpoint}, label={lst:rdflib}]
+import os
+import requests
+import rdflib
+
+# Define the login parameters in a dictionary
+login = {"dbname":"endpoint", "username":"your_username", "password":"your_password", "port":"5432", "hostname":"localhost", "dbengine":'postgis"}
+
+# Create a new session
+session = requests.Session()
+
+# Log in with the session to the Strabon endpoint using the login parameters
+r = session.post("http://example.com/strabon-endpoint/DBConnect", data=login)
+
+# Serialize the graph to the file sensors.xml
+g.serialize("sensors.ttl",format="turtle")
+
+# Post the sensors.xml file to the endpoint
+r = session.post("http://example.com/strabon-endpoint/Store", data={"view":"HTML", "format":"Turtle", "url":"file:///{0}/sensors.ttl".format(os.getcwd()), "fromurl":"Store from URI" }) 
+\end{lstlisting}  
+
+
+For creating \aclp{purl} the Purlz software has been used (see \url{http://www.purlz.org/}). All \acp{uri} that are created get a \ac{purl} assigned to it. The \ac{purl} resolves the \ac{uri} to a \texttt{DESCRIBE} query at the endpoint. This query is structured as a get request: \texttt{\seqsplit{http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Describe?submit=describe\&view=HTML\&handle=download\&format=turtle\&query=DESCRIBE < an\_URI >}}. The request has `\texttt{/Describe?submit=describe}' to call the script that deals with describe queries and to tell it that the request is also submitting this type of query. The parameters `\texttt{view=HTML\&handle=download}' indicate that the endpoint's website is requested, but the returned data should be a download file instead of an HTML page. The parameter `\texttt{\&format=turtle}' sets the \ac{rdf} notation of the download file to Turtle and `\texttt{\&query=DESCRIBE <an\_URI>}' is the \ac{sparql} query that contains the \ac{uri} between brackets. 
+
+\begin{lstlisting}[caption={Example of a PURL batch file (containing one PURL)}, label={lst:PURL}]
+<purls>
+	<purl id="/masterThesis_tudelft/responseFormat_0" type="302">
+		<maintainers>
+		<uid>admin</uid>
+		</maintainers>
+		<target url="http://example.com/strabon-endpoint/Describe?
+			view=HTML&amp;handle=download&amp;
+			format=turtle&amp;submit=describe&amp;query=DESCRIBE 
+			&lt;http://localhost:8099/masterThesis_tudelft/RIVM_PROC_0&gt;"/>
+	</purl>
+</purls>
+\end{lstlisting}
+
+Every \ac{uri} that is assigned to a part of sensor metadata (like the `procedureURI' in Listing \ref{lst:rdflib}) is written to an \ac{xml} file with the parameters: ID, \ac{purl} type, and target address. Optionally, information about the person or organisation maintaining the \ac{purl} can be added. The ID is the original \ac{uri} that is being resolved to the target address. The \ac{purl} type is set to 302, which means that it redirects the client to the target address. Alternative types can be found in Table \ref{tbl:HTTP}. After all \acp{uri} have been added to the so called \ac{xml} `batch' file \citep{LD:PURL2}, the file can be posted to the Purlz server. Posting \ac{xml} documents to the \ac{purl} server is similar to posting \ac{rdf} documents to the Strabon endpoint as shown in Listing \ref{lst:rdflib}. An example of a `batch' file can be seen in Listing \ref{lst:PURL}. These \ac{xml} files are created using the Python package LXML. 
 
 
 \section{Using logical queries to retrieve sensor data}
 
-Explain how the second WPS is made 
+The first process described how the prototype implementation harvests sensor metadata from a \ac{sos} and publishes it as linked data in a \ac{sparql} endpoint. The second process uses this data and its semantics to automatically retrieve data based on a user's logical sensor data query. This process is created around `request' class which has been made to store all logical input parameters and automatically convert them to \ac{sos} requests and return the data in an integrated and aggregated way. The following paragraphs describe how the different parts of this process have been implemented.
 
 \subsection{Input parameters}
-The prototype takes a number of input parameters. First of all, a list with observed properties which will be the 'layers' that the process returns. The second parameter is the category of input features. This can be set to administrative units (country, province or municipality), land cover or raster. The third parameter is a list of input feature. This is a list of names or identifiers that correspond to the category. The next parameter is the temporal range. This has to be a list of two \ac{iso} datetime strings representing the start and end time. The fifth parameter is the temporal granularity, represented by an \ac{iso} delta datetime string. The sixth input parameter is the method of spatial aggregation. This method will be applied to aggregate the data based on the input features. The last input parameter is the temporal aggregation method to aggregate data between start and end time to the required granularity.      
-% for the \ac{eea} reference grid.  
+The prototype implementation takes a number of input parameters. First of all, the observable property, which will be related to a DBPedia definition. The second parameter is the category of input features. This can be set to administrative units (country, province or municipality), land cover or raster. The third parameter is a list of input feature. This is a list of names or identifiers that correspond to the category of input features. For example, `Delft municipality' can be used as input since it includes the feature name and it's category. The next parameter is the temporal range. This has to be a list of two \ac{iso} datetime strings representing the start and end time. The fifth parameter is the temporal granularity, represented by an integer and a datetime unit like hour(s), day(s) or week(s). For example a temporal range of `1 hour' will aggregate the data temporally to a single value per hour. The sixth input parameter is the temporal aggregation method. This is the method for aggregating data between start and end time using the provided temporal granularity. The last input parameter is the method of spatial aggregation. This method will be applied to aggregate the data based on the input features.       
 
-\subsection{Retrieving geometries}
-The input category is a starting point for the process to find the geometries of the input features. It creates a \ac{sparql} query to retrieve the geometries of these features. 
+\subsection{Discovering sensors}
+The input category is a starting point for the process to find the geometries of the input features. It creates a \ac{sparql} query that retrieves the geometries of the features by selecting all features of the input category and filtering them by name. Listing \ref{lst:getGeometries} shows that the filter expression is defined first. This is then added to the a predefined template of a \ac{sparql} query together with the feature category. For the currently implemented categories (landcover, raster, municipalities and provinces) the DBPedia \ac{url} is simple found by adding it to the standard method for defining \acp{uri}: \url{http://dbpedia.org/resource/}.   
 
-\subsection{Spatial queries}
-With the found geometries a \ac{sparql} query is made to find a sensor collection that has a certain observed property. From this collection sensors can be selected that overlap the previously found geometries. Unfortunately \ac{sparql} queries are not allowed to exceed a certain number of characters. This creates problems when querying larger vector geometries (provinces and countries). For these queries two alternatives have been implemented: using the \ac{eea} reference grid as a spatial index for vector geometries and using bounding box queries at the \ac{sos}. 
+\begin{lstlisting}[caption={Example SPARQL query retreiving the geometries of input features}, label={lst:getGeometries}]
+import requests 
 
-For the first alternative the \ac{eea} raster cells are retrieved instead of the vector data. Only the cells are requested that overlap with the vector geometry. For these cells all sensor locations are requested. However, the result of this is that too many sensor locations are retrieved, also ones that are outside the original vector feature. Therefore the \ac{wps} performs the spatial filter instead of the \ac{sparql} endpoint and removes all locations that are outside of the requested feature.
+# Define the location of the endpoint
+myEndpoint = 'example.com/strabon-endpoint/Query'
 
-The second alternative checks which \aclp{sos} have sensor locations within the bounding box of the vector geometry. For all of them that also observe the correct observed property \texttt{GetObservation} requests are made. In these requests a spatial filter is added. 
+for i, feature in enumerate(self.featureNames):
+	
+	# Create a list with a filter expression for every name 
+	featureNamesList = '?name = "{0}"'.format(feature)
+	
+	# Join them together and place them inside the SPARQL filter function
+	featureFilter = "FILTER( {0} )".format( " || ".join(featureNamesList) )
+
+
+# Define the SPARQL query
+query = """
+	SELECT 
+		?feature ?geom ?name
+	WHERE {{ 
+		?feature <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/{0}> . 
+		?feature <http://strdf.di.uoa.gr/ontology#hasGeometry> ?geom . 
+		?feature <http://xmlns.com/foaf/0.1/name> ?name . 
+	{1}
+	}}""".format(self.featureCategory.title(), featureFilter)
+
+# POST the SPARQL query to the endpoint
+r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
+
+# Print the results
+print r.content
+\end{lstlisting}
+
+A \ac{sparql} query is then made to find a sensor collection that has a requested observed property. From this collection sensors are selected that overlap with the previously found geometries. Unfortunately \ac{sparql} queries are not allowed to exceed a certain number of characters. This creates problems when querying larger vector geometries (provinces and countries). For these queries two alternatives have been implemented: using the \ac{eea} reference grid as a spatial index for vector geometries and using bounding box queries at the \ac{sos}. 
+
+For the first alternative the \ac{eea} raster cells are retrieved instead of the vector data. Only the cells are requested that overlap with the vector geometry. For these cells all sensor locations are requested. However, the result of this is that too many sensor locations are retrieved, also ones that are outside the original vector feature. Therefore the \ac{wps} performs the spatial filter and removes all locations that are outside of the requested feature.
+
+The second alternative checks which \aclp{sos} have sensor locations within the bounding box of the vector geometry. For all of them have sensors in this area that observe the required observed property \texttt{GetObservation} requests are made. In these requests a spatial filter is added. 
 
 
 \subsection{Retrieving sensor data}
-After all sensor locations have been retrieved from the \ac{sparql} endpoint \texttt{GetObservation} requests are made. These require the identifiers that were given to the observed properties and procedures by their \ac{sos}, instead of the semantic \acp{url} that were assigned to them. The requests are structured as explained in Paragraph \ref{par:getObservation}. When possible, the request is extended with a temporal filter to only retrieve data inside the required temporal range. The output format is set to \ac{xml}.
+After all sensor locations have been retrieved from the \ac{sparql} endpoint \texttt{GetObservation} requests are made. These require the identifiers that were given to the observed properties and procedures by their \ac{sos}, instead of the semantic \acp{url} that were assigned to them. The requests are structured as explained in Paragraph \ref{par:getObservation}. When possible, the request is extended with a temporal filter to only retrieve data inside the required temporal range. The output format is set to \ac{xml} using the \url{http://www.opengis.net/om/} schema.
 
 \begin{sloppypar}
-The received \ac{xml} document is looped through looking for `sos:observationData' elements. These elements contain \ac{om} observations. Some \aclp{sos} return sensor data as an \ac{om} measurement. However, others use the `\ac{swe}:dataArray' type. A response document with \ac{om} measurements contains elements for individual observations. Every observation has an element for result, result time, \ac{uom}, procedure, feature of interest and observed property.  
+The received \ac{xml} document loaded into Python using the LXML package and all `sos:observationData' elements are retrieved from it. These elements contain \ac{om} observations. Some \aclp{sos} return sensor data as an \ac{om} measurement. However, others use the `\ac{swe}:dataArray' type. A response document with \ac{om} measurements contains elements for individual observations. Every observation has an element for result, result time, \ac{uom}, procedure, feature of interest and observed property.  
 \end{sloppypar}
 
 An \ac{swe} data array is an array of observations that share the same metadata. For all observations that have the same feature of interest, procedure, observed property and \ac{uom} the result data is an array of  results values together with result or phenomenon times. The result value is separated from the result or phenomenon time using a predefined `tokenseparator'. The combinations of result values and result or phenomenon times are separated using predefined `blockseparators'.  
