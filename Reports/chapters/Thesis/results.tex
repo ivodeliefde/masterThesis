@@ -19,7 +19,7 @@ The metadata in \aclp{sos} does not necessarily contain semantics. This is an is
 \subsection{Automatically creating an URI scheme}
 If an \ac{uri} is automatically created for data from an unknown source there is an amount of uncertainty to what the \ac{uri} will look like. Either a random identifier can be assigned to it, or the identifier that is already provided by the data source. This identifier most likely contains some reference to the nature of the real world thing the \ac{uri} represents and is therefore preferable to a a completely random identifier. Adding the given identifier to the \ac{uri} can create very long and strange \acp{uri} because different data sources have a different way of creating \acp{uri} since the \ac{om} schema allows simply `any \ac{uri}'.   
 
-\section{Spatial queries with stSPARQL}
+\section{Spatial queries with SPARQL}
 \label{par:spQueries}
 For retrieving data about a vector feature three methods for spatial querying have been implemented. First of all, spatial queries in which the server side receives the complete geometry of a feature and checks which point geometries it contains. Second of all, spatial queries in which the server side receives the bounding box of the complete geometry and check which points are within it. Third of all, spatial queries in which the server side receives the \ac{eea} reference grid cell that overlap the geometry and checks which points each cell contains. With the first method the client does not have to perform any spatial queries anymore. The second and third method will also return points that are not inside the geometry of the vector feature. These points could be filtered out by the client. 
 
