@@ -23,6 +23,10 @@ If an \ac{uri} is automatically created for data from an unknown source there is
 \label{par:spQueries}
 For retrieving data about a vector feature three methods for spatial querying have been implemented. First of all, spatial queries in which the server side receives the complete geometry of a feature and checks which point geometries it contains. Second of all, spatial queries in which the server side receives the bounding box of the complete geometry and check which points are within it. Third of all, spatial queries in which the server side receives the \ac{eea} reference grid cell that overlap the geometry and checks which points each cell contains. With the first method the client does not have to perform any spatial queries anymore. The second and third method will also return points that are not inside the geometry of the vector feature. These points could be filtered out by the client. 
 
+The Strabon and Parliament endpoint have been tested since they both handle GeoSPARQL queries. Strabon has been used in the final design, because the Parliament endpoint rejected certain longer queries (see \ref{par:spQueries}).
+
+Pubby software in combination with Apache Tomcat allows for a user interface that is easier to navigate through for humans. The links stored in \ac{rdf} triples are represented as hyperlinks which can be used to navigate between pages about different concepts. 
+
 \subsection{Vector queries}
 GeoSPARQL allows spatial queries in which a geometry can be inserted in the query. The implementation uses this functionality to test for spatial relations between geometries. For example between the point geometry of a sensor and the polygon geometry of an administrative unit. However, when geometries become more complicated their \ac{wkt} definition becomes more verbose. This leads to the query being rejected based on its number of characters by the endpoint. This indicates that vector queries with complex geometries are not very efficient to include in a \ac{sparql} query.     
 
