@@ -23,7 +23,7 @@ The workflow of this \ac{wps} process is shown in Figure \ref{fig:WPS1workflow}.
 \begin{figure}
 	\centering
 	\includegraphics[width=1\linewidth]{UML/wps1workflow.PNG}
-	\caption{Workflow diagram of Web Processing Service for creating linked sensor metadata (adapted from \cite{LD:Missier})}
+	\caption{Workflow diagram of web process for creating linked sensor metadata (adapted from \cite{LD:Missier})}
 	\label{fig:WPS1workflow}
 \end{figure}
 
@@ -78,7 +78,7 @@ The documents that are returned by the \ac{sos} contain a lot of information. In
 	\label{fig:SOS_Semantic_UML2}
 \end{figure}
 
-After the metadata has been retrieved from the \ac{sos} and filtered (Figure \ref{fig:SOS_UML}) it has to be mapped to linked data ontologies. For this the om-lite and sam-lite ontologies are being used in combination with the PROV and GeoSPARQL ontologies. Figure \ref{fig:SOS_Semantic_UML} shows that the \ac{omlite} and \ac{samlite} can be used to describe classes of Figure \ref{fig:SOS_UML} from an observation perspective. Figure \ref{fig:SOS_Semantic_UML2} shows that classes of Figure \ref{fig:SOS_UML} can be described from a provenance perspective as entities, agents and processes.     
+After the metadata has been retrieved from the \ac{sos} and filtered (Figure \ref{fig:SOS_UML}) it has to be mapped to linked data ontologies. For this the om-lite and sam-lite ontologies are being used in combination with the PROV and GeoSPARQL ontologies. Figure \ref{fig:SOS_Semantic_UML} shows that the om-lite and sam-lite can be used to describe classes of Figure \ref{fig:SOS_UML} from an observation perspective. Figure \ref{fig:SOS_Semantic_UML2} shows that classes of Figure \ref{fig:SOS_UML} can be described from a provenance perspective as entities, agents and processes.     
 
 A \ac{sos} is modelled as an agent with a specific name, that acts on behalf of a certain organisation. The organisation, access constraints, fees, versions and response formats are properties of the \ac{sos}. Every sensor is described by a procedure and a certain feature of interest. The sensor class was not present in the model of Figure \ref{fig:SOS_UML}, because the \ac{sos} does not define sensors. However, the sensor class has been added to the semantic model to make the relation between procedure and sampling point explicit. 
 
@@ -137,7 +137,7 @@ Figure \ref{fig:WPS2} shows the process of retrieving sensor data. The workflow 
 \begin{figure}
 	\centering
 	\includegraphics[width=1\linewidth]{UML/wps2workflow.png}
-	\caption{Workflow diagram of Web Processing Service for retrieving sensor data}
+	\caption{Workflow diagram of web process for retrieving sensor data}
 	\label{fig:WPS2workflow}
 \end{figure}
 
@@ -160,7 +160,7 @@ Then a second \ac{sparql} query selects the sensors that are part of a collectio
 \end{quote} 
 
 
-\subsection{Integrating and aggregation sensor data}
+\subsection{Processing sensor data}
 The requests described in Paragraph \ref{par:retrieve} result in a \ac{xml} document with observation data for every sensor. In each document the observations have to be retrieved, with their corresponding result time, phenomenon time and \ac{uom}. All of these observation have to be stored in a uniform way in another file or file-like object. If the temporal filter was not supported by the \ac{sos} the observation should only be stored if it is inside the requested temporal range. Also the \ac{foi} geometry should be stored with the observation for data visualisation or spatial aggregation later on. This process repeats itself until the observations have been retrieved from all \ac{xml} documents and they are all stored in a single dataset.  
 
 The next step is to temporally aggregate the observation data. For every sensor location the result time is compared to the temporal range and the value for temporal granularity. It should then be appended to a list that corresponds to a certain subset of the temporal range. After this temporal sorting has been performed all observation values in a list should be aggregated according to a user defined method. 
@@ -169,13 +169,19 @@ If a spatial aggregation method is part of the user's logical query then this is
 
 Examples of aggregation methods that can be used for spatial or temporal aggregation are the average, median, minimum, maximum or sum. Which method is being used is dependent on the information need of a user. Therefore, these methods can be extended with more complex aggregation techniques as described by \citep{SW:Ganesan}. Also, as \cite{SSW:Stasch4} argue a `check' could be implemented to make sure users do not (accidentally) request a meaningless type of aggregation, such as the sum of temperature values over a certain area. 
 
+The last step is to convert the integrated and aggregated data to a desired output format. There are many different formats that could be used for returning sensor data. However, there are two output formats for which an \ac{om} schema has been defined: it can be returned as an \ac{xml} document \citep{SW:ISO} or as a \ac{json} object \citep{SW:OGC6}.  
+
 
 \chapter{Prototype implementation}
 \label{chap:impl}
 The prototype implementation serves as a proof of concept. It takes the designed method from Chapter \ref{chap:design} and applies it using existing software tools and python libraries and modules. First, the implementation of the process for automatically creating linked sensor metadata will be described. After that the implementation of the process for retrieving sensor data using logical queries is described. The third part of this chapter describes how the two processes have been made available online. The final part shows the web application that has been created as an interface for the second web process.
 
-\section{Creating linked data from sensor metadata}
 
+%******************************************************************
+%******************************************************************
+
+\section{Creating linked data from sensor metadata}
+\label{par:linkedSD}
 The first step of the method described in Chapter \ref{chap:design} is to automatically harvest sensor metadata from a \ac{sos} using various requests. This data should then be mapped to ontologies and serialized to an \ac{rdf} document. The next paragraphs will describe how these steps have been implemented using the Python programming language.
 
 \subsection{Making sensor metadata requests}
@@ -191,7 +197,7 @@ After the initialisation is finished the method \texttt{SOSclass.request()} is a
 After the geometries of the \acp{foi} have been retrieved they should be linked to procedures and observable properties. As described in Paragraph \ref{par:metadataRequests} it is not mandatory to define these relations in the \texttt{GetCapabilities}, \texttt{GetFeaturesOfInterest} or \texttt{DescribeSensor} response documents. Therefore, small amounts of observation data are requested from the sensors using \texttt{GetObservation} requests.  
 \end{sloppypar}
 
-\begin{lstlisting}[caption={Creating a HTTP Get request using Python's Request library}, label={lst:Requests}]
+\begin{lstlisting}[float,caption={Creating a HTTP Get request using Python's Request library}, label={lst:Requests}]
 import requests
 
 sosURL = "http://example.com/SOS?"
@@ -211,7 +217,7 @@ print r.content
 \subsection{Map metadata to ontologies}
 After each request is send an \ac{xml} document is returned. To retrieve data from these \ac{xml} documents the LXML library for Python is used (see \url{http://lxml.de}). With this library the \ac{xml} document can be loaded into an Python object, which allows for easy \ac{xml} processing, such as looping through the elements and searching the whole document for elements with specific tags. Listing \ref{lst:LXML} shows a snippet of code that takes the response document retrieved from Listing \ref{lst:Requests} and that uses the LXML library to find all offerings presented in this document. All offerings are returned as a list and stored inside the variable `SOSclass.offerings'. With this principle all metadata from the \ac{sos} is retrieved from the \ac{xml} response documents and stored for further processing.    
 
-\begin{lstlisting}[caption={Creating an Etree object from an XML response document using Python's LXML library}, label={lst:LXML}]
+\begin{lstlisting}[float,caption={Creating an Etree object from an XML response document using Python's LXML library}, label={lst:LXML}]
 import lxml
 
 # Store the retrieved document as an Etree object
@@ -226,17 +232,17 @@ SOSclass.offerings = tree.findall(".//sos:ObservationOffering", nsm)
 
 \end{lstlisting}   
 
-Once all the relevant metadata has been retrieved from the \ac{sos} and stored inside the class object it should be mapped to linked data ontologies. For the Python package RDFlib is used (see \url{https://rdflib.readthedocs.org/}).  RDFlib defines an \ac{rdf} graph to which triples can be added. Listing \ref{lst:rdflib} shows a snippet of code that defines an \ac{rdf} graph and adds all procedures of a \ac{sos} to it with the type `http://def.seegrid.csiro.au/ontology/om/om-lite\#process'. A semantic \ac{url} is defined for each procedure. It is created using a combination of the name of the organisation and a unique number for each procedure. The domain of the \ac{url} points to the \ac{purl} server. The same principle of creating triples from sensor metadata is applied to all classes and relations described in Figure \ref{fig:SOS_Semantic_UML}. 
+Once all the relevant metadata has been retrieved from the \ac{sos} and stored inside the class object it should be mapped to linked data ontologies. For the Python package RDFlib is used (see \url{https://rdflib.readthedocs.org/}).  RDFlib defines an \ac{rdf} graph to which triples can be added. Listing \ref{lst:rdflib} shows a snippet of code that defines an \ac{rdf} graph and adds all procedures of a \ac{sos} to it with the type `http://def.seegrid.csiro.au/ontology/om/om-lite\#process'. A semantic \ac{url} is defined for each procedure. It is created using a combination of the name of the organisation and a unique number for each procedure. The domain of the \ac{url} points to the \ac{purl} server. The same principle of creating triples from sensor metadata is applied to all classes and relations described in Figure \ref{fig:SOS_Semantic_UML} and \ref{fig:SOS_Semantic_UML2}. 
 
 
-\begin{lstlisting}[caption={Creating an RDF graph object with the Python package RDFlib}, label={lst:rdflib}]
+\begin{lstlisting}[float,caption={Creating an RDF graph object with the Python package RDFlib}, label={lst:rdflib}]
 import rdflib
 
 # The domain of the PURL server
-PURLZ = "http://localhost:8099/masterThesis_tudelft"
+PURLZ = "http://example.com/PURLZ"
 
 # Create the OM-lite namespace 
-om_lite = rdflib.Namespace('http://def.seegrid.csiro.au/ontology/om/om-lite#')
+oml = rdflib.Namespace("http://def.seegrid.csiro.au/ontology/om/om-lite#")
 
 # Initialize a graph object
 g = Graph()
@@ -247,7 +253,7 @@ for i, procedure in enumerate(SOSclass.procedures):
 	
 	# Add all procedures to the graph and define them   
 	# as om-lite processes
-	g.add( ( procedureURI, RDF.type, om_lite.process) )
+	g.add( ( procedureURI, RDF.type, oml.Process) )
 
 \end{lstlisting}  
 
@@ -260,13 +266,13 @@ for i, procedure in enumerate(SOSclass.procedures):
 	\label{fig:Strabon}
 \end{figure}
 
-For publishing linked data the Strabon endpoint (Figure \ref{fig:Strabon}) is used in combination with an Apache Tomcat server. The Strabon endpoint is a semantic spatiotemporal \ac{rdf} store, originally developed for the European  SemsorGrid4Env project (see \url{http://strabon.di.uoa.gr/}). It uses a Postgres database with the Postgis extension to store \ac{rdf} triples and it provides spatial queries using stSPARQL (Paragraph \ref{par:stSPARQL}).  
+For publishing linked data the Strabon endpoint (Figure \ref{fig:Strabon}) is used in combination with an Apache Tomcat server. The Strabon endpoint is a semantic spatiotemporal \ac{rdf} store, originally developed for the European  `SemsorGrid4Env' project (see \url{http://strabon.di.uoa.gr/}). It uses a Postgres database with the Postgis extension to store \ac{rdf} triples and it allows spatial \ac{sparql} queries using the stSPARQL extension (Paragraph \ref{par:stSPARQL}).  
 
 The first step in publishing the graph that is created using RDFlib is to store it in an \ac{rdf} document. This process is called the serialization of an RDFlib graph. To perform this process function `serialize' of the RDFlib package is used. This function is a method of the graph object and requires two input parameters: the name of the output file and the notation of the triples. In the prototype implementation the Turtle notation is being used. 
 
 After the \ac{rdf} documents have been created they should be posted to the \ac{sparql} endpoint. To post a document to Strabon the client should first login to the endpoint. To do this a Session object is created using the Requests library. This session object posts it login credentials to the endpoint, after which it can be used for posting \ac{rdf} data. Listing \ref{lst:rdflib} shows how to log in to the endpoint with a session object. After that the graph is serialized to the document `sensors.ttl', which can then be posted to the Strabon endpoint.   
 
-\begin{lstlisting}[caption={Serializing the RDFlib graph object and posting it to the Strabon endpoint}, label={lst:rdflib}]
+\begin{lstlisting}[float,caption={Serializing the RDFlib graph object and posting it to the Strabon endpoint}, label={lst:rdflib}]
 import os
 import requests
 import rdflib
@@ -290,7 +296,7 @@ r = session.post("http://example.com/strabon-endpoint/Store", data={"view":"HTML
 
 For creating \aclp{purl} the Purlz software has been used (see \url{http://www.purlz.org/}). All \acp{uri} that are created get a \ac{purl} assigned to it. The \ac{purl} resolves the \ac{uri} to a \texttt{DESCRIBE} query at the endpoint. This query is structured as a get request: \texttt{\seqsplit{http://localhost/strabon-endpoint-3.3.2-SNAPSHOT/Describe?submit=describe\&view=HTML\&handle=download\&format=turtle\&query=DESCRIBE < an\_URI >}}. The request has `\texttt{/Describe?submit=describe}' to call the script that deals with describe queries and to tell it that the request is also submitting this type of query. The parameters `\texttt{view=HTML\&handle=download}' indicate that the endpoint's website is requested, but the returned data should be a download file instead of an HTML page. The parameter `\texttt{\&format=turtle}' sets the \ac{rdf} notation of the download file to Turtle and `\texttt{\&query=DESCRIBE <an\_URI>}' is the \ac{sparql} query that contains the \ac{uri} between brackets. 
 
-\begin{lstlisting}[caption={Example of a PURL batch file (containing one PURL)}, label={lst:PURL}]
+\begin{lstlisting}[float,caption={Example of a PURL batch file (containing one PURL)}, label={lst:PURL}]
 <purls>
 	<purl id="/masterThesis_tudelft/responseFormat_0" type="302">
 		<maintainers>
@@ -308,7 +314,7 @@ Every \ac{uri} that is assigned to a part of sensor metadata (like the `procedur
 
 
 \section{Using logical queries to retrieve sensor data}
-
+\label{par:logicalQuery}
 The first process described how the prototype implementation harvests sensor metadata from a \ac{sos} and publishes it as linked data in a \ac{sparql} endpoint. The second process uses this data and its semantics to automatically retrieve data based on a user's logical sensor data query. This process is created around `request' class which has been made to store all logical input parameters and automatically convert them to \ac{sos} requests and return the data in an integrated and aggregated way. The following paragraphs describe how the different parts of this process have been implemented.
 
 \subsection{Input parameters}
@@ -318,7 +324,7 @@ The prototype implementation takes a number of input parameters. First of all, t
 \label{par:discoverSensors}
 The input category is a starting point for the process to find the geometries of the input features. It creates a \ac{sparql} query that retrieves the geometries of the features by selecting all features of the input category and filtering them by name. Listing \ref{lst:getGeometries} shows that the filter expression is defined first. This is then added to the a predefined template of a \ac{sparql} query together with the feature category. For the currently implemented categories (landcover, raster, municipalities and provinces) the DBPedia \ac{url} is simple found by adding it to the standard method for defining \acp{uri}: \url{http://dbpedia.org/resource/}.   
 
-\begin{lstlisting}[caption={Example script that sends a SPARQL query for retreiving geometries of input features}, label={lst:getGeometries}]
+\begin{lstlisting}[float,caption={Example script that sends a SPARQL query for retreiving geometries of input features}, label={lst:getGeometries}]
 import requests 
 
 # Define the location of the endpoint
@@ -359,7 +365,7 @@ This type of query is shown in Listing \ref{lst:getSensors}. The raster cells ar
 
 The second alternative checks which \aclp{sos} have sensor locations within the bounding box of the vector geometry that observe a certain property. This returns a list of \aclp{sos}. For all of these \texttt{GetObservation} requests are made with a spatial filter. 
 
-\begin{lstlisting}[caption={A spatial SPARQL query for discovering sensors and their SOS related metadata}, label={lst:getSensors}]
+\begin{lstlisting}[float,caption={A spatial SPARQL query for discovering sensors and their SOS related metadata}, label={lst:getSensors}]
 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX strdf: <http://strdf.di.uoa.gr/ontology#>
@@ -381,6 +387,7 @@ WHERE {
 	?collection saml:#member ?FOI .
 	
 	?offering saml:member ?FOI . 
+	?offering prov:specializationOf ?collection .
 	?offering foaf:name ?offeringName .
 	
 	?FOI strdf:hasGeometry ?geom . 
@@ -406,7 +413,7 @@ After all sensor locations have been retrieved from the \ac{sparql} endpoint \te
 
 Listing \ref{lst:getObservation} shows how to use the LXML python package to create a spatial filter in \ac{xml} which can be added to a \texttt{GetObservation} POST request. This has been implemented in the second approach described in Paragraph \ref{par:discoverSensors}. For all retrieved sensor data using this approach the client still has to check whether the returned \acp{foi} are really inside the vector geometry requested by the user. 
 
-\begin{lstlisting}[caption={Script that creates an LXML graph object called spatialFilter to add to a \texttt{GetObservaton} POST request}, label={lst:getObservation}]
+\begin{lstlisting}[float,caption={Script that creates an LXML graph object called spatialFilter to add to a \texttt{GetObservaton} POST request}, label={lst:getObservation}]
 spatialFilter = etree.SubElement(getObservation, "{http://www.opengis.net/sos/2.0}spatialFilter")
 
 bbox = etree.SubElement(spatialFilter, "{http://www.opengis.net/fes/2.0}BBOX" )
@@ -435,7 +442,7 @@ After all observation data is retrieved it is first aggregated temporally. An em
 As soon as all the observations have been sorted the data is aggregated. For all values per key the average, minimum, maximum, median or sum is calculated. The resulting value replaces the values in the dictionary. Listing \ref{lst:aggregate} shows how the observation data stored as comma separated value strings can be quickly aggregated to a single value. If spatial aggregation is part of the sensor data request this is performed after the temporal aggregation. Using Shapely's 9-intersection model functions the sensor locations are ordered per spatial feature. Finally, all values are aggregated per feature per temporal range. For both temporal and spatial aggregation the basic methods have been implemented such as average, minimum, maximum, sum and median. These methods can be further extending to give more reliable results \citep{SW:Ganesan} or to give more semantic meaning to the aggregation methods \citep{SSW:Stasch4}.         
 
 
-\begin{lstlisting}[caption={Script that performs basic temporal aggregation methods on a comma separated value string}, label={lst:aggregate}]
+\begin{lstlisting}[float,caption={Script that performs basic temporal aggregation methods on a comma separated value string}, label={lst:aggregate}]
 import numpy
 
 # Example comma separated value string 
@@ -446,25 +453,98 @@ csvString = "2016-06-25T09:00:00,15.2;2016-06-25T09:02:00,15.5"
 observations = csvString.split(";")
 
 # Aggregate the observations with a method selected by the user
-if self.tempAggregation == 'average':
-	aggregatedData = (sum([float(x.split(',')[1]) for x in observations]) ) / float(len(observations))
-elif self.tempAggregation == 'minimum':
-	aggregatedData = min([float(x.split(',')[1]) for x in observations])
-elif self.tempAggregation == 'maximum':
-	aggregatedData = max([float(x.split(',')[1]) for x in observations])
-elif self.tempAggregation == 'sum':
-	aggregatedData = sum([float(x.split(',')[1]) for x in observations])
-elif self.tempAggregation == 'median':
-	aggregatedData = numpy.median(numpy.array([float(x.split(',')[1]) for x in observations]))
+if self.tempAggregation == "average":
+	aggregatedData = (sum([float(x.split(",")[1]) for x in observations]) ) / float(len(observations))
+elif self.tempAggregation == "minimum":
+	aggregatedData = min([float(x.split(",")[1]) for x in observations])
+elif self.tempAggregation == "maximum":
+	aggregatedData = max([float(x.split(",")[1]) for x in observations])
+elif self.tempAggregation == "sum":
+	aggregatedData = sum([float(x.split(",")[1]) for x in observations])
+elif self.tempAggregation == "median":
+	aggregatedData = numpy.median(numpy.array([float(x.split(",")[1]) for x in observations]))
+\end{lstlisting}
+
+
+\begin{lstlisting}[float,caption={Script that defines a web proces using PyWPS}, label={lst:PyWPS}]
+from pywps.Process import WPSProcess
+from sosRequests import *
+from linkedDataCapabilities import *
+
+class Process(WPSProcess):
+
+def __init__(self):
+
+WPSProcess.__init__(self,
+identifier = "LinkedDataFromSOS",
+title="Creates Linked Data of SOS metadata",
+abstract="""This process takes an HTTP address of a Sensor Observation Service (SOS) as input and converts the metadata to linked data.""",
+version = "1.0",
+storeSupported = True,
+statusSupported = True)
+
+# Adding process input
+self.urlIn = self.addLiteralInput(
+identifier = "input_url", 
+title = "Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'", 
+default = "http://inspire.rivm.nl/sos/eaq/service?", 
+type = "StringType"
+)
+
+def execute(self):
+url = self.urlIn.getValue()
+
+# Create SOS instance with the URL as input and 
+# retrieve its metadata.  
+sos = SOS(url)
+
+# Create and publish linked data from the above 
+# retrieved metadata
+linkedDataCapabilities(sos)
+
+if (__name__ == "__main__"):
+Process = Process()
+Process.execute()
 \end{lstlisting}
 
 \section{Setting up the Web Processing Services}
 \label{impl:wps}
-Creating two \aclp{wps} using PyWPS.
 
-Ouput \ac{xml} using \ac{om} schema or using \ac{json} with the potential \ac{ogc} canditate standard for \ac{json} \citep{SW:OGC6}.
+The proof of concept web processes described in Paragraph \ref{par:logicalQuery} and \ref{par:linkedSD} have been added to a \ac{wps} using the PyWPS software. PyWPS is an implementation of the \acl{wps} standard from the \acl{ogc} using the Python programming language. It is an open source project and aims to enabling the integration, publishing and execution of Python processes via the \ac{wps} standard (see \url{http://pywps.org/}).  
 
-Setting it up on the university server
+Listing \ref{lst:PyWPS} shows how a \ac{wps} process is defined. A PyWPS process is created using the `Process' class.   Instances of this class contain all the functionality and metadata of the \ac{wps} processes. The Process class consists of two parts: the \texttt{\_\_init\_\_} method and the \texttt{execute} method. The \texttt{\_\_init\_\_} method initializes a \ac{wps} process by giving it an identifier, title, abstract, version number, together with other kinds of (optional) metadata. It also defines the inputs and outputs. The \texttt{execute} method is where the functionality of the process is defined. The process in Listing \ref{lst:PyWPS} imports a class called `SOS' with methods for retrieving metadata from a \acl{sos} and a function called `linkedDataCapabilities' to convert this data to \ac{rdf}.
+
+PyWPS has been installed with the method described by \cite{wps:Deltares}. The \ac{wps} is hosted using the XAMPP software. XAMPP is an open source Apache distribution, that includes a number of useful features such as the Tomcat server (used for hosting the Strabon endpoint). A pywps.cgi file is defined that points to the location of the PyWPS installation and placed in Apache's cgi-bin folder. The last step in hosting processes such as in Listing \ref{lst:PyWPS} is to store the process definition in the `pywps\_processes' folder of the PyWPS installation and adding its identifier to the \texttt{\_\_init\_\_} file in that same folder.    
 
 \section{Creating a web application for retrieving sensor data}
-A web application has been created using the \aclp{wps} from Paragraph \ref{impl:wps}.
+A web application has been created as an interface for the \ac{wps} from Paragraph \ref{par:logicalQuery}. This web application has been created using. Flask is a microframework for creating web applications using Python (see \url{http://flask.pocoo.org/}). The first interface that users encounter is shown in Figure \ref{fig:interface1}. It shows a map on which features can be selected and unselected by clicking on or by manually writing their names in the form. Also an observed property can be selected in this form.
+
+The \ac{wps} as described in Paragraph \ref{par:logicalQuery} then looks for sensors that observe this property of their \ac{foi} and that are located in the selected area. Once the sensors have been found they are visualized on the map by orange dots which can be clicked to see their \ac{uri}, the observed property \ac{uri} and the \ac{http} address of the corresponding \ac{sos} (Figure \ref{fig:interface2}). The form below the map is now automatically replaced by a form with parameters for spatial and temporal aggregation and selecting a temporal range (Figure \ref{fig:interface3}). After the user has entered the required values for these fields the request can be submitted by clicking the bottom right button. The observation data is now retrieved by the \ac{wps} from the different \aclp{sos}. After the \ac{wps} has finished a graph is returned to the user providing a visual impression of the data (Figure \ref{fig:interface4}). The graph is created using Vega-Lite, a high-level visualization grammar developed by Interactive Data Lab of the University Washington (see \url{https://vega.github.io/vega-lite/}). This graph can be exported from the application as a .PNG image or the data can be downloaded using the download button.   
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{figs/interface1.PNG}
+	\caption{Request sensor data interface with parameters for observed property and spatial features}
+	\label{fig:interface1}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{figs/interface3.PNG}
+	\caption{Selecting a sensor on the map show semantic \acp{url} of the sensor, its observed property and the address of its \ac{sos}}
+	\label{fig:interface2}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{figs/interface2.PNG}
+	\caption{Request sensor data interface with parameters for temporal granularity, spatial and temporal aggregation methods and temporal range}
+	\label{fig:interface3}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{figs/interface4.PNG}
+	\caption{Data is returned as a vega-lite graph, with the option to export the graph or download the data}
+	\label{fig:interface4}
+\end{figure}  
