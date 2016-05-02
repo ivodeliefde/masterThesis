@@ -5,7 +5,7 @@
 \chapter{Results}
 \label{chap:results}
 
-In this thesis a method has been developed that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Chapter \ref{chap:design} provides the outline of such a method and Chapter \ref{chap:impl} shows a prototype application based on it. In the following paragraphs the outcomes and results of this proof of concept are discussed. Afterwards, it is also compared to the \acf{csw} and to semantic sensor middle ware. 
+In this thesis a method has been developed that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Chapter \ref{chap:design} provides the outline of such a method and Chapter \ref{chap:impl} presents a proof of concept. In the following paragraphs the outcomes and results of this method are discussed. Afterwards, a comparison is made with the \acf{csw} and with semantic sensor data middle ware. 
 
 \section{Implementation differences between Sensor Observation Services}
 The sources of sensor data used in this thesis were two \aclp{sos}. The first \ac{sos} is maintained by the \acf{rivm}. This service contains air quality sensor data for the Netherlands. The second \ac{sos} is maintained by the \ac{ircel} and contains air quality sensor data for Belgium. In the process of making an automated way for approaching these \aclp{sos} a couple of implementation differences surfaced. Even though both use the \ac{swe} standards it turned out they are not exactly the same. 
@@ -25,10 +25,10 @@ Another implementation difference is visible in the \texttt{GetObservation} resp
 All these minor differences have caused the implementation of the method described in Chapter \ref{chap:design} to be more complex than initially expected. Especially providing a describe sensor document with as much information as possible (containing related features of interest, observed property and offerings) is very important for making sense of the metadata. It is much better to work with the response document if it uses the appropriate \ac{sensorml} classes to describe sensor metadata, instead of adding it to the more general `swe:keywords', or abstract section for example. Especially with optional metadata it is not wrong to include it in one of these sections, but this way it is not machine understandable. 
 
 \section{Semantics in Sensor Observation Services}
+The metadata in \aclp{sos} do not necessarily contain semantic \acp{uri} as identifiers. Therefore the method of Chapter \ref{chap:design} includes a process for creating these semantic \acp{uri} based on the response documents' \ac{xml} tags and corresponding classes in linked data ontologies. However, two issues presented themselves during this process: some identifiers used in a \ac{sos} are completely meaningless, especially from a machine readable point of view. The lack of a defined observable property is the main issue here. The second issue is the complexity of automatically creating an \ac{uri} for metadata, where each \ac{uri} is unique, compact and valid.  
 
-
-\subsection{mapping of observable properties}
-The metadata in \aclp{sos} does not necessarily contain semantics. This is an issue when automatically retrieving metadata from different services. In the implementation this has caused a problem with identifying which observable properties in a \ac{sos} are the same as observable properties found in another \ac{sos}.
+\subsection{Mapping of observable properties}
+This is an issue when automatically retrieving metadata from different services. In the implementation this has caused a problem with identifying which observable properties in a \ac{sos} are the same as observable properties found in another \ac{sos}.
 
 \subsection{Automatically creating an URI scheme}
 If an \ac{uri} is automatically created for data from an unknown source there is an amount of uncertainty to what the \ac{uri} will look like. Either a random identifier can be assigned to it, or the identifier that is already provided by the data source. This identifier most likely contains some reference to the nature of the real world thing the \ac{uri} represents and is therefore preferable to a a completely random identifier. Adding the given identifier to the \ac{uri} can create very long and strange \acp{uri} because different data sources have a different way of creating \acp{uri} since the \ac{om} schema allows simply `any \ac{uri}'.   
