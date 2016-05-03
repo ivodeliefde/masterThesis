@@ -46,7 +46,7 @@ All data models and services in this thesis have been used because they are base
 
 The \ac{om} standard could be reused on the semantic web using the om-lite and sam-lite ontologies. These are lightweight linked data ontologies based on \ac{om}. Performing spatial queries on this linked data is possible using \ac{ogc}'s GeoSPARQL as well as using Strabon's stRDF (Paragraph \ref{par:SpatialFilters}).
 
-The \ac{om} observation schema is being reused for the spatially aggregated sensor data that is retrieved from the discovered \aclp{sos}. However, the schema only allows sensor data from the same procedure. The result of this is that only observations from the same \ac{sos} fit in the \ac{om} observation schema, as different procedures were implemented by the different organisations maintaining a \ac{sos}. Therefore, I propose to either allow the procedure to be nullable in the schema or to allow the procedure element to contain an array of multiple procedures.  
+The \ac{om} observation schema is being reused for the spatially aggregated sensor data that is retrieved from the discovered \aclp{sos}. However, the schema only allows sensor data from the same procedure. The result of this is that only observations from the same \ac{sos} fit in the \ac{om} observation schema, as different procedures were implemented by the different organisations maintaining a \ac{sos}. Therefore, I propose to either allow the procedure element to contain an array of multiple procedures from which the data originates. 
 
 
 \section*{\textbf{Main question:} To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?}%\mbox{}
