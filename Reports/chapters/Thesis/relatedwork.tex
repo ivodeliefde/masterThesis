@@ -103,11 +103,16 @@ Individual sensors can be inserted or deleted using \texttt{InsertSensor} and \t
 
 
 \section{Semantic web}
+The semantic web is an extension of the internet using standards by the \ac{w3c}. Figure \ref{fig:SemanticWeb} shows the hierarchy of data on the semantic web, starting with \acp{uri} at the bottom which are pointers to parts of data. Their actual content is made available in self describing documents. In these documents concepts are defined using existing ontologies. The top layers of the pyramid (logic, proof and trust) have not yet been standardized, and are still a topic of research.  
 
-\begin{figure}
+The semantic web is based on the open world assumption. This means is that \enquote{the thruth of a statement is independent of whether it is known} \citep[p. 103]{LD:Hebeler}. Traditional software application use the closed world assumption. Here a statement is assumed false if the answer is unknown. A simple example of this is a database table containing costumers of a store. If a person's name is not in that table the closed world assumption decides that this person is not a costumer of the store. The name is unknown and hence the statement `he/she is a customer' is false. An open world assumption would decide that it is simply unknown whether this person is a costumer, since it hasn't been described anywhere. The closed world assumption only works in an environment where all information is complete. There should be no possibility in our example that people who are customers are not present in the database table). The case of the internet is that there is an enormous collection of data stored in different places and it can never be guaranteed that this data is complete. Therefore the semantic web is based on the open world assumption \citep{LD:Hebeler}. 
+
+In the next paragraphs the framework of the semantic web --  the \acf{rdf} -- will be described, followed by different \ac{rdf} notations. The last part explains the concept of \acp{purl}.
+
+\begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.7\linewidth]{figs/semanticweb.png}
-	\caption{Hierarchy of the semantic web \citep{LD:Koivunen}}
+	\includegraphics[width=0.7\linewidth]{figs/semanticweb2.png}
+	\caption{Hierarchy of the semantic web \protect\footnotemark}
 	\label{fig:SemanticWeb}
 \end{figure}
 
@@ -124,6 +129,8 @@ In \ac{rdf} data is stored as so-called `triples'. These triples are structured 
 Three types of data can make up these triples \citep{LD:W3C6}. The first type is an \ac{iri}. This is a reference to a resource and can be used for all positions of the triple. A \ac{url} is an example of an \ac{iri}, but \ac{iri}s can also refer to resources without stating a location or how it can be accessed. An \ac{iri} is a generalisation of an \ac{uri}, and also allows non-ASCII characters. In the example of the municipality of Delft, \ac{iri}s can be used to define `Delft' and `Municipality', but also for the predicates `is a' and `has geometry'. The second type of data is a literal. A literal is a value which is not an \ac{iri}, such as strings, numbers or dates. These values can only be used as object in a triple. In the example of Delft, a literal could be used to store the actual geometry of the boundary: POLYGON(( $x_{1},y_{1}$ $x_{2},y_{2}$ ... $x_{n},y_{n}$, $x_{1},y_{1}$ )). A literal value can have a datatype specification \citep{LD:W3C7}. This is added to the literal with the \^{}\^{} symbols, followed by the \ac{iri} of the datatype specification. In Figure \ref{fig:Turtle} the datatype is `geo:wktLiteral'.
 
 Sometimes it is useful to refer to things without assigning them with a global identifier. The third type is the blank node and can be used as an subject or object without using an \ac{iri} or literal \citep{LD:W3C6}.  
+
+\footnotetext{{from \url{https://www.w3.org/2000/Talks/1206-xml2k-tbl/slide10-0.html}} by Tim Berners-Lee}
 
 \subsection{Notation}
 There are a number of different notations for writing down these triples (serialisation), such as \ac{xml} \citep{LD:W3C3}, N3 \citep{LD:W3C5} and Turtle \citep{LD:W3C4}. Turtle will be used in this thesis, because it is commonly used notation which is also relatively easy to read for humans. The DBPedia \ac{iri} is used for the object `Municipality'. The `is a' predicate is represented by a built-in \ac{rdf} predicate which can be written simple as `a'. The second predicate is `hasGeometry' for which the GeoSPARQL \ac{iri} is used. The geometry is a literal in the \ac{wkt} format. Note that the subject is only written once when there are multiple triples with the same subject. Triples that share the same subject are divided by semicolons. A point marks the end of the last triple with a specific subject.
@@ -215,6 +222,7 @@ Managing the connection between a \ac{sir} and a \ac{ogc} catalog can be done us
 
 
 \section{Semantic sensor data middleware}
+\label{par:middleware}
 \cite{SSW:Henson} and \cite{SSW:Pschorr} suggest adding semantic annotations to a \ac{sos} which they call \ac{semsos}. In \ac{semsos} the raw sensor data goes through a process of semantic annotating before it can be requested with a \ac{sos} service. The retrieved data is still an \ac{xml} document, but with embedded semantic terminology as defined in an ontology. The data retrieved from \ac{semsos} is therefore semantically enriched.  
 
 \cite{SSW:Pschorr2} has created a prototype that is able to find sensors from a \ac{sos} using linked data. The user can input a location and find sensors that are located nearby. They acknowledge the advantages of linked data over a catalogue service. However, the method presented by \cite{SSW:Pschorr2} is still limited to retrieving sensors from a single source in a buffer around a point location.  
