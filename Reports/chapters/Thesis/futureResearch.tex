@@ -4,16 +4,21 @@
 \chapter{Future Research}
 \label{chap:futureResearch}
 
-\section{Include more sources of data}
+\section*{Include more sources of data}
 Include more sensor standards besides \ac{sos}, such as tinySOS and SensorThings \ac{api}.
 
 Include more geoweb standards such as \ac{wfs}, \ac{wcs}, etc.
 
-\section{Improve performance}
+\section*{Improve performance}
 Improving performance: currently discovering sensors is fast for bounding box or raster queries. Vector queries take up more time, but is still relatively fast. However, real performance improvements could still be gained in the automatic querying of a \ac{sos}. Currently for every sensor a request is send, but this could probably be improved by requesting all sensor data from the same \ac{sos} using fewer or perhaps even using only a single request.  
 
-\section{Extend ontologies}
+\section*{Extend ontologies}
 Extend current ontologies with semantics about OGC geo web services such as \ac{sos} and their allowed requests. 
 
-\section{Extend methods of aggregation}
-Extend the aggregation methods with spatial or temporal weights to create more reliable outcomes as described by \cite{SW:Ganesan}. Create semantics about aggregation methods as described by \cite{SSW:Stasch4}. 
+\section*{Extend methods of aggregation}
+\label{par:FRaggregation}
+
+Extend the aggregation methods with spatial or temporal weights to create more reliable outcomes as described by \cite{SW:Ganesan}. 
+
+Create semantics about aggregation methods as described by \cite{SSW:Stasch4}. 
+
