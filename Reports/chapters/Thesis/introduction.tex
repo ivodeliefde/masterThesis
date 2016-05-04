@@ -38,11 +38,8 @@ Sensor data ties together many different fields of research. On the one hand the
 
 In the future more sensor data is expected to be produced \citep{IoT:PWC}. Both experts and non-experts will be involved in this development. Experts will produce more data because of European legislation (\ac{inspire}). Non-experts will be involved more often via smart cities and \ac{iot} developments where users or consumer electronics produce sensor data as well. This vast amount of data could be very useful for academic research, provided researchers are able to find the data they need online and are able to integrate and aggregate data from heterogeneous sources. Publishing sensor metadata on the semantic web could make it easier to find what you need through related data on the internet. Having a automated process for this and being able to seamlessly integrate and aggregate data from different sources could be of great use for research such as \cite{UC:vanderHoeven}, \cite{UC:Hotterdam} and \cite{UC:Theunisse}. They are examples of studies that try to understand phenomenon in the built environment using sensor data. Currently data collection and processing takes up a large part of the research, while with the implementation of \ac{swe} standards and the use of the semantic web this might be significantly reduced.  
 
-Sensor data is becoming more important in the every day life of many people. Therefore, the gap between the logical data requests of users and the technical requests defined by sensor web protocols should be bridged. A logical sensor data request contains at least a geographical area, a type of observation and a time range. An example of a simple logical request is: The average air temperature per month over the last five years of sensors located in Delft. To translate this to a technical request specific knowledge is required about things like \acp{uri}, encodings, data models, service models and data formats. This thesis looks into the use of the semantic web to allow sensor data to be easily retrieved from the internet, by understanding the user's logical request and executing it automatically.
+As sensor data is becoming more important the gap between the logical data requests of users and the technical requests defined by sensor web protocols should be bridged. A logical sensor data request contains at least a geographical area, a type of observation and a time range. An example of a simple logical request is: The average air quality per month in neighbourhoods of Delft over the last five years. To translate this to a technical request specific knowledge is required about things like \acp{uri}, encodings, data models, service models and data formats. Whether an automated process could perform this translation is therefore part of the research in this Thesis. 
 
-%\section{Societial relevance}
-
-%\section{Economic potential}
 
 % Research question 
 \section{Research questions}
@@ -52,7 +49,7 @@ This thesis aims to design a method that uses the semantic web to improve sensor
 	\textit{To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?}
 \end{quote}
 
-Subquestions:
+To answer this question it is broken down into four subquestions:
 \begin{itemize}
 	\item To what extent can sensor metadata be automatically retrieved from any SOS?
 	\item To what extent can sensor metadata from a SOS be automatically converted to linked data and published on the semantic web?
