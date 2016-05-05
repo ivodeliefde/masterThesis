@@ -15,7 +15,7 @@ The workflow of this \ac{wps} process is shown in Figure \ref{fig:WPS1workflow}.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\linewidth]{UML/wps1diagram.PNG}
+	\includegraphics[width=0.8\linewidth]{UML/wps1diagram2.PNG}
 	\caption{General overview of creating linked data of metadata from Sensor Observation Services}
 	\label{fig:WPS1}
 \end{figure}
@@ -86,6 +86,16 @@ In Figure \ref{fig:SOS_Semantic_UML} the collection of sampling features is adde
 
 The last class that has been added to the model as shown in Figure \ref{fig:SOS_Semantic_UML} with respect to the model from Figure \ref{fig:SOS_UML} is the DBPedia observed property class. Every observed property that is defined in a \ac{sos} relates to a certain observed property as defined by DBPedia. Since \ac{sos} requests require their own identifiers as input the observed property class exists twice in the model: one as defined by the \ac{sos} and one as defined by DBPedia. For the same reason all sampling points, processes and offerings have a `name' attribute in addition to their \ac{uri}. These store the original (non-semantic) identifier that they were given by the \ac{sos}. 
 
+\subsection{Modelling with the DBPedia ontology}
+Apart from creating a descriptive mapping of classes -- which are used to add semantic meaning to data -- there should also be a mapping of inward links. This creates a bridge between related classes on the semantic web, from which the links trace back to the published semantic sensor metadata. Figure \ref{fig:SOS_DBPedia} shows the mapping between DBPedia classes and classes described above. DBPedia contains a very broad description of a \ac{sos}. For discovering specific \aclp{sos} it would be useful of all available \ac{sos} instances are linked to by this DBPedia definition. For defining class instances the \ac{rdf} schema provides a predicate `type' which could be used for this purpose. Every procedure or observable property instance represents a real world property or procedure. Some properties and procedures are already available as DBPedia definitions. These definitions should be linked by using the \ac{owl} `sameAs' predicate. The observable property could also be linked to its corresponding collection of sampling feautures. Since all containing features share the same observable property the om-lite predicate `observedProperty' could be used. More relations could have been added to the model in Figure \ref{fig:SOS_DBPedia}, such as sensor instances to the DBPedia definition of sensors. However, links like these are left out because they would add an overwhelming amount of triples on the side of DBPedia. Furthermore, all sensors can already be traced back via their \acp{foi}, procedures, observed property and \ac{sos}. 
+ 
+ \begin{figure}
+ 	\centering
+ 	\includegraphics[width=0.9\linewidth]{UML/DBPedia_to_SKB.PNG}
+ 	\caption{Mapping between DBPedia classes (grey) and observation classes from Figure \ref{fig:SOS_Semantic_UML} (white)}
+ 	\label{fig:SOS_DBPedia}
+ \end{figure}
+
 \subsection{Output linked sensor metadata}
 \label{par:publishLD}
 
@@ -96,7 +106,7 @@ Once the data has been retrieved and mapped to their corresponding classes in th
 \label{par:createRDF}
 For every mapped part of metadata from the \ac{sos} one or more triples are created. These triples consist of at least of \acp{uri}. However, preferably they are \acp{url} that can be resolved to an \ac{rdf} document that contains semantic information about what it represents. To do so every part of metadata is automatically assigned a \acf{purl}. For this kind of \ac{url} to resolve a \ac{purl} server should be set up. This server performs one of the six tasks shown in Table \ref{tbl:HTTP} whenever a \ac{purl} is being retrieved. The structure of a \ac{purl} consists of the \ac{http} address of the \ac{purl} server, with a unique identifier attached to it. For example, \url{http://www.examplePURLServer.com/unique\_identifier}. 
 
-Once the metadata is assigned \acp{purl} the triples can be created. Since the metadata of the sensors is being returned by the \ac{sos} in a structured way links can be created between \acp{url} of \acp{foi}, observable properties, procedures and the other classes shown in Figure \ref{fig:SOS_Semantic_UML}. After these triples have been created the linked data should be serialized to an \ac{rdf} document. For this a specific notation has to be selected.  
+Once the metadata is assigned \acp{purl} the triples can be created. Since the metadata of the sensors is being returned by the \ac{sos} in a structured way links can be created between \acp{url} of \acp{foi}, observable properties, procedures and the other classes shown in Figure \ref{fig:SOS_Semantic_UML} and \ref{fig:SOS_Semantic_UML2}. After these triples have been created the linked data should be serialized to an \ac{rdf} document. The inward links mapping of Figure \ref{fig:SOS_DBPedia} has to be serialized into a separate document. For creating these two documents a notation has to be selected. As described in Paragraph \ref{par:dbpedia} the \ac{rdf} document with DBPedia links should be stored using the N-triples notation. 
 
 
 \begin{table}[]
@@ -117,9 +127,11 @@ Once the metadata is assigned \acp{purl} the triples can be created. Since the m
 \end{table}
 
 \subsubsection{Publish RDF on the web}
-To store the linked data created under the previous paragraph a \ac{sparql} endpoint has to be set up. This endpoint is connected to a triple store. This means that the \ac{rdf} documents containing linked data can be send to it using POST requests. After it has been stored in the triple store users can query the triples using the \ac{sparql} query language. 
+To store the linked data created under the previous paragraph a \ac{sparql} endpoint has to be set up. This endpoint is connected to a triple store. This means that the \ac{rdf} documents containing linked data can be send to it using \ac{http} POST requests. After it has been stored in the triple store users can query the triples using the \ac{sparql} query language. 
 
 Once the linked data is inside the triple store the \acp{purl} can be redirected to \ac{sparql} \texttt{Describe} queries. A describe query takes a \ac{uri} as input and returns all the triples that contain this \ac{uri} as either an subject, predicate or object. This means that all information that the endpoint has about a particular \ac{uri} is being returned. If the \ac{purl} server receives a request for a particular \ac{purl} it makes a \texttt{Describe} query to the endpoint and returns to the client all the linked data that it retrieved about this \ac{purl}.  
+
+The final step in publishing linked data is to make a request to the DBPedia administrators to accept the new links pointing to the observation metadata. This is done by sending a pull request to the DBPedia links GitHub repository at the following address: \url{https://github.com/dbpedia/links}.
 
 
 \section{Using logical queries to retrieve sensor data}
@@ -172,7 +184,6 @@ Examples of aggregation methods that can be used for spatial or temporal aggrega
 
 The last step is to convert the integrated and aggregated data to a desired output format. There are many different formats that could be used for returning sensor data. However, there are two output formats for which an \ac{om} schema has been defined: it can be returned as an \ac{xml} document \citep{SW:ISO} or as a \ac{json} object \citep{SW:OGC6}.  
 
-\section{Create inward links from DBPedia}
 
 
 %******************************************************************
@@ -314,6 +325,7 @@ For creating \aclp{purl} the Purlz software has been used (see \url{http://www.p
 
 Every \ac{uri} that is assigned to a part of sensor metadata (like the `procedureURI' in Listing \ref{lst:rdflib}) is written to an \ac{xml} file with the parameters: ID, \ac{purl} type, and target address. Optionally, information about the person or organisation maintaining the \ac{purl} can be added. The ID is the original \ac{uri} that is being resolved to the target address. The \ac{purl} type is set to 302, which means that it redirects the client to the target address. Alternative types can be found in Table \ref{tbl:HTTP}. After all \acp{uri} have been added to the so called \ac{xml} `batch' file \citep{LD:PURL2}, the file can be posted to the Purlz server. Posting \ac{xml} documents to the \ac{purl} server is similar to posting \ac{rdf} documents to the Strabon endpoint as shown in Listing \ref{lst:rdflib}. An example of a `batch' file can be seen in Listing \ref{lst:PURL}. These \ac{xml} files are created using the Python package LXML. 
 
+The method in Chapter \ref{chap:design} also describes how to establish inward links from DBPedia to improve the discovery of sensor metadata. This part of the method has been implemented in the proof of concept implementation since it has been tested locally. The DBPedia knowledge base is available online for a large user audience and can therefore only accept links to reliable resources. Once the method presented in this thesis has been further developed into a stable web process this functionality could be added as well. However, at the moment it could not added to the proof of concept implementation.  
 
 \section{Using logical queries to retrieve sensor data}
 \label{par:logicalQuery}
