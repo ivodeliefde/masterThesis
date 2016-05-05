@@ -2,11 +2,9 @@
 \chapter*{Abstract}
 
 
-This thesis aims to design a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources.
+This thesis aims to design a method that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Developments such as smart cities, the \acf*{iot} and \ac*{inspire} are producing a growing amount of observation data. The \ac*{ogc} has developed \ac*{swe} standards for modelling and publishing this data online. However, the use of it is currently limited to geo web specialists who have knowledge of which data services are available and how to request data from them. With the use of the semantic web, online processes can automatically find and understand observation metadata, opening up \acs*{swe} services to a large user audience. 
 
-Literature about the \acf{swe} standards, the \acf{csw}, semantic web technologies and so-called sensor data middleware is analysed. 
+The outline of a method is presented to automatically create an online semantic knowledge base of sensor metadata. This metadata includes which sensors are deployed, what they observe and at which \acs*{swe} service their data can be requested. The presented method continues with a description of how such a knowledge base can be used to automatically translate logical queries of users to observation data requests to retrieve data from \acf*{sos}. This method has been tested with a proof of concept implementation.
 
-The outline of a method is presented to automatically create an online semantic knowledge base of sensor metadata. It is also presented how such a knowledge base can be used to automatically translate logical queries of users to technical queries for retrieving observation data from \acf{sos}.  
-
-Based on this method a proof of concept application has been created. 
+The results show that it is currently possible to harvest sensor metadata, convert it to linked data and publish it on the semantic web with links to and from other metadata. However, a number of ontologies should be extended with missing metadata classes. Especially the \acs*{ogc} geo web services for providing observation data are lacking definitions. Also, the \ac*{om} data model should be made stricter to demand a minimum level of semantics inside \aclp*{sos}. This creates a better understanding of data for manual use and enables the harvesting processes to be completely automated.    
 
