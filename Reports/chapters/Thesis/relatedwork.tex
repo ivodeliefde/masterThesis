@@ -125,7 +125,14 @@ In \ac{rdf} data is stored as so-called `triples'. These triples are structured 
 	\label{fig:Triples}
 \end{figure}
 
-Three types of data can make up these triples \citep{LD:W3C6}. The first type is an \ac{iri}. This is a reference to a resource and can be used for all positions of the triple. A \ac{url} is an example of an \ac{iri}, but \ac{iri}s can also refer to resources without stating a location or how it can be accessed. An \ac{iri} is a generalisation of an \ac{uri}, allowing also non-ASCII characters. In the example of the municipality of Delft, \ac{iri}s can be used to define `Delft' and `Municipality', but also for the predicates `is a' and `has geometry'. The second type of data is a literal. A literal is a value which is not an \ac{iri}, such as strings, numbers or dates. These values can only be used as object in a triple. In the example of Delft, a literal could be used to store the geometry of the boundary: POLYGON(( $x_{1},y_{1}$ $x_{2},y_{2}$ ... $x_{n},y_{n}$, $x_{1},y_{1}$ )). A literal value can have a datatype specification \citep{LD:W3C7}. This is added to the literal with the \^{}\^{} symbols, followed by the \ac{iri} of the datatype specification. In Figure \ref{fig:Turtle} the datatype is `geo:wktLiteral'.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\linewidth]{figs/URI.png}
+	\caption{Structure of URI, URN and URL}
+	\label{fig:URI}
+\end{figure}
+
+Three types of data can make up these triples \citep{LD:W3C6}. The first type is an \ac{iri}. This is a reference to a resource and can be used for all positions of the triple. A \ac{url} is an example of an \ac{iri}, but \ac{iri}s can also refer to resources without stating a location or how it can be accessed. These are the so-called \acp{urn}. An example of a \ac{urn} is the following name for the WGS84 \ac{crs}: \texttt{urn:ogc:def:crs:EPSG::4326}. An \ac{iri} is a generalisation of an \ac{uri} (Figure \ref{fig:URI}), but allows also non-ASCII characters. In the example of the municipality of Delft, \ac{iri}s can be used to define `Delft' and `Municipality', but also for the predicates `is a' and `has geometry'. The second type of data is a literal. A literal is a value which is not an \ac{iri}, such as strings, numbers or dates. These values can only be used as object in a triple. In the example of Delft, a literal could be used to store the geometry of the boundary: POLYGON(( $x_{1},y_{1}$ $x_{2},y_{2}$ ... $x_{n},y_{n}$, $x_{1},y_{1}$ )). A literal value can have a datatype specification \citep{LD:W3C7}. This is added to the literal with the \^{}\^{} symbols, followed by the \ac{iri} of the datatype specification. In Figure \ref{fig:Turtle} the datatype is `geo:wktLiteral'.
 
 Sometimes it is useful to refer to things without assigning them with a global identifier. The third type is the blank node and can be used as an subject or object without using an \ac{iri} or literal \citep{LD:W3C6}.  
 
@@ -134,7 +141,7 @@ Sometimes it is useful to refer to things without assigning them with a global i
 \subsection{Notation}
 There are a number of different notations for writing down these triples (serialisation), such as \ac{xml} \citep{LD:W3C3}, N3 \citep{LD:W3C5} and Turtle \citep{LD:W3C4}. Turtle will be used in this thesis, because it is a commonly used notation which is also relatively easy to read for humans. Figure \ref{fig:Turtle} shows how the triples of Figure \ref{fig:Triples} would be written using the Turtle notation. Turtle puts \acp{iri} between brackets and ends a triple with a point. 
 
-In Figure \ref{fig:Turtle} the DBPedia \ac{iri} is used for the object `Municipality'. The `is a' predicate is represented by a built-in \ac{rdf} predicate which can be written simple as `a'. The second predicate is `hasGeometry' for which the GeoSPARQL \ac{iri} is used. The geometry is a literal in the \ac{wkt} format. Note that the subject is only written once when there are multiple triples with the same subject. This is because triples that share the same subject are divided by semicolons in the Turtle notation. A point marks the end of the last triple with a specific subject.
+In Figure \ref{fig:Turtle} the DBPedia \ac{iri} is used for the object `Municipality'. The `is a' predicate is represented by a built-in \ac{rdf} predicate which can be written simple as `a'. The second predicate is `hasGeometry' for which the GeoSPARQL \ac{iri} is used. The geometry is a literal in the \ac{wkt} format. Note that the subject is only written once when there are multiple triples with the same subject. This is because triples that share the same subject are divided by semicolons in the Turtle notation. A point marks the end of the last triple with a specific subject. The N-triples notation is a simplification of Turtle. In this notation each line should contain a complete triple of subject, predicate and object, even if all triples share the same subject. 
 
 \begin{figure}
 	\centering
@@ -232,9 +239,10 @@ Managing the connection between a \ac{sir} and a \ac{ogc} catalog can be done us
 
 \cite{SSW:Atkinson} have identified that \enquote{distributed heterogeneous data sources are a necessary reality in the case of widespread phenomena with multiple stakeholder perspectives} \cite[p.129]{SSW:Atkinson}. Therefore, they propose that methods should be developed to move away from the traditional dataset centric approaches and towards using linked data for cataloguing. This has the potential to bring together data and knowledge from different areas of research about the same (or similar) features-of-interest. It is also argued that using both linked data services and data-specific services could ease the transition into the linked data world. 
 
-\section{Semantic Web and the Internet of Things}
-\cite{IOT:Barnaghi} describe how the semantic web could be of great importance for the \ac{iot}.
-\cite{IOT:Jazayeri} describe the \ac{sos} as one of the protocols that \ac{iot} devices could use. 
+\section{Semantic sensor web and the Internet of Things}
+The \acf{iot} is a rapidly growing topic in research. \cite{IOT:Barnaghi} point out that the heterogeneity of `Things' makes interoperability among \ac{iot} devices a challenging problem. They explain that the semantic web could be of great importance for the describing \ac{iot} devices and their observations. However, one of the areas for future research is to focus on \enquote{providing automated or semi-automated methods and tools to annotate, publish and access the semantic descriptions} \cite[p. 19]{IOT:Barnaghi}.
+
+Another study on the crossroads between the \ac{iot} and \ac{swe} has been performed by \cite{IOT:Jazayeri}. They have analysed and evaluated four interoperable open standards for the \ac{iot}: PUCK, TinySOS, \ac{sos}, and the SensorThings \ac{api}. They found that all four open standards are useful for \ac{iot}, but that they all come with their own negative and positive attributes. This makes the decision for one of these standard dependent on the application for which it is going to being used. For memory constraint applications PUCK and TinySOS are the preferred candidates, while \ac{sos} (in combination with the the coap protocol) and the sensorThings \ac{api} perform better in terms of bandwidth efficiency \citep{IOT:Jazayeri}.
 
 \section{Sensor data ontologies}
 \label{par:ontologies}
