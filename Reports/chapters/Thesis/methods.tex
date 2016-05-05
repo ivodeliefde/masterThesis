@@ -7,16 +7,17 @@
 \chapter{Methodology}
 \label{chap:methods}
 
-A number of studies related to this thesis have been reviewed in Chapter \ref{chap:rw}. This chapter discusses why the semantic web will be used for linking sensor metadata and which methods will be used to achieve this. The \ac{swe} standards, the om-lite and sam-lite ontologies, and \ac{rdf} will be described. Also a brief overview of the data use for this thesis is presented.   
+A number of studies and standards related to this thesis have been reviewed in Chapter \ref{chap:rw}. This chapter discusses why the semantic web will be used for creating a semantic knowledge base of sensor metadata and which methods will be used to achieve this. A method for creating linked data will be described in combination with the observation data ontologies, spatial query functions in \ac{sparql} and the \ac{ogc} standard for web services containing online processes: the \acf{wps}. Also a brief overview of the data used for this thesis is presented.   
 
 \section{Sensor metadata on the semantic web}
-\ac{semsos} \citep{SSW:Henson, SSW:Pschorr} as well as \ac{sel} \citep{SSW:Janowicz} focus on combining the sensor web with the semantic web, but do not address the integration and aggregation of sensor data. Similarly, \cite{SSW:Atkinson} proposes to expose sensor data to the semantic web in order to find other kinds of related data about the same feature-of-interest. Data that can be collected for another area of research. However, \cite{SSW:Atkinson} do not mention the integration of complementary sensor data from heterogeneous sources either. \cite{SSW:Stasch} and \cite{SSW:Stasch3} suggest interesting methods for aggregating sensor data based on features-of-interest. However, also these studies use sensor data from only a single source into account. Moreover, \cite{SSW:Corcho} and \cite{SSW:Ji} argue that methods for integration and fusion of sensor data on the semantic web is still an area for future research. Data fusion is \enquote{a data processing technique that associates, combines, aggregates, and integrates data from different sources} \cite[p. 2]{SSW:Wang2}. 
+In Paragaph \ref{par:middleware} the \ac{semsos} \citep{SSW:Henson, SSW:Pschorr} and \ac{sel} \citep{SSW:Janowicz} approaches have been described. Both of these middlewares focus on combining the sensor web with the semantic web. However, they do not address the integration and aggregation of sensor data. Similarly, \cite{SSW:Atkinson} proposes to expose sensor data to the semantic web in order to find other kinds of related data about the same feature-of-interest. Data that can be collected for another area of research. However, \cite{SSW:Atkinson} do not mention the integration of complementary sensor data from heterogeneous sources either. \cite{SSW:Stasch} and \cite{SSW:Stasch3} suggest interesting methods for aggregating sensor data based on features-of-interest. However, also these studies use sensor data from only a single source into account. Moreover, \cite{SSW:Corcho} and \cite{SSW:Ji} argue that methods for integration and fusion of sensor data on the semantic web is still an area for future research. Data fusion is \enquote{a data processing technique that associates, combines, aggregates, and integrates data from different sources} \cite[p. 2]{SSW:Wang2}. 
 
 \cite{SW:OGC3} and \cite{SW:OGC4} present methods for including \ac{sos} services in an \ac{ogc} catalogue service using \ac{sor} and \ac{sir}. Making sensor metadata available in a catalogue service will improve the discovery. However, discovery through the semantic web is likely to be more effective, since links can be created towards the sensor data from many different sources of related information. Another advantage is that links can be created by everybody that publishes linked data on the web, allowing sensor data to be used for implementations that were not identified beforehand by the publisher. Also, the semantic web will be easier to access, while the catalogue service can only be requested at a certain \ac{url} which has to be known to potential users. 
 
 Since data on the web has a distributed nature it can be questioned whether centralised catalogue services are feasible to create. It places a burden on the owner of the \ac{sos} to register with a catalogue service. Also, there could be multiple of these services on the web creating issue regarding the discovery of relevant catalogues. The semantic web could solve this issue by getting rid of the `dataset-centric' approach and adding metadata directly to the web instead.
 
 \section{Creating linked data}
+\label{par:missier}
 For publishing sensor data on the semantic web a conversion of this data to \ac{rdf} is required. For this the method by \cite{LD:Missier} will be used. She developed a workflow for publishing linked open data, using existing spatial data as input (Figure \ref{fig:missier}). This workflow consists of three phases: preparation, modelling and conversion. The next paragraphs will describe these three phases in more detail.
 
 \begin{figure}
@@ -43,7 +44,7 @@ The \ac{sparql} query language can perform many different kinds of queries on \a
 \subsection{GeoSPARQL}
 GeoSPARQL \enquote{defines a vocabulary for representing geospatial data in RDF, and it defines an extension to the SPARQL query language for processing geospatial data} \cite[p. xvi]{LD:OGC}. It allows for defining geometric data in \ac{rdf} and performing spatial queries. The \ac{DE9IM} \citep{GIS:9IM} has been implemented to find topological relations between two geometries. GeoSPARQL has been implemented in the `Parliament' \ac{sparql} endpoint \citep{LD:GeoSPARQL}. 
 
-\begin{lstlisting}[caption={A GeoSPARQL query to find the names of features that contain a point geometry}, label={lst:GeoSPARQL}]
+\begin{lstlisting}[float,caption={A GeoSPARQL query to find the names of features that contain a point geometry}, label={lst:GeoSPARQL}]
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
@@ -61,7 +62,7 @@ FILTER (geof:sfContains(?geom,"<http://www.opengis.net/def/crs/EPSG/0/4258> POIN
 \label{par:stSPARQL}
 The Strabon endpoint uses stRDF, which is \enquote{a constraint data model that extends RDF with the ability to represent spatial and temporal data} \cite[p. 425]{SSW:Koubarakis}. The stRDF model can be queried using stSPARQL, which syntax is similar to GeoSPARQL (listing \ref{lst:GeoSPARQL} \& \ref{lst:stSPARQL}). Both extensions of \ac{sparql} use filter expressions to perform spatial operations on \ac{wkt} or \ac{gml} geometries. The definition of geometries and the syntax of the filter expression differ slightly.
 
-\begin{lstlisting}[caption={A stSPARQL query to find the names of features that contain a point geometry}, label={lst:stSPARQL}]
+\begin{lstlisting}[float,caption={A stSPARQL query to find the names of features that contain a point geometry}, label={lst:stSPARQL}]
 PREFIX strdf: <ttp://strdf.di.uoa.gr/ontology#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
 
@@ -90,7 +91,14 @@ In Paragraph \ref{par:ontologies} a number ontologies are described that define 
 	\label{fig:PROV}
 \end{figure}
 
+\section{Adding links to DBPedia}
+\label{par:dbpedia}
 
+\begin{sloppypar}
+	For creating outgoing links from DBPedia a GitHub repository is created called BDPedia links (\url{https://github.com/dbpedia/links}). The steps that should be followed to add links are described here, together with examples. The first step in establishing DBPedia links is to create an \ac{rdf} file containing the links to be added. The subjects of these triples should be a DBPedia \ac{iri}, using either the main namespace \url{http://dbpedia.org/resource} or one of its \url{ http://xxx.dbpedia.org/resource} subdomains, such as \url{http://nl.dbpedia.org/resource}. The predicates in this file can be: `owl:sameAs', `skos:\{exact $\vert$ close $\vert$ \ldots\}Match', domain-specific properties or `rdf:type' instances. The objects of the triples should contain the target \ac{url} of the DBPedia link. 
+\end{sloppypar}
+
+The resulting file should contain one triple per line. The N-triples format is the required notation. After the file has been created it should be uploaded to GitHub using so-called pull requests. A pull request is a function implemented by GitHub in which a creator of (changes to) a document asks the administrators of a repository to include the new (changes to) a document to be accepted. The administrator will review the request and if no conflicts or mistakes are found he/she will accept it. Upon acceptance, the new additions are part of the repository.   
 
 \section{Web Processing Service}
 The \ac{ogc} \acl{wps} is a standard interface for making simple or complex computational processing services accessible as web services. Originally, it has been created with spatial processes in mind, but it can also be used to insert non-spatial processing into a web services environment \citep[p. 8]{GEO:OGC}. Via the \ac{wps} jobs can be controlled and monitored, which run certain processes (Figure \ref{fig:WPSmodel}). Similar to \ac{wfs}, \ac{wps} and \ac{sos}, the \ac{wps} has requests for retrieving metadata: \texttt{GetCapabilities} and \texttt{DescribeProcess}. On top of that there are is the \texttt{Execute} request to execute a process, and a number of other requests for various purposes: \texttt{GetStatus}, \texttt{GetResult} and \texttt{Dismiss}. All requests will be briefly described in this paragraph.  
