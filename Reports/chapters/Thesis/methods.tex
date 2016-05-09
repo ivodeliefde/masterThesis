@@ -4,15 +4,16 @@
 %overview of the methodology to be used;
 % ~20 pages
 
-\chapter{Methodology}
+\chapter{Methods}
 \label{chap:methods}
 
-A number of studies and standards related to this thesis have been reviewed in Chapter \ref{chap:rw}. This chapter discusses why the semantic web will be used for creating a semantic knowledge base of sensor metadata and which methods will be used to achieve this. A method for creating linked data will be described in combination with the observation data ontologies, spatial query functions in \ac{sparql} and the \ac{ogc} standard for web services containing online processes: the \acf{wps}. Also a brief overview of the data used for this thesis is presented.   
+This chapter discusses why the semantic web will be used for creating a semantic knowledge base of sensor metadata based on the studies and standards that have been reviewed in Chapter \ref{chap:rw} (Paragraph \ref{par:LDmetadata}). Afterwards, a number of methods and standards are presented which are required for creating a semantic knowledge base, such as a method for creating linked data (Paragraph \ref{par:missier}), observation data ontologies based on \ac{om} (Paragraph \ref{par:ontologies2}), a method for creating inward links using DBPedia (Paragraph \ref{par:dbpedia}) and two implementations of spatial query functions in \ac{sparql} (Paragraph \ref{par:SpatialFilters}). The last part of this chapter describes the \ac{ogc} standard for web services containing online processes: the \acf{wps} (Paragraph \ref{par:wps}).   
 
 \section{Sensor metadata on the semantic web}
-In Paragaph \ref{par:middleware} the \ac{semsos} \citep{SSW:Henson, SSW:Pschorr} and \ac{sel} \citep{SSW:Janowicz} approaches have been described. Both of these middlewares focus on combining the sensor web with the semantic web. However, they do not address the integration and aggregation of sensor data. Similarly, \cite{SSW:Atkinson} proposes to expose sensor data to the semantic web in order to find other kinds of related data about the same feature-of-interest. Data that can be collected for another area of research. However, \cite{SSW:Atkinson} do not mention the integration of complementary sensor data from heterogeneous sources either. \cite{SSW:Stasch} and \cite{SSW:Stasch3} suggest interesting methods for aggregating sensor data based on features-of-interest. However, also these studies use sensor data from only a single source into account. Moreover, \cite{SSW:Corcho} and \cite{SSW:Ji} argue that methods for integration and fusion of sensor data on the semantic web is still an area for future research. Data fusion is \enquote{a data processing technique that associates, combines, aggregates, and integrates data from different sources} \cite[p. 2]{SSW:Wang2}. 
+\label{par:LDmetadata}
+In Paragaph \ref{par:middleware} the \ac{semsos} \citep{SSW:Henson, SSW:Pschorr} and \ac{sel} \citep{SSW:Janowicz} approaches have been described. Both of these middlewares focus on combining the sensor web with the semantic web. However, they do not address the integration and aggregation of sensor data. Similarly, \cite{SSW:Atkinson} proposes to expose sensor data to the semantic web in order to find other kinds of related data about the same feature-of-interest. Data that can be collected for another area of research. However, they do not mention the integration of complementary sensor data from heterogeneous sources either. \citet{SSW:Stasch3,SSW:Stasch} suggest interesting methods for aggregating sensor data based on \acfp{foi}. However, also these studies use sensor data from only a single source into account. Moreover, \cite{SSW:Corcho} and \cite{SSW:Ji} argue that methods for integration and fusion of sensor data on the semantic web is still an area for future research. Data fusion is \enquote{a data processing technique that associates, combines, aggregates, and integrates data from different sources} \cite[p. 2]{SSW:Wang2}. 
 
-\cite{SW:OGC3} and \cite{SW:OGC4} present methods for including \ac{sos} services in an \ac{ogc} catalogue service using \ac{sor} and \ac{sir}. Making sensor metadata available in a catalogue service will improve the discovery. However, discovery through the semantic web is likely to be more effective, since links can be created towards the sensor data from many different sources of related information. Another advantage is that links can be created by everybody that publishes linked data on the web, allowing sensor data to be used for implementations that were not identified beforehand by the publisher. Also, the semantic web will be easier to access, while the catalogue service can only be requested at a certain \ac{url} which has to be known to potential users. 
+\cite{SW:OGC4} and \cite{SW:OGC3} present methods for including \ac{sos} services in an \ac{ogc} catalogue service using \ac{sor} and \ac{sir}. Making sensor metadata available in a catalogue service will improve the discovery. However, discovery through the semantic web is likely to be more effective, since links can be created towards the sensor data from many different sources of related information. Another advantage is that links can be created by everybody that publishes linked data on the web, allowing sensor data to be used for implementations that were not identified beforehand by the publisher. Also, the semantic web will be easier to access, while the catalogue service can only be requested at a certain \ac{url} which has to be known to potential users. 
 
 Since data on the web has a distributed nature it can be questioned whether centralised catalogue services are feasible to create. It places a burden on the owner of the \ac{sos} to register with a catalogue service. Also, there could be multiple of these services on the web creating issue regarding the discovery of relevant catalogues. The semantic web could solve this issue by getting rid of the `dataset-centric' approach and adding metadata directly to the web instead.
 
@@ -35,6 +36,32 @@ The first step in modelling data to linked data is to select an ontology. An ont
 
 \subsection{Conversion}
 In the conversion of data to linked data \cite{LD:Missier} describes two approaches: the \ac{rdf} storage approach and the `on-the-fly' conversion. In the first approach data is converted to linked data and stored in a triple store. This triple store can be queried by a \ac{sparql} endpoint. Alternatively, data can be stored in a spatial database and converted to \ac{rdf} on the fly when it is requested. There are advantages and disadvantages to both methods. In general creating a triple store creates duplicate data, which should be very well maintained to prevent the duplicate data being out of sync. On the other hand creating a triple store is a one time operation after which the querying with \ac{sparql} is quite efficient. The on-the-fly conversion does not create duplicate data, but has to convert its data to \ac{rdf} for every \ac{sparql} query.
+
+\section{Ontologies}
+\label{par:ontologies2}
+To publish data on the semantic web ontologies are required to specify the different classes and their relations. An ontology for static geographic data has to be connected to an ontology for sensor metadata. From the \ac{uml} diagram in Figure \ref{SW:ISO} the classes Process, ObservedProperty and FeatureOfInterest can be mapped to classes belonging to \ac{owl} for observations \citep{SSW:Cox}. SamplingFeature and Sampling point can be mapped to classes from \ac{owl} for sampling features \citep{SSW:Cox2}. The PROV ontology can be used for sensor and sensor observation service classes \citep{LD:W3C2}. These ontologies will be described in more detail in the next paragraphs.
+
+\subsection{Observation metadata}
+In Paragraph \ref{par:ontologies} a number ontologies are described that define observations. The evaluation of observation metadata ontologies by \cite{SW:Hu} is interesting, since it exposes what the relevant aspects are in the process of observation discovery. However, their proposed model focusses mainly on including remote sensing and imagery data in metadata models that were not originally created for this kind of data. The \ac{ssno} is an ontology that clearly describes the process between sensor, stimulus and observation. However, \cite{SSW:Cox4} points out that an important aspect of describing a sensor network is missing in this ontology: the sampling. Also, the om-lite and sam-lite ontologies by \cite{SSW:Cox4} are lightweight ontologies that can be complemented by already existing linked data ontologies. They do not rely on the (heavy) \ac{iso} specifications that date from before the semantic web, unlike the \ac{ssno}. The om-lite and sam-lite ontologies will therefore be used in this thesis. 
+
+\subsection{Provenance}
+\cite{SSW:Cox4} describes that the PROV ontology can be used in combination with om-lite to keep track of changes in observation metadata. This `PROV-O' aims to semantically define the concepts behind provenance in linked data. Provenance has to do with changes that occur over time. This ontology allows the definition of Entities, Activities and Agents. An entity is physical, digital, conceptual, or other kind of (real or imaginary) thing. An Activity is something that takes place over a period of time and acts with entities. An Agent is something that is in some way responsible for an activity taking place, an entity existing, or for another agent's activity. Figure \ref{fig:PROV} shows the relations between  Entities, Activities and Agents.   
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{UML/PROV.png}
+	\caption{Basic classes and relations in the PROV-O by \citep{LD:PROV}}
+	\label{fig:PROV}
+\end{figure}
+
+\section{Adding links to DBPedia}
+\label{par:dbpedia}
+
+\begin{sloppypar}
+	For creating outgoing links from DBPedia a GitHub repository is created called BDPedia links (\url{https://github.com/dbpedia/links}). The steps that should be followed to add links are described here, together with examples. The first step in establishing DBPedia links is to create an \ac{rdf} file containing the links to be added. The subjects of these triples should be a DBPedia \ac{iri}, using either the main namespace \url{http://dbpedia.org/resource} or one of its \url{ http://xxx.dbpedia.org/resource} subdomains, such as \url{http://nl.dbpedia.org/resource}. The predicates in this file can be: `owl:sameAs', `skos:\{exact $\vert$ close $\vert$ \ldots\}Match', domain-specific properties or `rdf:type' instances. The objects of the triples should contain the target \ac{url} of the DBPedia link. 
+\end{sloppypar}
+
+The resulting file should contain one triple per line. The N-triples format is the required notation. After the file has been created it should be uploaded to GitHub using so-called pull requests. A pull request is a function implemented by GitHub in which a creator of (changes to) a document asks the administrators of a repository to include the new (changes to) a document to be accepted. The administrator will review the request and if no conflicts or mistakes are found he/she will accept it. Upon acceptance, the new additions are part of the repository.   
 
 \section{Spatial Queries with SPARQL}
 \label{par:SpatialFilters}
@@ -75,32 +102,8 @@ FILTER (?geom contains "POINT(4.289244 52.027337);<http://www.opengis.net/def/cr
 }
 \end{lstlisting}
 
-\section{Ontologies}
-To publish data on the semantic web ontologies are required to specify the different classes and their relations. An ontology for static geographic data has to be connected to an ontology for sensor metadata. From the \ac{uml} diagram in Figure \ref{SW:ISO} the classes Process, ObservedProperty and FeatureOfInterest can be mapped to classes belonging to \ac{owl} for observations \citep{SSW:Cox}. SamplingFeature and Sampling point can be mapped to classes from \ac{owl} for sampling features \citep{SSW:Cox2}. The PROV ontology can be used for sensor and sensor observation service classes \citep{LD:W3C2}. These ontologies will be described in more detail in the next paragraphs.
-
-\subsection{Observation metadata}
-In Paragraph \ref{par:ontologies} a number ontologies are described that define observations. The evaluation of observation metadata ontologies by \cite{SW:Hu} is interesting, since it exposes what the relevant aspects are in the process of observation discovery. However, their proposed model focusses mainly on including remote sensing and imagery data in metadata models that were not originally created for this kind of data. The \ac{ssno} is an ontology that clearly describes the process between sensor, stimulus and observation. However, \cite{SSW:Cox4} points out that an important aspect of describing a sensor network is missing in this ontology: the sampling. Also, the om-lite and sam-lite ontologies by \cite{SSW:Cox4} are lightweight ontologies that can be complemented by already existing linked data ontologies. They do not rely on the (heavy) \ac{iso} specifications that date from before the semantic web, unlike the \ac{ssno}. The om-lite and sam-lite ontologies will therefore be used in this thesis. 
-
-\subsection{Provenance}
-\cite{SSW:Cox4} describes that the PROV ontology can be used in combination with om-lite to keep track of changes in observation metadata. This `PROV-O' aims to semantically define the concepts behind provenance in linked data. Provenance has to do with changes that occur over time. This ontology allows the definition of Entities, Activities and Agents. An entity is physical, digital, conceptual, or other kind of (real or imaginary) thing. An Activity is something that takes place over a period of time and acts with entities. An Agent is something that is in some way responsible for an activity taking place, an entity existing, or for another agent's activity. Figure \ref{fig:PROV} shows the relations between  Entities, Activities and Agents.   
-
-\begin{figure}
-	\centering
-	\includegraphics[width=1\linewidth]{UML/PROV.png}
-	\caption{Basic classes and relations in the PROV-O by \citep{LD:PROV}}
-	\label{fig:PROV}
-\end{figure}
-
-\section{Adding links to DBPedia}
-\label{par:dbpedia}
-
-\begin{sloppypar}
-	For creating outgoing links from DBPedia a GitHub repository is created called BDPedia links (\url{https://github.com/dbpedia/links}). The steps that should be followed to add links are described here, together with examples. The first step in establishing DBPedia links is to create an \ac{rdf} file containing the links to be added. The subjects of these triples should be a DBPedia \ac{iri}, using either the main namespace \url{http://dbpedia.org/resource} or one of its \url{ http://xxx.dbpedia.org/resource} subdomains, such as \url{http://nl.dbpedia.org/resource}. The predicates in this file can be: `owl:sameAs', `skos:\{exact $\vert$ close $\vert$ \ldots\}Match', domain-specific properties or `rdf:type' instances. The objects of the triples should contain the target \ac{url} of the DBPedia link. 
-\end{sloppypar}
-
-The resulting file should contain one triple per line. The N-triples format is the required notation. After the file has been created it should be uploaded to GitHub using so-called pull requests. A pull request is a function implemented by GitHub in which a creator of (changes to) a document asks the administrators of a repository to include the new (changes to) a document to be accepted. The administrator will review the request and if no conflicts or mistakes are found he/she will accept it. Upon acceptance, the new additions are part of the repository.   
-
 \section{Web Processing Service}
+\label{par:wps}
 The \ac{ogc} \acl{wps} is a standard interface for making simple or complex computational processing services accessible as web services. Originally, it has been created with spatial processes in mind, but it can also be used to insert non-spatial processing into a web services environment \citep[p. 8]{GEO:OGC}. Via the \ac{wps} jobs can be controlled and monitored, which run certain processes (Figure \ref{fig:WPSmodel}). Similar to \ac{wfs}, \ac{wps} and \ac{sos}, the \ac{wps} has requests for retrieving metadata: \texttt{GetCapabilities} and \texttt{DescribeProcess}. On top of that there are is the \texttt{Execute} request to execute a process, and a number of other requests for various purposes: \texttt{GetStatus}, \texttt{GetResult} and \texttt{Dismiss}. All requests will be briefly described in this paragraph.  
 
 \begin{figure}
