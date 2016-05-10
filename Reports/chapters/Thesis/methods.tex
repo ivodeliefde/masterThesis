@@ -89,7 +89,7 @@ FILTER (geof:sfContains(?geom,"<http://www.opengis.net/def/crs/EPSG/0/4258> POIN
 
 \subsection{stSPARQL}
 \label{par:stSPARQL}
-The Strabon endpoint uses stRDF, which is \enquote{a constraint data model that extends RDF with the ability to represent spatial and temporal data} \cite[p. 425]{SSW:Koubarakis}. The stRDF model can be queried using stSPARQL, which syntax is similar to GeoSPARQL (listing \ref{lst:GeoSPARQL} \& \ref{lst:stSPARQL}). Both extensions of \ac{sparql} use filter expressions to perform spatial operations on \ac{wkt} or \ac{gml} geometries. The definition of geometries and the syntax of the filter expression differ slightly.
+The Strabon endpoint uses stRDF, which is \enquote{a constraint data model that extends RDF with the ability to represent spatial and temporal data} \cite[p. 425]{SSW:Koubarakis}. The stRDF model can be queried using stSPARQL, which syntax is similar to GeoSPARQL (Code examples \ref{lst:GeoSPARQL} \& \ref{lst:stSPARQL}). Both extensions of \ac{sparql} use filter expressions to perform spatial operations on \ac{wkt} or \ac{gml} geometries. The definition of geometries and the syntax of the filter expression differ slightly.
 
 \begin{lstlisting}[float,caption={A stSPARQL query to find the names of features that contain a point geometry}, label={lst:stSPARQL}]
 PREFIX strdf: <ttp://strdf.di.uoa.gr/ontology#>
