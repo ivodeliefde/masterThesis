@@ -92,7 +92,7 @@ Apart from creating a descriptive mapping of classes -- which are used to add se
  \begin{figure}
  	\centering
  	\includegraphics[width=0.9\linewidth]{UML/DBPedia_to_SKB.PNG}
- 	\caption{Mapping between DBPedia classes (grey) and observation classes af Figure \ref{fig:SOS_Semantic_UML} (white)}
+ 	\caption{Mapping between DBPedia classes (grey) and SOS classes of Figure \ref{fig:SOS_Semantic_UML} (white)}
  	\label{fig:SOS_DBPedia}
  \end{figure}
 
@@ -247,7 +247,7 @@ The \ac{eea} reference grid with resolutions of 10km\textsuperscript{2} and 100k
 
 \section{Creating linked data from sensor metadata}
 \label{par:linkedSD}
-After the linked data of spatial features has been prepared, this chapter continues with creating the proof of concept. The first part of the system architecture described in Chapter \ref{chap:design} is a process which automatically harvests sensor metadata from a \ac{sos} using various requests. The retrieved data should then be mapped to ontologies and serialized to an \ac{rdf} document. The next paragraphs will describe how these steps have been implemented using the Python programming language.
+After the linked data of spatial features has been prepared, this chapter continues with creating the proof of concept. The first part of the system architecture described in Chapter \ref{chap:design} is a process which automatically harvests sensor metadata from a \ac{sos} using various requests. The retrieved data should then be mapped to ontologies and serialised to an \ac{rdf} document. The next paragraphs will describe how these steps have been implemented using the Python programming language.
 
 \subsection{Making sensor metadata requests}
 A Python class object has been created for the \ac{sos} based on Figure \ref{fig:SOS_UML}. This class contains the different variables and has built in functions to automatically retrieve the metadata. To create a SOSclass instance, the \ac{url} of the \ac{sos} has to be entered as input value. The initialisation of the SOSclass instance creates empty variables for storing information about the \ac{sos}' organisation, supported \ac{sos} versions, response formats, \acp{foi}, offerings, observable properties and procedures. The \acp{foi} are stored in a Python dictionary. This allows information about the \ac{crs}, procedures and observed properties to be added to each \ac{foi}. Similarly, the procedures are stored in a dictionary to be able to easily access which observable property, which \acp{foi} and which offerings are related to a procedure.
@@ -336,7 +336,7 @@ For publishing linked data the Strabon endpoint (Figure \ref{fig:Strabon}) is us
 
 The first step of publishing the graph which has been created using RDFlib, is to store it in an \ac{rdf} document. This process is called the \textit{serialisation} of an RDFlib graph. To do this the function \texttt{serialize} of the RDFlib package is used. This function is a method of the graph object and requires two input parameters: the name of the output file and the notation of the triples. In the proof of concept, the Turtle notation is being used. 
 
-After the \ac{rdf} documents have been created they should be posted to the \ac{sparql} endpoint. To post a document to Strabon the client should first login at the endpoint. To do this, a \texttt{Session} object is created using the Requests library. This object posts it login credentials to the endpoint, after which it can be used for posting \ac{rdf} data. Code example \ref{lst:rdflib} shows how to log in to the endpoint with a session object. After that, the graph is serialized to the document \texttt{sensors.ttl}, which can then be posted to the Strabon endpoint.   
+After the \ac{rdf} documents have been created they should be posted to the \ac{sparql} endpoint. To post a document to Strabon the client should first login at the endpoint. To do this, a \texttt{Session} object is created using the Requests library. This object posts it login credentials to the endpoint, after which it can be used for posting \ac{rdf} data. Code example \ref{lst:rdflib} shows how to log in to the endpoint with a session object. After that, the graph is serialised to the document \texttt{sensors.ttl}, which can then be posted to the Strabon endpoint.   
 
 \begin{lstlisting}[float,caption={Serializing the RDFlib graph object and posting it to the Strabon endpoint}, label={lst:rdflib2}]
 import os

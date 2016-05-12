@@ -73,27 +73,27 @@ Primarily experts in the field of geo-information have knowledge on \ac{swe} sta
 Based on the results of this thesis five recommendations have been formulated: 
 
 \begin{itemize}
-	\item The \ac{sos} standard should require a more descriptive capabilities document.
+	\item \textit{The \ac{sos} standard should require a more descriptive capabilities document.}
 	
 	Currently a number of requests have to be made to find out which deployed sensors can be accessed via a \ac{sos}. For making sense of \ac{sos} metadata and to identify deployed sensors, it is crucial that the relations between sensor locations, procedures and observed properties are described. Therefore, a capabilities document should not only list \acp{foi}, procedures and observed properties, but it should also state their interrelationship.    
 	
 	
-	\item The \ac{swe} standards specifications should contain stricter rules regarding the structure of \acp{uri}.
+	\item \textit{The \ac{swe} standards specifications should contain stricter rules regarding the structure of \acp{uri}.}
 	
 	Observed properties and procedures need to be semantically defined by the organisation maintaining a \ac{sos}, for the presented processes to be completed automated. Semantic descriptions are not mandatory using the current \ac{swe} standards specifications. Therefore, a more strict \ac{swe} specification should be created, which requires semantic \acp{uri} to be used, which resolve to \ac{rdf} documents. 
 	
 	
-	\item The \ac{om} Observation schema should be able to include aggregated sensor data with the same observed property, created by different sensing procedures. 
+	\item \textit{The \ac{om} Observation schema should be able to include aggregated sensor data with the same observed property, created by different sensing procedures.}
 	
 	The output data of the proof of concept implementation is not in accordance with the \ac{om} \ac{xml} schema, because it outputs spatially aggregated observation data. This data can be retrieved from different sources, each using different procedures. This does not fit in the current \ac{om} Observation schema. Therefore, it should be possible to include multiple procedures as a value for the procedure element in the \ac{om} Observation schema.   
 
 	
-	\item Linked data ontologies should be extended with classes for geo web services, supported requests and \ac{sos} content.
+	\item \textit{Linked data ontologies should be extended with classes for geo web services, supported requests and \ac{sos} content.}
 	
 	The om-lite and sam-lite ontologies cover a large part of the sensor metadata. However, these linked data ontologies should be extended to also define the \ac{sos} service, it's supported requests and additional metadata, such as observation offerings. These could not yet be semantically described in the proof of concept.
 	
 	
-	\item The performance of endpoints should be improved, to better cope with vector geometries in \ac{sparql} queries
+	\item \textit{The performance of endpoints should be improved, to better cope with vector geometries in \ac{sparql} queries}
 	
 	Since GeoSPARQL and stSPARQL require the verbose \ac{wkt} or \ac{gml} encodings for spatial filters, the queries can be rejected for exceeding the maximum amount of characters. For this reason the performance of endpoints should be improved, to allow more complex vector geometries to be used in \ac{sparql} queries as well. 
 	
