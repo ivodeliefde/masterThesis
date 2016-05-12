@@ -74,11 +74,11 @@ Based on the results of this thesis a number of recommendations are formulated.
 \begin{itemize}
 	\item Create more strict specifications for \acp{uri} in \aclp{sos}
 	
-	Observed properties and procedures need to be semantically defined by the organisation maintaining a \ac{sos}, which is not mandatory using the current \ac{swe} standards specifications. Requiring semantic \acp{uri} to be used which can be resolved to \ac{rdf} documents would force \aclp{sos} to be machine understandable.
+	Observed properties and procedures need to be semantically defined by the organisation maintaining a \ac{sos}, which is not mandatory using the current \ac{swe} standards specifications. Therefore, a more strict \ac{swe} specification should be created, which requires semantic \acp{uri} to be used which can be resolved to \ac{rdf} documents. 
 	
-	\item Enable the \ac{om} Observation to include aggregated sensor data with the same observed property, created by different sensing procedures. 
+	\item Enable the \ac{om} Observation schema to include aggregated sensor data with the same observed property, created by different sensing procedures. 
 	
-	The output of the proof of concept implementation is not in accordance with the \ac{om} \ac{xml} schema, because it outputs aggregated observation data. This data can be retrieved from different sources, each using different procedures. Therefore, multiple procedures should be an allowed value for the procedure element in the \ac{om} Observation schema.   
+	The output of the proof of concept implementation is not in accordance with the \ac{om} \ac{xml} schema, because it outputs aggregated observation data. This data can be retrieved from different sources, each using different procedures. Therefore, it should be possible to include multiple procedures as a value for the procedure element in the \ac{om} Observation schema.   
 	
 	\item Extend linked data ontologies with classes for geo web services, supported requests and \ac{sos} content.
 	
@@ -86,7 +86,7 @@ Based on the results of this thesis a number of recommendations are formulated.
 	
 	\item Improve the performance of endpoints, to better cope with vector geometries in \ac{sparql} queries
 	
-	Since GeoSPARQL and stSPARQL use the verbose \ac{wkt} or \ac{gml} encodings the queries can be rejected for exceeding the maximum amount of characters. For this reason it is found that the performance of the endpoint should be improved, to better cope with vector geometries in \ac{sparql} queries. 
+	Since GeoSPARQL and stSPARQL require the verbose \ac{wkt} or \ac{gml} encodings for spatial filters, the queries can be rejected for exceeding the maximum amount of characters. For this reason it is found that the performance of the endpoint should be improved, to better cope with vector geometries in \ac{sparql} queries. 
 	
 \end{itemize}
 
