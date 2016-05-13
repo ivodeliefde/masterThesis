@@ -4,9 +4,10 @@
 \chapter{Future Work}
 \label{chap:futureResearch}
 
-There are still a number of areas in which the methodology presented in this thesis could be improved, and there are open questions which should still be answered. This chapter will briefly describe three areas of future work: including more web services in the current method, improving the performance of querying observation data and extending the methods for spatial and temporal aggregation. 
+There are still a number of areas in which the methodology presented in this thesis could be improved, and there are open questions which should still be answered. This chapter will briefly describe three areas of future work: including more web services in the current method (Paragraph \ref{more}), improving the performance of querying observation data (Paragraph \ref{faster}) and extending the methods for spatial and temporal aggregation (Paragraph \ref{par:FRaggregation}). 
 
 \section{Include more web services}
+\label{more}
 The current proof of concept has been created using the \ac{sos}. However, there are a number of other sensor web services based on \ac{swe} standards that could be included as well. First of all, there are services that provide other kinds of functionalities besides data retrieval, such as the \acf{sas}, \acf{sps} and \acf{wns}. The inclusion of these services would broaden the range of tasks a \ac{wps} could automatically perform. 
 
 On the other hand, other services for observation data retrieval could be added, such as the tinySOS and the sensorThings \ac{api}. These are services for retrieving observation data from an \ac{iot} perspective. These observation data services are created with a focus on low energy consumption by the \textit{thing} that senses, and more compact queries and responses than the verbose \ac{xml} documents used by \ac{sos}. Nevertheless, all of these services are based on the \ac{om} data model and therefore the principles applied to the \ac{sos} can also be applied to these other sensor data services.  
@@ -14,6 +15,7 @@ On the other hand, other services for observation data retrieval could be added,
 Next to sensor related web services the method could also be extended to include other \ac{ogc} geo web standards, such as the \acf{wfs} and \acf{wcs}. Similar to the \ac{sos}, its content could be made available in a machine understandable manner to allow them to be discovered and used in automated web processes.    
 
 \section{Improve performance}
+\label{faster}
 The main focus of the current conceptual system architecture was on the definition of its functionality. The proof of concept implementation showed that the performance of discovering sensor metadata was good. However, the process that automatically queries the \aclp{sos} could still be made faster. Currently, a request is send for every sensor. This approach could be improved by requesting all sensor data from the same \ac{sos} using fewer, or perhaps even using only a single request. The available offerings of a \ac{sos} might be used for this improvement.      
 
 \section{Extend the methods of aggregation}

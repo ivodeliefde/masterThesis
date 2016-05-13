@@ -1477,14 +1477,13 @@ The term Sensor Web refers to an infrastructure with automatic mechanisms to all
 }
 
 @InProceedings{SSW:Henson,
-  Title                    = {{SemSOS: Semantic sensor observation service}},
-  Author                   = {Henson, Cory and Pschorr, Josh K and Sheth, Amit P and Thirunarayan, Krishnaprasad and others},
-  Booktitle                = {Collaborative Technologies and Systems, 2009. CTS'09. International Symposium on},
-  Year                     = {2009},
-  Organization             = {IEEE},
-  Pages                    = {44--53},
-
-  Abstract                 = {Sensor Observation Service (SOS) is a Web service
+  author =       {Henson, Cory and Pschorr, Josh K and Sheth, Amit P and Thirunarayan, Krishnaprasad and others},
+  title =        {{SemSOS: Semantic sensor observation service}},
+  booktitle =    {International Symposium on Collaborative Technologies and Systems, 2009. CTS'09.},
+  year =         {2009},
+  pages =        {44--53},
+  organization = {IEEE},
+  abstract =     {Sensor Observation Service (SOS) is a Web service
 specification defined by the Open Geospatial Consortium
 (OGC) Sensor Web Enablement (SWE) group in order to
 standardize the way sensors and sensor data are
@@ -1509,15 +1508,15 @@ knowledge base. This semantically enabled SOS, or
 SemSOS, provides the ability to query high-level
 knowledge of the environment as well as low-level raw
 sensor data.},
-  Owner                    = {Ivo},
-  Review                   = {Many SWE applications are ill equipped at handling raw sensor data as provided by SOS and require actionable knowledge of the environment in order to be practically useful. There are two approaches to deal with this obstacle, make the applications smarter or make the data smarter. We propose the latter option and accomplish this by leveraging semantic technologies in order to provide and apply more meaningful representation of sensor data.
+  owner =        {Ivo},
+  review =       {Many SWE applications are ill equipped at handling raw sensor data as provided by SOS and require actionable knowledge of the environment in order to be practically useful. There are two approaches to deal with this obstacle, make the applications smarter or make the data smarter. We propose the latter option and accomplish this by leveraging semantic technologies in order to provide and apply more meaningful representation of sensor data.
 
 This paper presents an architecture in which semantics are added to the sensor data before it can be queried by SOS. The SOS request therefore creates a SPARQL query on the server side. This is useful for working with a single data source, but makes combining data sources more complicated (especially if other sources use 'normal' SOS instead of SemSOS). They have used the 52 North SOS architecture as a foundation for the SemSOS prototype.
 
 It also mentions that in order to encode relationships in XML, the OGC-SWE often make use of XLink, XML Linking Language, a markup language that 'allows elements to be inserted into XML documents in order to create and describe links between resources'. However, they argue that the triple-pattern approach of RDF provides a far more natural and useful approach to encoding relationships. Still, they use XLink to output semantic data in SOS via XML. 
 
 This article uses OWL to represent the O&M data which is normally in XML. They state: ' translation between O&M in OWL and O&M in XML is straightforward and thus allows SemSOS to remain SOS compliant' (for the mapping: see figure 3 on page 4). For the time aspect they use the ontology 'OWL-Time' , which allows for temporal calculus, provides descriptions of temporal concepts such as owl-time:instant and owl-time:interval, which supports defining interval queries such as within, contains, and overlaps.},
-  Timestamp                = {2015.11.12}
+  timestamp =    {2015.11.12}
 }
 
 @InProceedings{SSW:Huang,
@@ -2504,17 +2503,16 @@ document, and to provide supporting documentation.},
 }
 
 @Article{SW:Xiang,
-  Title                    = {{Compressed data aggregation: Energy-efficient and high-fidelity data collection}},
-  Author                   = {Xiang, Liu and Luo, Jun and Rosenberg, Catherine},
-  Journal                  = {Networking, IEEE/ACM Transactions on},
-  Year                     = {2013},
-  Number                   = {6},
-  Pages                    = {1722--1735},
-  Volume                   = {21},
-
-  Owner                    = {Ivo},
-  Publisher                = {IEEE},
-  Timestamp                = {2016.01.07}
+  author =    {Xiang, Liu and Luo, Jun and Rosenberg, Catherine},
+  title =     {{Compressed data aggregation: Energy-efficient and high-fidelity data collection}},
+  journal =   {IEEE/ACM Transactions on Networking},
+  year =      {2013},
+  volume =    {21},
+  number =    {6},
+  pages =     {1722--1735},
+  owner =     {Ivo},
+  publisher = {IEEE},
+  timestamp = {2016.01.07}
 }
 
 @Article{SW:Yoo,
