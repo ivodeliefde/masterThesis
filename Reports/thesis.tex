@@ -5,6 +5,7 @@
 
 %\usepackage[]{silence}        % use this to turn off those nasty marginpar warnings
 
+
 \usepackage{graphics}
 \usepackage{multirow}
 
@@ -64,6 +65,9 @@
 \usepackage[floatperchapter,dottedtoc,eulerchapternumbers,pdfspacing,linedheaders]{classicthesis}
 \usepackage{arsclassica}
 
+\usepackage{eso-pic}
+
+
 \raggedbottom 
 
 
@@ -77,6 +81,10 @@
 %******************************************************************
 % Frontmatter
 %******************************************************************
+
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{cover}};
+\clearpage
+
 \input{front/Thesis/titlepage}
 \clearpage
 \input{front/Thesis/titleback}
