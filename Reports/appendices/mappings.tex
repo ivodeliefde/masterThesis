@@ -1,0 +1,34 @@
+\chapter{Mappings}
+
+\begin{sidewaystable}[!htbp]
+	\centering
+	\caption{Mappings of capabilities document}
+	\label{map:capabilities}
+	\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{l|l|l}
+			Capabilities content                                           & Represents                                   & Mapped to                                                            \\ \hline
+			ows:Title                                                      & Name of SOS                                  & http://xmlns.com/foaf/0.1/name                                       \\
+			ows:ProviderName                                               & Name of organisation maintaining SOS         & http://xmlns.com/foaf/0.1/name                                       \\
+			ows:Parameter{[}@name='featureOfInterest'{]}/ows:AllowedValues & Identifiers of all FOIs                      & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingPoint      \\
+			ows:Parameter{[}@name='procedure'{]}/ows:AllowedValues         & Identifiers of all procedures                & http://def.seegrid.csiro.au/ontology/om/om-lite\#Process             \\
+			sos:ObservationOffering                                        & Offerings                                    & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingCollection \\
+			swes:observableProperty                                        & Observable property of offering              & http://def.seegrid.csiro.au/ontology/om/om-lite\#observedProperty    \\
+			swes:procedure                                                 & Procedure of offering                        & http://def.seegrid.csiro.au/ontology/om/om-lite\#Process             \\
+			ows:Parameter{[}@name='responseFormat'{]}/ows:AllowedValues    & Identifiers of response formats              & http://purl.org/dc/terms/hasFormat                                   \\
+			ows:Parameter{[}@name="procedureDescriptionFormat"{]}          & Identifiers of procedure description formats & http://purl.org/dc/terms/hasFormat                                  
+		\end{tabular}
+	}
+\end{sidewaystable}
+
+\begin{sidewaystable}[!htbp]
+	\centering
+	\caption{GetFeatureOfInterest mapping}
+	\label{map:getFOI}
+		\begin{tabular}{l|l|l}
+			GetFeatureOfInterest content    & Represents       & Mapped to                                                         \\ \hline
+			sams:SF\_SpatialSamplingFeature & Sampling feature & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingFeature \\
+			sams:shape                      & Sampling point   & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingPoint   \\
+			ns:pos                          & Point geometry   & \multirow{2}{*}{http://strdf.di.uoa.gr/ontology\#hasGeometry}     \\
+			ns:pos{[}srsName{]}             & CRS              &                                                                  
+		\end{tabular}
+\end{sidewaystable}
