@@ -1,13 +1,42 @@
 \chapter{Mappings}
+\label{mappings}
+
+\begin{table}[!htbp]
+	\centering
+	\caption{Mapping of SOS instances using PROV-O}
+	\label{map:SOS}
+	\begin{tabular}{l|l}
+		Instance		      		  	& Mapped to                           \\ \hline
+		SOS  						  	& http://www.w3.org/ns/prov\#Agent     \\
+		Sensor                         	& http://www.w3.org/ns/prov\#Agent     \\
+		Procedure                       & http://www.w3.org/ns/prov\#Activity  \\
+		FOI                           	& http://www.w3.org/ns/prov\#Entity                                                                 
+	\end{tabular}
+\end{table}
 
 \begin{sidewaystable}[!htbp]
 	\centering
-	\caption{Mappings of capabilities document}
+	\caption{GetFeatureOfInterest mapping using om-lite and sam-lite}
+	\label{map:getFOI}
+	\resizebox{0.8\columnwidth}{!}{%
+	\begin{tabular}{l|l|l}
+		GetFeatureOfInterest content    & Represents       & Mapped to                                                         \\ \hline
+		sams:SF\_SpatialSamplingFeature & Sampling feature & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingFeature \\
+		sams:shape                      & Sampling point   & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingPoint   \\
+		ns:pos                          & Point geometry   & \multirow{2}{*}{http://strdf.di.uoa.gr/ontology\#hasGeometry}     \\
+		ns:pos{[}srsName{]}             & CRS              &                                                                  
+	\end{tabular}
+}
+\end{sidewaystable}
+
+\begin{sidewaystable}[!htbp]
+	\centering
+	\caption{Mappings of capabilities document using om-lite and sam-lite}
 	\label{map:capabilities}
 	\resizebox{\columnwidth}{!}{%
 		\begin{tabular}{l|l|l}
 			Capabilities content                                           & Represents                                   & Mapped to                                                            \\ \hline
-			ows:Title                                                      & Name of SOS                                  & http://xmlns.com/foaf/0.1/name                                       \\
+			ows:Title                                                      & Name of SOS                                  & http://xmlns.com/foaf/0.1/name								         \\
 			ows:ProviderName                                               & Name of organisation maintaining SOS         & http://xmlns.com/foaf/0.1/name                                       \\
 			ows:Parameter{[}@name='featureOfInterest'{]}/ows:AllowedValues & Identifiers of all FOIs                      & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingPoint      \\
 			ows:Parameter{[}@name='procedure'{]}/ows:AllowedValues         & Identifiers of all procedures                & http://def.seegrid.csiro.au/ontology/om/om-lite\#Process             \\
@@ -20,16 +49,6 @@
 	}
 \end{sidewaystable}
 
-\begin{sidewaystable}[!htbp]
-	\centering
-	\caption{GetFeatureOfInterest mapping}
-	\label{map:getFOI}
-		\begin{tabular}{l|l|l}
-			GetFeatureOfInterest content    & Represents       & Mapped to                                                         \\ \hline
-			sams:SF\_SpatialSamplingFeature & Sampling feature & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingFeature \\
-			sams:shape                      & Sampling point   & http://def.seegrid.csiro.au/ontology/om/sam-lite\#SamplingPoint   \\
-			ns:pos                          & Point geometry   & \multirow{2}{*}{http://strdf.di.uoa.gr/ontology\#hasGeometry}     \\
-			ns:pos{[}srsName{]}             & CRS              &                                                                  
-		\end{tabular}
-\end{sidewaystable}
+
+
 

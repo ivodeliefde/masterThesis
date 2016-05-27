@@ -5,7 +5,7 @@
 \chapter{Conclusions}
 \label{chap:conclusion}
 
-This thesis aimed to design a conceptual system architecture that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Each of the four subquestions posed in the introduction will be answered, before answering the main research question (Section \ref{subquestions}). The second section discusses the contributions of this thesis (Section \ref{contributions}). At the end of the chapter, five recommendations are presented, based on the conclusions (Section \ref{recommend}).
+This thesis aimed to design a conceptual system architecture that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Each of the four subquestions posed in the introduction will be answered, before answering the main research question (Section \ref{subquestions}). The second section discusses the contributions of this thesis (Section \ref{contributions}), followed by a brief discussion (Section \ref{discussion}). At the end of the chapter, five recommendations are presented, based on the conclusions (Section \ref{recommend}).
 
 \section{Answering the research question}
 \label{subquestions}
@@ -82,15 +82,16 @@ The contribution of this thesis is a conceptual system architecture, including:
 
 The semantic knowledge base improves the following sensor web functionalities:\\
 \begin{addmargin}[0.5cm]{0cm}
-	\textbf{Discovery}: metadata is linked to and by related data, making it easier to find online.\\
-	\textbf{Integration}: through a process of metadata harmonisation, data of different \aclp{sos} can be used in combination with each other.  \\
-	\textbf{Aggregation}: a semantic knowledge base with linked sensor metadata allows web processes to automatically perform tasks, such as spatial and temporal aggregation. 
+	\textbf{Discovery}: Metadata is linked to and by related data, making it easier to find online.\\
+	\textbf{Integration}: Through a process of metadata harmonisation, data of different \aclp{sos} can be used in combination with each other.  \\
+	\textbf{Aggregation}: A semantic knowledge base with linked sensor metadata allows web processes to automatically perform tasks, such as spatial and temporal aggregation. 
 \end{addmargin}
 
 
 \section{discussion}
+\label{discussion}
 
-\ac{sos} metadata is stored twice in two different locations using the methods of this thesis. On the one hand, having duplicated data may not be desirable, because the duplicates can become out of sync with the corresponding original data at the source. Also, more storage space is required for the same amount of data. On the other hand, extra functionality is achieved when duplicating metadata to a semantic knowledge base (e.g. discovery, integration and aggregation). The semantic sensor middleware solutions provide a method for outputting semantically enriched response documents directly from a \ac{sos}. This does not require any data duplication, but essentially adds an extra output format to the \ac{sos} based on a linked data model. The \ac{csw} creates duplicate data of metadata from \ac{ogc} geo web services. The \acs{sir} extension for the \ac{csw} has a fixed time interval that can be set, for performing regular updates. The current method presented in this thesis has not yet implemented an update mechanism. It could be integrated into common \ac{sos} software packages, to (only) update when metadata changes at the source. 
+\ac{sos} metadata is stored twice in two different locations using the methods of this thesis. On the one hand, having duplicated data may not be desirable, because the duplicates can become out of sync with the corresponding original data at the source. Also, more storage space is required for the same amount of data. On the other hand, extra functionality is achieved when duplicating metadata to a semantic knowledge base (e.g. discovery, integration and aggregation). The \ac{csw} as well creates duplicate data of metadata from \ac{ogc} geo web services. The \acs{sir} extension for the \ac{csw} has a fixed time interval that can be set, for performing regular updates. The current method presented in this thesis has not yet implemented an update mechanism. It could be integrated into common \ac{sos} software packages, to (only) update when metadata changes at the source. 
 
 The conceptual system architecture of Chapter \ref{chap:design} aims to automate as many steps in the chain of discovering, retrieving and processing sensor data as possible. This includes a harvesting process which should be executed to automatically create linked data from \ac{sos} metadata. It is more convenient for users, because it requires less knowledge, it appeals to a broader audience and it makes less mistakes in repetitive tasks. However, with an automated process, the quality of the metadata in a \ac{sos} influences the quality of the metadata at the \ac{sparql} endpoint. Since the method is designed to work with any \ac{sos} as input there lies a responsibility on the side of the organisations maintaining these services to provide sufficient, understandable and correct metadata.   
 

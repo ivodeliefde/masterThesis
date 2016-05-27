@@ -64,6 +64,8 @@ The documents that are returned by the \ac{sos} contain a lot of information. In
 
 
 \subsection{Modelling with the om-lite and sam-lite ontologies}
+\label{omsamlite}
+
 \begin{figure}
 	\centering
 	\includegraphics[width=1\linewidth]{UML/SOS_Semantic_UML_2.PNG}
@@ -481,7 +483,7 @@ A \ac{sparql} query is then made to find a sensor collection that is related to 
 
 For the first alternative the \ac{eea} raster cells are retrieved instead of the vector data. Only the cells are requested that overlap with the vector geometry. For these cells all sensor locations are requested. However, the result of this is that too many sensor locations are retrieved, also some that are outside the original vector feature. Therefore, the \ac{wps} performs the spatial filter afterwards and removes all locations that are outside of the requested feature. 
 
-This type of query is shown in Code example \ref{lst:getSensors}. The raster cells are added in the spatial filter expression and a DBPedia \ac{uri} of an observed property is added instead of the \texttt{<<insert\_observed\_Property>>} placeholder. Multiple spatial features can be put in the filter expression using the logical OR operator. With these two parameters, the query can find all relevant sensors from different sources stored at the endpoint using the model shown in Figure \ref{fig:SOS_Semantic_UML}. It also returns all necessary data to make \texttt{GetObservation} requests at the sensors' corresponding \aclp{sos}.
+This type of query is shown in Code example \ref{lst:getSensors}. The raster cells are added in the spatial filter expression and a DBPedia \ac{uri} of an observed property is added instead of the \texttt{<<insert\_observed\_Property>>} placeholder. Multiple spatial features can be put in the filter expression using the logical OR operator. With these two parameters, the query can find all relevant sensors from different sources stored at the endpoint using the model shown in Figure \ref{fig:SOS_Semantic_UML}. It also returns all necessary data to make \texttt{GetObservation} requests at the sensors' corresponding \aclp{sos}. The om-lite and sam-lite ontologies are used in this query to find the \acp{foi} with their sensors and corresponding procedures. The stRDF ontology is used for the retrieval of \ac{foi} geometries, using a spatial filter.  
 
 The second alternative checks which \aclp{sos} have sensors observing a certain property, within the bounding box of the requested vector geometry. The response of the \ac{sparql} query is a set of \aclp{sos}. For all of these services \texttt{GetObservation} requests are made containing a spatial filter. This performs the detailed spatial querying on the \ac{sos} side, instead of at the endpoint. 
 
@@ -504,7 +506,7 @@ WHERE {
 	?collection omlite:observedProperty <<insert_observed_Property>> .
 	<<insert_observed_Property>> owl:sameAs ?obsProperty .
 	?obsProperty foaf:name ?obsPropertyName .
-	?collection saml:#member ?FOI .
+	?collection saml:member ?FOI .
 	
 	?offering saml:member ?FOI . 
 	?offering prov:specializationOf ?collection .
