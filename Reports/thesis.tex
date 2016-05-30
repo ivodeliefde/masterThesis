@@ -66,6 +66,7 @@
 \usepackage{arsclassica}
 
 \usepackage{eso-pic}
+\usepackage{pdfpages}
 
 
 \raggedbottom 
@@ -81,8 +82,8 @@
 % Frontmatter
 %******************************************************************
 
-\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{cover}};
-\clearpage
+%\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{cover}};
+\includepdf{cover}
 
 \input{front/Thesis/titlepage}
 \clearpage
