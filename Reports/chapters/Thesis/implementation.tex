@@ -204,37 +204,85 @@ A number of datasets have been used in this thesis, ranging from observation dat
 \label{vector}
 For retrieving data inside a spatial feature, vector datasets have been converted to linked data. Data about administrative units are used to allow users to retrieve data about a municipality, province or country. Also, land cover is added to allow user queries to be focused on physical features, such as urban, agricultural or forest areas.   
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/Municipalities.png}
+	\caption{Dataset of municipalities in the Netherlands and Belgium in 2015. Data by \cite{DATA:Kadaster} and \cite{DATA:GADM}.}
+	\label{fig:municipalities}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/Provinces.png}
+	\caption{Dataset of provinces in the Netherlands and Belgium in 2015 Data by \cite{DATA:Kadaster} and \cite{DATA:GADM}.}
+	\label{fig:provinces}
+\end{figure}
+
 \subsubsection{Administrative units}
 \begin{sloppypar}
-	From the Dutch `PDOK' website the datasets of Dutch provinces (\textit{provincies}, Appendix \ref{fig:provinces}) and municipalities (\textit{gemeenten}, Appendix \ref{fig:municipalities}) have been downloaded. This data has been created by the Dutch Cadaster \citep{DATA:Kadaster}. For the Netherlands there are 12 features in the provinces and 393 in the municipalities dataset. 
+	From the Dutch `PDOK' website the datasets of Dutch provinces (\textit{provincies}) and municipalities (\textit{gemeenten}) have been downloaded. This data has been created by the Dutch Cadaster \citep{DATA:Kadaster}. For the Netherlands there are 12 features in the provinces and 393 in the municipalities dataset. It was very challenging to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Data is offered per municipality, province or region, To create a single  data set of Belgium a large manual effort is required to the different local and regional data sets together. Therefore, all data for Belgium was retrieved from \cite{DATA:GADM}, a website which offers administrative units data sets of almost all countries in the world. This data set of Belgium contains 12 features representing the provinces (including the capitol region of Brussels) and 589 features representing the municipalities. Figure \ref{fig:municipalities} and \ref{fig:provinces} show the datasets of Dutch and Belgian municipalities and provinces.  
 	
-	It was very challenging to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Data is offered per municipality, province or region, To create a single  data set of Belgium a large manual effort is required to the different local and regional data sets together. Therefore, all data for Belgium was retrieved from \cite{DATA:GADM}, a website which offers administrative units data sets of almost all countries in the world. This data set of Belgium contains 12 features representing the provinces (including the capitol region of Brussels) and 589 features representing the municipalities.  
-	
-	The country datasets have also been downloaded from \cite{DATA:GADM} (Appendix \ref{fig:countries}). The administrative unit data has been filtered to contain the names of the administrative units and their corresponding (multi)polygon geometry. 
+	The country datasets have also been retrieved from \cite{DATA:GADM}. The administrative unit data has been filtered to contain the names of the administrative units and their corresponding (multi)polygon geometry. 
 \end{sloppypar}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{figs/CORINE_NL_BE_color.PNG}
+	\caption{Dataset of landcover in the Netherlands and Belgium in 2012. Data by \cite{DATA:CLC}.}
+	\label{fig:CORINE}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{figs/CORINE_NL_BE_color_zoom.PDF}
+	\caption{Landcover of the province of South Holland. Zoom of the dataset from Figure \ref{fig:CORINE}.}
+	\label{fig:CORINEZOOM}
+\end{figure}
 
 \subsubsection{Land cover}
 \begin{sloppypar}
 	Data on land cover is used to complement the data of administrative units. A section of the 2012 dataset from the \ac{corine} programme, has been selected for this (Figure \ref{fig:CORINE}). The entire CORINE dataset was retrieved from \cite{DATA:CLC}. The features overlapping the Netherlands and Belgium have been retrieved, by performing an intersection operation in the open source QGIS software. The resulting data is stored in a separate database in Postgres. 
 	
-	The database contains polygon geometries (Appendix \ref{fig:CORINEZOOM}) with a unique identifier and a code that refers to the type of landcover. These codes can be looked up in the accompanied spreadsheet file containing the legend table of \ac{corine} 2012.  	
+	The database contains polygon geometries (Figure \ref{fig:CORINEZOOM}) with a unique identifier and a code that refers to the type of landcover. These codes can be looked up in the accompanied spreadsheet file containing the legend table of \ac{corine} 2012.  	
 \end{sloppypar}
 
 \subsection{Raster data}
-Data is often used in a raster representation for computations in a \ac{gis}. For natural phenomena a raster representation is especially well suited. The reference grid by \cite{DATA:EEA} is a standard grid which covers Europe. It is available with a resolution of 100km\textsuperscript{2}, 10km\textsuperscript{2} and 1km\textsuperscript{2}. In this thesis the \ac{eea} grid cells with a resolution of 100km\textsuperscript{2} (Appendix \ref{fig:100KM}) and 10km\textsuperscript{2} (Appendix \ref{fig:10KM}) have been used which overlap the Netherlands and Belgium. 15 grid cells of 100km\textsuperscript{2} and 843 grid cells of 10km\textsuperscript{2} have been selected from the original dataset.  
+Data is often used in a raster representation for computations in a \ac{gis}. For natural phenomena a raster representation is especially well suited. The reference grid by \cite{DATA:EEA} is a standard grid which covers Europe. It is available with a resolution of 100km\textsuperscript{2}, 10km\textsuperscript{2} and 1km\textsuperscript{2}. In this thesis the \ac{eea} grid cells with a resolution of 100km\textsuperscript{2} (Figure \ref{fig:100KM}) and 10km\textsuperscript{2} (Figure \ref{fig:10KM}) have been used which overlap the Netherlands and Belgium. 15 grid cells of 100km\textsuperscript{2} and 843 grid cells of 10km\textsuperscript{2} have been selected from the original dataset.  
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\linewidth]{figs/EEA100km.png}
+	\caption{\acf*{eea} reference grid cells with a resolution of 100km\textsuperscript{2} overlapping the Netherlands and Belgium. Data by \cite{DATA:EEA}.}
+	\label{fig:100KM}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.55\linewidth]{figs/EEA10km.png}
+	\caption{\acs*{eea} reference grid cells with a resolution of 10km\textsuperscript{2} overlapping the Netherlands and Belgium. Data by \cite{DATA:EEA}.}
+	\label{fig:10KM}
+\end{figure}
 
 \subsection{Sensor data}
 \label{sensor}
 \begin{sloppypar}
-Air quality sensor data has been used from the \acf{rivm} and from the \acf{ircel}. Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. The \ac{sos} of the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) has been online since the 21\textsuperscript{st} of August, 2015. \ac{ircel} has launched theirs on the first of January, 2011 (\url{http://sos.irceline.be/}). Appendix \ref{fig:RIVMSensor} and Appendix \ref{fig:IRCELINESensor} show the sensor networks of both organisations. Their \aclp{sos} provide different kinds of sensor data, such as particulate matter ($PM_{10}$), nitrogen dioxide ($NO_{2}$) and ozone ($O_{3}$). Appendix \ref{fig:Sensor} shows an example of a sensor location in the city centre of Amsterdam. 
+Air quality sensor data has been used from the \acf{rivm} and from the \acf{ircel}. Both of these organisations have a \ac{sos} where data can be retrieved according to the \ac{swe} standards. The \ac{sos} of the \ac{rivm} (\url{http://inspire.rivm.nl/sos/}) has been online since the 21\textsuperscript{st} of August, 2015. \ac{ircel} has launched theirs on the first of January, 2011 (\url{http://sos.irceline.be/}). Figure \ref{fig:RIVMSensor} and Figure \ref{fig:IRCELINESensor} show the sensor networks of both organisations. Their \aclp{sos} provide different kinds of sensor data, such as particulate matter ($PM_{10}$), nitrogen dioxide ($NO_{2}$) and ozone ($O_{3}$). Figure \ref{fig:Sensor} shows an example of a sensor location in the city centre of Amsterdam. 
 \end{sloppypar}
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\linewidth]{figs/IRCELINESensors.png}
+	\caption{Webmap by the \acf*{ircel} showing their air quality sensor network. Image courtesy of \cite{DATA:IRCEL}.}
+	\label{fig:IRCELINESensor}
+\end{figure}
 
 \subsection{Creating linked data of spatial features}
 \label{linked}
 Linked data has been created in preparation for the proof of concept (Figure \ref{fig:Static}). The data is being used to retrieve and process sensor data on the semantic web. This is done for vector data sets of administrative units and land cover features, and for raster data sets of \ac{eea} grids with a resolution of 10km\textsuperscript{2} and 100km\textsuperscript{2}. The method of \cite{LD:Missier} has been used for this (see Section \ref{par:missier}).
 
 \begin{figure}
-	%\centering
+	\centering
 	\includegraphics[width=0.7\linewidth]{UML/staticdata2.PNG}
 	\caption{Model of vector and raster features}
 	\label{fig:Static}

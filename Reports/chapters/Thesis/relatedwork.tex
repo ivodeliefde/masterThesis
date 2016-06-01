@@ -5,7 +5,7 @@
 
 \chapter{Related work}
 \label{chap:rw}
-To answer the research questions of this thesis an understanding of the current state of the art in sensor web research is required. A number of topics are relevant for this, such as existing \ac{swe} standards for publishing sensor data to the web (Section \ref{par:SWE}), the development of the semantic web (Section \ref{par:SemanticWeb}) and linked data ontologies for observation data (Section \ref{par:ontologies}), and also their relation to developments in the \ac{iot} (Section \ref{par:SSWIOT}). Furthermore, extensions to the \ac{ogc} catalog service are described for including sensor metadata (Section \ref{par:catalogService}), as well as methods for adding semantics to \ac{swe} data services (Section \ref{par:middleware}). This chapter discusses the recent literature on these topics. 
+To answer the research questions of this thesis an understanding of the current state of the art in sensor web research is required. A number of topics are relevant for this, such as existing \ac{swe} standards for publishing sensor data to the web (Section \ref{par:SWE}), sensor data aggregation (Section \ref{par:agg}), the development of the semantic web (Section \ref{par:SemanticWeb}) and linked data ontologies for observation data (Section \ref{par:ontologies}). Furthermore, extensions to the \ac{ogc} catalog service are described for including sensor metadata (Section \ref{par:catalogService}), as well as methods for adding semantics to \ac{swe} data services (Section \ref{par:middleware}). This chapter discusses the recent literature on these topics. 
 
 \section{Sensor Web Enablement}
 \label{par:SWE}
@@ -101,8 +101,11 @@ An \texttt{InsertResultTemplate} request allows to upload a template for result 
 
 Individual sensors can be inserted or deleted using \texttt{InsertSensor} and \texttt{DeleteSensor} requests. For inserting a sensor the following parameters are required: the procedure description format, a procedure description, the observable property, a feature of interest type and an observation type. For deleting a sensor only an identifier pointing to a specific sensor needs to be passed as a parameter.
 
+\subsection{SOS and the Internet of Things}
+\cite{IOT:Jazayeri} have analysed and evaluated four interoperable open standards for the \ac{iot}: PUCK, TinySOS, \ac{sos}, and the SensorThings \ac{api}. They found that all four open standards are useful for \ac{iot}, but that they all come with their own negative and positive attributes. This makes the decision for one of these standard dependent on the application for which they going to being used for. For memory constraint applications PUCK and TinySOS are the preferred candidates, while \ac{sos} (in combination with the the coap protocol) and the sensorThings \ac{api} perform better in terms of bandwidth efficiency \citep{IOT:Jazayeri}. 
 
 \section{Sensor data aggregation}
+\label{par:agg}
 Sensor data aggregation can be performed for two purposes: To reduce the energy constraint of sensor networks \citep{SW:Korteweg} or to sample a \ac{foi} in space and/or time \citep{SDI:INSPIRE2}. Sampling is performed when a \ac{foi} is not accessible, in which case \enquote{observations are made on a subset of the complete feature, with the intention that the sample represents the whole} \citep{SSW:Cox3}. \cite{SSW:Stasch3} proposes a \ac{wps} that retrieves sensor data from a \ac{sos} service in order to aggregate it based on \acp{foi}. The approach by \cite{SSW:Stasch} is similar, but takes sensor data as input that is already published on the semantic web.
 
 \cite{SW:Ganesan} stresses that spatio-temporal irregularities are fundamental to sensor networks. Irregular sampling can have a potentially large influence on the accuracy of the aggregated outcome. For example, averaging sensor data from a \ac{foi} that is being sampled densely in some parts and more sparsely in other parts could lead to inaccurate results. To counter this the values of the densely sampled area should have a lower weight than the values from the sparsely sampled area. The same holds true for temporal irregularities \citep{SW:Ganesan}. Also, \cite{SSW:Stasch4} argue that in order for automatic aggregation to work there needs to be semantics on which kind of aggregation methods are appropriate for a specific kind of sensor data. Not all kinds of aggregation are meaningful (e.g. taking the sum of temperature values). This requires a formalisation of expert knowledge which they call \textit{semantic reference systems}.
@@ -256,14 +259,6 @@ Ontologies are necessary to provide meaning to data on the semantic web and to c
 
 \cite{SSW:Cox4} describes how the PROV ontology \citep{LD:PROV} can be directly used inside om-lite. The PROV ontology is \enquote{concerned with the production and transformation of Entities through time-bounded Activities, under the influence or control of Agents} \cite[p. 12]{SSW:Cox4}. This is a convenient ontology for modelling real world entities, such as sensors, observation processes and sampling processes. Many other ontologies could be implemented in combination with om-lite and sam-lite, depending on the kind of observations that are being modelled and the data publisher's preference. 
 
-\section{Sensor web and the Internet of Things}
-\label{par:SSWIOT}
-
-A growing field of research is evolving around the \acf{iot}. Sensor and network technology are becoming cheaper and the required hardware increasingly smaller. This allows them to be used for things that would traditionally not produce any sensor data at all, such as buildings, street lights and consumer electronics. Companies operating in a variety of different markets are investing in this development, accelerating the creation of an \ac{iot} \citep{IoT:PWC}.    
-
-\cite{IOT:Barnaghi} point out that the heterogeneity of \textit{things} makes interoperability among \ac{iot} devices a challenging problem. They explain that the semantic web could be of great importance for the description of \ac{iot} devices and their observations. However, \enquote{providing automated or semi-automated methods and tools to annotate, publish and access the semantic descriptions} is still described as a topic for future research \cite[p. 19]{IOT:Barnaghi}.
-
-Another study on the crossroads between the \ac{iot} and \ac{swe} has been performed by \cite{IOT:Jazayeri}. They have analysed and evaluated four interoperable open standards for the \ac{iot}: PUCK, TinySOS, \ac{sos}, and the SensorThings \ac{api}. They found that all four open standards are useful for \ac{iot}, but that they all come with their own negative and positive attributes. This makes the decision for one of these standard dependent on the application for which they going to being used for. For memory constraint applications PUCK and TinySOS are the preferred candidates, while \ac{sos} (in combination with the the coap protocol) and the sensorThings \ac{api} perform better in terms of bandwidth efficiency \citep{IOT:Jazayeri}. 
 
 \section{Semantic sensor data middleware}
 \label{par:middleware}

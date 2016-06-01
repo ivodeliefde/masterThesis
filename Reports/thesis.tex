@@ -38,6 +38,7 @@
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\definecolor{tudelft}{RGB}{0,173,238}
 
 \usepackage{listings}
 \lstset{frame=tb,
@@ -125,7 +126,6 @@
 % Backmatter
 %******************************************************************
 \appendix
-\input{appendices/DataImages}
 \input{appendices/mappings}
 \input{appendices/WPSresponses}
 
@@ -135,16 +135,9 @@
 \bibliographystyle{apalike}
 \bibliography{Thesis_sources}
 
-%%%
-%- the mandatory reflection can be put as an Appendix
-%\cleardoublepage
-%\include{appendices/someumldia}
 
 
-%\clearpage
-%\include{back/colophon}
-%\clearpage
-%\input{back/Index}
+\includepdf{backcover}
 
 \end{document}
 
