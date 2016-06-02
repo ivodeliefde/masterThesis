@@ -5,7 +5,7 @@
 \chapter{Conclusions}
 \label{chap:conclusion}
 
-This thesis aimed to design a conceptual system architecture that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Each of the four subquestions posed in the introduction will be answered, before answering the main research question (Section \ref{subquestions}). The second section discusses the contributions of this thesis (Section \ref{contributions}), followed by a brief discussion (Section \ref{discussion}). At the end of the chapter, five recommendations are presented, based on the conclusions (Section \ref{recommend}).
+This thesis aimed to design a conceptual system architecture that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Each of the four subquestions posed in the introduction will be answered, before answering the main research question (Section \ref{subquestions}). The second section contains a brief discussion (Section \ref{discussion}), followed by a summary of the contributions of this thesis (Section \ref{contributions}).
 
 \section{Answering the research question}
 \label{subquestions}
@@ -71,6 +71,17 @@ Only open standards have been used in the conceptual system architecture. They h
 
 Primarily experts in the field of geo-information have knowledge on \ac{swe} standards and data services. The semantic knowledge base enables online processes to translate a logical queries for sensor data into technical queries. This makes sensor data accessible to a larger audience, who might not be familiar with \acp{uri}, encodings, data models, service models or specific data formats. With sensor metadata as linked data, a user only needs to enter parameters, such as: the type of sensor data, a spatial feature and a temporal range. For example: \textit{What are the average particulate matter levels per month in neighbourhoods of Delft over the last five years?} A \ac{wps} can automatically translate this into \texttt{GetObservation} requests using the semantic knowledge base. The presented proof of concept has implemented this and automatically sends the requests to the discovered \aclp{sos}, integrates their responses and performs further processing such as data aggregation. The user receives a single data set from the \ac{wps}, according to the logical data query.   
 
+\section{Discussion}
+\label{discussion}
+
+\ac{sos} metadata is stored twice in two different locations using the methods of this thesis. On the one hand, having duplicated data may not be desirable, because the duplicates can become out of sync with the corresponding original data at the source. Also, more storage space is required for the same amount of data. On the other hand, extra functionality is achieved when duplicating metadata to a semantic knowledge base (e.g. discovery, integration and aggregation). The \ac{csw} as well creates duplicate data of metadata from \ac{ogc} geo web services. The \acs{sir} extension for the \ac{csw} has a fixed time interval that can be set, for performing regular updates. The current method presented in this thesis has not yet implemented an update mechanism. It could be integrated into common \ac{sos} software packages, to (only) update when metadata changes at the source. 
+
+The conceptual system architecture of Chapter \ref{chap:design} aims to automate as many steps in the chain of discovering, retrieving and processing sensor data as possible. This includes a harvesting process which should be executed to automatically create linked data from \ac{sos} metadata. It is more convenient for users, because it requires less knowledge, it appeals to a broader audience and it makes less mistakes in repetitive tasks. However, with an automated process, the quality of the metadata in a \ac{sos} influences the quality of the metadata at the \ac{sparql} endpoint. Since the method is designed to work with any \ac{sos} as input there lies a responsibility on the side of the organisations maintaining these services to provide sufficient, understandable and correct metadata.   
+
+Spatial features have topological relations with other spatial features. These relations can be made explicit on the semantic web using ontologies such as GeoSPARQL. However, in this thesis they have not been made explicit and are calculated on-the-fly with spatial queries, using stSPARQL filter expressions. Making topological relations explicit in a subject-predicate-object structure could improve query performance, as they are less expensive than spatial queries. However, there is a trade-off with the required storage space. Furthermore, the chances of incorrect or broken links increase as both features and subsequently their topological relations can change over time. 
+
+The presented conceptual system architecture automatically retrieves metadata from a \ac{sos}. However, it could also have been designed on top of a \ac{csw}: the metadata from a \ac{sos} could be harvested by the \ac{csw} and this \ac{csw} could be connected to a semantic knowledge base. The advantage of this method is that the \ac{csw} standard with \acs{sor} and \acs{sir} extensions could be reused. The method would then perform the same linked data conversions, but without the \ac{sos} harvesting. This approach has not been selected in this thesis because it also has a number of disadvantages. First of all, there would be more data duplication: Data would be stored at the source, duplicated by the \ac{csw} and afterwards again on the semantic web. Secondly, it places a greater burden on the organisation maintaining the \ac{sos}. The organisation would have to create a \ac{csw} next to their \ac{sos}, or make sure it is connected to a third party's \ac{csw}.  
+
 \section{Contributions}
 \label{contributions}
 
@@ -86,50 +97,5 @@ The semantic knowledge base improves the following sensor web functionalities:\\
 	\textbf{Integration}: Through a process of metadata harmonisation, data of different \aclp{sos} can be used in combination with each other.  \\
 	\textbf{Aggregation}: A semantic knowledge base with linked sensor metadata allows web processes to automatically perform tasks, such as spatial and temporal aggregation. 
 \end{addmargin}
-
-
-\section{Discussion}
-\label{discussion}
-
-\ac{sos} metadata is stored twice in two different locations using the methods of this thesis. On the one hand, having duplicated data may not be desirable, because the duplicates can become out of sync with the corresponding original data at the source. Also, more storage space is required for the same amount of data. On the other hand, extra functionality is achieved when duplicating metadata to a semantic knowledge base (e.g. discovery, integration and aggregation). The \ac{csw} as well creates duplicate data of metadata from \ac{ogc} geo web services. The \acs{sir} extension for the \ac{csw} has a fixed time interval that can be set, for performing regular updates. The current method presented in this thesis has not yet implemented an update mechanism. It could be integrated into common \ac{sos} software packages, to (only) update when metadata changes at the source. 
-
-The conceptual system architecture of Chapter \ref{chap:design} aims to automate as many steps in the chain of discovering, retrieving and processing sensor data as possible. This includes a harvesting process which should be executed to automatically create linked data from \ac{sos} metadata. It is more convenient for users, because it requires less knowledge, it appeals to a broader audience and it makes less mistakes in repetitive tasks. However, with an automated process, the quality of the metadata in a \ac{sos} influences the quality of the metadata at the \ac{sparql} endpoint. Since the method is designed to work with any \ac{sos} as input there lies a responsibility on the side of the organisations maintaining these services to provide sufficient, understandable and correct metadata.   
-
-Spatial features have topological relations with other spatial features. These relations can be made explicit on the semantic web using ontologies such as GeoSPARQL. However, in this thesis they have not been made explicit and are calculated on-the-fly with spatial queries, using stSPARQL filter expressions. Making topological relations explicit in a subject-predicate-object structure could improve query performance, as they are less expensive than spatial queries. However, there is a trade-off with the required storage space. Furthermore, the chances of incorrect or broken links increase as both features and subsequently their topological relations can change over time. 
-
-The presented conceptual system architecture automatically retrieves metadata from a \ac{sos}. However, it could also have been designed on top of a \ac{csw}: the metadata from a \ac{sos} could be harvested by the \ac{csw} and this \ac{csw} could be connected to a semantic knowledge base. The advantage of this method is that the \ac{csw} standard with \acs{sor} and \acs{sir} extensions could be reused. The method would then perform the same linked data conversions, but without the \ac{sos} harvesting. This approach has not been selected in this thesis because it also has a number of disadvantages. First of all, there would be more data duplication: Data would be stored at the source, duplicated by the \ac{csw} and afterwards again on the semantic web. Secondly, it places a greater burden on the organisation maintaining the \ac{sos}. The organisation would have to create a \ac{csw} next to their \ac{sos}, or make sure it is connected to a third party's \ac{csw}.  
-
-\section{Recommendations}
-\label{recommend}
-Based on the conclusions of this thesis five recommendations have been formulated: 
-
-\begin{itemize}
-	\item \textit{The \ac{sos} standard should require a more descriptive capabilities document.}
-	
-	Currently a number of requests have to be made to find out which deployed sensors can be accessed via a \ac{sos}. For making sense of \ac{sos} metadata and to identify deployed sensors, it is crucial that the relations between sensor locations, procedures and observed properties are described. Therefore, a capabilities document should not only list \acp{foi}, procedures and observed properties, but it should also state their interrelationship.    
-	
-	
-	\item \textit{The \ac{swe} standards specifications should contain stricter rules regarding the structure of \acp{uri}.}
-	
-	Observed properties and procedures need to be semantically defined by the organisation maintaining a \ac{sos}, for the presented processes to be completed automated. Semantic descriptions are not mandatory using the current \ac{swe} standards specifications. Therefore, a more strict \ac{swe} specification should be created. It should require the use of semantic \acp{uri}, which resolve to \ac{rdf} documents. 
-	
-	
-	\item \textit{The \ac{om} Observation schema should be able to include aggregated sensor data with the same observed property, created by different sensing procedures.}
-	
-	The output data of the proof of concept implementation is not in accordance with the \ac{om} \ac{xml} schema, because it outputs spatially aggregated observation data. This data can be retrieved from different sources, each using different procedures. This does not fit in the current \ac{om} Observation schema. Therefore, the value of a procedure element should be allowed to include multiple procedures with the same observed property.   
-
-	
-	\item \textit{Linked data ontologies should be extended with classes for geo web services, supported requests and \ac{sos} content.}
-	
-	The om-lite and sam-lite ontologies cover a large part of the sensor metadata. However, these linked data ontologies should be extended to also define the \ac{sos} service, it's supported requests and additional metadata, such as observation offerings. These could not yet be semantically described in the proof of concept.
-	
-	
-	\item \textit{The performance of endpoints should be improved, to better cope with vector geometries in \ac{sparql} queries}
-	
-	Since GeoSPARQL and stSPARQL require the verbose \ac{wkt} or \acs{gml} encodings for spatial filters, the queries can be rejected for exceeding the maximum amount of characters. The performance of endpoints should be improved, to allow more complex vector geometries to be used in \ac{sparql} queries. 
-	
-\end{itemize}
-
-
 
 
