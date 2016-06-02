@@ -531,7 +531,7 @@ A \ac{sparql} query is then made to find a sensor collection that is related to 
 
 For the first alternative the \ac{eea} raster cells are retrieved instead of the vector data. Only the cells are requested that overlap with the vector geometry. For these cells all sensor locations are requested. However, the result of this is that too many sensor locations are retrieved, also some that are outside the original vector feature. Therefore, the \ac{wps} performs the spatial filter afterwards and removes all locations that are outside of the requested feature. 
 
-This type of query is shown in Code example \ref{lst:getSensors}. The raster cells are added in the spatial filter expression and a DBPedia \ac{uri} of an observed property is added instead of the \texttt{<<insert\_observed\_Property>>} placeholder. Multiple spatial features can be put in the filter expression using the logical OR operator. With these two parameters, the query can find all relevant sensors from different sources stored at the endpoint using the model shown in Figure \ref{fig:SOS_Semantic_UML}. It also returns all necessary data to make \texttt{GetObservation} requests at the sensors' corresponding \aclp{sos}. The om-lite and sam-lite ontologies are used in this query to find the \acp{foi} with their sensors and corresponding procedures. The stRDF ontology is used for the retrieval of \ac{foi} geometries, using a spatial filter.  
+This type of query is shown in Code example \ref{lst:getSensors}. The raster cells are added in the spatial filter expression and a DBPedia \ac{uri} of an observed property is added instead of the \texttt{<<insert\_observed\_Property>>} placeholder. Multiple spatial features can be put in the filter expression using the logical OR operator. With these two parameters, the query can find all relevant sensors from different sources stored at the endpoint using the model shown in Figure \ref{fig:SOS_Semantic_UML}. It also returns all necessary data to make \texttt{GetObservation} requests at the sensors' corresponding \aclp{sos}. Code example \ref{lst:getSensorsResponse} shows the response of the query shown in  Code example \ref{lst:getSensors}. The om-lite and sam-lite ontologies are used in this query to find the \acp{foi} with their sensors and corresponding procedures. The stRDF ontology is used for the retrieval of \ac{foi} geometries, using a spatial filter.  
 
 The second alternative checks which \aclp{sos} have sensors observing a certain property, within the bounding box of the requested vector geometry. The response of the \ac{sparql} query is a set of \aclp{sos}. For all of these services \texttt{GetObservation} requests are made containing a spatial filter. This performs the detailed spatial querying on the \ac{sos} side, instead of at the endpoint. 
 
@@ -577,6 +577,49 @@ WHERE {
 	)		
 }
 \end{lstlisting}
+
+\begin{lstlisting}[float,caption={Example SPARQL result of the query in Code example \ref{lst:getSensors}}, label={lst:getSensorsResponse}]
+<?xml version=`1.0' encoding=`UTF-8'?>
+<sparql xmlns=`http://www.w3.org/2005/sparql-results#'>
+	<head>
+		<variable name=`sensor'/>
+		<variable name=`geom'/>
+		<variable name=`FOIname'/>
+		<variable name=`procName'/>
+		<variable name=`obsPropertyName'/>
+		<variable name=`offeringName'/>
+		<variable name=`sosAddress'/>
+	</head>
+	<results>
+		<result>
+			<binding name=`sensor'>
+				<uri>http://localhost:8099/masterThesis_tudelft/RIVM_PROC_10_SENSOR_18</uri>
+			</binding>
+			<binding name=`geom'>
+				<literal datatype=`http://strdf.di.uoa.gr/ontology#WKT'>
+					POINT(6.0423990000000005 51.11919403820476 32.0); &lt;http://www.opengis.net/def/crs/EPSG/0/4326&gt;
+				</literal>
+			</binding>
+			<binding name=`FOIname'>
+				<literal>NL.RIVM.AQ/SPO_F-NL00107_00008_101_102</literal>
+			</binding>
+			<binding name=`procName'>
+				<literal>NL.RIVM.AQ/SPP-NL_A_chemi_API200E</literal>
+			</binding>
+			<binding name=`obsPropertyName'>
+				<literal>http://dd.eionet.europa.eu/vocabulary/aq/pollutant/8</literal>
+			</binding>
+			<binding name=`offeringName'>
+				<literal>NL.RIVM.AQ/STA-NL00107/8</literal>
+			</binding>
+			<binding name=`sosAddress'>
+				<uri>http://inspire.rivm.nl/sos/eaq/service?</uri>
+			</binding>
+			</result>
+	</results>
+</sparql>
+\end{lstlisting}
+
 
 \subsection{Retrieving sensor data}
 \begin{sloppypar}
