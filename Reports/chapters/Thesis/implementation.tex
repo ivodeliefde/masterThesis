@@ -341,6 +341,7 @@ print r.content
 
 
 \subsection{Map metadata to ontologies}
+\label{maptoont}
 After each request is send an \ac{xml} document is returned. To retrieve data from these \ac{xml} documents the LXML\footnote{\url{http://lxml.de}} library for Python is used. With this library the \ac{xml} document can be loaded into an Python object, which allows \ac{xml} processing, such as looping through the elements and searching the whole document for elements with specific tags. Code example \ref{lst:LXML} shows a snippet of code that takes the response document retrieved from Code example \ref{lst:Requests} and that uses the LXML library to find all offerings presented in this document. All offerings are returned as a list and stored inside the variable \texttt{SOSclass.offerings}. With this principle, all metadata from the \ac{sos} is retrieved from the \ac{xml} response documents and stored for further processing.    
 
 \begin{lstlisting}[float,caption={Creating an Etree object from an XML response document using Python's LXML library}, label={lst:LXML}]
