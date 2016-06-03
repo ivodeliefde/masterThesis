@@ -3,13 +3,13 @@
 % ~1 page
 \chapter{Recommendations and Future Work}
 \label{chap:futureResearch}
-Based on the conclusions (Chapter \ref{chap:conclusion}) certain areas of improvement have been identified. This chapter presents five recommendations, which significantly improve the present conceptual system architecture (Section \ref{recommend}). Due to the limited scope of thesis, three topics for future work are presented in Section \ref{FW}.
+Based on the conclusions (Chapter \ref{chap:conclusion}) certain areas of improvement have been identified, with regards to existing standards and linked data ontologies and \ac{sparql} endpoints. This chapter presents five recommendations, which enable the presented conceptual system architecture (Section \ref{recommend}) to work with any \ac{sos} and to be completely automated. Due to the limited scope of thesis, there are also still three remaining topics for future work. These are presented in Section \ref{FW}.
 
 \section{Recommendations}
 \label{recommend}
 Based on the conclusions of this thesis five recommendations have been formulated: 
 
-\begin{itemize}
+\begin{enumerate}
 	\item \textit{The \ac{sos} standard should require a more descriptive capabilities document.}
 	
 	Currently a number of requests have to be made to find out which deployed sensors can be accessed via a \ac{sos}. For making sense of \ac{sos} metadata and to identify deployed sensors, it is crucial that the relations between sensor locations, procedures and observed properties are described. Therefore, a capabilities document should not only list \acp{foi}, procedures and observed properties, but it should also state their interrelationship.    
@@ -34,28 +34,32 @@ Based on the conclusions of this thesis five recommendations have been formulate
 	
 	Since GeoSPARQL and stSPARQL require the verbose \ac{wkt} or \acs{gml} encodings for spatial filters, the queries can be rejected for exceeding the maximum amount of characters. The performance of endpoints should be improved, to allow more complex vector geometries to be used in \ac{sparql} queries. 
 	
-\end{itemize} 
+\end{enumerate} 
 
 \section{Future work}
 \label{FW}
-There are still a number of areas in which the methodology presented in this thesis could be improved, and there are open questions which should still be answered. This section will briefly describe three areas of future work: including more web services in the current method (Section \ref{more}), improving the performance of querying observation data (Section \ref{faster}) and extending the methods for spatial and temporal aggregation (Section \ref{par:FRaggregation}). 
+There are still a number of areas in which the methodology presented in this thesis could be improved, and there are open questions which should still be answered. This section will briefly describe three areas of future work: including more web services in the current method, improving the performance of querying observation data and extending the methods for spatial and temporal aggregation.
 
-\subsection{Include more web services}
-\label{more}
-The current proof of concept has been created using the \ac{sos}. However, there are a number of other sensor web services based on \ac{swe} standards that could be included as well. First of all, there are services that provide other kinds of functionalities besides data retrieval, such as the \acf{sas}, \acf{sps} and \acf{wns}. The inclusion of these services would broaden the range of tasks a \ac{wps} could automatically perform. 
-
-On the other hand, other services for observation data retrieval could be added, such as the tinySOS and the sensorThings \ac{api}. These are services for retrieving observation data from an \ac{iot} perspective. These observation data services are created with a focus on low energy consumption by the \textit{thing} that senses, and more compact queries and responses than the verbose \ac{xml} documents used by \ac{sos}. Nevertheless, all of these services are based on the \ac{om} data model and therefore the principles applied to the \ac{sos} can also be applied to these other sensor data services.  
-
-Next to sensor related web services the method could also be extended to include other \ac{ogc} geo web standards, such as the \acf{wfs} and \acf{wcs}. Similar to the \ac{sos}, its content could be made available in a machine understandable manner to allow them to be discovered and used in automated web processes.    
-
-\subsection{Improve performance}
-\label{faster}
-The main focus of the current conceptual system architecture was on the definition of its functionality. The proof of concept implementation showed that the performance of discovering sensor metadata was good. However, the process that automatically queries the \aclp{sos} could still be made faster. Currently, a request is send for every sensor. This approach could be improved by requesting all sensor data from the same \ac{sos} using fewer, or perhaps even using only a single request. The available offerings of a \ac{sos} might be used for this improvement.      
-
-\subsection{Extend the methods of aggregation}
-\label{par:FRaggregation}
-
-Basic aggregation methods have currently be implemented. However, as \cite{SW:Ganesan} points out, spatial or temporal aggregation can give a distorted result if no weights are added to compensate for differences in density. This extension could therefore create more reliable outcomes produced by the \ac{wps}. 
-
-Another useful way to extend the aggregation methods of this thesis, is to describe each of these aggregation methods semantically. \cite{SSW:Stasch4} proposes the use of semantic definitions of spatial aggregation. This could make the purpose of each of these methods machine understandable, as well as the effect that it has on the output data. This could prevent an automated process of making a logical mistake that leads to meaningless output.
+\begin{enumerate}
+	\item \textit{Include more web services in the conceptual system architecture}
+	\label{more}
+	
+	The current proof of concept has been created using the \ac{sos}. However, there are a number of other sensor web services based on \ac{swe} standards that could be included as well. First of all, there are services that provide other kinds of functionalities besides data retrieval, such as the \acf{sas}, \acf{sps} and \acf{wns}. The inclusion of these services would broaden the range of tasks a \ac{wps} could automatically perform. 
+	
+	On the other hand, other services for observation data retrieval could be added, such as the tinySOS and the sensorThings \ac{api}. These are services for retrieving observation data from an \ac{iot} perspective. These observation data services are created with a focus on low energy consumption by the \textit{thing} that senses, and more compact queries and responses than the verbose \ac{xml} documents used by \ac{sos}. Nevertheless, all of these services are based on the \ac{om} data model and therefore the principles applied to the \ac{sos} can also be applied to these other sensor data services.  
+	
+	Next to sensor related web services the method could also be extended to include other \ac{ogc} geo web standards, such as the \acf{wfs} and \acf{wcs}. Similar to the \ac{sos}, its content could be made available in a machine understandable manner to allow them to be discovered and used in automated web processes.    
+	
+	\item \textit{Improve the performance of observation data retrieval}
+	\label{faster}
+	
+	The main focus of the current conceptual system architecture was on the definition of its functionality. The proof of concept implementation showed that the performance of discovering sensor metadata was good. However, the process that automatically queries the \aclp{sos} could still be made faster. Currently, a request is send for every sensor. This approach could be improved by requesting all sensor data from the same \ac{sos} using fewer, or perhaps even using only a single request. The available offerings of a \ac{sos} might be used for this improvement.      
+	
+	\item \textit{Extend the methods of aggregation}
+	\label{par:FRaggregation}
+	
+	Basic aggregation methods have currently be implemented. However, as \cite{SW:Ganesan} points out, spatial or temporal aggregation can give a distorted result if no weights are added to compensate for differences in density. This extension could therefore create more reliable outcomes produced by the \ac{wps}. 
+	
+	Another useful way to extend the aggregation methods of this thesis, is to describe each of these aggregation methods semantically. \cite{SSW:Stasch4} proposes the use of semantic definitions of spatial aggregation. This could make the purpose of each of these methods machine understandable, as well as the effect that it has on the output data. This could prevent an automated process of making a logical mistake that leads to meaningless output.
+\end{enumerate} 
 
