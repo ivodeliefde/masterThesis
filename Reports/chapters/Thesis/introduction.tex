@@ -56,7 +56,7 @@ As sensor data is becoming more important the gap between the logical data queri
 \section{Thesis outline}
 There is still a lack of knowledge on how to exploit the full potential of the sensor web using the semantic web. Converting \ac{sos} metadata to linked data could greatly enhance the discovery, integration and aggregation of sensor data. However, there is no method yet to establish this linked metadata for sensors, while the standardised nature of a \ac{sos} should enable it to be created in an automated process. This thesis presents a design for such an automated process and explores the advantages and disadvantages of publishing sensor metadata on the semantic web with a proof-of-concept implementation. 
 
-Two \aclp{sos} are used in this thesis, both containing data of air quality sensors. The first one is the \ac{sos} by the \ac{rivm}. It has recently been launched and is one of the first \ac{swe} services to become available in the Netherlands. Figure \ref{fig:RIVMSensor} shows the sensor locations used by the \ac{rivm}. Figure \ref{fig:Sensor} is an example of such a location in an urban area. The second \ac{sos} is maintained by the \acf{ircel}. \ac{ircel} has been making air quality sensor data available using a \ac{sos} for a number of years already. These two services have been used answer the following research questions. 
+When studying air quality in a border region it is important to have data about both sides, as borders are a social construct and do not influence natural phenomena such as air quality. Therefore, two \aclp{sos} have been used in this thesis, containing complementary air quality data of the Netherlands and Belgium. The first source is the \ac{sos} by the \ac{rivm}. It has recently been launched and is one of the first \ac{swe} services to become available in the Netherlands. The second \ac{sos} is maintained by the \acf{ircel}. \ac{ircel} has been making air quality sensor data available using a \ac{sos} for a number of years already\footnote{For more information about the sensor data services used in this thesis, see Subsection \ref{sensor}}. Both of these services have been used to answer the research questions. Figure \ref{fig:combined} shows the sensor locations of the \ac{rivm} in the south of the Netherlands and the ones of \ac{ircel} in Belgium. 
 
 
 % Research question 
@@ -77,16 +77,11 @@ To answer this question it is further specified into four subquestions:
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\linewidth]{figs/RIVMSensors.png}
-	\caption{Web map by the \acf*{rivm} showing their air quality sensor network. Image courtesy of \cite{DATA:RIVM}.}
-	\label{fig:RIVMSensor}
+	\includegraphics[width=\linewidth]{figs/combined.png}
+	\caption{The combined air quality sensor network of the \aclp{sos} of the \acf*{ircel} and the \acf*{rivm} in Belgium and the South of the Netherlands.}
+	\label{fig:combined}
 \end{figure}
 
-\begin{figure}
-	\centering
-	\includegraphics[width=0.8\linewidth]{figs/SensorAdam.png}
-	\caption{Google Streetview image of \acs*{rivm} sensor location in Amsterdam in 2015. Image courtesy of Google.}
-	\label{fig:Sensor}
-\end{figure}
+
 
 

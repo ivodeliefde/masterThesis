@@ -5,12 +5,12 @@
 \chapter{Conclusions}
 \label{chap:conclusion}
 
-This thesis aimed to design a conceptual system architecture that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Each of the four subquestions posed in the introduction will be answered, before answering the main research question (Section \ref{subquestions}). The second section contains a brief discussion (Section \ref{discussion}), followed by a summary of the contributions of this thesis (Section \ref{contributions}).
+This thesis aimed to design a conceptual system architecture which uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. Each of the four subquestions posed in the introduction will be answered, before answering the main research question (Section \ref{subquestions}). Afterwards, the design decisions of the conceptual system architecture are briefly discussed (Section \ref{discussion}). The last section sums up the contributions of this thesis (Section \ref{contributions}).
 
-\section{Answering the research question}
+\section{Answering the research questions}
 \label{subquestions}
 
-First the four subquestions will be answered, followed by the main research question: To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?
+The four subquestions will be answered, followed by the main research question: To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?
 
 \begin{enumerate}
 \item \textit{To what extent can sensor metadata be automatically retrieved from any SOS?}%\mbox{}
@@ -74,7 +74,7 @@ Primarily experts in the field of geo-information have knowledge on \ac{swe} sta
 \section{Discussion}
 \label{discussion}
 
-\ac{sos} metadata is stored twice in two different locations using the methods of this thesis. On the one hand, having duplicated data may not be desirable, because the duplicates can become out of sync with the corresponding original data at the source. Also, more storage space is required for the same amount of data. On the other hand, extra functionality is achieved when duplicating metadata to a semantic knowledge base (e.g. discovery, integration and aggregation). The \ac{csw} as well creates duplicate data of metadata from \ac{ogc} geo web services. The \acs{sir} extension for the \ac{csw} has a fixed time interval that can be set, for performing regular updates. The current method presented in this thesis has not yet implemented an update mechanism. It could be integrated into common \ac{sos} software packages, to (only) update when metadata changes at the source. 
+Using the methods of this thesis, \ac{sos} metadata is stored twice in two different locations. On the one hand, having duplicated data may not be desirable, because the duplicates can become out of sync with the corresponding original data at the source. Also, more storage space is required for the same amount of data. On the other hand, extra functionality is achieved when duplicating metadata to a semantic knowledge base (e.g. discovery, integration and aggregation). The \ac{csw} as well creates duplicate data of metadata from \ac{ogc} geo web services. The \acs{sir} extension for the \ac{csw} has a fixed time interval that can be set, for performing regular updates. The current method presented in this thesis has not yet implemented an update mechanism. It could be integrated into common \ac{sos} software packages, to (only) update when metadata changes at the source. 
 
 The conceptual system architecture of Chapter \ref{chap:design} aims to automate as many steps in the chain of discovering, retrieving and processing sensor data as possible. This includes a harvesting process which should be executed to automatically create linked data from \ac{sos} metadata. It is more convenient for users, because it requires less knowledge, it appeals to a broader audience and it makes less mistakes in repetitive tasks. However, with an automated process, the quality of the metadata in a \ac{sos} influences the quality of the metadata at the \ac{sparql} endpoint. Since the method is designed to work with any \ac{sos} as input there lies a responsibility on the side of the organisations maintaining these services to provide sufficient, understandable and correct metadata.   
 
