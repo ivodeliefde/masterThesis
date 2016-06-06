@@ -83,8 +83,9 @@
 % Frontmatter
 %******************************************************************
 
-%\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{cover}};
+\pagenumbering{gobble}
 \includepdf{cover}
+\clearpage
 
 \input{front/Thesis/titlepage}
 \clearpage
@@ -134,9 +135,10 @@
 %- bibliography
 \bibliographystyle{apalike}
 \bibliography{Thesis_sources}
+\cleardoublepage
 
-
-
+\pagenumbering{gobble}
+\include{back/colophon}
 \includepdf{backcover}
 
 \end{document}
