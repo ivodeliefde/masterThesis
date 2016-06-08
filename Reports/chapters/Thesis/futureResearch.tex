@@ -3,7 +3,7 @@
 % ~1 page
 \chapter{Recommendations and Future Work}
 \label{chap:futureResearch}
-Based on the conclusions (Chapter \ref{chap:conclusion}) certain areas of improvement have been identified, with regards to existing standards and linked data ontologies and \ac{sparql} endpoints. This chapter presents five recommendations, which enable the presented conceptual system architecture (Section \ref{recommend}) to work with any \ac{sos} and to be completely automated. Due to the limited scope of thesis, there are also still three remaining topics for future work. These are presented in Section \ref{FW}.
+Based on the conclusions certain areas of improvement have been identified, with regards to existing standards and linked data ontologies and \ac{sparql} endpoints. This chapter presents five recommendations, which enable the presented conceptual system architecture (Section \ref{recommend}) to work with any \ac{sos} and to be completely automated. Due to the limited scope of thesis, there are also still three remaining topics for future work. These are presented in Section \ref{FW}.
 
 \section{Recommendations}
 \label{recommend}
@@ -17,17 +17,17 @@ Based on the conclusions of this thesis five recommendations have been formulate
 	
 	\item \textit{The \ac{swe} standards specifications should contain stricter rules regarding the structure of \acp{uri}.}
 	
-	Observed properties and procedures need to be semantically defined by the organisation maintaining a \ac{sos}, for the presented processes to be completed automated. Semantic descriptions are not mandatory using the current \ac{swe} standards specifications. Therefore, a more strict \ac{swe} specification should be created. It should require the use of semantic \acp{uri}, which resolve to \ac{rdf} documents. 
+	Observed properties and procedures need to be semantically defined by the organisation maintaining a \ac{sos}, for the presented processes to be completely automated. Semantic descriptions are not mandatory using the current \ac{swe} standards specifications. Therefore, a more strict \ac{swe} specification should be created. It should require the use of semantic \acp{uri}, which resolve to \ac{rdf} documents. 
 	
 	
 	\item \textit{The \ac{om} Observation schema should be able to include aggregated sensor data with the same observed property, created by different sensing procedures.}
 	
-	The output data of the proof of concept implementation is not in accordance with the \ac{om} \ac{xml} schema, because it outputs spatially aggregated observation data. This data can be retrieved from different sources, each using different procedures. This does not fit in the current \ac{om} Observation schema. Therefore, the value of a procedure element should be allowed to include multiple procedures with the same observed property.   
+	The output data of the proof of concept implementation is not in accordance with the \ac{om} \ac{xml} schema, because it outputs spatially aggregated observation data. This data can be retrieved from different sources, each using different procedures, causing it to not fit in the current \ac{om} Observation schema. Therefore, the value of a procedure element should be allowed to include multiple procedures with the same observed property.   
 	
 	
 	\item \textit{Linked data ontologies should be extended with classes for geo web services, supported requests and \ac{sos} content.}
 	
-	The om-lite and sam-lite ontologies cover a large part of the sensor metadata. However, these linked data ontologies should be extended to also define the \ac{sos} service, it's supported requests and additional metadata, such as observation offerings. These could not yet be semantically described in the proof of concept.
+	The om-lite and sam-lite ontologies cover a large part of the sensor metadata. However, these linked data ontologies should be extended to also define the \ac{sos} service, its supported requests and additional metadata, such as observation offerings. These could not yet be semantically described in the proof of concept.
 	
 	
 	\item \textit{The performance of endpoints should be improved, to better cope with vector geometries in \ac{sparql} queries}
