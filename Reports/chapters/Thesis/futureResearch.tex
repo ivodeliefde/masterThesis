@@ -46,20 +46,20 @@ There are still a number of areas in which the methodology presented in this the
 	
 	The current proof of concept has been created using the \ac{sos}. However, there are a number of other sensor web services based on \ac{swe} standards that could be included as well. First of all, there are services that provide other kinds of functionalities besides data retrieval, such as the \acf{sas}, \acf{sps} and \acf{wns}. The inclusion of these services would broaden the range of tasks a \ac{wps} could automatically perform. 
 	
-	On the other hand, other services for observation data retrieval could be added, such as the tinySOS and the sensorThings \ac{api}. These are services for retrieving observation data from an \ac{iot} perspective. These observation data services are created with a focus on low energy consumption by the \textit{thing} that senses, and more compact queries and responses than the verbose \ac{xml} documents used by \ac{sos}. Nevertheless, all of these services are based on the \ac{om} data model and therefore the principles applied to the \ac{sos} can also be applied to these other sensor data services.  
+	Services for observation data retrieval could be added as well, such as the tinySOS and the sensorThings \ac{api}. These are services for retrieving observation data from an \ac{iot} perspective. They are created with a focus on low energy consumption by the \textit{thing} that senses, and more compact queries and responses than the verbose \ac{xml} documents used by \ac{sos}. Nevertheless, all of these services are based on the \ac{om} data model and therefore the principles applied to the \ac{sos} can also be applied to these other sensor data services.  
 	
-	Next to sensor related web services the method could also be extended to include other \ac{ogc} geo web standards, such as the \acf{wfs} and \acf{wcs}. Similar to the \ac{sos}, its content could be made available in a machine understandable manner to allow them to be discovered and used in automated web processes.    
+	Next to sensor related web services the method could be extended to include other \ac{ogc} geo web standards, such as the \acf{wfs} and \acf{wcs}. Similar to the \ac{sos}, its content could be made available in a machine understandable manner to allow them to be discovered and used in automated web processes.    
 	
 	\item \textit{Improve the performance of observation data retrieval}
 	\label{faster}
 	
-	The main focus of the current conceptual system architecture was on the definition of its functionality. The proof of concept implementation showed that the performance of discovering sensor metadata was good. However, the process that automatically queries the \aclp{sos} could still be made faster. Currently, a request is send for every sensor. This approach could be improved by requesting all sensor data from the same \ac{sos} using fewer, or perhaps even using only a single request. The available offerings of a \ac{sos} might be used for this improvement.      
+	The main focus of the current conceptual system architecture was on the definition of its functionality. The proof of concept implementation showed that the performance of discovering sensor metadata was good. However, the process that automatically queries the \aclp{sos} could still be made faster. Currently, a request is sent for every sensor. This approach could be improved by requesting all sensor data from the same \ac{sos} using fewer, or perhaps even using only a single request. The available offerings of a \ac{sos} might be used for this improvement.      
 	
 	\item \textit{Extend the methods of aggregation}
 	\label{par:FRaggregation}
 	
 	Basic aggregation methods have currently be implemented. However, as \cite{SW:Ganesan} points out, spatial or temporal aggregation can give a distorted result if no weights are added to compensate for differences in density. This extension could therefore create more reliable outcomes produced by the \ac{wps}. 
 	
-	Another useful way to extend the aggregation methods of this thesis, is to describe each of these aggregation methods semantically. \cite{SSW:Stasch4} proposes the use of semantic definitions of spatial aggregation. This could make the purpose of each of these methods machine understandable, as well as the effect that it has on the output data. This could prevent an automated process of making a logical mistake that leads to meaningless output.
+	Another useful way to extend the aggregation methods of this thesis, is to describe each of these aggregation methods semantically. \cite{SSW:Stasch4} proposes the use of semantic definitions of spatial aggregation. This makes the purpose of each of these methods machine understandable, as well as the effect that it has on the output data. Using this semantic descriptions an automated process can prevent logical mistakes, which lead to meaningless output.
 \end{enumerate} 
 
