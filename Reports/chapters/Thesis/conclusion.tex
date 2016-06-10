@@ -61,7 +61,7 @@ The \ac{om} data model could be reused on the semantic web using the om-lite and
 The \ac{om} Observation schema is being reused for the spatially aggregated sensor data, which is created from the data of discovered \aclp{sos}. However, the schema only allows sensor data with a single procedure description. As different procedures were implemented by the different organisations maintaining a \ac{sos}, only aggregated observations from the same \ac{sos} fit in the \ac{om} observation schema. The proof of concept integrates and aggregates data from different sources. Therefore, its output is not in accordance with the schema. I propose to allow the procedure element to contain a description of multiple procedures from which the data originates, to facilitate the integration of different sensor data sources. 
 \end{itemize}
 
-After having answered the four subquestions, the main research question can be addressed:
+\noindent After having answered the four subquestions, the main research question can be addressed:
 
 \begin{itemize}
 	\item \textit{To what extent can the semantic web improve the discovery, integration and aggregation of distributed sensor data?}
@@ -84,20 +84,20 @@ Spatial features have topological relations with each other. These relations can
 
 The presented conceptual system architecture automatically retrieves metadata from a \ac{sos}. However, it could also have been designed on top of a \ac{csw}: the metadata from a \ac{sos} could be harvested by the \ac{csw} and this \ac{csw} could be connected to a semantic knowledge base. The advantage of this method is that the \ac{csw} standard with \acs{sor} and \acs{sir} extensions could be reused. The method would then perform the same linked data conversions, but without the \ac{sos} harvesting. This approach has not been selected in this thesis because it also has a number of disadvantages. First of all, there would be more data duplication: Data would be stored at the source, duplicated by the \ac{csw} and afterwards again on the semantic web. Secondly, it places a greater burden on the organisation maintaining the \ac{sos}. The organisation would have to create a \ac{csw} next to their \ac{sos}, or make sure it is connected to a third party's \ac{csw}.  
 
-\section{Contributions}
-\label{contributions}
+%\section{Contributions}
+%\label{contributions}
 
-The contribution of this thesis is a conceptual system architecture, including:
-\begin{enumerate}
-	\item A process for harvesting and harmonising \ac{sos} metadata, which are stored as linked data in a semantic knowledge base.
-	\item A process for discovering, retrieving and processing observation data by translating a logical query to \ac{sos} requests, using a semantic knowledge base with linked sensor metadata. 
-\end{enumerate}
+%The contribution of this thesis is a conceptual system architecture, including:
+%\begin{enumerate}
+%	\item A process for harvesting and harmonising \ac{sos} metadata, which are stored as linked data in a semantic knowledge base.
+%	\item A process for discovering, retrieving and processing observation data by translating a logical query to \ac{sos} requests, using a semantic knowledge base with linked sensor metadata. 
+%\end{enumerate}
 
-The semantic knowledge base improves the following sensor web functionalities:\\
-\begin{addmargin}[0.5cm]{0cm}
-	\textbf{Discovery}: Metadata is linked to and by related data, making it easier to find online.\\
-	\textbf{Integration}: Through a process of metadata harmonisation, data of different \aclp{sos} can be used in combination with each other.  \\
-	\textbf{Aggregation}: A semantic knowledge base with linked sensor metadata allows web processes to automatically perform tasks, such as spatial and temporal aggregation. 
-\end{addmargin}
+%The semantic knowledge base improves the following sensor web functionalities:\\
+%\begin{addmargin}[0.5cm]{0cm}
+%	\textbf{Discovery}: Metadata is linked to and by related data, making it easier to find online.\\
+%	\textbf{Integration}: Through a process of metadata harmonisation, data of different \aclp{sos} can be used in combination with each other.  \\
+%	\textbf{Aggregation}: A semantic knowledge base with linked sensor metadata allows web processes to automatically perform tasks, such as spatial and temporal aggregation. 
+%\end{addmargin}
 
 
