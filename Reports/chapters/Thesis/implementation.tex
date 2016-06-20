@@ -5,7 +5,7 @@
 \chapter{Conceptual system architecture}
 \label{chap:design}
 
-This thesis aims to design a conceptual system architecture that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. The outline of this architecture will be described here using the methods of Chapter \ref{chap:methods}. 
+This thesis aims to design a conceptual system architecture that uses the semantic web to improve sensor data discovery as well as the integration and aggregation of sensor data from multiple sources. The outline of this architecture will be described here using the methods of Chapter \ref{chap:methods}. First, a process is presented for harvesting sensor metadata from a \ac{sos} and converting it to linked data (Section \ref{par:Architecture1}). Afterwards, a process is introduced for using a semantic knowledge base of sensor metadata to translate logical queries to sensor data requests (Section \ref{par:logicalDesign}). 
 
 \section{Creating linked data from sensor metadata}
 \label{par:Architecture1}
@@ -116,8 +116,8 @@ Once the metadata is assigned \acp{purl} the triples can be created. Since the m
 	\caption{Types of PURLs \citep{LD:PURL}}
 	\label{tbl:HTTP}
 	\resizebox{\textwidth}{!}{%
-		\begin{tabular}{lll}
-			PURL Type & Meaning                                         & HTTP Shorthand     \\
+		\begin{tabular}{l|l|l}
+			\textbf{PURL Type} & \textbf{Meaning}                       & \textbf{HTTP Shorthand} \\ \hline
 			301       & Moved permanently to a target \ac{url}          & Moved Permanently  \\
 			302       & Simple redirection to a target \ac{url}         & Found              \\
 			303       & See other \acp{url} (use for Semantic Web resources) & See Other     \\
@@ -198,7 +198,7 @@ This chapter takes the designed system architecture of Chapter \ref{chap:design}
 \section{Preparing geographic data}
 \label{chap:data}
 
-A number of datasets have been used in this thesis, ranging from observation data inside \aclp{sos} to vector and raster data, which can be used to request data about a certain area or inside certain features. The following subsections will go over the different datasets, describing their sources and contents (Subsection \ref{vector} to Subsection \ref{sensor}). The proof of concept requires the vector and raster datasets as linked data. However, since the spatial features were not available in \ac{rdf}, they had to be converted first. The process of creating linked data of the vector and raster datasets is described (Subsection \ref{linked}).  
+A number of datasets have been used in this thesis, ranging from observation data inside \aclp{sos} to vector and raster data, which can be used to request data about a certain area or inside certain features. The following subsections will go over the different datasets, describing their sources and contents (Subsection \ref{vector} to Subsection \ref{sensor}). The proof of concept requires the vector and raster datasets as linked data. However, since the spatial features were not available in \ac{rdf}, they had to be converted first. The process used in this thesis to creat linked data of the vector and raster datasets is described (Subsection \ref{linked}).  
 
 \subsection{Vector data}
 \label{vector}
@@ -206,62 +206,44 @@ For retrieving data inside a spatial feature, vector datasets have been converte
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.5\linewidth]{figs/Municipalities.png}
-	\caption{Dataset of municipalities in the Netherlands and Belgium in 2015. Data by \cite{DATA:Kadaster} and \cite{DATA:GADM}.}
+	\includegraphics[width=1\linewidth]{figs/vector_combined.pdf}
+	\caption{Datasets of provinces (a) and municipalities (b) in the Netherlands and Belgium in 2015. Data by \cite{DATA:Kadaster} and \cite{DATA:GADM}.}
 	\label{fig:municipalities}
 \end{figure}
 
-\begin{figure}
-	\centering
-	\includegraphics[width=0.5\linewidth]{figs/Provinces.png}
-	\caption{Dataset of provinces in the Netherlands and Belgium in 2015 Data by \cite{DATA:Kadaster} and \cite{DATA:GADM}.}
-	\label{fig:provinces}
-\end{figure}
 
 \subsubsection{Administrative units}
 \begin{sloppypar}
-	From the Dutch `PDOK' website the datasets of Dutch provinces (\textit{provincies}) and municipalities (\textit{gemeenten}) have been downloaded. This data has been created by the Dutch Cadaster \citep{DATA:Kadaster}. For the Netherlands there are 12 features in the provinces and 393 in the municipalities dataset. It was very challenging to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Data is offered per municipality, province or region, To create a single  data set of Belgium a large manual effort is required to merge the different local and regional data sets together. Therefore, all data for Belgium was retrieved from \cite{DATA:GADM}, a website which offers administrative units data sets of almost all countries in the world. This data set of Belgium contains 12 features representing the provinces (including the capitol region of Brussels) and 589 features representing the municipalities. Figure \ref{fig:municipalities} and \ref{fig:provinces} show the datasets of Dutch and Belgian municipalities and provinces.  
+	From the Dutch `PDOK' website the datasets of Dutch provinces (\textit{provincies}) and municipalities (\textit{gemeenten}) have been downloaded. This data has been created by the Dutch Cadaster \citep{DATA:Kadaster}. For the Netherlands there are 12 features in the provinces and 393 in the municipalities dataset. It was very challenging to obtain data of administrative boundaries of Belgium (even from the \ac{inspire} data portal). Data is offered per municipality, province or region, To create a single  data set of Belgium a large manual effort is required to merge the different local and regional data sets together. Therefore, all data for Belgium was retrieved from \cite{DATA:GADM}, a website which offers administrative units data sets of almost all countries in the world. This data set of Belgium contains 12 features representing the provinces (including the capitol region of Brussels) and 589 features representing the municipalities. Figure \ref{fig:municipalities} shows the datasets of Dutch and Belgian municipalities and provinces.  
 	
 	The country datasets have also been retrieved from \cite{DATA:GADM}. The administrative unit data has been filtered to contain the names of the administrative units and their corresponding (multi)polygon geometry. 
 \end{sloppypar}
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.9\linewidth]{figs/CORINE_NL_BE_color.PNG}
-	\caption{Dataset of landcover in the Netherlands and Belgium in 2012. Data by \cite{DATA:CLC}.}
+	\includegraphics[width=1.2\linewidth]{figs/corine_combined.PDF}
+	\caption{Dataset of landcover in the Netherlands and Belgium in 2012 (a). Zoom of landcover in the province of South Holland (b). Data by \cite{DATA:CLC}.}
 	\label{fig:CORINE}
 \end{figure}
 
-\begin{figure}
-	\centering
-	\includegraphics[width=1\linewidth]{figs/CORINE_NL_BE_color_zoom.PDF}
-	\caption{Landcover of the province of South Holland. Zoom of the dataset from Figure \ref{fig:CORINE}.}
-	\label{fig:CORINEZOOM}
-\end{figure}
 
 \subsubsection{Land cover}
 \begin{sloppypar}
-	Data on land cover is used to complement the data of administrative units. A section of the 2012 dataset from the \ac{corine} programme, has been selected for this (Figure \ref{fig:CORINE}). The entire CORINE dataset was retrieved from \cite{DATA:CLC}. The features overlapping the Netherlands and Belgium have been retrieved, by performing an intersection operation in the open source QGIS software. The resulting data is stored in a separate database in Postgres. 
+	Data on land cover is used to complement the data of administrative units. A section of the 2012 dataset from the \ac{corine} programme, has been selected for this (Figure \ref{fig:CORINE}). The entire \ac{corine} dataset was retrieved from \cite{DATA:CLC}. The features overlapping the Netherlands and Belgium have been retrieved, by performing an intersection operation in the open source QGIS software. The resulting data is stored in a separate database in Postgres. 
 	
-	The database contains polygon geometries (Figure \ref{fig:CORINEZOOM}) with a unique identifier and a code that refers to the type of landcover. These codes can be looked up in the accompanied spreadsheet file containing the legend table of \ac{corine} 2012.  	
+	The database contains polygon geometries with a unique identifier and a code that refers to the type of landcover. These codes can be looked up in the accompanied spreadsheet file containing the legend table of \ac{corine} 2012.  	
 \end{sloppypar}
 
 \subsection{Raster data}
-Data is often used in a raster representation for computations in a \ac{gis}. For natural phenomena a raster representation is especially well suited. The reference grid by \cite{DATA:EEA} is a standard grid which covers Europe. It is available with a resolution of 100km\textsuperscript{2}, 10km\textsuperscript{2} and 1km\textsuperscript{2}. In this thesis the \ac{eea} grid cells with a resolution of 100km\textsuperscript{2} (Figure \ref{fig:100KM}) and 10km\textsuperscript{2} (Figure \ref{fig:10KM}) have been used which overlap the Netherlands and Belgium. 15 grid cells of 100km\textsuperscript{2} and 843 grid cells of 10km\textsuperscript{2} have been selected from the original dataset.  
+Data is often used in a raster representation for computations in a \ac{gis}. For natural phenomena a raster representation is especially well suited. The reference grid by \cite{DATA:EEA} is a standard grid which covers Europe. It is available with a resolution of 100km\textsuperscript{2}, 10km\textsuperscript{2} and 1km\textsuperscript{2}. In this thesis the \ac{eea} grid cells with a resolution of 100km\textsuperscript{2} and 10km\textsuperscript{2} (Figure \ref{fig:10KM}) have been used which overlap the Netherlands and Belgium. 15 grid cells of 100km\textsuperscript{2} and 843 grid cells of 10km\textsuperscript{2} have been selected from the original dataset.  
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.6\linewidth]{figs/EEA100km.png}
-	\caption{\acf*{eea} reference grid cells with a resolution of 100km\textsuperscript{2} overlapping the Netherlands and Belgium. Data by \cite{DATA:EEA}.}
-	\label{fig:100KM}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.55\linewidth]{figs/EEA10km.png}
-	\caption{\acs*{eea} reference grid cells with a resolution of 10km\textsuperscript{2} overlapping the Netherlands and Belgium. Data by \cite{DATA:EEA}.}
+	\includegraphics[width=1\linewidth]{figs/raster_combined.PDF}
+	\caption{\acf*{eea} reference grid cells with a resolution of 100km\textsuperscript{2} (a) and 10km\textsuperscript{2} (b) overlapping the Netherlands and Belgium. Data by \cite{DATA:EEA}.}
 	\label{fig:10KM}
 \end{figure}
+
 
 \subsection{Sensor data}
 \label{sensor}
@@ -272,7 +254,7 @@ Air quality sensor data has been used from the \acf{rivm} and from the \acf{irce
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\linewidth]{figs/RIVMSensors.png}
+	\includegraphics[width=0.7\linewidth]{figs/RIVMSensors.png}
 	\caption{Web map by the \acf*{rivm} showing their air quality sensor network. Image courtesy of \cite{DATA:RIVM}.}
 	\label{fig:RIVMSensor}
 \end{figure}
@@ -515,12 +497,12 @@ The input category is the starting point for the process to find the geometries 
 import requests 
 
 # Define the location of the endpoint
-myEndpoint = 'example.com/strabon-endpoint/Query'
+myEndpoint = `example.com/strabon-endpoint/Query'
 
 for i, feature in enumerate(self.featureNames):
 	
 	# Create a list with a filter expression for every name 
-	featureNamesList = '?name = "{0}"'.format(feature)
+	featureNamesList = `?name = "{0}"'.format(feature)
 	
 	# Join them together and place them inside the SPARQL filter function
 	featureFilter = "FILTER( {0} )".format( " || ".join(featureNamesList) )
@@ -538,7 +520,7 @@ query = """
 	}}""".format(self.featureCategory.title(), featureFilter)
 
 # POST the SPARQL query to the endpoint
-r = requests.post(myEndpoint, data={'view':'HTML', 'query': query, 'format':'SPARQL/XML', 'handle':'download', 'submit':'Query' }) 
+r = requests.post(myEndpoint, data={`view':`HTML', `query': query, `format':`SPARQL/XML', `handle':`download', `submit':`Query' }) 
 
 # Print the results
 print r.content
@@ -671,7 +653,7 @@ The \ac{swe} data array is an array of observations that share the same metadata
 \subsection{Data aggregation}
 After all observation data is retrieved, it is first aggregated temporally. An empty dictionary is created to store each temporal granularity range, which is inside the requested temporal range for all observations. A loop goes over the comma separated values and sorts them based on their result time per sensor location. The start time is subtracted from the result time, which outputs the time range from the start of the temporal range to the time of the observation. From this time range a modulo operation calculates the ratio between the temporal granularity and the time range between the start of the temporal range and the time of the observation. A dictionary key is created to sort the observations. To calculate the key the temporal granularity is multiplied by the outcome of the modulo operation, after which the start time is added to it. 
 
-As soon as all the observations have been sorted the data is aggregated. For all values per key the average, minimum, maximum, median or sum is calculated. The resulting value replaces the values in the dictionary. Code example \ref{lst:aggregate} shows how the observation data stored as strings containing comma separated values, can be quickly aggregated to a single value. If spatial aggregation is part of the sensor data request, this is performed after the temporal aggregation. Using Shapely's 9-intersection model functions, the sensor locations are ordered per spatial feature. Finally, all values are aggregated for each feature per temporal range. For both temporal and spatial aggregation the basic methods have been implemented such as average, minimum, maximum, sum and median. These methods can be further extended to give more reliable results \citep{SW:Ganesan} or to give more semantic meaning to the aggregation methods \citep{SSW:Stasch4}.         
+As soon as all the observations have been sorted the data is aggregated. For all values per key the average, minimum, maximum, median or sum is calculated. The resulting value replaces the values in the dictionary. Code example \ref{lst:aggregate} shows how the observation data stored as strings containing comma separated values, can be quickly aggregated to a single value. If spatial aggregation is part of the sensor data request, this is performed after the temporal aggregation. Using Shapely's\footnote{\url{http://toblerity.org/shapely/}} intersection function, the sensor locations are ordered per spatial feature. Finally, all values are aggregated for each feature per temporal range. For both temporal and spatial aggregation the basic methods have been implemented such as average, minimum, maximum, sum and median. These methods can be further extended to give more reliable results \citep{SW:Ganesan} or to give more semantic meaning to the aggregation methods \citep{SSW:Stasch4}.         
 
 
 \begin{lstlisting}[float,caption={Script that performs basic temporal aggregation methods on a comma separated value string}, label={lst:aggregate}]

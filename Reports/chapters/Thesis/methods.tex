@@ -11,7 +11,7 @@ Chapter \ref{chap:rw} discussed why the semantic web will be used for creating a
 
 \section{Creating linked data}
 \label{par:missier}
-For publishing sensor data on the semantic web a conversion of this data to \ac{rdf} is required. For this the method by \cite{LD:Missier} will be reused. She developed a workflow for publishing linked open data, using existing spatial data as input (Figure \ref{fig:missier}). This workflow consists of three phases: preparation, modelling and conversion. The next subsections will describe these three phases in more detail.
+For publishing sensor metadata on the semantic web a conversion of this data to \ac{rdf} is required. For this the method by \cite{LD:Missier} will be reused. She developed a workflow for publishing linked open data, using existing spatial data as input (Figure \ref{fig:missier}). This workflow consists of three phases: preparation, modelling and conversion. The next subsections will describe these three phases in more detail.
 
 \begin{figure}
 	\centering
@@ -102,7 +102,7 @@ FILTER (?geom contains "POINT(4.289244 52.027337);<http://www.opengis.net/def/cr
 
 \section{Web Processing Service}
 \label{par:wps}
-The \ac{ogc} \acl{wps} is a standard interface for making simple or complex computational processing services accessible as web services. Originally, it has been created with spatial processes in mind, but it can also be used to insert non-spatial processing into a web services environment \citep[p. 8]{GEO:OGC}. Via the \ac{wps} jobs can be controlled and monitored, which run certain processes (Figure \ref{fig:WPSmodel}). Similar to \ac{wfs}, \ac{wps} and \ac{sos}, the \ac{wps} has requests for retrieving metadata: \texttt{GetCapabilities} and \texttt{DescribeProcess}. On top of that, there are is the \texttt{Execute} request to execute a process, and a number of other requests for various purposes: \texttt{GetStatus}, \texttt{GetResult} and \texttt{Dismiss}. All requests will be briefly described in this section.  
+The \ac{ogc} \acl{wps} is a standard interface for making simple or complex computational processing services accessible as web services. Originally, it has been created with spatial processes in mind, but it can also be used to insert non-spatial processing into a web services environment \citep[p. 8]{GEO:OGC}. Via the \ac{wps} jobs can be controlled and monitored, which run certain processes (Figure \ref{fig:WPSmodel}). Similar to \ac{wfs}, \ac{wps} and \ac{sos}, the \ac{wps} has requests for retrieving metadata: \texttt{GetCapabilities} and \texttt{DescribeProcess}. On top of that, there is the \texttt{Execute} request to execute a process, and a number of other requests for various purposes: \texttt{GetStatus}, \texttt{GetResult} and \texttt{Dismiss}. All requests will be briefly described in this section.  
 
 \begin{figure}
 	\centering

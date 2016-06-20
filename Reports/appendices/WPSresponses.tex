@@ -136,7 +136,7 @@ This appendix shows a number of examples of response documents by a \acf{wps}. T
 \section{Example Describe Process Document}
 \label{app:wpsDescribe}
 \begin{lstlisting}[language=xml]
-	<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA">
+	<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_ response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA">
 	<ProcessDescription wps:processVersion="1.0" storeSupported="true" statusSupported="false">
 		<ows:Identifier>LinkedDataFromSOS</ows:Identifier>
 		<ows:Title>Creates Linked Data of SOS metadata</ows:Title>
@@ -152,7 +152,7 @@ This appendix shows a number of examples of response documents by a \acf{wps}. T
 				<LiteralData>
 					<ows:DataType ows:reference= "http://www.w3.org/TR/xmlschema-2/#string"> string</ows:DataType>
 					<ows:AnyValue/>
-					<DefaultValue>http://inspire.rivm.nl/sos/eaq/service?</DefaultValue>
+					<DefaultValue>http://inspire.rivm.nl/sos/eaq/service? </DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -161,7 +161,7 @@ This appendix shows a number of examples of response documents by a \acf{wps}. T
 					Input a string containing an HTTP address of a Sensor Observation Service (SOS). For example: 'http://someaddress.com/sos?'
 				</ows:Title>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string"> string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/ #string">string</ows:DataType>
 					<ows:AnyValue/>
 					<DefaultValue>
 						http://inspire.rivm.nl/sos/eaq/service? 
@@ -178,7 +178,7 @@ This appendix shows a number of examples of response documents by a \acf{wps}. T
 \section{Example Execute Document}
 \label{app:wpsExecute}
 \begin{lstlisting}[language=xml]
-<wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA" serviceInstance="http://localhost/cgi-bin/wps?service=WPS &request=GetCapabilities&version=1.0.0" statusLocation="http://localhost/wps/wpsoutputs/pywps-146072575066.xml">
+<wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA" serviceInstance="http://localhost/cgi-bin/wps?service=WPS &request=GetCapabilities&version=1.0.0" statusLocation="http://localhost/wps/wpsoutputs/pywps- 146072575066.xml">
 	<wps:Process wps:processVersion="1.0">
 		<ows:Identifier>GetSensors</ows:Identifier>
 		<ows:Title>
